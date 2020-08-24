@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
+import org.tain.working.ConnectWorking;
 import org.tain.working.PropertiesWorking;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,11 +38,13 @@ public class KieaSentbe00First01Application implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
-		if (Flag.flag) job01();
-		if (Flag.flag) job02();
+		if (Flag.flag) job01();  // propertiesWorking
+		if (Flag.flag) job02();  // connectWorking
 		if (Flag.flag) job03();
 		if (Flag.flag) job04();
 		if (Flag.flag) job05();
+		
+		if (Flag.flag) System.exit(0);
 	}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -60,11 +63,21 @@ public class KieaSentbe00First01Application implements CommandLineRunner {
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
-
+	
+	@Autowired
+	private ConnectWorking connectWorking;
+	
 	private void job02() throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
+		
+		if (Flag.flag) this.connectWorking.testStbCrypt();
+		if (Flag.flag) this.connectWorking.getCalculation();
 	}
 	
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+
 	private void job03() {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 	}

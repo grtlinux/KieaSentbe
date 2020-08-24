@@ -10,11 +10,7 @@ import lombok.Data;
 @Data
 public class LnsEnvJobProperties {
 
-	private String accessToken;
-	
-	private String commitFile;
-	private String detailFile;
-	private String listFile;
-	private String list1File;
-	private String validateFile;
+	private String sentbeHost;
+	private String sentbeClientKey;
+	private String sentbeSecretKey;
 }

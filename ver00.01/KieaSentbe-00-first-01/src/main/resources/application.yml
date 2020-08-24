@@ -84,6 +84,9 @@ spring.profiles: proj-local
 
 stb-env:
   job:
+    sentbe-host: https://hanhaw.dev.sentbe.com:10443
+    sentbe-client-key: Jien4aeyae7ohjeithahM9ja7quowua4
+    sentbe-secret-key: cXdqZmlvcWVqd2xd2pmam9pZaG9nZnFl
     
   json:
     material: LOCAL
