@@ -1,0 +1,132 @@
+
+
+server:
+  port: 8080
+  servlet.context-path: /v0.1
+
+spring:
+  profiles.active:
+  - proj-default
+  - proj-local
+  #- proj-test
+  #- proj-real
+
+  h2.console:
+    enabled: true
+    path: /h2
+    settings:
+      trace: false
+      web-allow-others: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    show-sql: true
+    database: h2
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate.ddl-auto: update
+    properties:
+      hibernate.jdbc.time-zone: UTC+9
+  data.rest:
+    base-path: /api
+    default-page-size: 5
+    max-page-size: 50
+  thymeleaf:
+    enabled: true
+    encoding: utf-8
+    cache: false
+    prefix: classpath:templates/
+    suffix: .html
+  servlet.multipart:
+    enabled: true
+    location: ~/FILES
+    max-file-size: 5GB
+    max-request-size: 5GB
+  devtools:
+    livereload.enabled: true
+
+logging:
+  file:
+    path: logs/
+    max-size: 10MB
+    max-history: 30
+  pattern:
+    console: "%clr(%d{HH:mm:ss} %p){magenta} - %m%n"
+    file: "%d %-5level [%-10thread] [%-30logger{30}] - %m%n"
+  level:
+    root: info
+    org.tain.*: info
+    org.hibernate.SQL: info
+    org.hibernate.type: info
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    org.thymeleaf: info
+    org.h2.server.web: info
+
+
+---
+# ----------------------------------------------------------
+spring.profiles: proj-default
+
+stb-env:
+  base:
+    program: KieaSentbe
+    version: ver 0.1_2020.08.24
+    comment: This is a Sentbe PROGRAM.
+    
+  job:
+
+
+---
+# ----------------------------------------------------------
+spring.profiles: proj-local
+
+stb-env:
+  job:
+    
+  json:
+    material: LOCAL
+    file:
+      virtual: /KANG/json/lightnet/virtual.json
+      auth:    /KANG/json/lightnet/auth.json
+      link:    /KANG/json/lightnet/link.json
+      lns01:   /KANG/json/lightnet/lns01.json
+      adapter: /KANG/json/lightnet/adapter.json
+
+
+---
+# ----------------------------------------------------------
+spring.profiles: proj-test
+
+stb-env:
+  job:
+    
+  json:
+    material: TEST
+    file:
+      virtual: /KANG/json/lightnet/virtual.json
+      auth:    /KANG/json/lightnet/auth.json
+      link:    /KANG/json/lightnet/link.json
+      lns01:   /KANG/json/lightnet/lns01.json
+      adapter: /KANG/json/lightnet/adapter.json
+
+
+---
+# ----------------------------------------------------------
+spring.profiles: proj-real
+
+stb-env:
+  job:
+    
+  json:
+    material: REAL
+    file:
+      virtual: /KANG/json/lightnet/virtual.json
+      auth:    /KANG/json/lightnet/auth.json
+      link:    /KANG/json/lightnet/link.json
+      lns01:   /KANG/json/lightnet/lns01.json
+      adapter: /KANG/json/lightnet/adapter.json
+
+
+
