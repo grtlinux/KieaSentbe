@@ -50,11 +50,11 @@ public class ConnectWorking {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		String https = "https://hanwha.dev.sentbe.com:10443/getCalculation";
-		String epochTime = String.valueOf(System.currentTimeMillis());
+		long epochTime = System.currentTimeMillis();
+		String nonce = String.valueOf(epochTime / 1000);
 		String signature = null;
 		
 		if (Flag.flag) {
-			String nonce = epochTime;
 			String url = "hanwha.dev.sentbe.com:10443/getWebviewId";
 			String body = "{\"message_key\":\"message_value\"}";
 			String message = nonce + url + body;
@@ -68,7 +68,10 @@ public class ConnectWorking {
 			signature = DatatypeConverter.printBase64Binary(hash);     // Base64
 			
 			if (Flag.flag) System.out.println(">>>>> 0. https            [" + https + "]");
-			if (Flag.flag) System.out.println(">>>>> 1. nonce(epochTime) [" + nonce + "]");
+			if (Flag.flag) System.out.println(">>>>> 0. client-key       [" + this.lnsEnvJobProperties.getSentbeClientKey() + "]");
+			if (Flag.flag) System.out.println(">>>>> 0. secret-key       [" + this.lnsEnvJobProperties.getSentbeSecretKey() + "]");
+			if (Flag.flag) System.out.println(">>>>> 0. epochTime(millisec)   [" + epochTime + "]");
+			if (Flag.flag) System.out.println(">>>>> 1. nonce(epochTime/1000) [" + nonce + "]");
 			if (Flag.flag) System.out.println(">>>>> 2. url              [" + url + "]");
 			if (Flag.flag) System.out.println(">>>>> 3. body             [" + body + "]");
 			if (Flag.flag) System.out.println(">>>>> 4. messge(1+2+3)    [" + message + "]");
@@ -83,8 +86,9 @@ public class ConnectWorking {
 			reqHeaders.set("Content-Type", "application/json; charset=utf-8");
 			reqHeaders.set("x-api-key", this.lnsEnvJobProperties.getSentbeClientKey());
 			//reqHeaders.set("x-api-nonce", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
-			reqHeaders.set("x-api-nonce", epochTime);
+			reqHeaders.set("x-api-nonce", nonce);
 			reqHeaders.set("x-api-signature", signature);
+			if (Flag.flag) JsonPrint.getInstance().printPrettyJson("ReqHeaders", reqHeaders);
 			
 			Map<String,Object> mapData = new HashMap<>();
 			mapData.put("input_amount", 1000000);
@@ -93,11 +97,13 @@ public class ConnectWorking {
 			mapData.put("to_currency", "PHP");
 			mapData.put("to_country", "PH");
 			mapData.put("exchange_rate_id", 1905202000);
+			if (Flag.flag) JsonPrint.getInstance().printPrettyJson("Request Date", mapData);
 			String jsonData = JsonPrint.getInstance().toJson(mapData);
-			String encode = StbCrypt.getInstance().encrypt(jsonData);
 			
 			Map<String,String> mapReq = new HashMap<>();
+			String encode = StbCrypt.getInstance().encrypt(jsonData);
 			mapReq.put("data", encode);
+			if (Flag.flag) JsonPrint.getInstance().printPrettyJson("Request Body", mapReq);
 			
 			HttpEntity<Map<String,String>> reqHttpEntity = new HttpEntity<>(mapReq, reqHeaders);
 			
