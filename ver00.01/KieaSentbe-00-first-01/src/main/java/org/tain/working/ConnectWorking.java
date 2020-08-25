@@ -49,12 +49,13 @@ public class ConnectWorking {
 	public void getCalculation() throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
+		String https = "https://hanwha.dev.sentbe.com:10443/getCalculation";
 		String epochTime = String.valueOf(System.currentTimeMillis());
 		String signature = null;
 		
 		if (Flag.flag) {
 			String nonce = epochTime;
-			String url = "rest.sentbe.com/getWebviewId";
+			String url = "hanwha.dev.sentbe.com:10443/getWebviewId";
 			String body = "{\"message_key\":\"message_value\"}";
 			String message = nonce + url + body;
 			String key = this.lnsEnvJobProperties.getSentbeSecretKey();  // Secret-Key
@@ -63,8 +64,17 @@ public class ConnectWorking {
 			hasher.init(new SecretKeySpec(key.getBytes(), "HmacSHA256"));   // Secret-Key
 			byte[] hash = hasher.doFinal(message.getBytes());               // message
 			
-			signature = DatatypeConverter.printHexBinary(hash);     // Hexit
-			if (Flag.flag) System.out.println(">>>>> signature Hexit [" + signature + "]");
+			//signature = DatatypeConverter.printHexBinary(hash);     // Hexit
+			signature = DatatypeConverter.printBase64Binary(hash);     // Base64
+			
+			if (Flag.flag) System.out.println(">>>>> 0. https            [" + https + "]");
+			if (Flag.flag) System.out.println(">>>>> 1. nonce(epochTime) [" + nonce + "]");
+			if (Flag.flag) System.out.println(">>>>> 2. url              [" + url + "]");
+			if (Flag.flag) System.out.println(">>>>> 3. body             [" + body + "]");
+			if (Flag.flag) System.out.println(">>>>> 4. messge(1+2+3)    [" + message + "]");
+			if (Flag.flag) System.out.println(">>>>> 5. key(secret-key)  [" + key + "]");
+			//if (Flag.flag) System.out.println(">>>>> 6. signature Hexit  [" + signature + "]");
+			if (Flag.flag) System.out.println(">>>>> 6. signature Base64 [" + signature + "]");
 		}
 		
 		if (Flag.flag) {
@@ -92,9 +102,7 @@ public class ConnectWorking {
 			HttpEntity<Map<String,String>> reqHttpEntity = new HttpEntity<>(mapReq, reqHeaders);
 			
 			ResponseEntity<String> response = RestTemplateConfig.get(RestTemplateType.SETENV).exchange(
-					//"https://hanwha.dev.sentbe.com:10443/getCalculation"
-					//"https://hanhaw.dev.sentbe.com:10443/getCalculation"
-					"https://dev.sentbe.com:10443/getCalculation"
+					https
 					, HttpMethod.POST
 					, reqHttpEntity
 					, String.class);
