@@ -86,6 +86,7 @@ public class KieaSentbe00First01Application implements CommandLineRunner {
 	private void job03() throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
+		//Sleep.run(2000);
 		if (Flag.flag) this.connectWorking.testStbCrypt();
 		if (Flag.flag) this.connectWorking.getCalculation();
 	}

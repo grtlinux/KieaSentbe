@@ -52,7 +52,8 @@ public class ConnectWorking {
 		String https = "https://hanwha.dev.sentbe.com:10443/getCalculation";
 		long epochTime = System.currentTimeMillis();
 		String nonce = String.valueOf(epochTime / 1000);
-		String signature = null;
+		String signatureHexit = null;
+		String signatureBase64 = null;
 		
 		if (Flag.flag) {
 			String url = "hanwha.dev.sentbe.com:10443/getWebviewId";
@@ -64,8 +65,8 @@ public class ConnectWorking {
 			hasher.init(new SecretKeySpec(key.getBytes(), "HmacSHA256"));   // Secret-Key
 			byte[] hash = hasher.doFinal(message.getBytes());               // message
 			
-			//signature = DatatypeConverter.printHexBinary(hash);     // Hexit
-			signature = DatatypeConverter.printBase64Binary(hash);     // Base64
+			signatureHexit = DatatypeConverter.printHexBinary(hash);     // Hexit
+			signatureBase64 = DatatypeConverter.printBase64Binary(hash);     // Base64
 			
 			if (Flag.flag) System.out.println(">>>>> 0. https            [" + https + "]");
 			if (Flag.flag) System.out.println(">>>>> 0. client-key       [" + this.lnsEnvJobProperties.getSentbeClientKey() + "]");
@@ -76,8 +77,8 @@ public class ConnectWorking {
 			if (Flag.flag) System.out.println(">>>>> 3. body             [" + body + "]");
 			if (Flag.flag) System.out.println(">>>>> 4. messge(1+2+3)    [" + message + "]");
 			if (Flag.flag) System.out.println(">>>>> 5. key(secret-key)  [" + key + "]");
-			//if (Flag.flag) System.out.println(">>>>> 6. signature Hexit  [" + signature + "]");
-			if (Flag.flag) System.out.println(">>>>> 6. signature Base64 [" + signature + "]");
+			if (Flag.flag) System.out.println(">>>>> 6. signature Hexit  [" + signatureHexit + "]");
+			if (Flag.flag) System.out.println(">>>>> 6. signature Base64 [" + signatureBase64 + "]");
 		}
 		
 		if (Flag.flag) {
@@ -87,7 +88,7 @@ public class ConnectWorking {
 			reqHeaders.set("x-api-key", this.lnsEnvJobProperties.getSentbeClientKey());
 			//reqHeaders.set("x-api-nonce", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
 			reqHeaders.set("x-api-nonce", nonce);
-			reqHeaders.set("x-api-signature", signature);
+			reqHeaders.set("x-api-signature", signatureBase64);
 			if (Flag.flag) JsonPrint.getInstance().printPrettyJson("ReqHeaders", reqHeaders);
 			
 			Map<String,Object> mapData = new HashMap<>();

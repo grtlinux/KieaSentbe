@@ -21,7 +21,8 @@ public class StbCrypt {
 	
 	private static String ALG = "AES/CBC/PKCS5Padding";
 	//private static String PK = "01234567890123456789012345678901"; // 32bytes
-	private static String PK = "cXdqZmlvcWVqd2xd2pmam9pZaG9nZnFl"; // 32bytes
+	//private static String PK = "cXdqZmlvcWVqd2xd2pmam9pZaG9nZnFl"; // 32bytes
+	private static String PK = "6fc1bf16f3cb6f5b6a1044fd9edecba9722014489c39a7d16ad7b9961aea770b9cd0e3e4a85510bba0dd97e6d6aac884d910e6384c7b76df992deece5cb57a78";
 	private static String IV = PK.substring(0, 16); // 16bytes
 
 	private Cipher cipher = null;
