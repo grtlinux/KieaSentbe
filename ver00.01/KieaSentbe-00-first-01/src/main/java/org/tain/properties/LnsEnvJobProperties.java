@@ -12,5 +12,6 @@ public class LnsEnvJobProperties {
 
 	private String sentbeHost;
 	private String sentbeClientKey;
-	private String sentbeSecretKey;
+	private String sentbeSecretKeyForData;
+	private String sentbeSecretKeyForHmac;
 }

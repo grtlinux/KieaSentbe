@@ -23,7 +23,7 @@ public class HmacWorking {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
-			String key = this.lnsEnvJobProperties.getSentbeSecretKey();  // Secret-Key
+			String key = this.lnsEnvJobProperties.getSentbeSecretKeyForHmac();  // Secret-Key
 			String message = "the message to hash here";
 
 			Mac hasher = Mac.getInstance("HmacSHA256");
