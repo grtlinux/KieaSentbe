@@ -21,6 +21,7 @@ import org.tain.utils.RestTemplateConfig;
 import org.tain.utils.StbCrypt;
 import org.tain.utils.enums.RestTemplateType;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.mervick.aes_everywhere.Aes256;
 
 import lombok.extern.slf4j.Slf4j;
@@ -161,8 +162,8 @@ public class ConnectWorking {
 			mapData.put("to_currency", "PHP");
 			mapData.put("to_country", "PH");
 			mapData.put("exchange_rate_id", 1905202000);
-			if (Flag.flag) JsonPrint.getInstance().printPrettyJson(mapData);
-			String jsonData = JsonPrint.getInstance().toJson(mapData);
+			//if (Flag.flag) JsonPrint.getInstance().printPrettyJson(mapData);
+			String jsonData = JsonPrint.getInstance().toPrettyJson(mapData);
 			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonData: " + jsonData);
 			
 			String pass = this.secretKeyForData;                 // Secret-Key
@@ -178,7 +179,7 @@ public class ConnectWorking {
 			String jsonBody = JsonPrint.getInstance().toJson(mapReq);
 			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonBody: " + jsonBody);
 			
-			body = jsonBody;
+			body = jsonPrettyBody;
 		}
 		
 		if (Flag.flag) {
@@ -187,7 +188,6 @@ public class ConnectWorking {
 			String url = "hanwha.dev.sentbe.com:10443/hanwha/getCalculation";
 			long epochTime = System.currentTimeMillis();
 			nonce = String.valueOf(epochTime / 1000);
-			//nonce = "1598507516";
 			String message = nonce + url + body;
 			String key = this.secretKeyForHmac;                             // Secret-Key
 			
@@ -241,6 +241,14 @@ public class ConnectWorking {
 			log.info("KANG-20200623 >>>>> response.getBody()            = {}", response.getBody());
 			log.info("=====================================================");
 			if (response.getStatusCodeValue() == 200) {
+				JsonNode jsonResponseBody = JsonPrint.getInstance().getObjectMapper().readTree(response.getBody());
+				if (Flag.flag) System.out.println(">>>>> response.getBody(): " + jsonResponseBody.toPrettyString());
+				
+				String pass = this.secretKeyForData;                 // Secret-Key
+				String decryptData = Aes256.decrypt(jsonResponseBody.at("/data").asText(), pass);
+				
+				JsonNode jsonResponseData = JsonPrint.getInstance().getObjectMapper().readTree(decryptData);
+				if (Flag.flag) System.out.println(">>>>> jsonResponseData: " + jsonResponseData.toPrettyString());
 			}
 		}
 	}
