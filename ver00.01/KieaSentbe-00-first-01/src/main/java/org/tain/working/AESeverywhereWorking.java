@@ -9,7 +9,7 @@ import com.github.mervick.aes_everywhere.Aes256;
 import lombok.extern.slf4j.Slf4j;
 
 /*
- * https://github.com/mervick/aes-everywhere
+ * REF: https://github.com/mervick/aes-everywhere
  */
 @Component
 @Slf4j

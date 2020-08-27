@@ -43,7 +43,7 @@ public class KieaSentbe00First01Application implements CommandLineRunner {
 		if (Flag.flag) job01();  // propertiesWorking
 		if (Flag.flag) job02();  // HMAC
 		if (Flag.flag) job03();  // connectWorking
-		if (Flag.flag) job04();  // AESeverywhere
+		if (!Flag.flag) job04();  // AESeverywhere
 		if (Flag.flag) job05();
 		
 		//Sleep.run(2000);
@@ -87,7 +87,9 @@ public class KieaSentbe00First01Application implements CommandLineRunner {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) this.connectWorking.testStbCrypt();
-		if (Flag.flag) this.connectWorking.getCalculation();
+		if (!Flag.flag) this.connectWorking.getCalculation0();
+		if (Flag.flag) this.connectWorking.getCalculation1();
+		if (!Flag.flag) this.connectWorking.getCalculation2();
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
