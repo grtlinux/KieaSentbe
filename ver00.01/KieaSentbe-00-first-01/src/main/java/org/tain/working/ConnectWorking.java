@@ -21,6 +21,8 @@ import org.tain.utils.RestTemplateConfig;
 import org.tain.utils.StbCrypt;
 import org.tain.utils.enums.RestTemplateType;
 
+import com.github.mervick.aes_everywhere.Aes256;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -55,9 +57,33 @@ public class ConnectWorking {
 		String signatureHexit = null;
 		String signatureBase64 = null;
 		
+		Map<String,String> mapReq = null;
+		String jsonBody = null;
+		if (Flag.flag) {
+			Map<String,Object> mapData = new HashMap<>();
+			mapData.put("input_amount", 1000000);
+			mapData.put("input_currency", "KRW");
+			mapData.put("from_currency", "KRW");
+			mapData.put("to_currency", "PHP");
+			mapData.put("to_country", "PH");
+			mapData.put("exchange_rate_id", 1905202000);
+			
+			String jsonData = JsonPrint.getInstance().toPrettyJson(mapData);
+			String pass = this.lnsEnvJobProperties.getSentbeSecretKey();  // Secret-Key
+			String encrypData = Aes256.encrypt(jsonData, pass);
+			if (Flag.flag) System.out.println(">>>>> jsonData: " + jsonData);
+			if (Flag.flag) System.out.println(">>>>> encrypData: " + encrypData);
+			
+			mapReq = new HashMap<>();
+			mapReq.put("data", encrypData);
+			//String jsonBdoy = JsonPrint.getInstance().toPrettyJson(mapReq);
+			jsonBody = JsonPrint.getInstance().toJson(mapReq);
+			if (Flag.flag) System.out.println(">>>>> jsonBody: " + jsonBody);
+		}
+		
 		if (Flag.flag) {
 			String url = "hanwha.dev.sentbe.com:10443/getWebviewId";
-			String body = "{\"message_key\":\"message_value\"}";
+			String body = jsonBody;
 			String message = nonce + url + body;
 			String key = this.lnsEnvJobProperties.getSentbeSecretKey();  // Secret-Key
 			
@@ -91,21 +117,6 @@ public class ConnectWorking {
 			reqHeaders.set("x-api-signature", signatureBase64);
 			if (Flag.flag) JsonPrint.getInstance().printPrettyJson("ReqHeaders", reqHeaders);
 			
-			Map<String,Object> mapData = new HashMap<>();
-			mapData.put("input_amount", 1000000);
-			mapData.put("input_currency", "KRW");
-			mapData.put("from_currency", "KRW");
-			mapData.put("to_currency", "PHP");
-			mapData.put("to_country", "PH");
-			mapData.put("exchange_rate_id", 1905202000);
-			if (Flag.flag) JsonPrint.getInstance().printPrettyJson("Request Date", mapData);
-			String jsonData = JsonPrint.getInstance().toJson(mapData);
-			
-			Map<String,String> mapReq = new HashMap<>();
-			String encode = StbCrypt.getInstance().encrypt(jsonData);
-			mapReq.put("data", encode);
-			if (Flag.flag) JsonPrint.getInstance().printPrettyJson("Request Body", mapReq);
-			
 			HttpEntity<Map<String,String>> reqHttpEntity = new HttpEntity<>(mapReq, reqHeaders);
 			
 			ResponseEntity<String> response = RestTemplateConfig.get(RestTemplateType.SETENV).exchange(
@@ -124,3 +135,6 @@ public class ConnectWorking {
 		}
 	}
 }
+/*
+curl -XPOST -H 'x-api-nonce: 1598496014' -H 'x-api-signature: jb5wFA1hcnJwhxKzZRQF2ysNLxt+tXNNH/kIQfwIbf4=' -d '{"data":"U2FsdGVkX18sjpt39HJnhCdqHFjfh9FMHllT1VvDFi59voF0XhfABgTvoWnnWKGX0H3uHMIvcm/dK7TsdsIOz5HWbCztKfIabvwarn36cTkPMEG/Lmio3XRhG8YU1UV7S1VepIOnVaWvWbbtDa+q1fUoEMvv7vEC3aZUntfV8EpIjZaWFEIgQcEvS6avrtAYpRU2tYPEJHf7W41ccCkyjUH0C44igkUhUn/jEqNA/iwDQCXKuIC9OpVYeHiUcwTR"}' 'https://hanwha.dev.sentbe.com:10443/getCalculation'
+ */

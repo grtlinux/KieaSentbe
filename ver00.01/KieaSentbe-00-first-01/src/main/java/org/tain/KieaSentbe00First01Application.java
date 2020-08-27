@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
-import org.tain.utils.Sleep;
+import org.tain.working.AESeverywhereWorking;
 import org.tain.working.ConnectWorking;
 import org.tain.working.HmacWorking;
 import org.tain.working.PropertiesWorking;
@@ -43,10 +43,10 @@ public class KieaSentbe00First01Application implements CommandLineRunner {
 		if (Flag.flag) job01();  // propertiesWorking
 		if (Flag.flag) job02();  // HMAC
 		if (Flag.flag) job03();  // connectWorking
-		if (Flag.flag) job04();
+		if (Flag.flag) job04();  // AESeverywhere
 		if (Flag.flag) job05();
 		
-		Sleep.run(2000);
+		//Sleep.run(2000);
 		if (Flag.flag) System.exit(0);
 	}
 
@@ -86,7 +86,6 @@ public class KieaSentbe00First01Application implements CommandLineRunner {
 	private void job03() throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
-		//Sleep.run(2000);
 		if (Flag.flag) this.connectWorking.testStbCrypt();
 		if (Flag.flag) this.connectWorking.getCalculation();
 	}
@@ -95,9 +94,18 @@ public class KieaSentbe00First01Application implements CommandLineRunner {
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
 
-	private void job04() {
+	@Autowired
+	private AESeverywhereWorking aeseverywhereWorking;
+	
+	private void job04() throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
+		
+		if (Flag.flag) this.aeseverywhereWorking.test01();
 	}
+
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
 
 	private void job05() {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
