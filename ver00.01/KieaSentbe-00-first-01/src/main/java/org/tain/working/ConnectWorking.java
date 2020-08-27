@@ -184,7 +184,7 @@ public class ConnectWorking {
 		if (Flag.flag) {
 			log.info("KANG-20200721 >>>>> STEP-2");
 			
-			String url = "hanwha.dev.sentbe.com:10443/getCalculation";
+			String url = "hanwha.dev.sentbe.com:10443/hanwha/getCalculation";
 			long epochTime = System.currentTimeMillis();
 			nonce = String.valueOf(epochTime / 1000);
 			//nonce = "1598507516";
@@ -215,7 +215,7 @@ public class ConnectWorking {
 		if (Flag.flag) {
 			log.info("KANG-20200721 >>>>> STEP-3");
 			
-			String https = "https://hanwha.dev.sentbe.com:10443/getCalculation";
+			String https = "https://hanwha.dev.sentbe.com:10443/hanwha/getCalculation";
 			
 			HttpHeaders reqHeaders = new HttpHeaders();
 			reqHeaders.set("Accept", "application/json");
