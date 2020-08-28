@@ -87,7 +87,11 @@ public class KieaSentbe00First01Application implements CommandLineRunner {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		if (!Flag.flag) this.connectWorking.testStbCrypt();
-		if (Flag.flag) this.connectWorking.getCalculation();
+		if (!Flag.flag) this.connectWorking.getCalculation();
+		if (!Flag.flag) this.connectWorking.createUser();
+		if (!Flag.flag) this.connectWorking.getWebviewId();;
+		if (!Flag.flag) this.connectWorking.checkUser();;
+		if (Flag.flag) this.connectWorking.deleteUser();;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
