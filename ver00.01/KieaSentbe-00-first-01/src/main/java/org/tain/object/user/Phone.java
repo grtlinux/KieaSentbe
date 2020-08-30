@@ -11,5 +11,6 @@ public class Phone {
 	private int code      = 82;
 	
 	@JsonProperty(value = "number")
-	private long number   = 1012345678;
+	//private long number   = 1012345678;
+	private long number   = 1012340000;
 }

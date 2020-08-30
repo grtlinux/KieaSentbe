@@ -32,17 +32,21 @@ public class User {
 	@JsonProperty(value = "birth_date")
 	private String birthDate           = "19701225";
 	
-	@JsonProperty(value = "nationality")
-	private String nationality         = "KR";
+	@JsonProperty(value = "nationality_iso")
+	//private String nationality         = "KR";
+	private String nationality_iso         = "KR";
 	
 	@JsonProperty(value = "id_number")
-	private String idNumber            = "7012251234567";
+	//private String idNumber            = "701225-1234567";
+	private String idNumber            = "701225-1234560";
 	
 	@JsonProperty(value = "email")
-	private String email               = "email@sentbe.com";
+	//private String email               = "email@sentbe.com";
+	private String email               = "email001@sentbe.com";
 	
-	@JsonProperty(value = "often_send_country")
-	private String oftenSendCountry    = "PH";
+	@JsonProperty(value = "often_send_country_iso")
+	//private String oftenSendCountry    = "PH";
+	private String oftenSendCountry_iso    = "PH";
 	
 	@JsonProperty(value = "occupation")
 	private int occupation             = 3;

@@ -289,16 +289,15 @@ public class ConnectWorking {
 			log.info("KANG-20200721 >>>>> STEP-1");
 			
 			Map<String,Object> mapData = new HashMap<>();
-			mapData.put("user_id", 82128);
-			mapData.put("input_amount", 1000000);
+			mapData.put("user_id", 1001088);
+			mapData.put("input_amount", 1000000.0);
 			mapData.put("input_currency", "KRW");
 			mapData.put("from_currency", "KRW");
 			mapData.put("to_currency", "PHP");
 			mapData.put("to_country", "PH");
 			//mapData.put("exchange_rate_id", 1905202000);
 			//if (Flag.flag) JsonPrint.getInstance().printPrettyJson(mapData);
-			//String jsonData = JsonPrint.getInstance().toPrettyJson(mapData);
-			String jsonData = JsonPrint.getInstance().toJson(mapData);
+			String jsonData = JsonPrint.getInstance().toPrettyJson(mapData);
 			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonData: " + jsonData);
 			
 			String pass = this.lnsEnvJobProperties.getSentbeSecretKeyForData();  // secretKey for data
@@ -308,8 +307,7 @@ public class ConnectWorking {
 			
 			Map<String,String> mapReq = new HashMap<>();
 			mapReq.put("data", encrypData);
-			//String jsonPrettyBody = JsonPrint.getInstance().toPrettyJson(mapReq);
-			String jsonPrettyBody = JsonPrint.getInstance().toJson(mapReq);
+			String jsonPrettyBody = JsonPrint.getInstance().toPrettyJson(mapReq);
 			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonPrettyBody: " + jsonPrettyBody);
 			
 			String jsonBody = JsonPrint.getInstance().toJson(mapReq);
