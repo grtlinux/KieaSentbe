@@ -276,7 +276,15 @@ public class ConnectWorking {
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
-	
+	/*
+	 * https://welcome.sentbe.com:10443/user?webviewId=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTg4NjEyNDYsImp0aSI6ImJ0NWxzZmdzajVvaTM4b2FvOXEwIiwidXNlcl9pZCI6MTAwMTA4OH0.09AvAURcAl-xoHbQRZj64_JD9PHa3QLH46LbaJpfUyk
+	 * 가입 및 인증: welcome.sentbe.com/user?webviewId=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTg4NjEyNDYsImp0aSI6ImJ0NWxzZmdzajVvaTM4b2FvOXEwIiwidXNlcl9pZCI6MTAwMTA4OH0.09AvAURcAl-xoHbQRZj64_JD9PHa3QLH46LbaJpfUyk
+	 * 
+	 * 가입 및 인증: welcome.sentbe.com/user?webviewId={jwt}
+	 * 송금 내역: welcome.sentbe.com/transfer_list?webviewId={jwt}
+	 * 송금 신청: welcome.sentbe.com/transfer?webviewId={jwt}
+	 * 
+	 */
 	public void getWebviewId() throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
@@ -290,11 +298,11 @@ public class ConnectWorking {
 			
 			Map<String,Object> mapData = new HashMap<>();
 			mapData.put("user_id", 1001088);
-			mapData.put("input_amount", 1000000.0);
-			mapData.put("input_currency", "KRW");
-			mapData.put("from_currency", "KRW");
-			mapData.put("to_currency", "PHP");
-			mapData.put("to_country", "PH");
+			//mapData.put("input_amount", 1000000.0);
+			//mapData.put("input_currency", "KRW");
+			//mapData.put("from_currency", "KRW");
+			//mapData.put("to_currency", "PHP");
+			//mapData.put("to_country", "PH");
 			//mapData.put("exchange_rate_id", 1905202000);
 			//if (Flag.flag) JsonPrint.getInstance().printPrettyJson(mapData);
 			String jsonData = JsonPrint.getInstance().toPrettyJson(mapData);

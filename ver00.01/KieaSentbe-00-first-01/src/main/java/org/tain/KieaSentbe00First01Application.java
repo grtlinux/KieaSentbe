@@ -41,7 +41,7 @@ public class KieaSentbe00First01Application implements CommandLineRunner {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) job01();  // propertiesWorking
-		if (Flag.flag) job02();  // HMAC
+		if (!Flag.flag) job02();  // HMAC
 		if (Flag.flag) job03();  // connectWorking
 		if (!Flag.flag) job04();  // AESeverywhere
 		if (Flag.flag) job05();
@@ -87,11 +87,11 @@ public class KieaSentbe00First01Application implements CommandLineRunner {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		if (!Flag.flag) this.connectWorking.testStbCrypt();
-		if (!Flag.flag) this.connectWorking.getCalculation();
+		if (Flag.flag) this.connectWorking.getCalculation();
 		if (!Flag.flag) this.connectWorking.createUser();
-		if (Flag.flag) this.connectWorking.getWebviewId();;
-		if (!Flag.flag) this.connectWorking.checkUser();;
-		if (!Flag.flag) this.connectWorking.deleteUser();;
+		if (Flag.flag) this.connectWorking.getWebviewId();
+		if (!Flag.flag) this.connectWorking.checkUser();
+		if (!Flag.flag) this.connectWorking.deleteUser();
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
