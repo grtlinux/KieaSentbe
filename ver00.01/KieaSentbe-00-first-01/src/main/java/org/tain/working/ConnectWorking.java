@@ -71,7 +71,7 @@ public class ConnectWorking {
 			mapData.put("from_currency", "KRW");
 			mapData.put("to_currency", "PHP");
 			mapData.put("to_country", "PH");
-			//mapData.put("exchange_rate_id", 1905202000);
+			mapData.put("exchange_rate_id", "20200828045000");  // yyyyMMddHHmmss
 			//if (Flag.flag) JsonPrint.getInstance().printPrettyJson(mapData);
 			String jsonData = JsonPrint.getInstance().toPrettyJson(mapData);
 			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonData: " + jsonData);
