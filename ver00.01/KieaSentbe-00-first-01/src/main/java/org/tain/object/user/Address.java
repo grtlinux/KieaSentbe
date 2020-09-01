@@ -1,12 +1,12 @@
 package org.tain.object.user;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.Getter;
 
+@Deprecated
 @Getter
 public class Address {
 
+	/*
 	@JsonProperty(value = "line1")
 	private String line1        = "322, Gangnam-daero, Seocho-gu";
 	
@@ -25,4 +25,5 @@ public class Address {
 	
 	@JsonProperty(value = "country")
 	private String country      = "Republic of Korea";
+	*/
 }
