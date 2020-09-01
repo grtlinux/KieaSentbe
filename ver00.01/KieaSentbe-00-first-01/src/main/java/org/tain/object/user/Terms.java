@@ -1,12 +1,12 @@
 package org.tain.object.user;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.Getter;
 
+@Deprecated
 @Getter
 public class Terms {
 
+	/*
 	@JsonProperty(value = "unique_id_info")
 	private boolean uniqueIdInfo                      = true;
 	
@@ -21,4 +21,5 @@ public class Terms {
 	
 	@JsonProperty(value = "privacy_info")
 	private boolean privacyInfo                       = true;
+	*/
 }

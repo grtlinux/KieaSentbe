@@ -54,6 +54,26 @@ public class ConnectWorking {
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
 	
+	/*
+	 * name: getCalculation
+	 * 
+	 * REQ: {
+	 *   "input_amount": 1000000, // [필수]입력 금액
+	 *   "input_currency": "KRW", // [필수]입력 통화
+	 *   "from_currency": "KRW", // [필수]보내는 통화
+	 *   "to_currency": "PHP", // [필수]받는 통화
+	 *   "to_country": "PH", // [필수]받는 국가
+	 *   "exchange_rate_id": 20190605175000 // [옵션] 환율 ID
+	 * }
+	 * RES: {
+	 *   "exchange_rate_id": "20190605175000", //환율 ID
+	 *   "from_amount": 1000000, // 보내는 금액
+	 *   "from_currency": "KRW", // 보내는 통화
+	 *   "to_amount": 43258, // 받는 금액
+	 *   "to_currency": "PHP", // 받는 통화
+	 *   "transfer_fee": 5000 // 송금 수수료
+	 * }
+	 */
 	public void getCalculation() throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
@@ -71,8 +91,8 @@ public class ConnectWorking {
 			mapData.put("from_currency", "KRW");
 			mapData.put("to_currency", "PHP");
 			mapData.put("to_country", "PH");
-			//mapData.put("exchange_rate_id", 1905202000);
-			//if (Flag.flag) JsonPrint.getInstance().printPrettyJson(mapData);
+			mapData.put("exchange_rate_id", "20190605175000");
+			
 			String jsonData = JsonPrint.getInstance().toPrettyJson(mapData);
 			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonData: " + jsonData);
 			
@@ -169,6 +189,47 @@ public class ConnectWorking {
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
 	
+	/*
+	 * name: createUser
+	 * 
+	 * REQ: {
+	 *   "agreements": { // 동의 약관
+	 *     "version": 1, // 동의 약관 version
+	 *     "list": [
+	 *       "SSFCTS", // 소액해외송금약관
+	 *       "EFTS", // 전자금융거래이용약관
+	 *       "PRIVACY", [옵션] // 개인정보처리방침 약관
+	 *       "CAUTIONS", // 고유식별정보 약관
+	 *       "CLAIMS" // 개인정보 제3자 제공
+	 *     ]
+	 *   },
+	 *   "phone": {
+	 *     "iso": "KR", // [옵션] 전화번호 국제 코드 (ISO)
+	 *     "number": 1012345678 // 전화번호
+	 *   },
+	 *   "user_name": { // 영문이름
+	 *     "first": "Jiwon", // 이름
+	 *     "middle": "", // [옵션] 중간이름
+	 *     "last": "Tak" // 성
+	 *   },
+	 *   "gender": 1, // 성별   남(1), 여(2)
+	 *   "account_number": "05012345678900", // 계좌번호
+	 *   "account_holder_name": "탁지원", // 계좌주명
+	 *   "birth_date": "19701225", // 생년월일(YYYYMMDD)
+	 *   "nationality_iso": "KR", // 국적 (ISO)
+	 *   "id_number": "701225-1234567", // 실명번호 
+	 *   "email": "email@sentbe.com", // [옵션] 이메일
+	 *   "often_send_country_iso": "PH", // 주송금 국가(ISO)
+	 *   "occupation": 3, // 직업 (규격정의)
+	 *   "funds_source": 3, // 자원출처 (규격정의)
+	 *   "transfer_purpose": 3 // 송금목적 (규격정의)
+	 * }
+	 * 
+	 * RES: {
+	 *   "user_id": "82163", // 유저 ID
+	 *   "webview_id": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjAzMjUxNDgsImp0aSI6ImJqdmxsNzc4a2kzOGxsam5xN2owIiwidXNlcl9pZCI6ODIxNjN9.r47Dd_Xdo5pGmGbIg-1gCdtnP7BqVg6IQM7QCK1bNG4" // 웹뷰 ID
+	 * }
+	 */
 	public void createUser() throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
@@ -182,6 +243,7 @@ public class ConnectWorking {
 			
 			User user = new User();
 			String jsonData = JsonPrint.getInstance().toPrettyJson(user);
+			//String jsonData = JsonPrint.getInstance().toJson(user);
 			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonData: " + jsonData);
 			
 			String pass = this.lnsEnvJobProperties.getSentbeSecretKeyForData();  // secretKey for data
@@ -192,6 +254,7 @@ public class ConnectWorking {
 			Map<String,String> mapReq = new HashMap<>();
 			mapReq.put("data", encrypData);
 			String jsonPrettyBody = JsonPrint.getInstance().toPrettyJson(mapReq);
+			//String jsonPrettyBody = JsonPrint.getInstance().toJson(mapReq);
 			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonPrettyBody: " + jsonPrettyBody);
 			
 			String jsonBody = JsonPrint.getInstance().toJson(mapReq);
@@ -205,7 +268,8 @@ public class ConnectWorking {
 			
 			String url = "hanwha.dev.sentbe.com:10443" + path;
 			long epochTime = System.currentTimeMillis();
-			nonce = String.valueOf(epochTime / 1000);
+			//nonce = String.valueOf(epochTime / 1000);
+			nonce = String.valueOf(epochTime);
 			String message = nonce + url + body;
 			
 			Mac hasher = Mac.getInstance("HmacSHA256");
@@ -276,14 +340,36 @@ public class ConnectWorking {
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
+	
 	/*
-	 * https://welcome.sentbe.com:10443/user?webviewId=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTg4NjEyNDYsImp0aSI6ImJ0NWxzZmdzajVvaTM4b2FvOXEwIiwidXNlcl9pZCI6MTAwMTA4OH0.09AvAURcAl-xoHbQRZj64_JD9PHa3QLH46LbaJpfUyk
-	 * 가입 및 인증: welcome.sentbe.com/user?webviewId=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTg4NjEyNDYsImp0aSI6ImJ0NWxzZmdzajVvaTM4b2FvOXEwIiwidXNlcl9pZCI6MTAwMTA4OH0.09AvAURcAl-xoHbQRZj64_JD9PHa3QLH46LbaJpfUyk
+	 * name: getWebviewId
 	 * 
-	 * 가입 및 인증: welcome.sentbe.com/user?webviewId={jwt}
-	 * 송금 내역: welcome.sentbe.com/transfer_list?webviewId={jwt}
-	 * 송금 신청: welcome.sentbe.com/transfer?webviewId={jwt}
+	 * REQ: {
+	 *   "user_id": "82161" // 유저 ID
+	 * }
 	 * 
+	 * RES: {
+	 *   "user_id": "82150",
+	 *   "webview_id": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NTk4MjU4MjAsImp0aSI6ImJqc2drNjdtb2FxdnBpaTNuazNnIiwidXNlcl9pZCI6ODIxNTB9.Wy2W1nUI5VbgzpMFuDzPLiwgJh0e8XYAcbOHj2XSoHI"
+	 * }
+	 */
+	
+	/*
+	 * - 가입 및 인증 URL
+	 * https://hanwha.dev.sentbe.com/user?webviewId={webviewId}
+	 * 
+	 * ex: https://hanwha.dev.sentbe.com/user?webviewId=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTg5NDUzNTYsImp0aSI6ImJ0NmFkajYybzdubmpuYzdhb2lnIiwidXNlcl9pZCI6MTAwMTA5OX0.INZTvkI51YCQm_TQF4KrWrNoCKm8wTUDOh5oU8w_ilo
+	 *    
+	 * - 송금 내역 URL
+	 * https://hanwha.dev.sentbe.com/transfer_list?webviewId={webviewId}
+	 * 
+	 * ex: https://hanwha.dev.sentbe.com/transfer_list?webviewId=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTg5NDUzNTYsImp0aSI6ImJ0NmFkajYybzdubmpuYzdhb2lnIiwidXNlcl9pZCI6MTAwMTA5OX0.INZTvkI51YCQm_TQF4KrWrNoCKm8wTUDOh5oU8w_ilo
+	 * 
+	 * - 송금 신청 URL
+	 * https://hanwha.dev.sentbe.com/transfer?webviewid={webviewId}&exchange_rate_id={exchange_rate_id}&send_amount={send_amount}&to_country={to_country}&to_currency${to_currency}
+	 * exchange_rate_id 는 Optional.
+	 * 
+	 * ex: https://hanwha.dev.sentbe.com/transfer?webviewId=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTg5NDUzNTYsImp0aSI6ImJ0NmFkajYybzdubmpuYzdhb2lnIiwidXNlcl9pZCI6MTAwMTA5OX0.INZTvkI51YCQm_TQF4KrWrNoCKm8wTUDOh5oU8w_ilo&to_country=CN&to_currency=CNY&send_amount=300000
 	 */
 	public void getWebviewId() throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
@@ -401,6 +487,19 @@ public class ConnectWorking {
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
 	
+	/*
+	 * name: checkUser
+	 * 
+	 * REQ: {
+	 *   "id_number": "701225-1234567"
+	 * }
+	 * 
+	 * RES: {
+	 *   "id_number": "701225-1234567",
+	 *   "sign_status": true,
+	 *   "account_number": "05012345678900"
+	 * }
+	 */
 	public void checkUser() throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
@@ -512,6 +611,20 @@ public class ConnectWorking {
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
 	
+	/*
+	 * name: deleteUser
+	 * 
+	 * REQ: {
+	 *   "user_id": "82161" // 유저 ID
+	 * }
+	 * 
+	 * RES: {
+	 *     "error": 200,
+	 *     "code": 200,
+	 *     "message": "",
+	 *     "data": ""
+	 * }
+	 */
 	public void deleteUser() throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
@@ -617,3 +730,4 @@ public class ConnectWorking {
 		}
 	}
 }
+
