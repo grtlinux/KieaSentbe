@@ -54,6 +54,172 @@ public class ConnectWorking {
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
 	
+	public void ping() throws Exception {
+		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
+		
+		String path = "/hanwha/ping";
+		
+		if (Flag.flag) {
+			log.info("KANG-20200721 >>>>> STEP-3");
+			
+			String https = "https://hanwha.dev.sentbe.com:10443" + path;
+			
+			HttpHeaders reqHeaders = new HttpHeaders();
+			//reqHeaders.set("Accept", "application/json");
+			reqHeaders.set("Content-Type", "application/json; charset=utf-8");
+			if (Flag.flag) JsonPrint.getInstance().printPrettyJson("ReqHeaders", reqHeaders);
+			HttpEntity<String> reqHttpEntity = new HttpEntity<>(reqHeaders);
+			
+			ResponseEntity<String> response = RestTemplateConfig.get(RestTemplateType.SETENV).exchange(
+					https
+					, HttpMethod.GET
+					, reqHttpEntity
+					, String.class);
+					
+			log.info("=====================================================");
+			log.info("KANG-20200623 >>>>> https = {}", https);
+			log.info("KANG-20200623 >>>>> response.getStatusCodeValue() = {}", response.getStatusCodeValue());
+			log.info("KANG-20200623 >>>>> response.getStatusCode()      = {}", response.getStatusCode());
+			log.info("KANG-20200623 >>>>> response.getBody()            = {}", response.getBody());
+			log.info("=====================================================");
+			if (response.getStatusCodeValue() == 200) {
+				JsonNode jsonResponseBody = JsonPrint.getInstance().getObjectMapper().readTree(response.getBody());
+				if (Flag.flag) System.out.println(">>>>> response.getBody(): " + jsonResponseBody.toPrettyString());
+				
+				if (jsonResponseBody.at("/code").asInt() == 200 && !"".equals(jsonResponseBody.at("/data").asText())) {
+					String pass = this.lnsEnvJobProperties.getSentbeSecretKeyForData();  // secretKey for data
+					String decryptData = Aes256.decrypt(jsonResponseBody.at("/data").asText(), pass);
+					
+					JsonNode jsonResponseData = JsonPrint.getInstance().getObjectMapper().readTree(decryptData);
+					if (Flag.flag) System.out.println(">>>>> jsonResponseData: " + jsonResponseData.toPrettyString());
+				}
+			}
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	
+	public void testEncrypt() throws Exception {
+		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
+		
+		String path = "/hanwha/test/encrypt";
+		String body = null;
+		
+		if (Flag.flag) {
+			log.info("KANG-20200721 >>>>> STEP-1");
+			
+			Map<String,Object> mapData = new HashMap<>();
+			mapData.put("user_id", "1001104");
+			String jsonData = JsonPrint.getInstance().toPrettyJson(mapData);
+			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonData: " + jsonData);
+			
+			body = jsonData;
+		}
+		
+		if (Flag.flag) {
+			log.info("KANG-20200721 >>>>> STEP-3");
+			
+			String https = "https://hanwha.dev.sentbe.com:10443" + path;
+			
+			HttpHeaders reqHeaders = new HttpHeaders();
+			reqHeaders.set("Accept", "application/json");
+			reqHeaders.set("Content-Type", "application/json; charset=utf-8");
+			if (Flag.flag) JsonPrint.getInstance().printPrettyJson("ReqHeaders", reqHeaders);
+			if (Flag.flag) System.out.println(">>>>> body: " + body);
+			
+			HttpEntity<String> reqHttpEntity = new HttpEntity<>(body, reqHeaders);
+			
+			ResponseEntity<String> response = RestTemplateConfig.get(RestTemplateType.SETENV).exchange(
+					https
+					, HttpMethod.POST
+					, reqHttpEntity
+					, String.class);
+					
+			log.info("=====================================================");
+			log.info("KANG-20200623 >>>>> https = {}", https);
+			log.info("KANG-20200623 >>>>> response.getStatusCodeValue() = {}", response.getStatusCodeValue());
+			log.info("KANG-20200623 >>>>> response.getStatusCode()      = {}", response.getStatusCode());
+			log.info("KANG-20200623 >>>>> response.getBody()            = {}", response.getBody());
+			log.info("=====================================================");
+			if (response.getStatusCodeValue() == 200) {
+				JsonNode jsonResponseBody = JsonPrint.getInstance().getObjectMapper().readTree(response.getBody());
+				if (Flag.flag) System.out.println(">>>>> response.getBody(): " + jsonResponseBody.toPrettyString());
+				
+				if (jsonResponseBody.at("/code").asInt() == 200 && !"".equals(jsonResponseBody.at("/data").asText())) {
+					String pass = this.lnsEnvJobProperties.getSentbeSecretKeyForData();  // secretKey for data
+					String decryptData = Aes256.decrypt(jsonResponseBody.at("/data").asText(), pass);
+					
+					JsonNode jsonResponseData = JsonPrint.getInstance().getObjectMapper().readTree(decryptData);
+					if (Flag.flag) System.out.println(">>>>> jsonResponseData: " + jsonResponseData.toPrettyString());
+				}
+			}
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	
+	public void testDecrypt() throws Exception {
+		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
+		
+		String path = "/hanwha/test/decrypt";
+		String body = null;
+		
+		if (Flag.flag) {
+			log.info("KANG-20200721 >>>>> STEP-1");
+			
+			Map<String,Object> mapData = new HashMap<>();
+			mapData.put("data", "U2FsdGVkX19G49RgOYcpGgiHffcmmsoUi4qWGzjSjGXhf0FBZx6/6KV4m8gQxEPlXwZu95CueLsyh4E3ww5sXA1QH791AkzBYnXIo9odsazG9tpYIl4v3yby9YC+bmiD+QZnQ23kNip+Q7ZkbKm+ixjFp81rpC31DA8bM2VUhl9vO7W7bvxgXgbuCKH18rZnczwp0bAuoSYKdtS8b9llvelY6OoXZE+v/Ez+5Je/qAyyL4oKJs0pdY2I2uzYcCGDi31aG++99oZ/yeueS2JUuSIahRm+tT0yekqlzGplk5x6OQL8KLCi9NKau0hpo8Xk");
+			String jsonData = JsonPrint.getInstance().toPrettyJson(mapData);
+			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonData: " + jsonData);
+			
+			body = jsonData;
+		}
+		
+		if (Flag.flag) {
+			log.info("KANG-20200721 >>>>> STEP-3");
+			
+			String https = "https://hanwha.dev.sentbe.com:10443" + path;
+			
+			HttpHeaders reqHeaders = new HttpHeaders();
+			reqHeaders.set("Accept", "application/json");
+			reqHeaders.set("Content-Type", "application/json; charset=utf-8");
+			if (Flag.flag) JsonPrint.getInstance().printPrettyJson("ReqHeaders", reqHeaders);
+			if (Flag.flag) System.out.println(">>>>> body: " + body);
+			
+			HttpEntity<String> reqHttpEntity = new HttpEntity<>(body, reqHeaders);
+			
+			ResponseEntity<String> response = RestTemplateConfig.get(RestTemplateType.SETENV).exchange(
+					https
+					, HttpMethod.POST
+					, reqHttpEntity
+					, String.class);
+					
+			log.info("=====================================================");
+			log.info("KANG-20200623 >>>>> https = {}", https);
+			log.info("KANG-20200623 >>>>> response.getStatusCodeValue() = {}", response.getStatusCodeValue());
+			log.info("KANG-20200623 >>>>> response.getStatusCode()      = {}", response.getStatusCode());
+			log.info("KANG-20200623 >>>>> response.getBody()            = {}", response.getBody());
+			log.info("=====================================================");
+			if (response.getStatusCodeValue() == 200) {
+				JsonNode jsonResponseBody = JsonPrint.getInstance().getObjectMapper().readTree(response.getBody());
+				if (Flag.flag) System.out.println(">>>>> response.getBody(): " + jsonResponseBody.toPrettyString());
+				
+				if (jsonResponseBody.at("/code").asInt() == 200 && !"".equals(jsonResponseBody.at("/data").asText())) {
+					JsonNode jsonResponseData = JsonPrint.getInstance().getObjectMapper().readTree(jsonResponseBody.at("/data").asText());
+					if (Flag.flag) System.out.println(">>>>> jsonResponseData: " + jsonResponseData.toPrettyString());
+				}
+			}
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	
 	/*
 	 * name: getCalculation
 	 * 
@@ -92,7 +258,6 @@ public class ConnectWorking {
 			mapData.put("to_currency", "PHP");
 			mapData.put("to_country", "PH");
 			mapData.put("exchange_rate_id", "20200828045000");  // yyyyMMddHHmmss
-			//if (Flag.flag) JsonPrint.getInstance().printPrettyJson(mapData);
 			String jsonData = JsonPrint.getInstance().toPrettyJson(mapData);
 			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonData: " + jsonData);
 			
@@ -174,7 +339,7 @@ public class ConnectWorking {
 				JsonNode jsonResponseBody = JsonPrint.getInstance().getObjectMapper().readTree(response.getBody());
 				if (Flag.flag) System.out.println(">>>>> response.getBody(): " + jsonResponseBody.toPrettyString());
 				
-				if (jsonResponseBody.at("/code").asInt() == 200) {
+				if (jsonResponseBody.at("/code").asInt() == 200 && !"".equals(jsonResponseBody.at("/data").asText())) {
 					String pass = this.lnsEnvJobProperties.getSentbeSecretKeyForData();  // secretKey for data
 					String decryptData = Aes256.decrypt(jsonResponseBody.at("/data").asText(), pass);
 					
@@ -191,6 +356,7 @@ public class ConnectWorking {
 	
 	/*
 	 * name: createUser
+	 * unique key: id_number, accountNumber, phone
 	 * 
 	 * REQ: {
 	 *   "agreements": { // 동의 약관
@@ -217,7 +383,8 @@ public class ConnectWorking {
 	 *   "account_holder_name": "탁지원", // 계좌주명
 	 *   "birth_date": "19701225", // 생년월일(YYYYMMDD)
 	 *   "nationality_iso": "KR", // 국적 (ISO)
-	 *   "id_number": "701225-1234567", // 실명번호 
+	 *   "id_number": "701225-1234567", // 실명번호
+	 *   "id_type": 1,  // 실명타입
 	 *   "email": "email@sentbe.com", // [옵션] 이메일
 	 *   "often_send_country_iso": "PH", // 주송금 국가(ISO)
 	 *   "occupation": 3, // 직업 (규격정의)
@@ -243,7 +410,6 @@ public class ConnectWorking {
 			
 			User user = new User();
 			String jsonData = JsonPrint.getInstance().toPrettyJson(user);
-			//String jsonData = JsonPrint.getInstance().toJson(user);
 			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonData: " + jsonData);
 			
 			String pass = this.lnsEnvJobProperties.getSentbeSecretKeyForData();  // secretKey for data
@@ -254,7 +420,6 @@ public class ConnectWorking {
 			Map<String,String> mapReq = new HashMap<>();
 			mapReq.put("data", encrypData);
 			String jsonPrettyBody = JsonPrint.getInstance().toPrettyJson(mapReq);
-			//String jsonPrettyBody = JsonPrint.getInstance().toJson(mapReq);
 			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonPrettyBody: " + jsonPrettyBody);
 			
 			String jsonBody = JsonPrint.getInstance().toJson(mapReq);
@@ -268,7 +433,6 @@ public class ConnectWorking {
 			
 			String url = "hanwha.dev.sentbe.com:10443" + path;
 			long epochTime = System.currentTimeMillis();
-			//nonce = String.valueOf(epochTime / 1000);
 			nonce = String.valueOf(epochTime);
 			String message = nonce + url + body;
 			
@@ -326,7 +490,7 @@ public class ConnectWorking {
 				JsonNode jsonResponseBody = JsonPrint.getInstance().getObjectMapper().readTree(response.getBody());
 				if (Flag.flag) System.out.println(">>>>> response.getBody(): " + jsonResponseBody.toPrettyString());
 				
-				if (jsonResponseBody.at("/code").asInt() == 200) {
+				if (jsonResponseBody.at("/code").asInt() == 200 && !"".equals(jsonResponseBody.at("/data").asText())) {
 					String pass = this.lnsEnvJobProperties.getSentbeSecretKeyForData();  // secretKey for data
 					String decryptData = Aes256.decrypt(jsonResponseBody.at("/data").asText(), pass);
 					
@@ -355,19 +519,30 @@ public class ConnectWorking {
 	 */
 	
 	/*
+		RES.data: {
+		  "user_id" : "1001119",
+		  "webview_id" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTkwMjg5MTYsImp0aSI6ImJ0NnVxZDZiczRnc3RpN2p2ZmYwIiwidXNlcl9pZCI6MTAwMTExOX0.79M7b4xqz124y5ovlgrJ7oPVwzSCSW7xAssX9p2cUEE",
+		  "verification_id" : "821"
+		}
+	 */
+	
+	/*
 	 * - 가입 및 인증 URL
 	 * https://hanwha.dev.sentbe.com/user?webviewId={webviewId}
+	 * https://hanwha.dev.sentbe.com/user?webviewId=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTkwMjg5MTYsImp0aSI6ImJ0NnVxZDZiczRnc3RpN2p2ZmYwIiwidXNlcl9pZCI6MTAwMTExOX0.79M7b4xqz124y5ovlgrJ7oPVwzSCSW7xAssX9p2cUEE
 	 * 
 	 * ex: https://hanwha.dev.sentbe.com/user?webviewId=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTg5NDUzNTYsImp0aSI6ImJ0NmFkajYybzdubmpuYzdhb2lnIiwidXNlcl9pZCI6MTAwMTA5OX0.INZTvkI51YCQm_TQF4KrWrNoCKm8wTUDOh5oU8w_ilo
 	 *    
 	 * - 송금 내역 URL
 	 * https://hanwha.dev.sentbe.com/transfer_list?webviewId={webviewId}
+	 * https://hanwha.dev.sentbe.com/transfer_list?webviewId=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTkwMjg5MTYsImp0aSI6ImJ0NnVxZDZiczRnc3RpN2p2ZmYwIiwidXNlcl9pZCI6MTAwMTExOX0.79M7b4xqz124y5ovlgrJ7oPVwzSCSW7xAssX9p2cUEE
 	 * 
 	 * ex: https://hanwha.dev.sentbe.com/transfer_list?webviewId=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTg5NDUzNTYsImp0aSI6ImJ0NmFkajYybzdubmpuYzdhb2lnIiwidXNlcl9pZCI6MTAwMTA5OX0.INZTvkI51YCQm_TQF4KrWrNoCKm8wTUDOh5oU8w_ilo
 	 * 
 	 * - 송금 신청 URL
 	 * https://hanwha.dev.sentbe.com/transfer?webviewid={webviewId}&exchange_rate_id={exchange_rate_id}&send_amount={send_amount}&to_country={to_country}&to_currency${to_currency}
 	 * exchange_rate_id 는 Optional.
+	 * https://hanwha.dev.sentbe.com/transfer?webviewId=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTkwMjg5MTYsImp0aSI6ImJ0NnVxZDZiczRnc3RpN2p2ZmYwIiwidXNlcl9pZCI6MTAwMTExOX0.79M7b4xqz124y5ovlgrJ7oPVwzSCSW7xAssX9p2cUEE&to_country=CN&to_currency=CNY&send_amount=300000
 	 * 
 	 * ex: https://hanwha.dev.sentbe.com/transfer?webviewId=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTg5NDUzNTYsImp0aSI6ImJ0NmFkajYybzdubmpuYzdhb2lnIiwidXNlcl9pZCI6MTAwMTA5OX0.INZTvkI51YCQm_TQF4KrWrNoCKm8wTUDOh5oU8w_ilo&to_country=CN&to_currency=CNY&send_amount=300000
 	 */
@@ -383,14 +558,12 @@ public class ConnectWorking {
 			log.info("KANG-20200721 >>>>> STEP-1");
 			
 			Map<String,Object> mapData = new HashMap<>();
-			mapData.put("user_id", 1001088);
-			//mapData.put("input_amount", 1000000.0);
-			//mapData.put("input_currency", "KRW");
-			//mapData.put("from_currency", "KRW");
-			//mapData.put("to_currency", "PHP");
-			//mapData.put("to_country", "PH");
-			//mapData.put("exchange_rate_id", 1905202000);
-			//if (Flag.flag) JsonPrint.getInstance().printPrettyJson(mapData);
+			//mapData.put("user_id", 1001104);
+			//mapData.put("user_id", 1001108);
+			//mapData.put("user_id", 1001110);
+			//mapData.put("user_id", 1001114);
+			//mapData.put("user_id", 1001115);
+			mapData.put("user_id", 1001116);
 			String jsonData = JsonPrint.getInstance().toPrettyJson(mapData);
 			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonData: " + jsonData);
 			
@@ -472,7 +645,7 @@ public class ConnectWorking {
 				JsonNode jsonResponseBody = JsonPrint.getInstance().getObjectMapper().readTree(response.getBody());
 				if (Flag.flag) System.out.println(">>>>> response.getBody(): " + jsonResponseBody.toPrettyString());
 				
-				if (jsonResponseBody.at("/code").asInt() == 200) {
+				if (jsonResponseBody.at("/code").asInt() == 200 && !"".equals(jsonResponseBody.at("/data").asText())) {
 					String pass = this.lnsEnvJobProperties.getSentbeSecretKeyForData();  // secretKey for data
 					String decryptData = Aes256.decrypt(jsonResponseBody.at("/data").asText(), pass);
 					
@@ -512,9 +685,12 @@ public class ConnectWorking {
 			log.info("KANG-20200721 >>>>> STEP-1");
 			
 			Map<String,Object> mapData = new HashMap<>();
-			//mapData.put("id_number", "701225-1234567");
-			mapData.put("id_number", "7012251234567");
-			//if (Flag.flag) JsonPrint.getInstance().printPrettyJson(mapData);
+			//mapData.put("id_number", "701225-1230000");
+			//mapData.put("id_number", "701225-1230001");
+			//mapData.put("id_number", "701225-1230002");
+			//mapData.put("id_number", "701225-1230003");
+			//mapData.put("id_number", "701225-1230004");
+			mapData.put("id_number", "801225-1230000");
 			String jsonData = JsonPrint.getInstance().toPrettyJson(mapData);
 			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonData: " + jsonData);
 			
@@ -596,7 +772,7 @@ public class ConnectWorking {
 				JsonNode jsonResponseBody = JsonPrint.getInstance().getObjectMapper().readTree(response.getBody());
 				if (Flag.flag) System.out.println(">>>>> response.getBody(): " + jsonResponseBody.toPrettyString());
 				
-				if (jsonResponseBody.at("/code").asInt() == 200) {
+				if (jsonResponseBody.at("/code").asInt() == 200 && !"".equals(jsonResponseBody.at("/data").asText())) {
 					String pass = this.lnsEnvJobProperties.getSentbeSecretKeyForData();  // secretKey for data
 					String decryptData = Aes256.decrypt(jsonResponseBody.at("/data").asText(), pass);
 					
@@ -637,7 +813,12 @@ public class ConnectWorking {
 			log.info("KANG-20200721 >>>>> STEP-1");
 			
 			Map<String,Object> mapData = new HashMap<>();
-			mapData.put("user_id", 82128);
+			//mapData.put("user_id", 1001104);
+			//mapData.put("user_id", 1001108);
+			//mapData.put("user_id", 1001110);
+			//mapData.put("user_id", 1001114);
+			//mapData.put("user_id", 1001115);
+			mapData.put("user_id", 1001116);
 			String jsonData = JsonPrint.getInstance().toPrettyJson(mapData);
 			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonData: " + jsonData);
 			
@@ -719,7 +900,7 @@ public class ConnectWorking {
 				JsonNode jsonResponseBody = JsonPrint.getInstance().getObjectMapper().readTree(response.getBody());
 				if (Flag.flag) System.out.println(">>>>> response.getBody(): " + jsonResponseBody.toPrettyString());
 				
-				if (jsonResponseBody.at("/code").asInt() == 200) {
+				if (jsonResponseBody.at("/code").asInt() == 200 && !"".equals(jsonResponseBody.at("/data").asText())) {
 					String pass = this.lnsEnvJobProperties.getSentbeSecretKeyForData();  // secretKey for data
 					String decryptData = Aes256.decrypt(jsonResponseBody.at("/data").asText(), pass);
 					
@@ -730,4 +911,3 @@ public class ConnectWorking {
 		}
 	}
 }
-
