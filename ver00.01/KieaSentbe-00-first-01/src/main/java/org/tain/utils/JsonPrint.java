@@ -25,6 +25,9 @@ public class JsonPrint implements JsonPrintImpl {
 			
 			this.objectMapper.registerModule(new JavaTimeModule());
 			
+			// allow single quote
+			//this.objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, false);
+			
 			// if unknown fields in JSON, no exception when transfer json to object
 			this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 			this.objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
