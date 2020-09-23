@@ -12,6 +12,7 @@ public class ProjEnvJsonProperties {
 
 	private String name;  // default
 	
+	private String apisInfoFile;
 	
 	private String dummy;  // null
 }

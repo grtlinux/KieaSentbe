@@ -112,15 +112,21 @@ proj-env:
 
   param:
     name: PARAM (local)
+    #home: /Users/kangmac
+    #base: /STS_GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
+    home: /Users/kang-air
+    base: /STS/GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
 
   job:
     name: JOB (local)
 
   json:
     name: JSON (local)
+    apis-info-file: apis.json
 
   url:
     name: URL (local)
+    sentbe: https://hanwha.dev.sentbe.com:10443
 
 ---
 # --------------------------------------------------------
@@ -131,6 +137,10 @@ proj-env:
 
   param:
     name: PARAM (test)
+    #home: /Users/kangmac
+    #base: /STS_GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
+    home: /Users/kang-air
+    base: /STS/GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
 
   job:
     name: JOB (test)
@@ -150,6 +160,10 @@ proj-env:
 
   param:
     name: PARAM (aws)
+    #home: /Users/kangmac
+    #base: /STS_GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
+    home: /Users/kang-air
+    base: /STS/GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
 
   job:
     name: JOB (aws)
@@ -169,6 +183,10 @@ proj-env:
 
   param:
     name: PARAM (dfep)
+    #home: /Users/kangmac
+    #base: /STS_GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
+    home: /Users/kang-air
+    base: /STS/GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
 
   job:
     name: JOB (dfep)
@@ -188,6 +206,10 @@ proj-env:
 
   param:
     name: PARAM (real)
+    #home: /Users/kangmac
+    #base: /STS_GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
+    home: /Users/kang-air
+    base: /STS/GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
 
   job:
     name: JOB (real)

@@ -1,0 +1,8 @@
+{
+	"exchange_rate_id" : "20190605175000",
+	"from_amount" : 1000000,
+	"from_currency" : "KRW",
+	"to_amount" : 43258,
+	"to_currency" : "PHP",
+	"transfer_fee" : 5000
+}

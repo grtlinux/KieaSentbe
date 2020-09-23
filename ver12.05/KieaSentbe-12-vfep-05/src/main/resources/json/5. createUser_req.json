@@ -1,0 +1,33 @@
+{
+	"agreements": {
+		"version": 1,
+		"list": [
+			"SSFCTS",
+			"EFTS",
+			"PRIVACY",
+			"CAUTIONS",
+			"CLAIMS"
+		]
+	},
+	"phone": {
+		"iso": "KR",
+		"number": 1012345678
+	},
+	"user_name": {
+		"first": "Jiwon",
+		"middle": "",
+		"last": "Tak"
+	},
+	"gender": 1,
+	"account_number": "05012345678900",
+	"account_holder_name": "탁지원",
+	"birth_date": "19701225",
+	"nationality_iso": "KR",
+	"id_number": "701225-1234567",
+	"id_type": 1,
+	"email": "email@sentbe.com",
+	"often_send_country_iso": "PH",
+	"occupation": 3,
+	"funds_source": 3,
+	"transfer_purpose": 3
+}

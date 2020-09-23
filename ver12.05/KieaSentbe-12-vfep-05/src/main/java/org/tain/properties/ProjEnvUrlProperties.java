@@ -12,6 +12,7 @@ public class ProjEnvUrlProperties {
 
 	private String name;  // default
 	
+	private String sentbe;
 	
 	private String dummy;  // null
 }
