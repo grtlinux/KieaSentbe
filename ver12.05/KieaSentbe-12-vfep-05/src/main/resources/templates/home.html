@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>Home.html</title>
+	<!-- css and script -->
+	<th:block th:replace="layout/css::css1"></th:block>
+	<th:block th:replace="layout/script::script1"></th:block>
+	<!-- /css and script -->
+</head>
+<body>
+	<!-- header -->
+	<div th:replace="layout/header::header3"></div>
+	<!-- /header -->
+
+	<!-- main -->
+	<div class="container">
+		<br/><br/>
+		<div class="jumbotron">
+			<h1>Hello, Welcome to Infra-FEP site.</h1>
+			<p>
+				Are you ready to join Infra-FEP site? Please click 'START'..
+			</p>
+			<p align="right">
+				<a class="btn btn-primary btn-lg" th:href="@{/apis/list}">START</a>
+			</p>
+		</div>
+	</div>
+	<!-- /main -->
+	
+	<!-- footer -->
+	<div th:replace="layout/footer::footer1"></div>
+	<!-- /footer -->
+</body>
+</html>

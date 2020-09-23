@@ -26,7 +26,7 @@ public class ApisService {
 			int pageSize = pageable.getPageSize();
 			Sort sort = pageable.getSort();
 			
-			pageSize = 20;
+			pageSize = 10;
 			sort = Sort.by("id").ascending();
 			//sort = Sort.by("id").descending();
 			

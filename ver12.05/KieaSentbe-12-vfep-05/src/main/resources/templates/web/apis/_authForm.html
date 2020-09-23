@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>form.html</title>
+	<!-- css and script -->
+	<th:block th:replace="layout/css::css1"></th:block>
+	<th:block th:replace="layout/script::script1"></th:block>
+	<!-- /css and script -->
+</head>
+<body>
+	<!-- header -->
+	<div th:replace="layout/header::header1"></div>
+	<!-- /header -->
+	
+	<!-- main -->
+	<div class="container">
+		<div class="page-header">
+			<h1>Infra-FEP: Auth TEST</h1>
+		</div>
+		<br/>
+		<input id="apis_id" type="hidden" th:value="${apis?.id}"/>
+		<table class="table">
+			<tr>
+				<th style="padding:13px 0 0 15px;">id</th>
+				<td><input type="text" class="col-md-1 form-control input-sm" readonly th:value="${apis?.id}"/></td>
+			</tr>
+			<tr>
+				<th style="padding:13px 0 0 15px;">Name</th>
+				<td><input id="apis_name" type="text" class="col-md-1 form-control input-sm" readonly th:value="${apis?.name}"/></td>
+			</tr>
+			<!--
+			<tr>
+				<th style="padding:13px 0 0 15px;">Mapping</th>
+				<td><input id="apis_mapping" type="text" class="col-md-1 form-control input-sm" readonly th:value="${apis?.mapping}"/></td>
+			</tr>
+			<tr>
+				<th style="padding:13px 0 0 15px;">httpUrl</th>
+				<td><input id="apis_httpUrl" type="text" class="col-md-1 form-control input-sm" th:value="${apis?.httpUrl}"/></td>
+			</tr>
+			<tr>
+				<th style="padding:13px 0 0 15px;">httpMethod</th>
+				<td><input id="apis_httpMethod" type="text" class="col-md-1 form-control input-sm" th:value="${apis?.httpMethod}"/></td>
+			</tr>
+			<tr>
+				<th style="padding:13px 0 0 15px;">reqJson</th>
+				<td><textarea id="apis_reqJson" class="col-md-1 form-control input-sm" rows="7" style="height:100px;" th:text="${apis?.reqJson}"></textarea></td>
+			</tr>
+			-->
+			<tr>
+				<th style="padding:13px 0 0 15px;"> </th>
+				<td>
+					<button id="btnMakeReqStream" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalMakeReqStream">Make ReqStream</button>
+				</td>
+			</tr>
+			<tr>
+				<th style="padding:13px 0 0 15px;">
+					Req Stream<br>
+					<button id="btnCopyReqStream" type="button" class="btn btn-info btn-xs">copy</button>
+					<button id="btnShowReqCStruct" type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modalShowCStruct">req c struct</button>
+				</th>
+				<td><textarea id="apis_reqStream" class="col-md-1 form-control input-sm" rows="7" readonly style="height:100px;"></textarea></td>
+			</tr>
+			<tr>
+				<th style="padding:13px 0 0 15px;"> </th>
+				<td>
+					<button id="btnSendReqStream" type="button" class="btn btn-danger">Send ReqStream</button>
+					<button id="btnSendJson" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalSendJson">Send JSON</button>
+				</td>
+			</tr>
+			<tr>
+				<th style="padding:13px 0 0 15px;">
+					Res Stream<br>
+					<button id="btnCopyResStream" type="button" class="btn btn-info btn-xs">copy</button>
+					<button id="btnShowResCStruct" type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modalShowCStruct">res c struct</button>
+				</th>
+				<td><textarea id="apis_resStream" class="col-md-1 form-control input-sm" rows="7" readonly style="height:100px;"></textarea></td>
+			</tr>
+			<tr>
+				<th style="padding:13px 0 0 15px;"> </th>
+				<td>
+					<button id="btnShowResJson" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalShowResJson">Show Res JSON</button>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		<div class="pull-left">
+			<a th:href="@{/apis/list}" class="btn btn-default">list</a>
+			<!--
+			<button id="btnModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">TEST</button>
+			-->
+		</div>
+		<div class="pull-right">
+			<!--
+			<button th:if="!${apis?.id}" type="button" class="btn btn-primary" id="insert1">save1</button>
+			<button th:if="${apis?.id}" type="button" class="btn btn-primary" id="insert2">save2</button>
+			<button th:if="${apis?.id}" type="button" class="btn btn-info" id="update">update</button>
+			<button th:if="${apis?.id}" type="button" class="btn btn-danger" id="delete">delete</button>
+			-->
+		</div>
+		<div>
+			<!-- bottom space -->
+			<br><br><br><br><br><br>
+		</div>
+	</div>
+	<!-- /main -->
+	
+	<!-- footer -->
+	<div th:replace="layout/footer::footer1"></div>
+	<!-- /footer -->
+	
+	
+	
+	
+	
+	
+	<!-- Modal dialog : MakeReqStream -->
+	<div class="modal fase" id="modalMakeReqStream">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+			
+				<!-- Modal Header -->
+				<div class="modal-header bg-success">
+					<h4 class="modal-title">Make ReqStream</h4>
+					<!-- button type="button" class="close" data-dismiss="modal">&times;</button -->
+				</div>
+				
+				<!-- Modal body -->
+				<div class="modal-body">
+					<table class="table">
+						<tr>
+							<th style="padding:13px 0 0 15px;">clientId</th>
+							<td><input id="modal1_clientId" value="" type="text" class="col-md-1 form-control input-sm"/></td>
+						</tr>
+						<tr>
+							<th style="padding:13px 0 0 15px;">secret</th>
+							<td><input id="modal1_secret" value="" type="text" class="col-md-1 form-control input-sm"/></td>
+						</tr>
+						<tr>
+							<th style="padding:13px 0 0 15px;"> </th>
+							<td>
+								<button id="btnToJson" type="button" class="btn btn-primary">To Json</button>
+							</td>
+						</tr>
+						<tr>
+							<th style="padding:13px 0 0 15px;">
+								ReqJson<br>
+								<button id="btnCopyReqJson" type="button" class="btn btn-info btn-xs">copy</button>
+							</th>
+							<td><textarea id="modal1_reqJson" class="col-md-1 form-control input-sm" rows="7" style="height:100px;"></textarea></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<button id="btnGetReqStream" type="button" class="btn btn-primary">get ReqStream</button>
+							</td>
+						</tr>
+						<tr>
+							<th style="padding:13px 0 0 15px;">ReqStream</th>
+							<td><textarea id="modal1_reqStream" class="col-md-1 form-control input-sm" rows="7" style="height:100px;"></textarea></td>
+						</tr>
+					</table>
+				</div>
+				
+				<!-- Modal footer -->
+				<div class="modal-footer bg-success">
+					<button id="btnCloseMakeReqStream" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+	<!-- /Modal dialog : MakeReqStream -->
+	
+	
+	
+	
+	
+	<!-- Modal dialog : ShowResJson -->
+	<div class="modal fase" id="modalShowResJson">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+			
+				<!-- Modal Header -->
+				<div class="modal-header bg-success">
+					<h4 class="modal-title">Show ResJson</h4>
+					<!-- button type="button" class="close" data-dismiss="modal">&times;</button -->
+				</div>
+				
+				<!-- Modal body -->
+				<div class="modal-body">
+					<table class="table">
+						<tr>
+							<th style="padding:13px 0 0 15px;">
+								ResJson<br>
+								<button id="btnCopyResJson" type="button" class="btn btn-info btn-xs">copy</button>
+							</th>
+							<td><textarea id="modal2_resJson" class="col-md-1 form-control input-sm" rows="7" style="height:200px;"></textarea></td>
+						</tr>
+					</table>
+				</div>
+				
+				<!-- Modal footer -->
+				<div class="modal-footer bg-success">
+					<button id="btnCloseShowResJson" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+	<!-- /Modal dialog : ShowResJson -->
+	
+	
+	
+	
+	
+	<!-- Modal dialog : ShowCStruct -->
+	<div class="modal fase" id="modalShowCStruct">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+			
+				<!-- Modal Header -->
+				<div class="modal-header bg-success">
+					<h4 class="modal-title">Show C Structure</h4>
+					<!-- button type="button" class="close" data-dismiss="modal">&times;</button -->
+				</div>
+				
+				<!-- Modal body -->
+				<div class="modal-body">
+					<table class="table">
+						<tr>
+							<th style="padding:13px 0 0 15px;">
+								C Structure<br>
+								<button id="btnCopyCStruct" type="button" class="btn btn-info btn-xs">copy</button>
+							</th>
+							<td><textarea id="modal3_cstruct" class="col-md-1 form-control input-sm" rows="7" style="height:200px;"></textarea></td>
+						</tr>
+					</table>
+				</div>
+				
+				<!-- Modal footer -->
+				<div class="modal-footer bg-success">
+					<button id="btnCloseShowCStruct" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+	<!-- /Modal dialog : ShowCStruct -->
+	
+	
+	
+	
+	
+	<!-- Modal dialog : SendJson -->
+	<div class="modal fase" id="modalSendJson">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+			
+				<!-- Modal Header -->
+				<div class="modal-header bg-success">
+					<h4 class="modal-title">Send JSON(Req -> Res)</h4>
+					<!-- button type="button" class="close" data-dismiss="modal">&times;</button -->
+				</div>
+				
+				<!-- Modal body -->
+				<div class="modal-body">
+					<table class="table">
+						<tr>
+							<th style="padding:13px 0 0 15px;">
+								Req JSON<br>
+								<button id="btnCopy5ReqJson" type="button" class="btn btn-info btn-xs">copy</button>
+							</th>
+							<td><textarea id="modal5_reqJson" class="col-md-1 form-control input-sm" rows="7" style="height:100px;"></textarea></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<button id="btnSendRecvJson" type="button" class="btn btn-primary">Send/Recv JSON</button>
+							</td>
+						</tr>
+						<tr>
+							<th style="padding:13px 0 0 15px;">
+								Res JSON<br>
+								<button id="btnCopy5ResJson" type="button" class="btn btn-info btn-xs">copy</button>
+							</th>
+							<td><textarea id="modal5_resJson" class="col-md-1 form-control input-sm" rows="7" style="height:100px;"></textarea></td>
+						</tr>
+					</table>
+				</div>
+				
+				<!-- Modal footer -->
+				<div class="modal-footer bg-success">
+					<button id="btnCloseSendJson" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+	<!-- /Modal dialog : SendJson -->
+	
+	
+	
+	
+	
+	<!-- script : main -->
+	<script>
+	</script>
+	<!-- /script : main -->
+	
+	
+	
+	<!-- script -->
+	<script th:inline="javascript">
+		// document.ready
+		var json = /*[[${line?.reqParameters}]]*/;
+		//if (true) console.log(">>>>> json = " + json);
+		//$('#line_reqParameters').val(JSON.stringify(JSON.parse(json), null, 2));
+		var reqJson = JSON.parse(/*[[${apis?.reqJson}]]*/);
+		//console.log(">>>>>", reqJson);
+	</script>
+	<!-- /script -->
+	
+	
+	
+	
+	
+	<!-- script : MakeReqStream -->
+	<script>
+		$('#btnMakeReqStream').click(function() {
+			console.log('Hello btnMakeReqStream');
+			//$('#modal_mapping').val($('#apis_mapping').val());
+			//$('#modal_resJson').val('');
+			$('#modal1_clientId').val(reqJson.clientId);
+			$('#modal1_secret').val(reqJson.secret);
+		});
+		$('#btnToJson').click(function() {
+			console.log('Hello btnToJson');
+			var reqJson = JSON.stringify({
+				clientId: $('#modal1_clientId').val(),
+				secret: $('#modal1_secret').val()
+			}, null, 2);
+			$('#modal1_reqJson').val(reqJson);
+		});
+		$('#btnGetReqStream').click(function() {
+			console.log('Hello btnGetReqStream');
+			$.ajax({
+				url: _contextPath_ + "apis/auth/mapper/req/json2str",
+				type: "POST",
+				data: $('#modal1_reqJson').val(),
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function(data, status) {
+					$('#modal1_reqStream').val(data.reqStrData);
+				},
+				error: function() {
+					alert('FAIL of SAVE1');
+				}
+			});
+		});
+		$('#btnCloseMakeReqStream').click(function() {
+			console.log('Hello btnCloseMakeReqStream');
+			$('#apis_reqStream').val($('#modal1_reqStream').val());
+		});
+	</script>
+	<!-- /script : MakeReqStream -->
+	
+	
+	
+	
+	
+	
+	<!-- script : SendReqStream -->
+	<script>
+		$('#btnSendReqStream').click(function() {
+			console.log('Hello btnSendReqStream');
+			$.ajax({
+				url: _contextPath_ + "apis/auth/lns01",
+				type: "POST",
+				data: $('#apis_reqStream').val(),
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function(data, status) {
+					$('#apis_resStream').val(data.resStrData);
+				},
+				error: function() {
+					alert('FAIL of SAVE1');
+				}
+			});
+		});
+	</script>
+	<!-- /script : SendReqStream -->
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- script : ShowResJson -->
+	<script>
+		$('#btnShowResJson').click(function() {
+			console.log('Hello btnShowResJson');
+			$.ajax({
+				url: _contextPath_ + "apis/auth/mapper/res/str2json",
+				type: "POST",
+				data: $('#apis_resStream').val(),
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function(data, status) {
+					var resJsonData = JSON.stringify(JSON.parse(data.resJsonData), null, 2);
+					$('#modal2_resJson').val(resJsonData);
+				},
+				error: function() {
+					alert('FAIL of SAVE1');
+				}
+			});
+		});
+		$('#btnCloseShowResJson').click(function() {
+			console.log('Hello btnCloseShowResJson');
+		});
+	</script>
+	<!-- /script : ShowResJson -->
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- script : show CStruct -->
+	<script>
+		$('#btnShowReqCStruct').click(function() {
+			console.log('Hello btnShowReqCStruct');
+			$.ajax({
+				url: _contextPath_ + "apis/auth/mapper/req/cstruct",
+				type: "POST",
+				data: "{}",
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function(data, status) {
+					//var resJsonData = JSON.stringify(JSON.parse(data.resJsonData), null, 2);
+					$('#modal3_cstruct').val(data.batData);
+				},
+				error: function() {
+					alert('FAIL of SAVE1');
+				}
+			});
+		});
+		$('#btnShowResCStruct').click(function() {
+			console.log('Hello btnShowResCStruct');
+			$.ajax({
+				url: _contextPath_ + "apis/auth/mapper/res/cstruct",
+				type: "POST",
+				data: "{}",
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function(data, status) {
+					//var resJsonData = JSON.stringify(JSON.parse(data.resJsonData), null, 2);
+					$('#modal3_cstruct').val(data.batData);
+				},
+				error: function() {
+					alert('FAIL of SAVE1');
+				}
+			});
+		});
+	</script>
+	<!-- /script : show CStruct -->
+	
+	
+	
+	
+	
+	
+	<!-- script : send Json -->
+	<script>
+		$('#btnSendJson').click(function() {
+			console.log('Hello btnSendJson');
+			//var reqJson = JSON.stringify(reqJson, null, 2);
+			$('#modal5_reqJson').val(JSON.stringify(reqJson, null, 2));
+		});
+		$('#btnSendRecvJson').click(function() {
+			console.log('Hello btnSendRecvJson');
+			$.ajax({
+				// url: "http://localhost:18083/v1.0/online/auth",
+				url: "http://172.30.222.3:18087/v1.0/online/auth",
+				type: "POST",
+				data: $('#modal5_reqJson').val(),
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function(data, status) {
+					$('#modal5_resJson').val(JSON.stringify(data, null, 2));
+				},
+				error: function() {
+					alert('FAIL of SAVE1');
+				}
+			});
+		});
+		$('#btnCloseSendJson').click(function() {
+			console.log('Hello btnCloseSendJson');
+		});
+	</script>
+	<!-- /script : send Json -->
+	
+	
+	
+	
+	
+	
+	
+	<!-- script : copy clipboard -->
+	<script>
+		$('#btnCopyReqStream').click(function() {
+			console.log('Hello btnCopyReqStream');
+			var copyText = document.getElementById("apis_reqStream");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+		});
+		$('#btnCopyResStream').click(function() {
+			console.log('Hello btnCopyResStream');
+			var copyText = document.getElementById("apis_resStream");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+		});
+		$('#btnCopyReqJson').click(function() {
+			console.log('Hello btnCopyReqJson');
+			var copyText = document.getElementById("modal1_reqJson");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+		});
+		$('#btnCopyResJson').click(function() {
+			console.log('Hello btnCopyResJson');
+			var copyText = document.getElementById("modal2_resJson");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+		});
+		$('#btnCopyCStruct').click(function() {
+			console.log('Hello btnCopyCStruct');
+			var copyText = document.getElementById("modal3_cstruct");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+		});
+		$('#btnCopy5ReqJson').click(function() {
+			console.log('Hello btnCopy5ReqJson');
+			var copyText = document.getElementById("modal5_reqJson");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+		});
+		$('#btnCopy5ResJson').click(function() {
+			console.log('Hello btnCopy5ResJson');
+			var copyText = document.getElementById("modal5_resJson");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+		});
+	</script>
+	<!-- /script : copy clipboard -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- script : main -->
+	<!-- /script : main -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- script -->
+	<script>
+		$('#btnModal').click(function() {
+			//alert('Hello btnModal');
+			$('#modal_mapping').val($('#apis_mapping').val());
+			$('#modal_httpUrl').val($('#apis_httpUrl').val());
+			$('#modal_httpMethod').val($('#apis_httpMethod').val());
+			$('#modal_reqJson').val($('#apis_reqJson').val());
+			$('#modal_resJson').val('');
+		});
+		$('#btnTransfer').click(function() {
+			//alert('Hello btnTransfer');
+			var jsonData = JSON.stringify({
+				httpUrl: $('#modal_httpUrl').val(),
+				httpMethod: $('#modal_httpMethod').val(),
+				reqJson: $('#modal_reqJson').val()
+			});
+			$.ajax({
+				url: _contextPath_ + $('#modal_mapping').val(),
+				type: "POST",
+				data: jsonData,
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("kiea" + ":" + "test")
+				},
+				dataType: "json",
+				success: function(data, status) {
+					$('#modal_resJson').val(JSON.stringify(data, null, 2));
+					//alert('송신 성공~~');
+					//alert('송신 성공~~' + $('#modal_resRetJson').val());
+					//location.href = _contextPath_ + '/line/list';
+				},
+				error: function() {
+					alert('FAIL of TRANSFER');
+				}
+			});
+		});
+		$('#btnClose').click(function() {
+			//alert('Hello btnClose');
+			$('#line_resRetJson').val($('#modal_resRetJson').val());
+		});
+		$('#btnCopyRequest').click(function() {
+			//alert('Hello btnCopyRequest');
+			var copyText = document.getElementById("modal_reqJson");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+		});
+		$('#btnCopyResponse').click(function() {
+			//alert('Hello btnCopyResponse');
+			var copyText = document.getElementById("modal_resJson");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+		});
+	</script>
+	<script th:if="!${apis?.id}">
+		$('#insert1').click(function() {
+			var jsonData = JSON.stringify({
+				name: $('#apis_name').val(),
+				mapping: $('#apis_mapping').val(),
+				httpUrl: $('#apis_httpUrl').val(),
+				httpMethod: $('#apis_httpMethod').val(),
+				reqJson: $('#apis_reqJson').val()
+			});
+			$.ajax({
+				url: _contextPath_ + "api/apises/",
+				type: "POST",
+				data: jsonData,
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function() {
+					alert('SUCCESS of SAVE1');
+					location.href = _contextPath_ + 'apis/list';
+				},
+				error: function() {
+					alert('FAIL of SAVE1');
+				}
+			});
+		});
+	</script>
+	<script th:if="${apis?.id}">
+		$('#insert2').click(function() {
+			var jsonData = JSON.stringify({
+				name: $('#apis_name').val(),
+				mapping: $('#apis_mapping').val(),
+				httpUrl: $('#apis_httpUrl').val(),
+				httpMethod: $('#apis_httpMethod').val(),
+				reqJson: $('#apis_reqJson').val()
+			});
+			$.ajax({
+				url: _contextPath_ + "api/apises/",
+				type: "POST",
+				data: jsonData,
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function() {
+					alert('SUCCESS of SAVE2');
+					location.href = _contextPath_ + 'apis/list';
+				},
+				error: function() {
+					alert('FAIL of SAVE2');
+				}
+			});
+		});
+		$('#update').click(function() {
+			var jsonData = JSON.stringify({
+				name: $('#apis_name').val(),
+				mapping: $('#apis_mapping').val(),
+				httpUrl: $('#apis_httpUrl').val(),
+				httpMethod: $('#apis_httpMethod').val(),
+				reqJson: $('#apis_reqJson').val()
+			});
+			$.ajax({
+				url: _contextPath_ + "api/apises/" + $('#apis_id').val(),
+				type: "PUT",
+				data: jsonData,
+				contentType: "application/json",
+				dataType: "json",
+				success: function() {
+					alert('SUCCESS of UPDATE');
+					location.href = _contextPath_ + 'apis/list';
+				},
+				error: function() {
+					alert('FAIL of UPDATE');
+				}
+			});
+		});
+		$('#delete').click(function() {
+			$.ajax({
+				url: _contextPath_ + "api/apises/" + $('#apis_id').val(),
+				type: "DELETE",
+				success: function() {
+					alert('SUCCESS of DELETE');
+					location.href = _contextPath_ + 'apis/list';
+				},
+				error: function() {
+					alert('FAIL of DELETE');
+				}
+			});
+		});
+	</script>
+</body>
+</html>

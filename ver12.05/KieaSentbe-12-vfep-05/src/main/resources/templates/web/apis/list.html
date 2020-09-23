@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>list.html</title>
+	<!-- css and script -->
+	<th:block th:replace="layout/css::css1"></th:block>
+	<th:block th:replace="layout/script::script1"></th:block>
+	<!-- /css and script -->
+</head>
+<body>
+	<!-- header -->
+	<div th:replace="layout/header::header1"></div>
+	<!-- /header -->
+	
+	<!-- main -->
+	<div class="container">
+		<div class="page-header">
+			<h1>Infra-FEP: List (page: <span id="page_number" th:text="${apisList.number}+1"></span>)</h1>
+		</div>
+		<div class="pull-right" style="width:100px;margin:10px 0;">
+			<a th:href="@{/apis}" class="btn btn-primary btn-block">Register</a>
+		</div>
+		<br/><br/><br/>
+		<div id="mainHide">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th class="col-md-1">id</th>
+						<th class="col-md-4">Name</th>
+						<th class="col-md-1">Mapping</th>
+						<th class="col-md-5">HttpUrl</th>
+						<th class="col-md-1">HttpMethod</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="apis : ${apisList}">
+						<td th:text="${apis.id}">#</td>
+						<td><a th:href="@{'/'+${apis.mapping}+'Form'(id=${apis.id})}" th:text="${apis.name}">Name</a></td>
+						<td th:text="${apis.mapping}">mapping</td>
+						<td th:text="${apis.httpUrl}">httpUrl</td>
+						<td th:text="${apis.httpMethod}">httpMethod</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<br/>
+		
+		<!-- textarea -->
+		<!-- textarea class="col-md-1 form-control input-sm" maxlength="150" rows="3" style="height:100px;"></textarea --  >
+		<textarea id="test-box" class="col-md-1 form-control input-sm" maxlength="150" rows="3"></textarea>
+		<br/>
+		<  !  -- /textarea -->
+		
+		<!-- page -->
+		<th:block th:replace="layout/page::page4"></th:block>
+		<!-- /page -->
+	</div>
+	<br/><br/>
+	<br/><br/>
+	<!-- /main -->
+	
+	<!-- footer -->
+	<div th:replace="layout/footer::footer1"></div>
+	<!-- /footer -->
+	
+	<!-- script -->
+	<script>
+	/*
+		$('#test-box').focus();
+		$('#test-box').keypress(function(event){
+			var keycode = (event.keyCode ? event.keyCode : event.which);
+			if(keycode == '13'){
+				var next_page = Number($('#page_number').text()) + 1;
+				//alert('You pressed a "enter" key in textbox > ' + 'word/list?page=' + next_page);
+				location.href = _contextPath_ + 'word/list?page=' + next_page;
+			}
+		});
+	*/
+	</script>
+	<!-- /script -->
+</body>
+</html>
