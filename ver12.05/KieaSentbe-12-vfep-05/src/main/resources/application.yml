@@ -4,7 +4,7 @@
 # BASE
 
 server:
-  port: 17080
+  port: 17092
   servlet.context-path: /v0.5
 
 
