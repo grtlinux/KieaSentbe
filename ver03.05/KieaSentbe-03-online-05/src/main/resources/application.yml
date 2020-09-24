@@ -12,7 +12,7 @@ spring:
   profiles.active:
   - proj-default
   - proj-local
-  #- proj-test
+  - proj-test
   #- proj-aws
   #- proj-dfep
   #- proj-real
@@ -105,7 +105,7 @@ proj-env:
 
 ---
 # --------------------------------------------------------
-# proj-local
+# proj-local kang-air
 spring.profiles: proj-local
 
 proj-env:
@@ -115,6 +115,7 @@ proj-env:
 
   job:
     name: JOB (local)
+    listen-port: 17090
 
   json:
     name: JSON (local)
@@ -124,7 +125,7 @@ proj-env:
 
 ---
 # --------------------------------------------------------
-# proj-test
+# proj-test kang-pro
 spring.profiles: proj-test
 
 proj-env:
@@ -134,6 +135,7 @@ proj-env:
 
   job:
     name: JOB (test)
+    listen-port: 17090
 
   json:
     name: JSON (test)

@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping(value = {"/apis/checkUser"})
 @Slf4j
-public class checkUserRestController {
+public class CheckUserRestController {
 
 	@RequestMapping(value = {"/mapper/req/json2str"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public ResponseEntity<?> mapperReqJson2Str(HttpEntity<String> reqHttpEntity) throws Exception {

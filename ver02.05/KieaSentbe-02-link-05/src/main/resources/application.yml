@@ -12,7 +12,7 @@ spring:
   profiles.active:
   - proj-default
   - proj-local
-  #- proj-test
+  - proj-test
   #- proj-aws
   #- proj-dfep
   #- proj-real
@@ -78,6 +78,7 @@ logging:
     org.h2.server.web: info
     
     #org.tain.utils.TransferStrAndJson: trace
+    org.tain.utils.LnsSentbeClient: trace
 
 
 ---
@@ -112,6 +113,9 @@ proj-env:
 
   param:
     name: PARAM (local)
+    sentbe-client-key: Jien4aeyae7ohjeithahM9ja7quowua4
+    sentbe-secret-key-for-data: cXdqZmlvcWVqd2xd2pmam9pZaG9nZnFl
+    sentbe-secret-key-for-hmac: 6fc1bf16f3cb6f5b6a1044fd9edecba9722014489c39a7d16ad7b9961aea770b9cd0e3e4a85510bba0dd97e6d6aac884d910e6384c7b76df992deece5cb57a78
 
   job:
     name: JOB (local)
@@ -121,6 +125,7 @@ proj-env:
 
   url:
     name: URL (local)
+    sentbe: https://hanwha.dev.sentbe.com:10443
 
 ---
 # --------------------------------------------------------
@@ -131,6 +136,9 @@ proj-env:
 
   param:
     name: PARAM (test)
+    sentbe-client-key: Jien4aeyae7ohjeithahM9ja7quowua4
+    sentbe-secret-key-for-data: cXdqZmlvcWVqd2xd2pmam9pZaG9nZnFl
+    sentbe-secret-key-for-hmac: 6fc1bf16f3cb6f5b6a1044fd9edecba9722014489c39a7d16ad7b9961aea770b9cd0e3e4a85510bba0dd97e6d6aac884d910e6384c7b76df992deece5cb57a78
 
   job:
     name: JOB (test)
@@ -140,6 +148,7 @@ proj-env:
 
   url:
     name: URL (test)
+    sentbe: https://hanwha.dev.sentbe.com:10443
 
 ---
 # --------------------------------------------------------

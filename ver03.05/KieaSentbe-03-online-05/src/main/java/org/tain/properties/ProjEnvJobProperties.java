@@ -12,6 +12,7 @@ public class ProjEnvJobProperties {
 
 	private String name;  // default
 	
+	private int listenPort;
 	
 	private String dummy;  // null
 }

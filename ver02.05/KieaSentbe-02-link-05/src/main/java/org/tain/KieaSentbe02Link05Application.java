@@ -22,7 +22,7 @@ public class KieaSentbe02Link05Application implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
-		if (Flag.flag) job01();
+		if (Flag.flag) job01();  // properties
 		if (Flag.flag) job02();
 		if (Flag.flag) job03();
 		if (Flag.flag) job04();
@@ -33,7 +33,7 @@ public class KieaSentbe02Link05Application implements CommandLineRunner {
 		if (Flag.flag) job09();
 		if (Flag.flag) job10();
 		
-		if (Flag.flag) System.exit(0);
+		//if (Flag.flag) System.exit(0);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////

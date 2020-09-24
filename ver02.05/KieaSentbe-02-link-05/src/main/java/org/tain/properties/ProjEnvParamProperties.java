@@ -12,6 +12,9 @@ public class ProjEnvParamProperties {
 
 	private String name;  // default
 	
+	private String sentbeClientKey;
+	private String sentbeSecretKeyForData;
+	private String sentbeSecretKeyForHmac;
 	
 	private String dummy;  // null
 }

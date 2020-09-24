@@ -26,8 +26,8 @@ public class KieaSentbe12Vfep05Application implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
-		if (Flag.flag) job01();
-		if (Flag.flag) job02();
+		if (Flag.flag) job01();  // properties
+		if (Flag.flag) job02();  // apis
 		if (Flag.flag) job03();
 		if (Flag.flag) job04();
 		if (Flag.flag) job05();

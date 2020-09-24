@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.working.properties.PropertiesWorking;
+import org.tain.working.tasks.ClientTasksWorking;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,8 +26,8 @@ public class KieaSentbe09Sbs0105Application implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
-		if (Flag.flag) job01();
-		if (Flag.flag) job02();
+		if (Flag.flag) job01();  // properties
+		if (Flag.flag) job02();  // tasks
 		if (Flag.flag) job03();
 		if (Flag.flag) job04();
 		if (Flag.flag) job05();
@@ -36,7 +37,7 @@ public class KieaSentbe09Sbs0105Application implements CommandLineRunner {
 		if (Flag.flag) job09();
 		if (Flag.flag) job10();
 		
-		if (Flag.flag) System.exit(0);
+		//if (Flag.flag) System.exit(0);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
@@ -54,10 +55,15 @@ public class KieaSentbe09Sbs0105Application implements CommandLineRunner {
 	
 	///////////////////////////////////////////////////////////////////////////
 	
+	@Autowired
+	private ClientTasksWorking clientTasksWorking;
+	
 	private void job02() {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
+			if (Flag.flag) this.clientTasksWorking.runningServerMainTask();
+			if (Flag.flag) this.clientTasksWorking.runningServerTask();
 		}
 	}
 	

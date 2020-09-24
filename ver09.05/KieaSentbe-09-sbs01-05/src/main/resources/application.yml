@@ -105,7 +105,7 @@ proj-env:
 
 ---
 # --------------------------------------------------------
-# proj-local
+# proj-local kang-air
 spring.profiles: proj-local
 
 proj-env:
@@ -115,6 +115,8 @@ proj-env:
 
   job:
     name: JOB (local)
+    online-host: 127.0.0.1
+    online-port: 17090
 
   json:
     name: JSON (local)
@@ -124,7 +126,7 @@ proj-env:
 
 ---
 # --------------------------------------------------------
-# proj-test
+# proj-test kang-pro
 spring.profiles: proj-test
 
 proj-env:
@@ -134,6 +136,8 @@ proj-env:
 
   job:
     name: JOB (test)
+    online-host: 127.0.0.1
+    online-port: 17090
 
   json:
     name: JSON (test)

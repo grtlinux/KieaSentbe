@@ -12,7 +12,7 @@ spring:
   profiles.active:
   - proj-default
   - proj-local
-  #- proj-test
+  - proj-test
   #- proj-aws
   #- proj-dfep
   #- proj-real
@@ -105,7 +105,7 @@ proj-env:
 
 ---
 # --------------------------------------------------------
-# proj-local
+# proj-local kang-air
 spring.profiles: proj-local
 
 proj-env:
@@ -130,7 +130,7 @@ proj-env:
 
 ---
 # --------------------------------------------------------
-# proj-test
+# proj-test kang-mac
 spring.profiles: proj-test
 
 proj-env:
@@ -139,8 +139,8 @@ proj-env:
     name: PARAM (test)
     #home: /Users/kangmac
     #base: /STS_GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
-    home: /Users/kang-air
-    base: /STS/GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
+    home: /Users/kangmac
+    base: /STS_GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
 
   job:
     name: JOB (test)

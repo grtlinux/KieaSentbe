@@ -1,0 +1,117 @@
+package org.tain.task;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
+import org.tain.object.lns.LnsStream;
+import org.tain.object.lns.LnsStreamPacket;
+import org.tain.queue.LnsStreamPacketQueue;
+import org.tain.task.process.CheckUserProcess;
+import org.tain.utils.CurrentInfo;
+import org.tain.utils.Flag;
+import org.tain.utils.JsonPrint;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Component
+@Slf4j
+public class ServerJob {
+
+	@Autowired
+	private LnsStreamPacketQueue lnsStreamPacketQueue;
+	
+	///////////////////////////////////////////////////////////////////////////
+	
+	@Autowired
+	private CheckUserProcess checkUserProcess;
+	
+	/*
+	@Autowired
+	private DetailProcess detailProcess;
+	
+	@Autowired
+	private HistoriesProcess historiesProcess;
+	
+	@Autowired
+	private ValidateProcess validateProcess;
+	
+	@Autowired
+	private CommitProcess commitProcess;
+	
+	@Autowired
+	private AmendProcess amendProcess;
+	
+	@Autowired
+	private RefundProcess refundProcess;
+	
+	@Autowired
+	private CustomerProcess customerProcess;
+	*/
+	
+	///////////////////////////////////////////////////////////////////////////
+	
+	@Async(value = "serverTask")
+	public void serverJob(String param) throws Exception {
+		log.info("KANG-20200908 >>>>> START param = {}, {}", param, CurrentInfo.get());
+		
+		LnsStreamPacket lnsStreamPacket = null;
+		if (Flag.flag) {
+			lnsStreamPacket = this.lnsStreamPacketQueue.get();  // blocking
+			log.info("KANG-20200907 >>>>> lnsStreamPacket: REMOTE_INFO = {}", lnsStreamPacket);
+		}
+		
+		////////////////////////////////////////////////////
+		if (Flag.flag) {
+			try {
+				LnsStream reqLnsStream = null;
+				LnsStream resLnsStream = null;
+				do {
+					// recv
+					reqLnsStream = lnsStreamPacket.recvStream();
+					if (Flag.flag) JsonPrint.getInstance().printPrettyJson("REQ.lnsStream", reqLnsStream);
+					
+					// process
+					switch (reqLnsStream.getTypeCode()) {
+					case "0200600":  // auth
+						resLnsStream = this.checkUserProcess.process(reqLnsStream);
+						break;
+						/*
+					case "0200200":  // detail
+						resLnsStream = this.detailProcess.process(reqLnsStream);
+						break;
+					case "0200700":  // histories
+						resLnsStream = this.historiesProcess.process(reqLnsStream);
+						break;
+					case "0200300":  // validate
+						resLnsStream = this.validateProcess.process(reqLnsStream);
+						break;
+					case "0200400":  // commit
+						resLnsStream = this.commitProcess.process(reqLnsStream);
+						break;
+					case "0200500":  // amend
+						resLnsStream = this.amendProcess.process(reqLnsStream);
+						break;
+					case "0200600":  // refund
+						resLnsStream = this.refundProcess.process(reqLnsStream);
+						break;
+					case "0200800":  // customer
+						resLnsStream = this.customerProcess.process(reqLnsStream);
+						break;
+					*/
+					default:
+						log.error("ERROR >>>>> WRONG TypeCode: {}", JsonPrint.getInstance().toPrettyJson(reqLnsStream));
+						break;
+					}
+					
+					// send
+					lnsStreamPacket.sendStream(resLnsStream);
+					if (Flag.flag) JsonPrint.getInstance().printPrettyJson("RES.lnsStream", resLnsStream);
+				} while (true);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		log.info("KANG-20200907 >>>>> END   param = {}, {}", param, CurrentInfo.get());
+	}
+}
