@@ -36,4 +36,8 @@ public class _ResGetCalculationData {
 	@StreamAnnotation(length = 20)
 	@JsonProperty(value = "transfer_fee")
 	private String transfer_fee;
+	
+	@StreamAnnotation(length = 20)
+	@JsonProperty(value = "base_rate")
+	private String base_rate;
 }

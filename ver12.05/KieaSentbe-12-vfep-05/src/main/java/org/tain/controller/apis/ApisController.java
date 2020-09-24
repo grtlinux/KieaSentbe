@@ -45,11 +45,11 @@ public class ApisController {
 		return "web/apis/checkUserForm";
 	}
 	
-	@RequestMapping(value = {"/detailForm"}, method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = {"/getCalculationForm"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String detailForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/detailForm";
+		return "web/apis/getCalculationForm";
 	}
 	
 	@RequestMapping(value = {"/historiesForm"}, method = {RequestMethod.GET, RequestMethod.POST})

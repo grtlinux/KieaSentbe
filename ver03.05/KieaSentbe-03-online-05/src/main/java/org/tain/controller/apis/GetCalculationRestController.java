@@ -1,5 +1,6 @@
 package org.tain.controller.apis;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,15 +19,18 @@ import org.tain.utils.LnsHttpClient;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping(value = {"/online/amend"})
+@RequestMapping(value = {"/online/getCalculation"})
 @Slf4j
-public class _AmendRestController {
+public class GetCalculationRestController {
 
+	@Autowired
+	private LnsHttpClient lnsHttpClient;
+	
 	/*
-	 * url: http://localhost:18083/v1.0/online/amend
+	 * url: http://localhost:18083/v1.0/online/getCalculation
 	 */
 	@RequestMapping(value = {""}, method = {RequestMethod.GET, RequestMethod.POST})
-	public ResponseEntity<?> amend(HttpEntity<String> reqHttpEntity) throws Exception {
+	public ResponseEntity<?> getCalculation(HttpEntity<String> reqHttpEntity) throws Exception {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
@@ -37,14 +41,14 @@ public class _AmendRestController {
 		String resJson = null;
 		if (Flag.flag) {
 			LnsJson lnsJson = new LnsJson();
-			lnsJson.setName("Amend lns01");
-			lnsJson.setHttpUrl("http://localhost:18082/v1.0/link/amend");
+			lnsJson.setName("GetCalculation sbs01");
+			lnsJson.setHttpUrl("http://localhost:17082/v0.5/link/getCalculation");
 			lnsJson.setHttpMethod("POST");
 			lnsJson.setReqJsonData(reqHttpEntity.getBody());
-			log.info("ONLINE:Amend >>>>> REQ.lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
+			log.info("ONLINE:GetCalculation >>>>> REQ.lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 			
-			lnsJson = LnsHttpClient.post(lnsJson);
-			log.info("ONLINE:Amend >>>>> RES.lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
+			lnsJson = this.lnsHttpClient.post(lnsJson);
+			log.info("ONLINE:GetCalculation >>>>> RES.lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 			
 			resJson = lnsJson.getResJsonData();
 		}

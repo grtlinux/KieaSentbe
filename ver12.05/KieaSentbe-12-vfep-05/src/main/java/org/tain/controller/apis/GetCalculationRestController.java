@@ -1,5 +1,6 @@
 package org.tain.controller.apis;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,10 +18,13 @@ import org.tain.utils.LnsHttpClient;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping(value = {"/apis/detail"})
+@RequestMapping(value = {"/apis/getCalculation"})
 @Slf4j
-public class _DetailRestController {
+public class GetCalculationRestController {
 
+	@Autowired
+	private LnsHttpClient lnsHttpClient;
+	
 	@RequestMapping(value = {"/mapper/req/json2str"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public ResponseEntity<?> mapperReqJson2Str(HttpEntity<String> reqHttpEntity) throws Exception {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
@@ -33,12 +37,12 @@ public class _DetailRestController {
 		LnsJson lnsJson = null;
 		if (Flag.flag) {
 			lnsJson = new LnsJson();
-			lnsJson.setName("Detail mapperReqJson2Str");
-			lnsJson.setHttpUrl("http://localhost:18086/v1.0/mapper/detail/req/j2s");
+			lnsJson.setName("GetCalculation mapperReqJson2Str");
+			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/getCalculation/req/j2s");
 			lnsJson.setHttpMethod("POST");
 			lnsJson.setReqJsonData(reqHttpEntity.getBody());
 			
-			lnsJson = LnsHttpClient.post(lnsJson);
+			lnsJson = this.lnsHttpClient.post(lnsJson);
 		}
 		
 		MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();
@@ -47,8 +51,8 @@ public class _DetailRestController {
 		return new ResponseEntity<>(lnsJson, headers, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = {"/lns01"}, method = {RequestMethod.GET, RequestMethod.POST})
-	public ResponseEntity<?> detail(HttpEntity<String> reqHttpEntity) throws Exception {
+	@RequestMapping(value = {"/sbs01"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public ResponseEntity<?> getCalculation(HttpEntity<String> reqHttpEntity) throws Exception {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
@@ -59,15 +63,15 @@ public class _DetailRestController {
 		LnsJson lnsJson = null;
 		if (Flag.flag) {
 			lnsJson = new LnsJson();
-			lnsJson.setName("Detail lns01");
-			lnsJson.setHttpUrl("http://localhost:18091/v1.0/lns01/detail");
+			lnsJson.setName("GetCalculation sbs01");
+			lnsJson.setHttpUrl("http://localhost:17089/v0.5/sbs01/getCalculation");
 			lnsJson.setHttpMethod("POST");
 			
 			//JsonNode jsonNode = new ObjectMapper().readTree(reqHttpEntity.getBody());
 			//lnsJson.setReqStrData("" + jsonNode.get("reqStrData").asText());  // len(4) + method(4) + division(3)
 			lnsJson.setReqStrData("" + reqHttpEntity.getBody());  // len(4) + method(4) + division(3)
 			
-			lnsJson = LnsHttpClient.post(lnsJson);
+			lnsJson = this.lnsHttpClient.post(lnsJson);
 		}
 		
 		MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();
@@ -88,15 +92,15 @@ public class _DetailRestController {
 		LnsJson lnsJson = null;
 		if (Flag.flag) {
 			lnsJson = new LnsJson();
-			lnsJson.setName("Detail mapperResStr2Json");
-			lnsJson.setHttpUrl("http://localhost:18086/v1.0/mapper/detail/res/s2j");
+			lnsJson.setName("GetCalculation mapperResStr2Json");
+			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/getCalculation/res/s2j");
 			lnsJson.setHttpMethod("POST");
 			
 			//JsonNode jsonNode = new ObjectMapper().readTree(reqHttpEntity.getBody());
 			//lnsJson.setResStrData("" + jsonNode.get("resStrData").asText());  // len(4) + method(4) + division(3)
 			lnsJson.setResStrData("" + reqHttpEntity.getBody());  // len(4) + method(4) + division(3)
 			
-			lnsJson = LnsHttpClient.post(lnsJson);
+			lnsJson = this.lnsHttpClient.post(lnsJson);
 		}
 		
 		MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();
@@ -117,12 +121,12 @@ public class _DetailRestController {
 		LnsJson lnsJson = null;
 		if (Flag.flag) {
 			lnsJson = new LnsJson();
-			lnsJson.setName("Detail mapperResStr2Json");
-			lnsJson.setHttpUrl("http://localhost:18086/v1.0/mapper/detail/req/cstruct");
+			lnsJson.setName("GetCalculation mapperResStr2Json");
+			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/getCalculation/req/cstruct");
 			lnsJson.setHttpMethod("POST");
 			lnsJson.setReqJsonData(reqHttpEntity.getBody());
 			
-			lnsJson = LnsHttpClient.post(lnsJson);
+			lnsJson = this.lnsHttpClient.post(lnsJson);
 		}
 		
 		MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();
@@ -143,12 +147,12 @@ public class _DetailRestController {
 		LnsJson lnsJson = null;
 		if (Flag.flag) {
 			lnsJson = new LnsJson();
-			lnsJson.setName("Detail mapperResStr2Json");
-			lnsJson.setHttpUrl("http://localhost:18086/v1.0/mapper/detail/res/cstruct");
+			lnsJson.setName("GetCalculation mapperResStr2Json");
+			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/getCalculation/res/cstruct");
 			lnsJson.setHttpMethod("POST");
 			lnsJson.setReqJsonData(reqHttpEntity.getBody());
 			
-			lnsJson = LnsHttpClient.post(lnsJson);
+			lnsJson = this.lnsHttpClient.post(lnsJson);
 		}
 		
 		MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();

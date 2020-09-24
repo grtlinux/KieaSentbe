@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping(value = {"/mapper/checkUser"})
+@RequestMapping(value = {"/mapper/getCalculation"})
 @Slf4j
 public class GetCalculationRestController {
 

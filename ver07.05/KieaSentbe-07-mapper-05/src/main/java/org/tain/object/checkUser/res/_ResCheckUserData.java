@@ -22,6 +22,22 @@ public class _ResCheckUserData {
 	private String sign_status;
 	
 	@StreamAnnotation(length = 20)
+	@JsonProperty(value = "sentbe_exist_status")
+	private String sentbe_exist_status;
+	
+	@StreamAnnotation(length = 20)
+	@JsonProperty(value = "phone")
+	private String phone;
+	
+	@StreamAnnotation(length = 20)
+	@JsonProperty(value = "remittable_status")
+	private String remittable_status;
+	
+	@StreamAnnotation(length = 20)
+	@JsonProperty(value = "user_id")
+	private String user_id;
+	
+	@StreamAnnotation(length = 20)
 	@JsonProperty(value = "account_number")
 	private String account_number;
 }

@@ -1,5 +1,6 @@
 package org.tain.task.process;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.tain.object.lns.LnsJson;
 import org.tain.object.lns.LnsStream;
@@ -14,6 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CheckUserProcess {
 
+	@Autowired
+	private LnsHttpClient lnsHttpClient;
+	
 	public LnsStream process(LnsStream reqLnsStream) throws Exception {
 		log.info("KANG-20200908 >>>>> {}", CurrentInfo.get());
 		
@@ -29,7 +33,7 @@ public class CheckUserProcess {
 			// 2. mapper TestReq Stream to Json
 			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/checkUser/req/s2j");
 			lnsJson.setHttpMethod("POST");
-			lnsJson = LnsHttpClient.post(lnsJson);
+			lnsJson = this.lnsHttpClient.post(lnsJson);
 			log.info("ONLINE-2 >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
 		
@@ -38,7 +42,7 @@ public class CheckUserProcess {
 			//lnsJson = httpLinkPost(lnsJson);
 			lnsJson.setHttpUrl("http://localhost:17082/v0.5/link/checkUser");
 			lnsJson.setHttpMethod("POST");
-			lnsJson = LnsHttpClient.post(lnsJson);
+			lnsJson = this.lnsHttpClient.post(lnsJson);
 			log.info("ONLINE-3 >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
 		
@@ -46,7 +50,7 @@ public class CheckUserProcess {
 			// 4. mapper TestRes Json to Stream
 			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/checkUser/res/j2s");
 			lnsJson.setHttpMethod("POST");
-			lnsJson = LnsHttpClient.post(lnsJson);
+			lnsJson = this.lnsHttpClient.post(lnsJson);
 			log.info("ONLINE-4 >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
 		

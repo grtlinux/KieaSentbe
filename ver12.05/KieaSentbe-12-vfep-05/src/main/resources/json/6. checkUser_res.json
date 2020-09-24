@@ -1,5 +1,9 @@
 {
-	"id_number": "701225-1234567",
+	"id_number": "7012251234567",
 	"sign_status": true,
+	"sentbe_exist_status": false,
+	"phone": null,
+	"remittable_status": false,
+	"user_id": "1001088",
 	"account_number": "05012345678900"
 }

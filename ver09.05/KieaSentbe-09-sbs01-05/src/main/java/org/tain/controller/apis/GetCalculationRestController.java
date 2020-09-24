@@ -24,9 +24,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping(value = {"/lns01/refund"})
+@RequestMapping(value = {"/sbs01/getCalculation"})
 @Slf4j
-public class _RefundRestController {
+public class GetCalculationRestController {
 	
 	@Autowired
 	private LnsSendQueue lnsSendQueue;
@@ -34,12 +34,12 @@ public class _RefundRestController {
 	public LnsRecvQueue lnsRecvQueue = new LnsRecvQueue();
 	
 	@RequestMapping(value = {""}, method = {RequestMethod.GET, RequestMethod.POST})
-	public ResponseEntity<?> refund(HttpEntity<String> reqHttpEntity) throws Exception {
+	public ResponseEntity<?> getCalculation(HttpEntity<String> reqHttpEntity) throws Exception {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
-			log.info("Lns01/Refund >>>>> Headers = {}", reqHttpEntity.getHeaders());
-			log.info("Lns01/Refund >>>>> Body = {}", reqHttpEntity.getBody());
+			log.info("Lns01/GetCalculation >>>>> Headers = {}", reqHttpEntity.getHeaders());
+			log.info("Lns01/GetCalculation >>>>> Body = {}", reqHttpEntity.getBody());
 		}
 		
 		LnsJson lnsJson = null;
@@ -49,10 +49,10 @@ public class _RefundRestController {
 			LnsStream reqLnsStream = null;
 			if (Flag.flag) {
 				String reqStrData = lnsJson.getReqStrData();
-				String reqTypeCode = "0200600";
+				String reqTypeCode = "0200400";
 				String reqLen = String.format("%04d", 7 + reqStrData.length());
 				reqLnsStream = new LnsStream(reqLen + reqTypeCode + reqStrData);
-				log.info("Lns01/Refund >>>>> reqLnsStream = {}", JsonPrint.getInstance().toPrettyJson(reqLnsStream));
+				log.info("Lns01/GetCalculation >>>>> reqLnsStream = {}", JsonPrint.getInstance().toPrettyJson(reqLnsStream));
 			}
 			
 			if (Flag.flag) {
@@ -66,11 +66,11 @@ public class _RefundRestController {
 			LnsStream resLnsStream = null;
 			if (Flag.flag) {
 				resLnsStream = (LnsStream) this.lnsRecvQueue.get();
-				log.info("Lns01/Refund >>>>> resLnsStream = {}", JsonPrint.getInstance().toPrettyJson(resLnsStream));
+				log.info("Lns01/GetCalculation >>>>> resLnsStream = {}", JsonPrint.getInstance().toPrettyJson(resLnsStream));
 			}
 			
 			lnsJson.setResStrData(resLnsStream.getContent());
-			log.info("Lns01/Refund  >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
+			log.info("Lns01/GetCalculation  >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
 		
 		MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();

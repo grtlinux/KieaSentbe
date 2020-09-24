@@ -1,5 +1,6 @@
 package org.tain.controller.apis;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CheckUserRestController {
 
+	@Autowired
+	private LnsHttpClient lnsHttpClient;
+	
 	/*
 	 * url: http://localhost:18083/v1.0/online/checkUser
 	 */
@@ -43,7 +47,7 @@ public class CheckUserRestController {
 			lnsJson.setReqJsonData(reqHttpEntity.getBody());
 			log.info("ONLINE:CheckUser >>>>> REQ.lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 			
-			lnsJson = LnsHttpClient.post(lnsJson);
+			lnsJson = this.lnsHttpClient.post(lnsJson);
 			log.info("ONLINE:CheckUser >>>>> RES.lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 			
 			resJson = lnsJson.getResJsonData();

@@ -1,5 +1,6 @@
 package org.tain.controller.apis;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CheckUserRestController {
 
+	@Autowired
+	private LnsHttpClient lnsHttpClient;
+	
 	@RequestMapping(value = {"/mapper/req/json2str"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public ResponseEntity<?> mapperReqJson2Str(HttpEntity<String> reqHttpEntity) throws Exception {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
@@ -38,7 +42,7 @@ public class CheckUserRestController {
 			lnsJson.setHttpMethod("POST");
 			lnsJson.setReqJsonData(reqHttpEntity.getBody());
 			
-			lnsJson = LnsHttpClient.post(lnsJson);
+			lnsJson = this.lnsHttpClient.post(lnsJson);
 		}
 		
 		MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();
@@ -67,7 +71,7 @@ public class CheckUserRestController {
 			//lnsJson.setReqStrData("" + jsonNode.get("reqStrData").asText());  // len(4) + method(4) + division(3)
 			lnsJson.setReqStrData("" + reqHttpEntity.getBody());  // len(4) + method(4) + division(3)
 			
-			lnsJson = LnsHttpClient.post(lnsJson);
+			lnsJson = this.lnsHttpClient.post(lnsJson);
 		}
 		
 		MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();
@@ -96,7 +100,7 @@ public class CheckUserRestController {
 			//lnsJson.setResStrData("" + jsonNode.get("resStrData").asText());  // len(4) + method(4) + division(3)
 			lnsJson.setResStrData("" + reqHttpEntity.getBody());  // len(4) + method(4) + division(3)
 			
-			lnsJson = LnsHttpClient.post(lnsJson);
+			lnsJson = this.lnsHttpClient.post(lnsJson);
 		}
 		
 		MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();
@@ -122,7 +126,7 @@ public class CheckUserRestController {
 			lnsJson.setHttpMethod("POST");
 			lnsJson.setReqJsonData(reqHttpEntity.getBody());
 			
-			lnsJson = LnsHttpClient.post(lnsJson);
+			lnsJson = this.lnsHttpClient.post(lnsJson);
 		}
 		
 		MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();
@@ -148,7 +152,7 @@ public class CheckUserRestController {
 			lnsJson.setHttpMethod("POST");
 			lnsJson.setReqJsonData(reqHttpEntity.getBody());
 			
-			lnsJson = LnsHttpClient.post(lnsJson);
+			lnsJson = this.lnsHttpClient.post(lnsJson);
 		}
 		
 		MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();

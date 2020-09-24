@@ -7,11 +7,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.tain.data.LnsData;
 import org.tain.object.lns.LnsJson;
 import org.tain.utils.enums.RestTemplateType;
 
@@ -20,14 +20,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Component
 @Slf4j
 public class LnsHttpClient {
 
-	public static LnsJson get(LnsJson lnsJson) throws Exception {
+	public LnsJson get(LnsJson lnsJson) throws Exception {
 		return get(lnsJson, false);
 	}
 	
-	public static LnsJson get(LnsJson lnsJson, boolean flagAccessToken) throws Exception {
+	public LnsJson get(LnsJson lnsJson, boolean flagAccessToken) throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
@@ -54,7 +55,6 @@ public class LnsHttpClient {
 			
 			HttpHeaders reqHeaders = new HttpHeaders();
 			reqHeaders.setContentType(MediaType.APPLICATION_JSON);
-			if (flagAccessToken) reqHeaders.set("Authorization", "Bearer " + LnsData.getInstance().getAccessToken());
 			log.info(">>>>> REQ.reqHeaders     = {}", reqHeaders);
 			
 			HttpEntity<String> reqHttpEntity = new HttpEntity<>(reqHeaders);
@@ -95,11 +95,11 @@ public class LnsHttpClient {
 	
 	///////////////////////////////////////////////////////////////////////////
 	
-	public static LnsJson post(LnsJson lnsJson) throws Exception {
+	public LnsJson post(LnsJson lnsJson) throws Exception {
 		return post(lnsJson, false);
 	}
 	
-	public static LnsJson post(LnsJson lnsJson, boolean flagAccessToken) throws Exception {
+	public LnsJson post(LnsJson lnsJson, boolean flagAccessToken) throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
@@ -119,7 +119,6 @@ public class LnsHttpClient {
 			
 			HttpHeaders reqHeaders = new HttpHeaders();
 			reqHeaders.setContentType(MediaType.APPLICATION_JSON);
-			if (flagAccessToken) reqHeaders.set("Authorization", "Bearer " + LnsData.getInstance().getAccessToken());
 			log.info(">>>>> REQ.reqHeaders     = {}", reqHeaders);
 			
 			HttpEntity<String> reqHttpEntity = new HttpEntity<>(json, reqHeaders);
