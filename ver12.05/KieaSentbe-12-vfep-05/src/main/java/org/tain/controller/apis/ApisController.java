@@ -52,13 +52,14 @@ public class ApisController {
 		return "web/apis/getCalculationForm";
 	}
 	
-	@RequestMapping(value = {"/historiesForm"}, method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = {"/deleteUserForm"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String historiesForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/historiesForm";
+		return "web/apis/deleteUserForm";
 	}
 	
+	@Deprecated
 	@RequestMapping(value = {"/validateForm"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String validateForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
@@ -66,6 +67,7 @@ public class ApisController {
 		return "web/apis/validateForm";
 	}
 	
+	@Deprecated
 	@RequestMapping(value = {"/commitForm"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String commitForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
@@ -73,6 +75,7 @@ public class ApisController {
 		return "web/apis/commitForm";
 	}
 	
+	@Deprecated
 	@RequestMapping(value = {"/amendForm"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String amendForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
@@ -80,6 +83,7 @@ public class ApisController {
 		return "web/apis/amendForm";
 	}
 	
+	@Deprecated
 	@RequestMapping(value = {"/refundForm"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String refundForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
@@ -87,6 +91,7 @@ public class ApisController {
 		return "web/apis/refundForm";
 	}
 	
+	@Deprecated
 	@RequestMapping(value = {"/customerForm"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String customerForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());

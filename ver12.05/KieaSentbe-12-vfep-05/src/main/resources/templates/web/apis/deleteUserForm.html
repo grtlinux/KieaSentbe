@@ -16,7 +16,7 @@
 	<!-- main -->
 	<div class="container">
 		<div class="page-header">
-			<h1>Infra-FEP: Detail TEST</h1>
+			<h1>Sentbe-vFEP: Delete User TEST</h1>
 		</div>
 		<br/>
 		<input id="apis_id" type="hidden" th:value="${apis?.id}"/>
@@ -29,24 +29,6 @@
 				<th style="padding:13px 0 0 15px;">Name</th>
 				<td><input id="apis_name" type="text" class="col-md-1 form-control input-sm" readonly th:value="${apis?.name}"/></td>
 			</tr>
-			<!--
-			<tr>
-				<th style="padding:13px 0 0 15px;">Mapping</th>
-				<td><input id="apis_mapping" type="text" class="col-md-1 form-control input-sm" readonly th:value="${apis?.mapping}"/></td>
-			</tr>
-			<tr>
-				<th style="padding:13px 0 0 15px;">httpUrl</th>
-				<td><input id="apis_httpUrl" type="text" class="col-md-1 form-control input-sm" th:value="${apis?.httpUrl}"/></td>
-			</tr>
-			<tr>
-				<th style="padding:13px 0 0 15px;">httpMethod</th>
-				<td><input id="apis_httpMethod" type="text" class="col-md-1 form-control input-sm" th:value="${apis?.httpMethod}"/></td>
-			</tr>
-			<tr>
-				<th style="padding:13px 0 0 15px;">reqJson</th>
-				<td><textarea id="apis_reqJson" class="col-md-1 form-control input-sm" rows="7" style="height:100px;" th:text="${apis?.reqJson}"></textarea></td>
-			</tr>
-			-->
 			<tr>
 				<th style="padding:13px 0 0 15px;"> </th>
 				<td>
@@ -64,7 +46,7 @@
 			<tr>
 				<th style="padding:13px 0 0 15px;"> </th>
 				<td>
-					<button id="btnSendReqStream" type="button" class="btn btn-danger" disabled>Send ReqStream</button>
+					<button id="btnSendReqStream" type="button" class="btn btn-danger">Send ReqStream</button>
 					<button id="btnSendJson" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalSendJson">Send JSON</button>
 				</td>
 			</tr>
@@ -89,17 +71,6 @@
 		</table>
 		<div class="pull-left">
 			<a th:href="@{/apis/list}" class="btn btn-default">list</a>
-			<!--
-			<button id="btnModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">TEST</button>
-			-->
-		</div>
-		<div class="pull-right">
-			<!--
-			<button th:if="!${apis?.id}" type="button" class="btn btn-primary" id="insert1">save1</button>
-			<button th:if="${apis?.id}" type="button" class="btn btn-primary" id="insert2">save2</button>
-			<button th:if="${apis?.id}" type="button" class="btn btn-info" id="update">update</button>
-			<button th:if="${apis?.id}" type="button" class="btn btn-danger" id="delete">delete</button>
-			-->
 		</div>
 		<div>
 			<!-- bottom space -->
@@ -132,32 +103,8 @@
 				<div class="modal-body">
 					<table class="table">
 						<tr>
-							<th style="padding:13px 0 0 15px;">sourceCountry</th>
-							<td><input id="modal1_sourceCountry" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">sourceSendCurrency</th>
-							<td><input id="modal1_sourceSendCurrency" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">destinationCountry</th>
-							<td><input id="modal1_destinationCountry" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">destinationReceiveCurrency</th>
-							<td><input id="modal1_destinationReceiveCurrency" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">destinationReceiveAmount</th>
-							<td><input id="modal1_destinationReceiveAmount" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">destinationOperatorCode</th>
-							<td><input id="modal1_destinationOperatorCode" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">deliveryMethod</th>
-							<td><input id="modal1_deliveryMethod" value="" type="text" class="col-md-1 form-control input-sm"/></td>
+							<th style="padding:13px 0 0 15px;">user_id</th>
+							<td><input id="modal1_user_id" value="" type="text" class="col-md-1 form-control input-sm"/></td>
 						</tr>
 						<tr>
 							<th style="padding:13px 0 0 15px;"> </th>
@@ -352,33 +299,19 @@
 	<script>
 		$('#btnMakeReqStream').click(function() {
 			console.log('Hello btnMakeReqStream');
-			//$('#modal_mapping').val($('#apis_mapping').val());
-			//$('#modal_resJson').val('');
-			$('#modal1_sourceCountry').val(reqJson.sourceCountry);
-			$('#modal1_sourceSendCurrency').val(reqJson.sourceSendCurrency);
-			$('#modal1_destinationCountry').val(reqJson.destinationCountry);
-			$('#modal1_destinationReceiveCurrency').val(reqJson.destinationReceiveCurrency);
-			$('#modal1_destinationReceiveAmount').val(reqJson.destinationReceiveAmount);
-			$('#modal1_destinationOperatorCode').val(reqJson.destinationOperatorCode);
-			$('#modal1_deliveryMethod').val(reqJson.deliveryMethod);
+			$('#modal1_user_id').val(reqJson.user_id);
 		});
 		$('#btnToJson').click(function() {
 			console.log('Hello btnToJson');
 			var reqJson = JSON.stringify({
-				sourceCountry: $('#modal1_sourceCountry').val(),
-				sourceSendCurrency: $('#modal1_sourceSendCurrency').val(),
-				destinationCountry: $('#modal1_destinationCountry').val(),
-				destinationReceiveCurrency: $('#modal1_destinationReceiveCurrency').val(),
-				destinationReceiveAmount: $('#modal1_destinationReceiveAmount').val(),
-				destinationOperatorCode: $('#modal1_destinationOperatorCode').val(),
-				deliveryMethod: $('#modal1_deliveryMethod').val()
+				user_id: $('#modal1_user_id').val()
 			}, null, 2);
 			$('#modal1_reqJson').val(reqJson);
 		});
 		$('#btnGetReqStream').click(function() {
 			console.log('Hello btnGetReqStream');
 			$.ajax({
-				url: _contextPath_ + "apis/detail/mapper/req/json2str",
+				url: _contextPath_ + "apis/deleteUser/mapper/req/json2str",
 				type: "POST",
 				data: $('#modal1_reqJson').val(),
 				contentType: "application/json",
@@ -411,7 +344,7 @@
 		$('#btnSendReqStream').click(function() {
 			console.log('Hello btnSendReqStream');
 			$.ajax({
-				url: _contextPath_ + "apis/detail/lns01",
+				url: _contextPath_ + "apis/deleteUser/sbs01",
 				type: "POST",
 				data: $('#apis_reqStream').val(),
 				contentType: "application/json",
@@ -442,7 +375,7 @@
 		$('#btnShowResJson').click(function() {
 			console.log('Hello btnShowResJson');
 			$.ajax({
-				url: _contextPath_ + "apis/detail/mapper/res/str2json",
+				url: _contextPath_ + "apis/deleteUser/mapper/res/str2json",
 				type: "POST",
 				data: $('#apis_resStream').val(),
 				contentType: "application/json",
@@ -477,7 +410,7 @@
 		$('#btnShowReqCStruct').click(function() {
 			console.log('Hello btnShowReqCStruct');
 			$.ajax({
-				url: _contextPath_ + "apis/detail/mapper/req/cstruct",
+				url: _contextPath_ + "apis/deleteUser/mapper/req/cstruct",
 				type: "POST",
 				data: "{}",
 				contentType: "application/json",
@@ -497,7 +430,7 @@
 		$('#btnShowResCStruct').click(function() {
 			console.log('Hello btnShowResCStruct');
 			$.ajax({
-				url: _contextPath_ + "apis/detail/mapper/res/cstruct",
+				url: _contextPath_ + "apis/deleteUser/mapper/res/cstruct",
 				type: "POST",
 				data: "{}",
 				contentType: "application/json",
@@ -534,8 +467,8 @@
 		$('#btnSendRecvJson').click(function() {
 			console.log('Hello btnSendRecvJson');
 			$.ajax({
-				//url: "http://localhost:18083/v1.0/online/detail",
-				url: "http://172.30.222.3:18087/v1.0/online/detail",
+				// TODO: make hostname and set the hostname instead of localhost
+				url: "http://localhost:17083/v0.5/online/deleteUser",
 				type: "POST",
 				data: $('#modal5_reqJson').val(),
 				contentType: "application/json",
@@ -622,170 +555,7 @@
 	
 	
 	
-	
-	
-	
 	<!-- script : main -->
 	<!-- /script : main -->
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<!-- script -->
-	<script>
-		$('#btnModal').click(function() {
-			//alert('Hello btnModal');
-			$('#modal_mapping').val($('#apis_mapping').val());
-			$('#modal_httpUrl').val($('#apis_httpUrl').val());
-			$('#modal_httpMethod').val($('#apis_httpMethod').val());
-			$('#modal_reqJson').val($('#apis_reqJson').val());
-			$('#modal_resJson').val('');
-		});
-		$('#btnTransfer').click(function() {
-			//alert('Hello btnTransfer');
-			var jsonData = JSON.stringify({
-				httpUrl: $('#modal_httpUrl').val(),
-				httpMethod: $('#modal_httpMethod').val(),
-				reqJson: $('#modal_reqJson').val()
-			});
-			$.ajax({
-				url: _contextPath_ + $('#modal_mapping').val(),
-				type: "POST",
-				data: jsonData,
-				contentType: "application/json",
-				header: {
-					"Authorization": "Basic " + btoa("kiea" + ":" + "test")
-				},
-				dataType: "json",
-				success: function(data, status) {
-					$('#modal_resJson').val(JSON.stringify(data, null, 2));
-					//alert('송신 성공~~');
-					//alert('송신 성공~~' + $('#modal_resRetJson').val());
-					//location.href = _contextPath_ + '/line/list';
-				},
-				error: function() {
-					alert('FAIL of TRANSFER');
-				}
-			});
-		});
-		$('#btnClose').click(function() {
-			//alert('Hello btnClose');
-			$('#line_resRetJson').val($('#modal_resRetJson').val());
-		});
-		$('#btnCopyRequest').click(function() {
-			//alert('Hello btnCopyRequest');
-			var copyText = document.getElementById("modal_reqJson");
-			copyText.select();
-			copyText.setSelectionRange(0, 99999);
-			document.execCommand("copy");
-		});
-		$('#btnCopyResponse').click(function() {
-			//alert('Hello btnCopyResponse');
-			var copyText = document.getElementById("modal_resJson");
-			copyText.select();
-			copyText.setSelectionRange(0, 99999);
-			document.execCommand("copy");
-		});
-	</script>
-	<script th:if="!${apis?.id}">
-		$('#insert1').click(function() {
-			var jsonData = JSON.stringify({
-				name: $('#apis_name').val(),
-				mapping: $('#apis_mapping').val(),
-				httpUrl: $('#apis_httpUrl').val(),
-				httpMethod: $('#apis_httpMethod').val(),
-				reqJson: $('#apis_reqJson').val()
-			});
-			$.ajax({
-				url: _contextPath_ + "api/apises/",
-				type: "POST",
-				data: jsonData,
-				contentType: "application/json",
-				header: {
-					"Authorization": "Basic " + btoa("havi" + ":" + "test")
-				},
-				dataType: "json",
-				success: function() {
-					alert('SUCCESS of SAVE1');
-					location.href = _contextPath_ + 'apis/list';
-				},
-				error: function() {
-					alert('FAIL of SAVE1');
-				}
-			});
-		});
-	</script>
-	<script th:if="${apis?.id}">
-		$('#insert2').click(function() {
-			var jsonData = JSON.stringify({
-				name: $('#apis_name').val(),
-				mapping: $('#apis_mapping').val(),
-				httpUrl: $('#apis_httpUrl').val(),
-				httpMethod: $('#apis_httpMethod').val(),
-				reqJson: $('#apis_reqJson').val()
-			});
-			$.ajax({
-				url: _contextPath_ + "api/apises/",
-				type: "POST",
-				data: jsonData,
-				contentType: "application/json",
-				header: {
-					"Authorization": "Basic " + btoa("havi" + ":" + "test")
-				},
-				dataType: "json",
-				success: function() {
-					alert('SUCCESS of SAVE2');
-					location.href = _contextPath_ + 'apis/list';
-				},
-				error: function() {
-					alert('FAIL of SAVE2');
-				}
-			});
-		});
-		$('#update').click(function() {
-			var jsonData = JSON.stringify({
-				name: $('#apis_name').val(),
-				mapping: $('#apis_mapping').val(),
-				httpUrl: $('#apis_httpUrl').val(),
-				httpMethod: $('#apis_httpMethod').val(),
-				reqJson: $('#apis_reqJson').val()
-			});
-			$.ajax({
-				url: _contextPath_ + "api/apises/" + $('#apis_id').val(),
-				type: "PUT",
-				data: jsonData,
-				contentType: "application/json",
-				dataType: "json",
-				success: function() {
-					alert('SUCCESS of UPDATE');
-					location.href = _contextPath_ + 'apis/list';
-				},
-				error: function() {
-					alert('FAIL of UPDATE');
-				}
-			});
-		});
-		$('#delete').click(function() {
-			$.ajax({
-				url: _contextPath_ + "api/apises/" + $('#apis_id').val(),
-				type: "DELETE",
-				success: function() {
-					alert('SUCCESS of DELETE');
-					location.href = _contextPath_ + 'apis/list';
-				},
-				error: function() {
-					alert('FAIL of DELETE');
-				}
-			});
-		});
-	</script>
 </body>
 </html>
