@@ -9,6 +9,7 @@ import org.tain.queue.LnsStreamPacketQueue;
 import org.tain.task.process.CheckUserProcess;
 import org.tain.task.process.DeleteUserProcess;
 import org.tain.task.process.GetCalculationProcess;
+import org.tain.task.process.GetWebviewIdProcess;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.utils.JsonPrint;
@@ -33,10 +34,10 @@ public class ServerJob {
 	@Autowired
 	private DeleteUserProcess deleteUserProcess;
 	
-	/*
 	@Autowired
-	private DetailProcess detailProcess;
+	private GetWebviewIdProcess getWebviewIdProcess;
 	
+	/*
 	@Autowired
 	private HistoriesProcess historiesProcess;
 	
@@ -89,10 +90,10 @@ public class ServerJob {
 					case "0200300":  // deleteUser
 						resLnsStream = this.deleteUserProcess.process(reqLnsStream);
 						break;
-					/*
-					case "0200300":  // validate
-						resLnsStream = this.validateProcess.process(reqLnsStream);
+					case "0200400":  // getWebviewId
+						resLnsStream = this.getWebviewIdProcess.process(reqLnsStream);
 						break;
+						/*
 					case "0200400":  // commit
 						resLnsStream = this.commitProcess.process(reqLnsStream);
 						break;
