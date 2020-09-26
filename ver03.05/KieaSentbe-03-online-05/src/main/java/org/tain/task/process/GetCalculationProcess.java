@@ -58,7 +58,7 @@ public class GetCalculationProcess {
 		if (Flag.flag) {
 			// 5. lnsStream
 			String resStrData = lnsJson.getResStrData();
-			String resTypeCode = "0210400";
+			String resTypeCode = "0210200";
 			String resLen = String.format("%04d", 7 + resStrData.length());
 			resLnsStream = new LnsStream(resLen + resTypeCode + resStrData);
 			log.info("ONLINE-5 >>>>> resLnsStream = {}", JsonPrint.getInstance().toPrettyJson(resLnsStream));

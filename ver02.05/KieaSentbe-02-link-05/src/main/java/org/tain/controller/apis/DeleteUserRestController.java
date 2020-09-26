@@ -22,9 +22,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping(value = {"/link/checkUser"})
+@RequestMapping(value = {"/link/deleteUser"})
 @Slf4j
-public class CheckUserRestController {
+public class DeleteUserRestController {
 
 	@Autowired
 	private ProjEnvUrlProperties projEnvUrlProperties;
@@ -39,18 +39,18 @@ public class CheckUserRestController {
 		if (Flag.flag) log.info("========================================================");
 		
 		if (Flag.flag) {
-			log.info("LINK.CheckUser >>>>> Headers = {}", reqHttpEntity.getHeaders());
-			log.info("LINK.CheckUser >>>>> Body = {}", reqHttpEntity.getBody());
+			log.info("LINK.DeleteUser >>>>> Headers = {}", reqHttpEntity.getHeaders());
+			log.info("LINK.DeleteUser >>>>> Body = {}", reqHttpEntity.getBody());
 		}
 		
 		LnsJson lnsJson = null;
 		
 		if (Flag.flag) {
 			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
-			lnsJson.setHttpUrl(this.projEnvUrlProperties.getSentbe() + "/hanwha/checkUser");
+			lnsJson.setHttpUrl(this.projEnvUrlProperties.getSentbe() + "/hanwha/deleteUser");
 			lnsJson.setHttpMethod("POST");
 			lnsJson = this.lnsSentbeClient.post(lnsJson);
-			log.info(">>>>> RES.CheckUser.lnsJson  = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
+			log.info(">>>>> RES.DeleteUser.lnsJson  = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
 		
 		if (Flag.flag) log.info("========================================================");

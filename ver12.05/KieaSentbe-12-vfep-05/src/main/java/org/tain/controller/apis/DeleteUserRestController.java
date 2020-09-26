@@ -37,7 +37,7 @@ public class DeleteUserRestController {
 		LnsJson lnsJson = null;
 		if (Flag.flag) {
 			lnsJson = new LnsJson();
-			lnsJson.setName("CheckUser mapperReqJson2Str");
+			lnsJson.setName("DeleteUser mapperReqJson2Str");
 			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/deleteUser/req/j2s");
 			lnsJson.setHttpMethod("POST");
 			lnsJson.setReqJsonData(reqHttpEntity.getBody());
@@ -63,7 +63,7 @@ public class DeleteUserRestController {
 		LnsJson lnsJson = null;
 		if (Flag.flag) {
 			lnsJson = new LnsJson();
-			lnsJson.setName("CheckUser sbs01");
+			lnsJson.setName("DeleteUser sbs01");
 			lnsJson.setHttpUrl("http://localhost:17089/v0.5/sbs01/deleteUser");
 			lnsJson.setHttpMethod("POST");
 			
@@ -92,7 +92,7 @@ public class DeleteUserRestController {
 		LnsJson lnsJson = null;
 		if (Flag.flag) {
 			lnsJson = new LnsJson();
-			lnsJson.setName("CheckUser mapperResStr2Json");
+			lnsJson.setName("DeleteUser mapperResStr2Json");
 			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/deleteUser/res/s2j");
 			lnsJson.setHttpMethod("POST");
 			
@@ -121,7 +121,7 @@ public class DeleteUserRestController {
 		LnsJson lnsJson = null;
 		if (Flag.flag) {
 			lnsJson = new LnsJson();
-			lnsJson.setName("CheckUser mapperResStr2Json");
+			lnsJson.setName("DeleteUser mapperReCStruct");
 			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/deleteUser/req/cstruct");
 			lnsJson.setHttpMethod("POST");
 			lnsJson.setReqJsonData(reqHttpEntity.getBody());
@@ -147,7 +147,7 @@ public class DeleteUserRestController {
 		LnsJson lnsJson = null;
 		if (Flag.flag) {
 			lnsJson = new LnsJson();
-			lnsJson.setName("CheckUser mapperResStr2Json");
+			lnsJson.setName("DeleteUser mapperResCStruct");
 			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/deleteUser/res/cstruct");
 			lnsJson.setHttpMethod("POST");
 			lnsJson.setReqJsonData(reqHttpEntity.getBody());

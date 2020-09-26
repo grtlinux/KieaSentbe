@@ -7,6 +7,8 @@ import org.tain.object.lns.LnsStream;
 import org.tain.object.lns.LnsStreamPacket;
 import org.tain.queue.LnsStreamPacketQueue;
 import org.tain.task.process.CheckUserProcess;
+import org.tain.task.process.DeleteUserProcess;
+import org.tain.task.process.GetCalculationProcess;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.utils.JsonPrint;
@@ -24,6 +26,12 @@ public class ServerJob {
 	
 	@Autowired
 	private CheckUserProcess checkUserProcess;
+	
+	@Autowired
+	private GetCalculationProcess getCalculationProcess;
+	
+	@Autowired
+	private DeleteUserProcess deleteUserProcess;
 	
 	/*
 	@Autowired
@@ -72,16 +80,16 @@ public class ServerJob {
 					
 					// process
 					switch (reqLnsStream.getTypeCode()) {
-					case "0200600":  // auth
+					case "0200100":  // checkUser
 						resLnsStream = this.checkUserProcess.process(reqLnsStream);
 						break;
-						/*
-					case "0200200":  // detail
-						resLnsStream = this.detailProcess.process(reqLnsStream);
+					case "0200200":  // getCalculation
+						resLnsStream = this.getCalculationProcess.process(reqLnsStream);
 						break;
-					case "0200700":  // histories
-						resLnsStream = this.historiesProcess.process(reqLnsStream);
+					case "0200300":  // deleteUser
+						resLnsStream = this.deleteUserProcess.process(reqLnsStream);
 						break;
+					/*
 					case "0200300":  // validate
 						resLnsStream = this.validateProcess.process(reqLnsStream);
 						break;

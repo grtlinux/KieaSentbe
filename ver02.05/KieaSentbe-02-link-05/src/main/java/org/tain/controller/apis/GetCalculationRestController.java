@@ -39,8 +39,8 @@ public class GetCalculationRestController {
 		if (Flag.flag) log.info("========================================================");
 		
 		if (Flag.flag) {
-			log.info("MAPPER >>>>> Headers = {}", reqHttpEntity.getHeaders());
-			log.info("MAPPER >>>>> Body = {}", reqHttpEntity.getBody());
+			log.info("LINK.GetCalculation >>>>> Headers = {}", reqHttpEntity.getHeaders());
+			log.info("LINK.GetCalculation >>>>> Body = {}", reqHttpEntity.getBody());
 		}
 		
 		LnsJson lnsJson = null;
@@ -50,7 +50,7 @@ public class GetCalculationRestController {
 			lnsJson.setHttpUrl(this.projEnvUrlProperties.getSentbe() + "/hanwha/getCalculation");
 			lnsJson.setHttpMethod("POST");
 			lnsJson = this.lnsSentbeClient.post(lnsJson);
-			log.info(">>>>> RES-2.lnsJson  = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
+			log.info(">>>>> RES.GetCalculation.lnsJson  = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
 		
 		if (Flag.flag) log.info("========================================================");
