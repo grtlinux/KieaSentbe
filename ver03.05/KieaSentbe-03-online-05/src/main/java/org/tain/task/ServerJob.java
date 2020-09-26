@@ -7,6 +7,7 @@ import org.tain.object.lns.LnsStream;
 import org.tain.object.lns.LnsStreamPacket;
 import org.tain.queue.LnsStreamPacketQueue;
 import org.tain.task.process.CheckUserProcess;
+import org.tain.task.process.CreateUserProcess;
 import org.tain.task.process.DeleteUserProcess;
 import org.tain.task.process.GetCalculationProcess;
 import org.tain.task.process.GetWebviewIdProcess;
@@ -37,10 +38,10 @@ public class ServerJob {
 	@Autowired
 	private GetWebviewIdProcess getWebviewIdProcess;
 	
-	/*
 	@Autowired
-	private HistoriesProcess historiesProcess;
+	private CreateUserProcess createUserProcess;
 	
+	/*
 	@Autowired
 	private ValidateProcess validateProcess;
 	
@@ -93,10 +94,10 @@ public class ServerJob {
 					case "0200400":  // getWebviewId
 						resLnsStream = this.getWebviewIdProcess.process(reqLnsStream);
 						break;
-						/*
-					case "0200400":  // commit
-						resLnsStream = this.commitProcess.process(reqLnsStream);
+					case "0200500":  // createUser
+						resLnsStream = this.createUserProcess.process(reqLnsStream);
 						break;
+						/*
 					case "0200500":  // amend
 						resLnsStream = this.amendProcess.process(reqLnsStream);
 						break;
