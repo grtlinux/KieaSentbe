@@ -12,7 +12,7 @@ spring:
   profiles.active:
   - proj-default
   - proj-local
-  #- proj-test
+  - proj-test
   #- proj-aws
   #- proj-dfep
   #- proj-real
@@ -139,17 +139,19 @@ proj-env:
     name: PARAM (test)
     #home: /Users/kangmac
     #base: /STS_GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
-    home: /Users/kangmac
-    base: /STS_GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
+    home: /Users/kang-air
+    base: /STS/GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
 
   job:
     name: JOB (test)
 
   json:
     name: JSON (test)
+    apis-info-file: apis.json
 
   url:
     name: URL (test)
+    sentbe: https://hanwha.dev.sentbe.com:10443
 
 ---
 # --------------------------------------------------------
