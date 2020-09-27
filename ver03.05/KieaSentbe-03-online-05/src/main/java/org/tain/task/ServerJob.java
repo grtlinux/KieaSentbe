@@ -10,6 +10,8 @@ import org.tain.task.process.CheckUserProcess;
 import org.tain.task.process.CreateUserProcess;
 import org.tain.task.process.DeleteUserProcess;
 import org.tain.task.process.GetCalculationProcess;
+import org.tain.task.process.GetResultProcess;
+import org.tain.task.process.GetVerificationProcess;
 import org.tain.task.process.GetWebviewIdProcess;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
@@ -40,6 +42,12 @@ public class ServerJob {
 	
 	@Autowired
 	private CreateUserProcess createUserProcess;
+	
+	@Autowired
+	private GetResultProcess getResultProcess;
+	
+	@Autowired
+	private GetVerificationProcess getVerificationProcess;
 	
 	///////////////////////////////////////////////////////////////////////////
 	
@@ -81,10 +89,10 @@ public class ServerJob {
 						resLnsStream = this.createUserProcess.process(reqLnsStream);
 						break;
 					case "0200600":  // getResult
-						resLnsStream = this.createUserProcess.process(reqLnsStream);
+						resLnsStream = this.getResultProcess.process(reqLnsStream);
 						break;
 					case "0200700":  // getVerification
-						resLnsStream = this.createUserProcess.process(reqLnsStream);
+						resLnsStream = this.getVerificationProcess.process(reqLnsStream);
 						break;
 					default:
 						log.error("ERROR >>>>> WRONG TypeCode: {}", JsonPrint.getInstance().toPrettyJson(reqLnsStream));
