@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>form.html</title>
+	<!-- css and script -->
+	<th:block th:replace="layout/css::css1"></th:block>
+	<th:block th:replace="layout/script::script1"></th:block>
+	<!-- /css and script -->
+</head>
+<body>
+	<!-- header -->
+	<div th:replace="layout/header::header1"></div>
+	<!-- /header -->
+	
+	<!-- main -->
+	<div class="container">
+		<div class="page-header">
+			<h1>Word 등록</h1>
+		</div>
+		<br/>
+		<input id="word_id" type="hidden" th:value="${word?.id}"/>
+		<table class="table">
+			<tr>
+				<th style="padding:13px 0 0 15px;">id</th>
+				<td><input type="text" class="col-md-1 form-control input-sm" readonly="readonly" th:value="${word?.id}"/></td>
+			</tr>
+			<tr>
+				<th style="padding:13px 0 0 15px;">Word</th>
+				<td><input id="word_word" type="text" class="col-md-1 form-control input-sm" th:value="${word?.word}"/></td>
+			</tr>
+			<tr>
+				<th style="padding:13px 0 0 15px;">Mean</th>
+				<td><input id="word_mean" type="text" class="col-md-1 form-control input-sm" th:value="${word?.mean}"/></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		<div class="pull-left">
+			<a th:href="@{/word/list}" class="btn btn-default">목록으로</a>
+		</div>
+		<div class="pull-right">
+			<button th:if="!${word?.id}" type="button" class="btn btn-primary" id="insert">저장</button>
+			<button th:if="${word?.id}" type="button" class="btn btn-info" id="update">수정</button>
+			<button th:if="${word?.id}" type="button" class="btn btn-danger" id="delete">삭제</button>
+		</div>
+	</div>
+	<!-- /main -->
+	
+	<!-- footer -->
+	<div th:replace="layout/footer::footer1"></div>
+	<!-- /footer -->
+	
+	<!-- script -->
+	<script th:if="!${word?.id}">
+		$('#insert').click(function() {
+			var jsonData = JSON.stringify({
+				word: $('#word_word').val(),
+				mean: $('#word_mean').val()
+			});
+			$.ajax({
+				url: _contextPath_ + "api/words/",
+				type: "POST",
+				data: jsonData,
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function() {
+					alert('저장 성공~~');
+					location.href = _contextPath_ + 'word/list';
+				},
+				error: function() {
+					alert('저장 실패!!');
+				}
+			});
+		});
+	</script>
+	<script th:if="${word?.id}">
+		$('#update').click(function() {
+			var jsonData = JSON.stringify({
+				word: $('#word_word').val(),
+				mean: $('#word_mean').val()
+			});
+			$.ajax({
+				url: _contextPath_ + "api/words/" + $('#word_id').val(),
+				type: "PUT",
+				data: jsonData,
+				contentType: "application/json",
+				dataType: "json",
+				success: function() {
+					alert('수정 성공~~');
+					location.href = _contextPath_ + 'word/list';
+				},
+				error: function() {
+					alert('수정 실패!!');
+				}
+			});
+		});
+		$('#delete').click(function() {
+			$.ajax({
+				url: _contextPath_ + "api/words/" + $('#word_id').val(),
+				type: "DELETE",
+				success: function() {
+					alert('삭제 성공~~');
+					location.href = _contextPath_ + 'word/list';
+				},
+				error: function() {
+					alert('삭제 실패!!');
+				}
+			});
+		});
+	</script>
+</body>
+</html>

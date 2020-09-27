@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>form.html</title>
+	<!-- css and script -->
+	<th:block th:replace="layout/css::css1"></th:block>
+	<th:block th:replace="layout/script::script1"></th:block>
+	<!-- /css and script -->
+</head>
+<body>
+	<!-- header -->
+	<div th:replace="layout/header::header1"></div>
+	<!-- /header -->
+	
+	<!-- main -->
+	<div class="container">
+		<div class="page-header">
+			<h1>SIT APIs Detail</h1>
+		</div>
+		<br/>
+		<input id="apis_id" type="hidden" th:value="${apis?.id}"/>
+		<table class="table">
+			<tr>
+				<th style="padding:13px 0 0 15px;">id</th>
+				<td><input type="text" class="col-md-1 form-control input-sm" readonly="readonly" th:value="${apis?.id}"/></td>
+			</tr>
+			<tr>
+				<th style="padding:13px 0 0 15px;">Name</th>
+				<td><input id="apis_name" type="text" class="col-md-1 form-control input-sm" th:value="${apis?.name}"/></td>
+			</tr>
+			<tr>
+				<th style="padding:13px 0 0 15px;">Mapping</th>
+				<td><input id="apis_mapping" type="text" class="col-md-1 form-control input-sm" th:value="${apis?.mapping}"/></td>
+			</tr>
+			<tr>
+				<th style="padding:13px 0 0 15px;">httpUrl</th>
+				<td><input id="apis_httpUrl" type="text" class="col-md-1 form-control input-sm" th:value="${apis?.httpUrl}"/></td>
+			</tr>
+			<tr>
+				<th style="padding:13px 0 0 15px;">httpMethod</th>
+				<td><input id="apis_httpMethod" type="text" class="col-md-1 form-control input-sm" th:value="${apis?.httpMethod}"/></td>
+			</tr>
+			<tr>
+				<th style="padding:13px 0 0 15px;">reqJson</th>
+				<td><textarea id="apis_reqJson" class="col-md-1 form-control input-sm" rows="7" style="height:100px;" th:text="${apis?.reqJson}"></textarea></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		<div class="pull-left">
+			<a th:href="@{/apis/list}" class="btn btn-default">list</a>
+			<button id="btnModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">TEST</button>
+		</div>
+		<div class="pull-right">
+			<button th:if="!${apis?.id}" type="button" class="btn btn-primary" id="insert1">save1</button>
+			<button th:if="${apis?.id}" type="button" class="btn btn-primary" id="insert2">save2</button>
+			<button th:if="${apis?.id}" type="button" class="btn btn-info" id="update">update</button>
+			<button th:if="${apis?.id}" type="button" class="btn btn-danger" id="delete">delete</button>
+		</div>
+	</div>
+	<!-- /main -->
+	
+	<!-- footer -->
+	<div th:replace="layout/footer::footer1"></div>
+	<!-- /footer -->
+	
+	<!-- Modal dialog -->
+	<div class="modal fase" id="myModal">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+			
+				<!-- Modal Header -->
+				<div class="modal-header bg-success">
+					<h4 class="modal-title">Line Test</h4>
+					<!-- button type="button" class="close" data-dismiss="modal">&times;</button -->
+				</div>
+				
+				<!-- Modal body -->
+				<div class="modal-body">
+					<table class="table">
+						<tr>
+							<th style="padding:13px 0 0 15px;">Mapping</th>
+							<td><input id="modal_mapping" value="" readonly="readonly" type="text" class="col-md-1 form-control input-sm"/></td>
+						</tr>
+						<tr>
+							<th style="padding:13px 0 0 15px;">Request Method</th>
+							<td><input id="modal_httpUrl" value="" readonly="readonly" type="text" class="col-md-1 form-control input-sm"/></td>
+						</tr>
+						<tr>
+							<th style="padding:13px 0 0 15px;">Request URL</th>
+							<td><input id="modal_httpMethod" value="" readonly="readonly" type="text" class="col-md-1 form-control input-sm"/></td>
+						</tr>
+						<tr>
+							<th style="padding:13px 0 0 15px;">Request Json</th>
+							<td><textarea id="modal_reqJson" class="col-md-1 form-control input-sm" rows="7" style="height:100px;"></textarea></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<button id="btnTransfer" type="button" class="btn btn-primary">Transfer</button>
+								<button id="btnCopyRequest" type="button" class="btn btn-primary">Copy Request</button>
+								<button id="btnCopyResponse" type="button" class="btn btn-primary">Copy Response</button>
+							</td>
+						</tr>
+						<tr>
+							<th style="padding:13px 0 0 15px;">Response Json</th>
+							<td><textarea id="modal_resJson" class="col-md-1 form-control input-sm" maxlength="140" rows="7" style="height:100px;"></textarea></td>
+						</tr>
+					</table>
+				</div>
+				
+				<!-- Modal footer -->
+				<div class="modal-footer bg-success">
+					<button id="btnClose" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+	<!-- /Modal dialog -->
+	
+	<!-- script -->
+	<script th:inline="javascript">
+		// document.ready
+		var json = /*[[${line?.reqParameters}]]*/;
+		//if (true) console.log(">>>>> json = " + json);
+		$('#line_reqParameters').val(JSON.stringify(JSON.parse(json), null, 2));
+	</script>
+	<script>
+		$('#btnModal').click(function() {
+			//alert('Hello btnModal');
+			$('#modal_mapping').val($('#apis_mapping').val());
+			$('#modal_httpUrl').val($('#apis_httpUrl').val());
+			$('#modal_httpMethod').val($('#apis_httpMethod').val());
+			$('#modal_reqJson').val($('#apis_reqJson').val());
+			$('#modal_resJson').val('');
+		});
+		$('#btnTransfer').click(function() {
+			//alert('Hello btnTransfer');
+			var jsonData = JSON.stringify({
+				httpUrl: $('#modal_httpUrl').val(),
+				httpMethod: $('#modal_httpMethod').val(),
+				reqJson: $('#modal_reqJson').val()
+			});
+			$.ajax({
+				url: _contextPath_ + $('#modal_mapping').val(),
+				type: "POST",
+				data: jsonData,
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("kiea" + ":" + "test")
+				},
+				dataType: "json",
+				success: function(data, status) {
+					$('#modal_resJson').val(JSON.stringify(data, null, 2));
+					//alert('송신 성공~~');
+					//alert('송신 성공~~' + $('#modal_resRetJson').val());
+					//location.href = _contextPath_ + '/line/list';
+				},
+				error: function() {
+					alert('FAIL of TRANSFER');
+				}
+			});
+		});
+		$('#btnClose').click(function() {
+			//alert('Hello btnClose');
+			$('#line_resRetJson').val($('#modal_resRetJson').val());
+		});
+		$('#btnCopyRequest').click(function() {
+			//alert('Hello btnCopyRequest');
+			var copyText = document.getElementById("modal_reqJson");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+		});
+		$('#btnCopyResponse').click(function() {
+			//alert('Hello btnCopyResponse');
+			var copyText = document.getElementById("modal_resJson");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+		});
+	</script>
+	<script th:if="!${apis?.id}">
+		$('#insert1').click(function() {
+			var jsonData = JSON.stringify({
+				name: $('#apis_name').val(),
+				mapping: $('#apis_mapping').val(),
+				httpUrl: $('#apis_httpUrl').val(),
+				httpMethod: $('#apis_httpMethod').val(),
+				reqJson: $('#apis_reqJson').val()
+			});
+			$.ajax({
+				url: _contextPath_ + "api/apises/",
+				type: "POST",
+				data: jsonData,
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function() {
+					alert('SUCCESS of SAVE1');
+					location.href = _contextPath_ + 'apis/list';
+				},
+				error: function() {
+					alert('FAIL of SAVE1');
+				}
+			});
+		});
+	</script>
+	<script th:if="${apis?.id}">
+		$('#insert2').click(function() {
+			var jsonData = JSON.stringify({
+				name: $('#apis_name').val(),
+				mapping: $('#apis_mapping').val(),
+				httpUrl: $('#apis_httpUrl').val(),
+				httpMethod: $('#apis_httpMethod').val(),
+				reqJson: $('#apis_reqJson').val()
+			});
+			$.ajax({
+				url: _contextPath_ + "api/apises/",
+				type: "POST",
+				data: jsonData,
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function() {
+					alert('SUCCESS of SAVE2');
+					location.href = _contextPath_ + 'apis/list';
+				},
+				error: function() {
+					alert('FAIL of SAVE2');
+				}
+			});
+		});
+		$('#update').click(function() {
+			var jsonData = JSON.stringify({
+				name: $('#apis_name').val(),
+				mapping: $('#apis_mapping').val(),
+				httpUrl: $('#apis_httpUrl').val(),
+				httpMethod: $('#apis_httpMethod').val(),
+				reqJson: $('#apis_reqJson').val()
+			});
+			$.ajax({
+				url: _contextPath_ + "api/apises/" + $('#apis_id').val(),
+				type: "PUT",
+				data: jsonData,
+				contentType: "application/json",
+				dataType: "json",
+				success: function() {
+					alert('SUCCESS of UPDATE');
+					location.href = _contextPath_ + 'apis/list';
+				},
+				error: function() {
+					alert('FAIL of UPDATE');
+				}
+			});
+		});
+		$('#delete').click(function() {
+			$.ajax({
+				url: _contextPath_ + "api/apises/" + $('#apis_id').val(),
+				type: "DELETE",
+				success: function() {
+					alert('SUCCESS of DELETE');
+					location.href = _contextPath_ + 'apis/list';
+				},
+				error: function() {
+					alert('FAIL of DELETE');
+				}
+			});
+		});
+	</script>
+</body>
+</html>
