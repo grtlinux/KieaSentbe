@@ -41,23 +41,6 @@ public class ServerJob {
 	@Autowired
 	private CreateUserProcess createUserProcess;
 	
-	/*
-	@Autowired
-	private ValidateProcess validateProcess;
-	
-	@Autowired
-	private CommitProcess commitProcess;
-	
-	@Autowired
-	private AmendProcess amendProcess;
-	
-	@Autowired
-	private RefundProcess refundProcess;
-	
-	@Autowired
-	private CustomerProcess customerProcess;
-	*/
-	
 	///////////////////////////////////////////////////////////////////////////
 	
 	@Async(value = "serverTask")
@@ -97,17 +80,12 @@ public class ServerJob {
 					case "0200500":  // createUser
 						resLnsStream = this.createUserProcess.process(reqLnsStream);
 						break;
-						/*
-					case "0200500":  // amend
-						resLnsStream = this.amendProcess.process(reqLnsStream);
+					case "0200600":  // getResult
+						resLnsStream = this.createUserProcess.process(reqLnsStream);
 						break;
-					case "0200600":  // refund
-						resLnsStream = this.refundProcess.process(reqLnsStream);
+					case "0200700":  // getVerification
+						resLnsStream = this.createUserProcess.process(reqLnsStream);
 						break;
-					case "0200800":  // customer
-						resLnsStream = this.customerProcess.process(reqLnsStream);
-						break;
-					*/
 					default:
 						log.error("ERROR >>>>> WRONG TypeCode: {}", JsonPrint.getInstance().toPrettyJson(reqLnsStream));
 						break;
