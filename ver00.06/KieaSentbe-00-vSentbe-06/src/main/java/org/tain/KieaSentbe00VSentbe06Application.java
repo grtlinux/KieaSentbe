@@ -66,7 +66,7 @@ public class KieaSentbe00VSentbe06Application implements CommandLineRunner {
 			if (Flag.flag) this.apisWorking.select();
 		}
 		
-		if (Flag.flag) System.exit(0);
+		//if (Flag.flag) System.exit(0);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////

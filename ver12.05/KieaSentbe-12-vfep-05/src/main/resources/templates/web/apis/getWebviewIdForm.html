@@ -16,7 +16,7 @@
 	<!-- main -->
 	<div class="container">
 		<div class="page-header">
-			<h1>Sentbe-vFEP: Check User TEST</h1>
+			<h1>Sentbe-vFEP: get WebviewId TEST</h1>
 		</div>
 		<br/>
 		<input id="apis_id" type="hidden" th:value="${apis?.id}"/>
@@ -103,8 +103,8 @@
 				<div class="modal-body">
 					<table class="table">
 						<tr>
-							<th style="padding:13px 0 0 15px;">id_number</th>
-							<td><input id="modal1_id_number" value="" type="text" class="col-md-1 form-control input-sm"/></td>
+							<th style="padding:13px 0 0 15px;">user_id</th>
+							<td><input id="modal1_user_id" value="" type="text" class="col-md-1 form-control input-sm"/></td>
 						</tr>
 						<tr>
 							<th style="padding:13px 0 0 15px;"> </th>
@@ -299,19 +299,19 @@
 	<script>
 		$('#btnMakeReqStream').click(function() {
 			console.log('Hello btnMakeReqStream');
-			$('#modal1_id_number').val(reqJson.id_number);
+			$('#modal1_user_id').val(reqJson.user_id);
 		});
 		$('#btnToJson').click(function() {
 			console.log('Hello btnToJson');
 			var reqJson = JSON.stringify({
-				id_number: $('#modal1_id_number').val()
+				user_id: $('#modal1_user_id').val()
 			}, null, 2);
 			$('#modal1_reqJson').val(reqJson);
 		});
 		$('#btnGetReqStream').click(function() {
 			console.log('Hello btnGetReqStream');
 			$.ajax({
-				url: _contextPath_ + "apis/checkUser/mapper/req/json2str",
+				url: _contextPath_ + "apis/getWebviewId/mapper/req/json2str",
 				type: "POST",
 				data: $('#modal1_reqJson').val(),
 				contentType: "application/json",
@@ -344,7 +344,7 @@
 		$('#btnSendReqStream').click(function() {
 			console.log('Hello btnSendReqStream');
 			$.ajax({
-				url: _contextPath_ + "apis/checkUser/sbs01",
+				url: _contextPath_ + "apis/getWebviewId/sbs01",
 				type: "POST",
 				data: $('#apis_reqStream').val(),
 				contentType: "application/json",
@@ -375,7 +375,7 @@
 		$('#btnShowResJson').click(function() {
 			console.log('Hello btnShowResJson');
 			$.ajax({
-				url: _contextPath_ + "apis/checkUser/mapper/res/str2json",
+				url: _contextPath_ + "apis/getWebviewId/mapper/res/str2json",
 				type: "POST",
 				data: $('#apis_resStream').val(),
 				contentType: "application/json",
@@ -410,7 +410,7 @@
 		$('#btnShowReqCStruct').click(function() {
 			console.log('Hello btnShowReqCStruct');
 			$.ajax({
-				url: _contextPath_ + "apis/checkUser/mapper/req/cstruct",
+				url: _contextPath_ + "apis/getWebviewId/mapper/req/cstruct",
 				type: "POST",
 				data: "{}",
 				contentType: "application/json",
@@ -430,7 +430,7 @@
 		$('#btnShowResCStruct').click(function() {
 			console.log('Hello btnShowResCStruct');
 			$.ajax({
-				url: _contextPath_ + "apis/checkUser/mapper/res/cstruct",
+				url: _contextPath_ + "apis/getWebviewId/mapper/res/cstruct",
 				type: "POST",
 				data: "{}",
 				contentType: "application/json",
@@ -468,7 +468,7 @@
 			console.log('Hello btnSendRecvJson');
 			$.ajax({
 				// TODO: make hostname and set the hostname instead of localhost
-				url: "http://localhost:17083/v0.5/online/checkUser",
+				url: "http://localhost:17083/v0.5/online/getWebviewId",
 				type: "POST",
 				data: $('#modal5_reqJson').val(),
 				contentType: "application/json",

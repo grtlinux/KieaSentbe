@@ -103,28 +103,20 @@
 				<div class="modal-body">
 					<table class="table">
 						<tr>
-							<th style="padding:13px 0 0 15px;">input_amount</th>
-							<td><input id="modal1_input_amount" value="" type="text" class="col-md-1 form-control input-sm"/></td>
+							<th style="padding:13px 0 0 15px;">tr_id</th>
+							<td><input id="modal1_tr_id" value="" type="text" class="col-md-1 form-control input-sm"/></td>
 						</tr>
 						<tr>
-							<th style="padding:13px 0 0 15px;">input_currency</th>
-							<td><input id="modal1_input_currency" value="" type="text" class="col-md-1 form-control input-sm"/></td>
+							<th style="padding:13px 0 0 15px;">user_id</th>
+							<td><input id="modal1_user_id" value="" type="text" class="col-md-1 form-control input-sm"/></td>
 						</tr>
 						<tr>
-							<th style="padding:13px 0 0 15px;">from_currency</th>
-							<td><input id="modal1_from_currency" value="" type="text" class="col-md-1 form-control input-sm"/></td>
+							<th style="padding:13px 0 0 15px;">withdrawal_amount</th>
+							<td><input id="modal1_withdrawal_amount" value="" type="text" class="col-md-1 form-control input-sm"/></td>
 						</tr>
 						<tr>
-							<th style="padding:13px 0 0 15px;">to_currency</th>
-							<td><input id="modal1_to_currency" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">to_country</th>
-							<td><input id="modal1_to_country" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">exchange_rate_id</th>
-							<td><input id="modal1_exchange_rate_id" value="" type="text" class="col-md-1 form-control input-sm"/></td>
+							<th style="padding:13px 0 0 15px;">tr_no</th>
+							<td><input id="modal1_tr_no" value="" type="text" class="col-md-1 form-control input-sm"/></td>
 						</tr>
 						<tr>
 							<th style="padding:13px 0 0 15px;"> </th>
@@ -319,22 +311,18 @@
 	<script>
 		$('#btnMakeReqStream').click(function() {
 			console.log('Hello btnMakeReqStream');
-			$('#modal1_input_amount').val(reqJson.input_amount);
-			$('#modal1_input_currency').val(reqJson.input_currency);
-			$('#modal1_from_currency').val(reqJson.from_currency);
-			$('#modal1_to_currency').val(reqJson.to_currency);
-			$('#modal1_to_country').val(reqJson.to_country);
-			$('#modal1_exchange_rate_id').val(reqJson.exchange_rate_id);
+			$('#modal1_tr_id').val(reqJson.tr_id);
+			$('#modal1_user_id').val(reqJson.user_id);
+			$('#modal1_withdrawal_amount').val(reqJson.withdrawal_amount);
+			$('#modal1_tr_no').val(reqJson.tr_no);
 		});
 		$('#btnToJson').click(function() {
 			console.log('Hello btnToJson');
 			var reqJson = JSON.stringify({
-				input_amount: $('#modal1_input_amount').val(),
-				input_currency: $('#modal1_input_currency').val(),
-				from_currency: $('#modal1_from_currency').val(),
-				to_currency: $('#modal1_to_currency').val(),
-				to_country: $('#modal1_to_country').val(),
-				exchange_rate_id: $('#modal1_exchange_rate_id').val()
+				tr_id: $('#modal1_tr_id').val(),
+				user_id: $('#modal1_user_id').val(),
+				withdrawal_amount: $('#modal1_withdrawal_amount').val(),
+				tr_no: $('#modal1_tr_no').val()
 			}, null, 2);
 			$('#modal1_reqJson').val(reqJson);
 		});

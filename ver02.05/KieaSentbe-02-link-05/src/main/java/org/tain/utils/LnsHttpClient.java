@@ -111,10 +111,7 @@ public class LnsHttpClient {
 			String httpUrl = lnsJson.getHttpUrl();
 			HttpMethod httpMethod = HttpMethod.POST;
 			
-			String json = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(lnsJson);
-			//JsonNode jsonNode = new ObjectMapper().readTree(lnsReqWeb.getReqJson());
-			//((ObjectNode) jsonNode.at("/source")).put("transactionId", TransactionId.get());
-			//reqJson = jsonNode.toPrettyString();
+			String json = JsonPrint.getInstance().toPrettyJson(lnsJson);
 			log.info(">>>>> REQ.lnsJson        = {}", json);
 			
 			HttpHeaders reqHeaders = new HttpHeaders();
@@ -136,7 +133,7 @@ public class LnsHttpClient {
 				log.info(">>>>> RES.getStatusCode()      = {}", response.getStatusCode());
 				log.info(">>>>> RES.getBody()            = {}", response.getBody());
 				json = response.getBody();
-				lnsJson = new ObjectMapper().readValue(json, LnsJson.class);
+				lnsJson.setResJsonData(json);
 				log.info(">>>>> RES.lnsJson              = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 			} catch (Exception e) {
 				//e.printStackTrace();

@@ -41,22 +41,28 @@ public class ApisController {
 	@RequestMapping(value = {"/pingForm"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String pingForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
-		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/pingForm";
+		//model.addAttribute("apis", this.apisService.findApisById(id));
+		//return "web/apis/pingForm";
+		return "redirect:/apis/list";
+		//return new RedirectView("/apis/list");
 	}
 	
 	@RequestMapping(value = {"/encryptForm"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String encryptForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
-		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/encryptForm";
+		//model.addAttribute("apis", this.apisService.findApisById(id));
+		//return "web/apis/encryptForm";
+		return "redirect:/apis/list";
+		//return new RedirectView("/apis/list");
 	}
 	
 	@RequestMapping(value = {"/decryptForm"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String decryptForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
-		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/decryptForm";
+		//model.addAttribute("apis", this.apisService.findApisById(id));
+		//return "web/apis/decryptForm";
+		return "redirect:/apis/list";
+		//return new RedirectView("/apis/list");
 	}
 	
 	///////////////////////////////////////////////////////////////////////////

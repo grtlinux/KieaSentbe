@@ -31,10 +31,10 @@ public class ApisWorking {
 	@Autowired
 	private ProjEnvUrlProperties projEnvUrlProperties;
 	
-	///////////////////////////////////////////////////////////////////////////
-	
 	@Autowired
 	private ApisRepository apisRepository;
+	
+	///////////////////////////////////////////////////////////////////////////
 	
 	public void loading() throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
@@ -68,7 +68,8 @@ public class ApisWorking {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
-			
+			Apis apis = this.apisRepository.findApidByMapping("apis/checkUser");
+			if (Flag.flag) System.out.println(">>>>> " + JsonPrint.getInstance().toPrettyJson(apis));
 		}
 	}
 }

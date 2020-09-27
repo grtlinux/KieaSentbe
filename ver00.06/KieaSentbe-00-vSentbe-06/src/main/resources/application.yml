@@ -151,7 +151,7 @@ proj-env:
 
   url:
     name: URL (test)
-    #sentbe: https://hanwha.dev.sentbe.com:10443
+    sentbe: https://hanwha.dev.sentbe.com:10443
 
 ---
 # --------------------------------------------------------

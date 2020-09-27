@@ -7,4 +7,5 @@ import org.tain.domain.apis.Apis;
 @RepositoryRestResource
 public interface ApisRepository extends JpaRepository<Apis, Long>{
 
+	Apis findApidByMapping(String mapping);
 }

@@ -41,46 +41,28 @@ public class ApisController {
 	@RequestMapping(value = {"/pingForm"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String pingForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
-		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/pingForm";
+		//model.addAttribute("apis", this.apisService.findApisById(id));
+		return "redirect:/apis/list";
+		//return new RedirectView("/apis/list");
 	}
 	
 	@RequestMapping(value = {"/encryptForm"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String encryptForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
-		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/encryptForm";
+		//model.addAttribute("apis", this.apisService.findApisById(id));
+		return "redirect:/apis/list";
+		//return new RedirectView("/apis/list");
 	}
 	
 	@RequestMapping(value = {"/decryptForm"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String decryptForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
-		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/decryptForm";
+		//model.addAttribute("apis", this.apisService.findApisById(id));
+		return "redirect:/apis/list";
+		//return new RedirectView("/apis/list");
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
-	
-	@RequestMapping(value = {"/getCalculationForm"}, method = {RequestMethod.GET, RequestMethod.POST})
-	public String detailForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
-		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
-		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/getCalculationForm";
-	}
-	
-	@RequestMapping(value = {"/getWebviewIdForm"}, method = {RequestMethod.GET, RequestMethod.POST})
-	public String getWebviewIdForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
-		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
-		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/getWebviewIdForm";
-	}
-	
-	@RequestMapping(value = {"/getResultForm"}, method = {RequestMethod.GET, RequestMethod.POST})
-	public String getResultForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
-		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
-		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/getResultForm";
-	}
 	
 	@RequestMapping(value = {"/getVerificationForm"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String getVerificationForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
@@ -89,24 +71,51 @@ public class ApisController {
 		return "web/apis/getVerificationForm";
 	}
 	
+	@RequestMapping(value = {"/getCalculationForm"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public String detailForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
+		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
+		//model.addAttribute("apis", this.apisService.findApisById(id));
+		return "redirect:/apis/list";
+		//return new RedirectView("/apis/list");
+	}
+	
+	@RequestMapping(value = {"/getWebviewIdForm"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public String getWebviewIdForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
+		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
+		//model.addAttribute("apis", this.apisService.findApisById(id));
+		return "redirect:/apis/list";
+		//return new RedirectView("/apis/list");
+	}
+	
+	@RequestMapping(value = {"/getResultForm"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public String getResultForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
+		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
+		//model.addAttribute("apis", this.apisService.findApisById(id));
+		return "redirect:/apis/list";
+		//return new RedirectView("/apis/list");
+	}
+	
 	@RequestMapping(value = {"/checkUserForm"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String authForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
-		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/checkUserForm";
+		//model.addAttribute("apis", this.apisService.findApisById(id));
+		return "redirect:/apis/list";
+		//return new RedirectView("/apis/list");
 	}
 	
 	@RequestMapping(value = {"/deleteUserForm"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String historiesForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
-		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/deleteUserForm";
+		//model.addAttribute("apis", this.apisService.findApisById(id));
+		return "redirect:/apis/list";
+		//return new RedirectView("/apis/list");
 	}
 	
 	@RequestMapping(value = {"/createUserForm"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String createUserForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
-		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/createUserForm";
+		//model.addAttribute("apis", this.apisService.findApisById(id));
+		return "redirect:/apis/list";
+		//return new RedirectView("/apis/list");
 	}
 }

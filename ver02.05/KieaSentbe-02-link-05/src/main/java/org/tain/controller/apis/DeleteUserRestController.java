@@ -15,6 +15,7 @@ import org.tain.properties.ProjEnvUrlProperties;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.utils.JsonPrint;
+import org.tain.utils.LnsHttpClient;
 import org.tain.utils.LnsSentbeClient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,6 +33,9 @@ public class DeleteUserRestController {
 	@Autowired
 	private LnsSentbeClient lnsSentbeClient;
 	
+	@Autowired
+	private LnsHttpClient lnsHttpClient;
+	
 	@RequestMapping(value = {""}, method = {RequestMethod.GET, RequestMethod.POST})
 	public ResponseEntity<?> reqStrToJson(HttpEntity<String> reqHttpEntity) throws Exception {
 		log.info("KANG-20200623 >>>>> {}", CurrentInfo.get());
@@ -46,11 +50,19 @@ public class DeleteUserRestController {
 		LnsJson lnsJson = null;
 		
 		if (Flag.flag) {
-			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
-			lnsJson.setHttpUrl(this.projEnvUrlProperties.getSentbe() + "/hanwha/deleteUser");
-			lnsJson.setHttpMethod("POST");
-			lnsJson = this.lnsSentbeClient.post(lnsJson);
-			log.info(">>>>> RES.DeleteUser.lnsJson  = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
+			String sentbe = this.projEnvUrlProperties.getSentbe();
+			if (sentbe.contains("localhost")) {
+				lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
+				lnsJson.setHttpUrl(sentbe + "/apis/deleteUser");
+				lnsJson.setHttpMethod("POST");
+				lnsJson = this.lnsHttpClient.post(lnsJson);
+			} else {
+				lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
+				lnsJson.setHttpUrl(sentbe + "/hanwha/deleteUser");
+				lnsJson.setHttpMethod("POST");
+				lnsJson = this.lnsSentbeClient.post(lnsJson);
+			}
+			log.info(">>>>> RES.CheckUser.lnsJson  = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
 		
 		if (Flag.flag) log.info("========================================================");

@@ -5,11 +5,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
 import lombok.Data;
 
-@Table(name = "tb_apis")
+@Table(name = "tb_apis"
+, indexes = {
+		@Index(name = "apis_idx0", unique = true, columnList = "mapping"),
+}
+)
 @Entity
 @Data
 //@NoArgsConstructor
