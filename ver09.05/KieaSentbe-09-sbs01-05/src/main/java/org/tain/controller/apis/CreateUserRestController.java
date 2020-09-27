@@ -49,7 +49,7 @@ public class CreateUserRestController {
 			LnsStream reqLnsStream = null;
 			if (Flag.flag) {
 				String reqStrData = lnsJson.getReqStrData();
-				String reqTypeCode = "0200100";
+				String reqTypeCode = "0200500";
 				String reqLen = String.format("%04d", 7 + reqStrData.length());
 				reqLnsStream = new LnsStream(reqLen + reqTypeCode + reqStrData);
 				log.info("Lns01/CreateUser >>>>> reqLnsStream = {}", JsonPrint.getInstance().toPrettyJson(reqLnsStream));

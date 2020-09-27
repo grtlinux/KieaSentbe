@@ -36,7 +36,7 @@ public class GetCalculationRestController {
 	public ResponseEntity<?> reqStrToJson(HttpEntity<String> reqHttpEntity) throws Exception {
 		log.info("KANG-20200623 >>>>> {}", CurrentInfo.get());
 		
-		if (Flag.flag) log.info("========================================================");
+		if (Flag.flag) log.info("\n================== Link START: GetCalculation ===================\n");
 		
 		if (Flag.flag) {
 			log.info("LINK.GetCalculation >>>>> Headers = {}", reqHttpEntity.getHeaders());
@@ -53,7 +53,7 @@ public class GetCalculationRestController {
 			log.info(">>>>> RES.GetCalculation.lnsJson  = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
 		
-		if (Flag.flag) log.info("========================================================");
+		if (Flag.flag) log.info("\n================== Link FINISH: GetCalculation ===================\n");
 		
 		MultiValueMap<String,String> headers = null;
 		if (Flag.flag) {

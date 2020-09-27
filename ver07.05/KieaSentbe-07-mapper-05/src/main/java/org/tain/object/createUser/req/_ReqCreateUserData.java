@@ -15,15 +15,15 @@ public class _ReqCreateUserData {
 
 	@StreamAnnotation
 	@JsonProperty(value = "agrements")
-	private _ReqCreateUserAgreements agrements;
+	private _ReqCreateUserAgreements agrements = new _ReqCreateUserAgreements();
 	
 	@StreamAnnotation
 	@JsonProperty(value = "phone")
-	private _ReqCreateUserPhone phone;
+	private _ReqCreateUserPhone phone = new _ReqCreateUserPhone();
 	
 	@StreamAnnotation
 	@JsonProperty(value = "user_name")
-	private _ReqCreateUserName user_name;
+	private _ReqCreateUserName user_name = new _ReqCreateUserName();
 	
 	////////////////////////////////////////////////////////
 	

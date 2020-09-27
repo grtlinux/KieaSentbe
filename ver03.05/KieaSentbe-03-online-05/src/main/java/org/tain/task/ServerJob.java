@@ -94,6 +94,10 @@ public class ServerJob {
 					case "0200700":  // getVerification
 						resLnsStream = this.getVerificationProcess.process(reqLnsStream);
 						break;
+					case "0200001":  // ping
+					case "0200002":  // encrypt
+					case "0200003":  // decrypt
+						break;
 					default:
 						log.error("ERROR >>>>> WRONG TypeCode: {}", JsonPrint.getInstance().toPrettyJson(reqLnsStream));
 						break;

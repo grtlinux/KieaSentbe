@@ -212,6 +212,7 @@ public class LnsSentbeClient {
 					JsonNode jsonResponseBody = JsonPrint.getInstance().getObjectMapper().readTree(response.getBody());
 					log.trace(">>>>> STEP-3 RES.response.getBody(): {}", jsonResponseBody.toPrettyString());
 					
+					/*
 					if (jsonResponseBody.at("/code").asInt() == 200 && !"".equals(jsonResponseBody.at("/data").asText())) {
 						String pass = this.projEnvParamProperties.getSentbeSecretKeyForData();  // secretKey for data
 						String decryptData = Aes256.decrypt(jsonResponseBody.at("/data").asText(), pass);
@@ -220,6 +221,23 @@ public class LnsSentbeClient {
 						lnsJson.setResJsonData(jsonResponseData.toPrettyString());
 						log.trace(">>>>> STEP-3 RES.getResJsonData: " + lnsJson.getResJsonData());
 					}
+					*/
+					
+					if (jsonResponseBody.at("/code").asInt() == 200) {
+						String strData = jsonResponseBody.at("/data").asText();
+						if (strData == null || "".equals(strData)) {
+							lnsJson.setResJsonData("{}");
+						} else {
+							String pass = this.projEnvParamProperties.getSentbeSecretKeyForData();  // secretKey for data
+							String decryptData = Aes256.decrypt(jsonResponseBody.at("/data").asText(), pass);
+							
+							JsonNode jsonResponseData = JsonPrint.getInstance().getObjectMapper().readTree(decryptData);
+							lnsJson.setResJsonData(jsonResponseData.toPrettyString());
+						}
+					} else {
+						lnsJson.setResJsonData("{}");
+					}
+					log.trace(">>>>> STEP-3 RES.getResJsonData: " + lnsJson.getResJsonData());
 				}
 				
 				log.trace(">>>>> STEP-3 RES.lnsJson              = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));

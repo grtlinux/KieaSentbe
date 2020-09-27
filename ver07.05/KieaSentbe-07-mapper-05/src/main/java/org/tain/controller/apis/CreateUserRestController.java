@@ -9,6 +9,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.tain.object.createUser.req._ReqCreateUserAgreements;
 import org.tain.object.createUser.req._ReqCreateUserData;
 import org.tain.object.createUser.res._ResCreateUserData;
 import org.tain.object.lns.LnsJson;
@@ -32,7 +33,7 @@ public class CreateUserRestController {
 	///////////////////////////////////////////////////////////////////////////
 	
 	/*
-	 * http://localhost:17087/v0.5/mapper/createUser/req/j2s
+	 * http://localhost:17087/v0.5/mapper/createUser/req/s2j
 	 */
 	@RequestMapping(value = {"/req/s2j"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public ResponseEntity<?> commitReqStrToJson(HttpEntity<String> reqHttpEntity) throws Exception {
@@ -52,6 +53,8 @@ public class CreateUserRestController {
 			TransferStrAndJson.subString = new SubString(lnsJson.getReqStrData());
 			_ReqCreateUserData reqData = new _ReqCreateUserData();
 			reqData = (_ReqCreateUserData) TransferStrAndJson.getObject(reqData);
+			// TODO: to do last, very important
+			reqData.setAgrements(new _ReqCreateUserAgreements());
 			
 			lnsJson.setReqJsonData(JsonPrint.getInstance().toJson(reqData));
 			log.info("MAPPER.req >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
@@ -66,7 +69,7 @@ public class CreateUserRestController {
 	}
 	
 	/*
-	 * http://localhost:17087/v0.5/mapper/createUser/req/s2j
+	 * http://localhost:17087/v0.5/mapper/createUser/res/s2j
 	 */
 	@RequestMapping(value = {"/res/s2j"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public ResponseEntity<?> commitResStrToJson(HttpEntity<String> reqHttpEntity) throws Exception {

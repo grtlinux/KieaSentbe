@@ -16,7 +16,7 @@
 	<!-- main -->
 	<div class="container">
 		<div class="page-header">
-			<h1>Sentbe-vFEP: Create User TEST</h1>
+			<h1>Sentbe-vFEP: Ping TEST</h1>
 		</div>
 		<br/>
 		<input id="apis_id" type="hidden" th:value="${apis?.id}"/>
@@ -103,72 +103,8 @@
 				<div class="modal-body">
 					<table class="table">
 						<tr>
-							<th style="padding:13px 0 0 15px;">phone.iso</th>
-							<td><input id="modal1_phone_iso" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">phone.number</th>
-							<td><input id="modal1_phone_number" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">user_name.first</th>
-							<td><input id="modal1_user_name_first" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">user_name.middle</th>
-							<td><input id="modal1_user_name_middle" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">user_name.last</th>
-							<td><input id="modal1_user_name_last" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">gender</th>
-							<td><input id="modal1_gender" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">account_number</th>
-							<td><input id="modal1_account_number" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">account_holder_name</th>
-							<td><input id="modal1_account_holder_name" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">birth_date</th>
-							<td><input id="modal1_birth_date" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">nationality_iso</th>
-							<td><input id="modal1_nationality_iso" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
 							<th style="padding:13px 0 0 15px;">id_number</th>
 							<td><input id="modal1_id_number" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">id_type</th>
-							<td><input id="modal1_id_type" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">email</th>
-							<td><input id="modal1_email" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">often_send_country_iso</th>
-							<td><input id="modal1_often_send_country_iso" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">occupation</th>
-							<td><input id="modal1_occupation" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">funds_source</th>
-							<td><input id="modal1_funds_source" value="" type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">transfer_purpose</th>
-							<td><input id="modal1_transfer_purpose" value="" type="text" class="col-md-1 form-control input-sm"/></td>
 						</tr>
 						<tr>
 							<th style="padding:13px 0 0 15px;"> </th>
@@ -363,59 +299,19 @@
 	<script>
 		$('#btnMakeReqStream').click(function() {
 			console.log('Hello btnMakeReqStream');
-			$('#modal1_phone_iso').val(reqJson.phone.iso);
-			$('#modal1_phone_number').val(reqJson.phone.number);
-			$('#modal1_user_name_first').val(reqJson.user_name.first);
-			$('#modal1_user_name_middle').val(reqJson.user_name.middle);
-			$('#modal1_user_name_last').val(reqJson.user_name.last);
-			$('#modal1_gender').val(reqJson.gender);
-			$('#modal1_account_number').val(reqJson.account_number);
-			$('#modal1_account_holder_name').val(reqJson.account_holder_name);
-			$('#modal1_birth_date').val(reqJson.birth_date);
-			$('#modal1_nationality_iso').val(reqJson.nationality_iso);
 			$('#modal1_id_number').val(reqJson.id_number);
-			$('#modal1_id_type').val(reqJson.id_type);
-			$('#modal1_email').val(reqJson.email);
-			$('#modal1_often_send_country_iso').val(reqJson.often_send_country_iso);
-			$('#modal1_occupation').val(reqJson.occupation);
-			$('#modal1_funds_source').val(reqJson.funds_source);
-			$('#modal1_transfer_purpose').val(reqJson.transfer_purpose);
 		});
 		$('#btnToJson').click(function() {
 			console.log('Hello btnToJson');
 			var reqJson = JSON.stringify({
-				agreements: {
-					version: 1,
-					list: [ "SSFCTS", "EFTS", "PRIVACY", "CAUTIONS", "CLAIMS" ]
-				},
-				phone: {
-					iso: $('#modal1_phone_iso').val(),
-					number: $('#modal1_phone_number').val()
-				},
-				user_name: {
-					first: $('#modal1_user_name_first').val(),
-					middle: $('#modal1_user_name_middle').val(),
-					last: $('#modal1_user_name_last').val()
-				},
-				gender: $('#modal1_gender').val(),
-				account_number: $('#modal1_account_number').val(),
-				account_holder_name: $('#modal1_account_holder_name').val(),
-				birth_date: $('#modal1_birth_date').val(),
-				id_number: $('#modal1_nationality_iso').val(),
-				nationality_iso: $('#modal1_id_number').val(),
-				id_type: $('#modal1_id_type').val(),
-				email: $('#modal1_email').val(),
-				often_send_country_iso: $('#modal1_often_send_country_iso').val(),
-				occupation: $('#modal1_occupation').val(),
-				funds_source: $('#modal1_funds_source').val(),
-				transfer_purpose: $('#modal1_transfer_purpose').val()
+				id_number: $('#modal1_id_number').val()
 			}, null, 2);
 			$('#modal1_reqJson').val(reqJson);
 		});
 		$('#btnGetReqStream').click(function() {
 			console.log('Hello btnGetReqStream');
 			$.ajax({
-				url: _contextPath_ + "apis/createUser/mapper/req/json2str",
+				url: _contextPath_ + "apis/ping/mapper/req/json2str",
 				type: "POST",
 				data: $('#modal1_reqJson').val(),
 				contentType: "application/json",
@@ -448,7 +344,7 @@
 		$('#btnSendReqStream').click(function() {
 			console.log('Hello btnSendReqStream');
 			$.ajax({
-				url: _contextPath_ + "apis/createUser/sbs01",
+				url: _contextPath_ + "apis/ping/sbs01",
 				type: "POST",
 				data: $('#apis_reqStream').val(),
 				contentType: "application/json",
@@ -479,7 +375,7 @@
 		$('#btnShowResJson').click(function() {
 			console.log('Hello btnShowResJson');
 			$.ajax({
-				url: _contextPath_ + "apis/createUser/mapper/res/str2json",
+				url: _contextPath_ + "apis/ping/mapper/res/str2json",
 				type: "POST",
 				data: $('#apis_resStream').val(),
 				contentType: "application/json",
@@ -514,7 +410,7 @@
 		$('#btnShowReqCStruct').click(function() {
 			console.log('Hello btnShowReqCStruct');
 			$.ajax({
-				url: _contextPath_ + "apis/createUser/mapper/req/cstruct",
+				url: _contextPath_ + "apis/ping/mapper/req/cstruct",
 				type: "POST",
 				data: "{}",
 				contentType: "application/json",
@@ -534,7 +430,7 @@
 		$('#btnShowResCStruct').click(function() {
 			console.log('Hello btnShowResCStruct');
 			$.ajax({
-				url: _contextPath_ + "apis/createUser/mapper/res/cstruct",
+				url: _contextPath_ + "apis/ping/mapper/res/cstruct",
 				type: "POST",
 				data: "{}",
 				contentType: "application/json",
@@ -572,7 +468,7 @@
 			console.log('Hello btnSendRecvJson');
 			$.ajax({
 				// TODO: make hostname and set the hostname instead of localhost
-				url: "http://localhost:17083/v0.5/online/createUser",
+				url: "http://localhost:17083/v0.5/online/ping",
 				type: "POST",
 				data: $('#modal5_reqJson').val(),
 				contentType: "application/json",

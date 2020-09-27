@@ -56,14 +56,14 @@
 		"reqJson": "8. getWebviewId_req.json",
 		"resJson": "8. getWebviewId_res.json"
 	}, {
-		"name": "9. getResult(new)",
+		"name": "9. getResult (new)",
 		"mapping": "apis/getResult",
 		"httpUrl": "/hanwha/getResult",
 		"httpMethod": "POST",
 		"reqJson": "9. getResult_req.json",
 		"resJson": "9. getResult_res.json"
 	}, {
-		"name": "10. getVerification(callback)",
+		"name": "10. getVerification (new.callback)",
 		"mapping": "apis/getVerification",
 		"httpUrl": "/hanwha/getVerification",
 		"httpMethod": "POST",

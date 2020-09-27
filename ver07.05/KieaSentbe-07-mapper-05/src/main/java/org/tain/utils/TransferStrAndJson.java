@@ -80,7 +80,8 @@ public class TransferStrAndJson {
 							sb.append(String.format("%" + length + "." + length + "s", String.valueOf(value)));
 						} else {
 							Object obj = field.get(object);
-							sb.append(TransferStrAndJson.getStream(obj));
+							if (obj != null)
+								sb.append(TransferStrAndJson.getStream(obj));
 							// continue;
 						}
 					} else {

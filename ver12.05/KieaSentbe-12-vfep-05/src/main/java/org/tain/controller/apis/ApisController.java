@@ -38,18 +38,62 @@ public class ApisController {
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
 	
-	@RequestMapping(value = {"/checkUserForm"}, method = {RequestMethod.GET, RequestMethod.POST})
-	public String authForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
+	@RequestMapping(value = {"/pingForm"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public String pingForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/checkUserForm";
+		return "web/apis/pingForm";
 	}
+	
+	@RequestMapping(value = {"/encryptForm"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public String encryptForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
+		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
+		model.addAttribute("apis", this.apisService.findApisById(id));
+		return "web/apis/encryptForm";
+	}
+	
+	@RequestMapping(value = {"/decryptForm"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public String decryptForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
+		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
+		model.addAttribute("apis", this.apisService.findApisById(id));
+		return "web/apis/decryptForm";
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
 	
 	@RequestMapping(value = {"/getCalculationForm"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String detailForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
 		return "web/apis/getCalculationForm";
+	}
+	
+	@RequestMapping(value = {"/getWebviewIdForm"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public String getWebviewIdForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
+		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
+		model.addAttribute("apis", this.apisService.findApisById(id));
+		return "web/apis/getWebviewIdForm";
+	}
+	
+	@RequestMapping(value = {"/getResultForm"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public String getResultForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
+		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
+		model.addAttribute("apis", this.apisService.findApisById(id));
+		return "web/apis/getResultForm";
+	}
+	
+	@RequestMapping(value = {"/getVerificationForm"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public String getVerificationForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
+		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
+		model.addAttribute("apis", this.apisService.findApisById(id));
+		return "web/apis/getVerificationForm";
+	}
+	
+	@RequestMapping(value = {"/checkUserForm"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public String authForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
+		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
+		model.addAttribute("apis", this.apisService.findApisById(id));
+		return "web/apis/checkUserForm";
 	}
 	
 	@RequestMapping(value = {"/deleteUserForm"}, method = {RequestMethod.GET, RequestMethod.POST})
@@ -59,43 +103,10 @@ public class ApisController {
 		return "web/apis/deleteUserForm";
 	}
 	
-	@Deprecated
-	@RequestMapping(value = {"/validateForm"}, method = {RequestMethod.GET, RequestMethod.POST})
-	public String validateForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
+	@RequestMapping(value = {"/createUserForm"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public String createUserForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/validateForm";
-	}
-	
-	@Deprecated
-	@RequestMapping(value = {"/commitForm"}, method = {RequestMethod.GET, RequestMethod.POST})
-	public String commitForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
-		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
-		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/commitForm";
-	}
-	
-	@Deprecated
-	@RequestMapping(value = {"/amendForm"}, method = {RequestMethod.GET, RequestMethod.POST})
-	public String amendForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
-		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
-		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/amendForm";
-	}
-	
-	@Deprecated
-	@RequestMapping(value = {"/refundForm"}, method = {RequestMethod.GET, RequestMethod.POST})
-	public String refundForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
-		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
-		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/refundForm";
-	}
-	
-	@Deprecated
-	@RequestMapping(value = {"/customerForm"}, method = {RequestMethod.GET, RequestMethod.POST})
-	public String customerForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
-		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
-		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/customerForm";
+		return "web/apis/createUserForm";
 	}
 }

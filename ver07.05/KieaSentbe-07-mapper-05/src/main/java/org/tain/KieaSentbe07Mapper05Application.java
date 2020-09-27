@@ -62,7 +62,7 @@ public class KieaSentbe07Mapper05Application implements CommandLineRunner {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
-			if (Flag.flag) this.json01Working.test01();
+			if (!Flag.flag) this.json01Working.test01();
 			if (Flag.flag) this.json01Working.test02();
 		}
 		

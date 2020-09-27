@@ -3,9 +3,13 @@ package org.tain.working.json;
 import org.springframework.stereotype.Component;
 import org.tain.object._json01._Json01Data;
 import org.tain.object._json01._test01._Test01Data;
+import org.tain.object.createUser.req._ReqCreateUserAgreements;
+import org.tain.object.createUser.req._ReqCreateUserData;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.utils.JsonPrint;
+import org.tain.utils.SubString;
+import org.tain.utils.TransferStrAndJson;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -57,6 +61,64 @@ public class Json01Working {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
+			String jsonData = "{\n" + 
+					"  \"agreements\": {\n" + 
+					"    \"version\": 1,\n" + 
+					"    \"list\": [\n" + 
+					"      \"SSFCTS\",\n" + 
+					"      \"EFTS\",\n" + 
+					"      \"PRIVACY\",\n" + 
+					"      \"CAUTIONS\",\n" + 
+					"      \"CLAIMS\"\n" + 
+					"    ]\n" + 
+					"  },\n" + 
+					"  \"phone\": {\n" + 
+					"    \"iso\": \"KR\",\n" + 
+					"    \"number\": \"1012340001\"\n" + 
+					"  },\n" + 
+					"  \"user_name\": {\n" + 
+					"    \"first\": \"Jiwon\",\n" + 
+					"    \"middle\": \"\",\n" + 
+					"    \"last\": \"Tak\"\n" + 
+					"  },\n" + 
+					"  \"gender\": \"1\",\n" + 
+					"  \"account_number\": \"05012345670001\",\n" + 
+					"  \"account_holder_name\": \"Jiwon Tak\",\n" + 
+					"  \"birth_date\": \"19701225\",\n" + 
+					"  \"id_number\": \"KR\",\n" + 
+					"  \"nationality_iso\": \"701225-1230001\",\n" + 
+					"  \"id_type\": \"1\",\n" + 
+					"  \"email\": \"email0001@sentbe.com\",\n" + 
+					"  \"often_send_country_iso\": \"PH\",\n" + 
+					"  \"occupation\": \"3\",\n" + 
+					"  \"funds_source\": \"3\",\n" + 
+					"  \"transfer_purpose\": \"3\"\n" + 
+					"}";
+			
+			_ReqCreateUserData reqData = new ObjectMapper().readValue(jsonData, _ReqCreateUserData.class);
+			String reqStream = TransferStrAndJson.getStream(reqData);
+			if (Flag.flag) System.out.println(">>>>> [" + reqStream + "]");
+			
+			String strData = "KR 1012340001          Jiwon                                   Tak                   105012345670001      Jiwon Tak                     19701225  701KR                    1email0001@sentbe.com                              PH     3  3  3";
+			if (strData.equals(reqStream)) {
+				System.out.println(">>>>> SAME");
+			} else {
+				System.out.println(">>>>> DIFFERENT");
+			}
+		}
+		
+		if (Flag.flag) {
+			// createUser
+			String strData = "KR 1012340001          Jiwon                                   Tak                   105012345670001      Jiwon Tak                     19701225  701KR                    1email0001@sentbe.com                              PH     3  3  3";
+			
+			TransferStrAndJson.subString = new SubString(strData);
+			_ReqCreateUserData reqData = new _ReqCreateUserData();
+			reqData = (_ReqCreateUserData) TransferStrAndJson.getObject(reqData);
+			if (Flag.flag) System.out.println(">>>>> reqData: " + reqData);
+			
+			// TODO: to do last, very important...
+			reqData.setAgrements(new _ReqCreateUserAgreements());
+			if (Flag.flag) System.out.println(">>>>> PrettyJson: " + JsonPrint.getInstance().toPrettyJson(reqData));
 			
 		}
 	}

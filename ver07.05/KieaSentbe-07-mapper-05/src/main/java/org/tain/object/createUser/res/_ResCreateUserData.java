@@ -20,4 +20,8 @@ public class _ResCreateUserData {
 	@StreamAnnotation(length = 200)
 	@JsonProperty(value = "webview_id")
 	private String webview_id;
+	
+	@StreamAnnotation(length = 5)
+	@JsonProperty(value = "verification_id")
+	private String verification_id;
 }
