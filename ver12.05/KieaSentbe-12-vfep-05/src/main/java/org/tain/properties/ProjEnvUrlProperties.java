@@ -14,5 +14,7 @@ public class ProjEnvUrlProperties {
 	
 	private String sentbe;
 	
+	private String online;
+	
 	private String dummy;  // null
 }

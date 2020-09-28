@@ -91,16 +91,12 @@ proj-env:
     program: KieaSentbe API program
     version: ver 0.5_2020.09.23
     comment: This is Sentbe API project.
-
   param:
     name: PARAM (default)
-
   job:
     name: JOB (default)
-
   json:
     name: JSON (default)
-
   url:
     name: URL (default)
 
@@ -126,6 +122,7 @@ proj-env:
   url:
     name: URL (local)
     sentbe: http://localhost:17080/v0.6
+    #sentbe: https://hanwha.dev.sentbe.com:10443
 
 ---
 # --------------------------------------------------------
@@ -148,7 +145,8 @@ proj-env:
 
   url:
     name: URL (test)
-    sentbe: https://hanwha.dev.sentbe.com:10443
+    sentbe: http://localhost:17080/v0.6
+    #sentbe: https://hanwha.dev.sentbe.com:10443
 
 ---
 # --------------------------------------------------------
@@ -156,16 +154,12 @@ proj-env:
 spring.profiles: proj-aws
 
 proj-env:
-
   param:
     name: PARAM (aws)
-
   job:
     name: JOB (aws)
-
   json:
     name: JSON (aws)
-
   url:
     name: URL (aws)
 
@@ -191,6 +185,7 @@ proj-env:
   url:
     name: URL (dfep)
     sentbe: http://localhost:17080/v0.6
+    #sentbe: https://hanwha.dev.sentbe.com:10443
 
 ---
 # --------------------------------------------------------
@@ -198,16 +193,12 @@ proj-env:
 spring.profiles: proj-real
 
 proj-env:
-
   param:
     name: PARAM (real)
-
   job:
     name: JOB (real)
-
   json:
     name: JSON (real)
-
   url:
     name: URL (real)
 

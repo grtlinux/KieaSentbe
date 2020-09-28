@@ -90,16 +90,12 @@ proj-env:
     program: KieaSentbe API program
     version: ver 0.5_2020.09.23
     comment: This is Sentbe API project.
-
   param:
     name: PARAM (default)
-
   job:
     name: JOB (default)
-
   json:
     name: JSON (default)
-
   url:
     name: URL (default)
 
@@ -149,16 +145,12 @@ proj-env:
 spring.profiles: proj-aws
 
 proj-env:
-
   param:
     name: PARAM (aws)
-
   job:
     name: JOB (aws)
-
   json:
     name: JSON (aws)
-
   url:
     name: URL (aws)
 
@@ -188,16 +180,12 @@ proj-env:
 spring.profiles: proj-real
 
 proj-env:
-
   param:
     name: PARAM (real)
-
   job:
     name: JOB (real)
-
   json:
     name: JSON (real)
-
   url:
     name: URL (real)
 

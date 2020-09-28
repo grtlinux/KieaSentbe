@@ -348,6 +348,8 @@
 		//$('#line_reqParameters').val(JSON.stringify(JSON.parse(json), null, 2));
 		var reqJson = JSON.parse(/*[[${apis?.reqJson}]]*/);
 		//console.log(">>>>>", reqJson);
+		var urlOnline = /*[[${urlOnline}]]*/ 'default';
+		//console.log(">>>>>", urlOnline);
 	</script>
 	<!-- /script -->
 	
@@ -562,7 +564,7 @@
 			console.log('Hello btnSendRecvJson');
 			$.ajax({
 				// TODO: make hostname and set the hostname instead of localhost
-				url: "http://172.30.222.3:17083/v0.5/online/migrationUser",
+				url: urlOnline + "/online/migrationUser",
 				type: "POST",
 				data: $('#modal5_reqJson').val(),
 				contentType: "application/json",

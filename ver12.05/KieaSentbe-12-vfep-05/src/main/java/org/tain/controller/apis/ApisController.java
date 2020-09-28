@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.tain.properties.ProjEnvUrlProperties;
 import org.tain.service.apis.ApisService;
 import org.tain.utils.CurrentInfo;
 
@@ -18,12 +19,16 @@ import lombok.extern.slf4j.Slf4j;
 public class ApisController {
 
 	@Autowired
+	private ProjEnvUrlProperties projEnvUrlProperties;
+	
+	@Autowired
 	private ApisService apisService;
 	
 	@RequestMapping(value = {"/list"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String list(Pageable pageable, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apisList", this.apisService.findApisList(pageable));
+		model.addAttribute("urlOnline", this.projEnvUrlProperties.getOnline());
 		return "web/apis/list";
 	}
 	
@@ -31,6 +36,7 @@ public class ApisController {
 	public String form(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
+		model.addAttribute("urlOnline", this.projEnvUrlProperties.getOnline());
 		return "web/apis/form";
 	}
 	
@@ -71,6 +77,7 @@ public class ApisController {
 	public String detailForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
+		model.addAttribute("urlOnline", this.projEnvUrlProperties.getOnline());
 		return "web/apis/getCalculationForm";
 	}
 	
@@ -78,6 +85,7 @@ public class ApisController {
 	public String getWebviewIdForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
+		model.addAttribute("urlOnline", this.projEnvUrlProperties.getOnline());
 		return "web/apis/getWebviewIdForm";
 	}
 	
@@ -85,6 +93,7 @@ public class ApisController {
 	public String getResultForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
+		model.addAttribute("urlOnline", this.projEnvUrlProperties.getOnline());
 		return "web/apis/getResultForm";
 	}
 	
@@ -101,6 +110,7 @@ public class ApisController {
 	public String authForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
+		model.addAttribute("urlOnline", this.projEnvUrlProperties.getOnline());
 		return "web/apis/checkUserForm";
 	}
 	
@@ -108,6 +118,7 @@ public class ApisController {
 	public String historiesForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
+		model.addAttribute("urlOnline", this.projEnvUrlProperties.getOnline());
 		return "web/apis/deleteUserForm";
 	}
 	
@@ -115,6 +126,7 @@ public class ApisController {
 	public String createUserForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
+		model.addAttribute("urlOnline", this.projEnvUrlProperties.getOnline());
 		return "web/apis/createUserForm";
 	}
 	
@@ -122,6 +134,7 @@ public class ApisController {
 	public String migrationUserForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
+		model.addAttribute("urlOnline", this.projEnvUrlProperties.getOnline());
 		return "web/apis/migrationUserForm";
 	}
 }
