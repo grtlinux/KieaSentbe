@@ -91,8 +91,10 @@ public class ApisController {
 	@RequestMapping(value = {"/getVerificationForm"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String getVerificationForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
-		model.addAttribute("apis", this.apisService.findApisById(id));
-		return "web/apis/getVerificationForm";
+		//model.addAttribute("apis", this.apisService.findApisById(id));
+		//return "web/apis/getVerificationForm";
+		return "redirect:/apis/list";
+		//return new RedirectView("/apis/list");
 	}
 	
 	@RequestMapping(value = {"/checkUserForm"}, method = {RequestMethod.GET, RequestMethod.POST})
@@ -114,5 +116,12 @@ public class ApisController {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
 		return "web/apis/createUserForm";
+	}
+	
+	@RequestMapping(value = {"/migrationUserForm"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public String migrationUserForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
+		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
+		model.addAttribute("apis", this.apisService.findApisById(id));
+		return "web/apis/migrationUserForm";
 	}
 }

@@ -11,10 +11,10 @@ server:
 spring:
   profiles.active:
   - proj-default
-  - proj-local
-  - proj-test
+  #- proj-local
+  #- proj-test
   #- proj-aws
-  #- proj-dfep
+  - proj-dfep
   #- proj-real
   h2.console:
     enabled: true
@@ -115,7 +115,8 @@ proj-env:
     #home: /Users/kangmac
     #base: /STS_GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
     home: /Users/kang-air
-    base: /STS/GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
+    #base: /STS/GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
+    base: /KANG/json/sentbe
 
   job:
     name: JOB (local)
@@ -126,7 +127,6 @@ proj-env:
 
   url:
     name: URL (local)
-    #sentbe: https://hanwha.dev.sentbe.com:10443
 
 ---
 # --------------------------------------------------------
@@ -140,7 +140,8 @@ proj-env:
     #home: /Users/kangmac
     #base: /STS_GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
     home: /Users/kang-air
-    base: /STS/GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
+    #base: /STS/GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
+    base: /KANG/json/sentbe
 
   job:
     name: JOB (test)
@@ -151,7 +152,6 @@ proj-env:
 
   url:
     name: URL (test)
-    sentbe: https://hanwha.dev.sentbe.com:10443
 
 ---
 # --------------------------------------------------------
@@ -162,17 +162,12 @@ proj-env:
 
   param:
     name: PARAM (aws)
-    #home: /Users/kangmac
-    #base: /STS_GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
-    home: /Users/kang-air
-    base: /STS/GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
 
   job:
     name: JOB (aws)
 
   json:
     name: JSON (aws)
-    apis-info-file: apis.json
 
   url:
     name: URL (aws)
@@ -186,16 +181,17 @@ proj-env:
 
   param:
     name: PARAM (dfep)
-    #home: /Users/kangmac
+    home: /Users/kangmac
     #base: /STS_GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
-    home: /Users/kang-air
-    base: /STS/GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
+    #home: /hw01/ibridge
+    base: /KANG/json/sentbe
 
   job:
     name: JOB (dfep)
 
   json:
     name: JSON (dfep)
+    apis-info-file: apis.json
 
   url:
     name: URL (dfep)
@@ -209,17 +205,12 @@ proj-env:
 
   param:
     name: PARAM (real)
-    #home: /Users/kangmac
-    #base: /STS_GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
-    home: /Users/kang-air
-    base: /STS/GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
 
   job:
     name: JOB (real)
 
   json:
     name: JSON (real)
-    apis-info-file: apis.json
 
   url:
     name: URL (real)

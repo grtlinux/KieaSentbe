@@ -118,4 +118,12 @@ public class ApisController {
 		return "redirect:/apis/list";
 		//return new RedirectView("/apis/list");
 	}
+	
+	@RequestMapping(value = {"/migrationUserForm"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public String migrationUserForm(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
+		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
+		//model.addAttribute("apis", this.apisService.findApisById(id));
+		return "redirect:/apis/list";
+		//return "web/apis/migrationUserForm";
+	}
 }

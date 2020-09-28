@@ -401,8 +401,8 @@
 				account_number: $('#modal1_account_number').val(),
 				account_holder_name: $('#modal1_account_holder_name').val(),
 				birth_date: $('#modal1_birth_date').val(),
-				id_number: $('#modal1_nationality_iso').val(),
-				nationality_iso: $('#modal1_id_number').val(),
+				nationality_iso: $('#modal1_nationality_iso').val(),
+				id_number: $('#modal1_id_number').val(),
 				id_type: $('#modal1_id_type').val(),
 				email: $('#modal1_email').val(),
 				often_send_country_iso: $('#modal1_often_send_country_iso').val(),
@@ -572,7 +572,7 @@
 			console.log('Hello btnSendRecvJson');
 			$.ajax({
 				// TODO: make hostname and set the hostname instead of localhost
-				url: "http://localhost:17083/v0.5/online/createUser",
+				url: "http://172.30.222.3:17083/v0.5/online/createUser",
 				type: "POST",
 				data: $('#modal5_reqJson').val(),
 				contentType: "application/json",

@@ -13,6 +13,7 @@ import org.tain.task.process.GetCalculationProcess;
 import org.tain.task.process.GetResultProcess;
 import org.tain.task.process.GetVerificationProcess;
 import org.tain.task.process.GetWebviewIdProcess;
+import org.tain.task.process.MigrationUserProcess;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.utils.JsonPrint;
@@ -48,6 +49,9 @@ public class ServerJob {
 	
 	@Autowired
 	private GetVerificationProcess getVerificationProcess;
+	
+	@Autowired
+	private MigrationUserProcess migrationUserProcess;
 	
 	///////////////////////////////////////////////////////////////////////////
 	
@@ -93,6 +97,9 @@ public class ServerJob {
 						break;
 					case "0200700":  // getVerification
 						resLnsStream = this.getVerificationProcess.process(reqLnsStream);
+						break;
+					case "0200800":  // migrationUser
+						resLnsStream = this.migrationUserProcess.process(reqLnsStream);
 						break;
 					case "0200001":  // ping
 					case "0200002":  // encrypt

@@ -69,5 +69,12 @@
 		"httpMethod": "POST",
 		"reqJson": "10. getVerification_req.json",
 		"resJson": "10. getVerification_res.json"
+	}, {
+		"name": "11. migrationUser (new)",
+		"mapping": "apis/migrationUser",
+		"httpUrl": "/hanwha/migrationUser",
+		"httpMethod": "POST",
+		"reqJson": "11. migrationUser_req.json",
+		"resJson": "11. migrationUser_res.json"
 	}
 ]

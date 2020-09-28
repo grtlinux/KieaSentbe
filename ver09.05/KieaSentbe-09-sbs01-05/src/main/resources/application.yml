@@ -11,10 +11,10 @@ server:
 spring:
   profiles.active:
   - proj-default
-  - proj-local
-  - proj-test
+  #- proj-local
+  #- proj-test
   #- proj-aws
-  #- proj-dfep
+  - proj-dfep
   #- proj-real
   h2.console:
     enabled: true
@@ -176,6 +176,8 @@ proj-env:
 
   job:
     name: JOB (dfep)
+    online-host: 127.0.0.1
+    online-port: 17090
 
   json:
     name: JSON (dfep)
