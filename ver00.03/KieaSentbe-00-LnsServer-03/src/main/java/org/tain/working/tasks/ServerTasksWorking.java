@@ -15,19 +15,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ServerTasksWorking {
 
+	private final String TITLE = "SERVER_TASKS_WORKING ";
+	
 	@Autowired
 	private ServerMainJob serverMainJob;
 	
-	public void runningServerMainTask() {
-		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
+	public void runningServerMainTask() throws Exception {
+		log.info(TITLE + ">>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
-			try {
-				this.serverMainJob.serverMainJob("SERVER-MAIN-TASK");
-			} catch (Exception e) {
-				//System.out.println(">>>>> EXCEPTION: " + e.getMessage());
-				Sleep.run(3 * 1000);
-			}
+			String param = "SERVER-MAIN-JOB";
+			this.serverMainJob.serverMainJob(param);
+			log.info(TITLE + ">>>>> serverMainJob = {}", param);
 		}
 	}
 	
@@ -41,24 +40,29 @@ public class ServerTasksWorking {
 	@Autowired
 	private WakeServerTaskQueue wakeServerTaskQueue;
 	
-	public void runningServerTask() {
-		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
+	public void runningServerTask() throws Exception {
+		log.info(TITLE + ">>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
 			int index = 0;
 			
+			// initialize
+			for (; index < 3; index++) {
+				String param = "SERVER-JOB-" + index;
+				this.serverJob.serverJob(param);
+				log.info(TITLE + ">>>>> 1. serverJob = {}", param);
+				Sleep.run(1 * 1000);
+			}
+			
+			// other
 			while (true) {
-				for (int i=0; i < 3; i++) {
-					try {
-						this.serverJob.serverJob("SERVER-TASK-" + index);
-						index ++;
-						Sleep.run(3 * 1000);
-					} catch (Exception e) {
-						log.error("ERROR >>>>> EXCEPTION: " + e.getMessage());
-						Sleep.run(1 * 1000);
-					}
-				}
 				this.wakeServerTaskQueue.get();  // blocking
+				
+				String param = "SERVER-JOB-" + index;
+				this.serverJob.serverJob(param);
+				log.info(TITLE + ">>>>> 2. serverJob = {}", param);
+				index ++;
+				Sleep.run(1 * 1000);
 			}
 		}
 	}

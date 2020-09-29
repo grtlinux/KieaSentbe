@@ -2,7 +2,6 @@ package org.tain.working.tasks;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tain.queue.WakeClientTaskQueue;
 import org.tain.task.ClientJob;
 import org.tain.task.ClientMainJob;
 import org.tain.utils.CurrentInfo;
@@ -18,16 +17,12 @@ public class ClientTasksWorking {
 	@Autowired
 	private ClientMainJob clientMainJob;
 	
-	public void runningServerMainTask() {
+	public void runningServerMainTask() throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
-			try {
-				this.clientMainJob.clientMainJob("CLIENT-MAIN-TASK");
-			} catch (Exception e) {
-				//System.out.println(">>>>> EXCEPTION: " + e.getMessage());
-				Sleep.run(3 * 1000);
-			}
+			this.clientMainJob.clientMainJob("CLIENT-MAIN-TASK");
+			Sleep.run(1 * 1000);
 		}
 	}
 	
@@ -38,10 +33,7 @@ public class ClientTasksWorking {
 	@Autowired
 	private ClientJob clientJob;
 	
-	@Autowired
-	private WakeClientTaskQueue wakeClientTaskQueue;
-	
-	public void runningServerTask() {
+	public void runningServerTask() throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
@@ -60,7 +52,7 @@ public class ClientTasksWorking {
 				}
 				if (Flag.flag) break;
 				
-				this.wakeClientTaskQueue.get();
+				//this.wakeClientTaskQueue.get();
 			}
 		}
 	}

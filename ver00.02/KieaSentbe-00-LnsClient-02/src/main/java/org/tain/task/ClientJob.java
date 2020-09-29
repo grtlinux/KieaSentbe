@@ -3,12 +3,12 @@ package org.tain.task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.tain.object.lns.LnsSocketTicket;
 import org.tain.object.lns.LnsStream;
-import org.tain.object.lns.LnsStreamPacket;
 import org.tain.queue.LnsQueueObject;
 import org.tain.queue.LnsSendQueue;
-import org.tain.queue.LnsStreamPacketQueue;
-import org.tain.queue.WakeClientTaskQueue;
+import org.tain.queue.LnsSocketProcessQueue;
+import org.tain.queue.LnsSocketTicketQueue;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 
@@ -18,11 +18,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ClientJob {
 
-	@Autowired
-	private WakeClientTaskQueue wakeClientTaskQueue;
+	private final String TITLE = "CLIENT_JOB ";
 	
 	@Autowired
-	private LnsStreamPacketQueue lnsStreamPacketQueue;
+	private LnsSocketTicketQueue lnsSocketTicketQueue;
+	
+	@Autowired
+	private LnsSocketProcessQueue lnsSocketProcessQueue;
 	
 	@Autowired
 	private LnsSendQueue lnsSendQueue;
@@ -31,13 +33,15 @@ public class ClientJob {
 	
 	@Async(value = "clientTask")
 	public void clientJob(String param) throws Exception {
-		log.info("KANG-20200907 >>>>> START param = {}, {}", param, CurrentInfo.get());
+		log.info(TITLE + ">>>>> START param = {}, {}", param, CurrentInfo.get());
 		
-		LnsStreamPacket lnsStreamPacket = null;
+		LnsSocketTicket lnsSocketTicket = null;
 		if (Flag.flag) {
-			lnsStreamPacket = this.lnsStreamPacketQueue.get();
+			lnsSocketTicket = this.lnsSocketProcessQueue.get();  // blocking
+			log.info(TITLE + ">>>>> lnsSocketTicket: INFO = {}", lnsSocketTicket);
 		}
 		
+		////////////////////////////////////////////////////
 		if (Flag.flag) {
 			try {
 				while (true) {
@@ -45,22 +49,22 @@ public class ClientJob {
 					
 					// send
 					LnsStream reqLnsStream = lnsQueueObject.getLnsStream();
-					lnsStreamPacket.sendStream(reqLnsStream);
+					lnsSocketTicket.sendStream(reqLnsStream);
 					
 					// recv
-					LnsStream resLnsStream = lnsStreamPacket.recvStream();
+					LnsStream resLnsStream = lnsSocketTicket.recvStream();
 					lnsQueueObject.getLnsRecvQueue().set(resLnsStream);
 				}
 			} catch (Exception e) {
 				//e.printStackTrace();
-				log.error("ERROR >>>>> {}", e.getMessage());
+				log.error(TITLE + " ERROR >>>>> {}", e.getMessage());
 			} finally {
-				lnsStreamPacket.close();
+				lnsSocketTicket.close();
 			}
 		}
 		
-		log.info("KANG-20200907 >>>>> END   param = {}, {}", param, CurrentInfo.get());
+		log.info(TITLE + ">>>>> END   param = {}, {}", param, CurrentInfo.get());
 		
-		if (Flag.flag) this.wakeClientTaskQueue.set(null);  // notify
+		if (Flag.flag) this.lnsSocketTicketQueue.set(lnsSocketTicket);
 	}
 }

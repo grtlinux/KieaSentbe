@@ -3,13 +3,15 @@ package org.tain.task;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.tain.object.lns.LnsStreamPacket;
+import org.tain.object.lns.LnsSocketTicket;
 import org.tain.properties.ProjEnvJobProperties;
-import org.tain.queue.LnsStreamPacketQueue;
+import org.tain.queue.LnsSocketProcessQueue;
+import org.tain.queue.LnsSocketTicketQueue;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.utils.Sleep;
@@ -20,15 +22,28 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ServerMainJob {
 
+	private final String TITLE = "SERVER_MAIN_JOB ";
+	
+	@Autowired
+	private LnsSocketTicketQueue lnsSocketTicketQueue;
+	
+	@Autowired
+	private LnsSocketProcessQueue lnsSocketProcessQueue;
+	
 	@Autowired
 	private ProjEnvJobProperties projEnvJobProperties;
 	
-	@Autowired
-	private LnsStreamPacketQueue lnsStreamPacketQueue;
-	
 	@Async(value = "serverMainTask")
 	public void serverMainJob(String param) throws Exception {
-		log.info("KANG-20200907 >>>>> START param = {}, {}", param, CurrentInfo.get());
+		log.info(TITLE + ">>>>> START param = {}, {}", param, CurrentInfo.get());
+		
+		if (Flag.flag) {
+			IntStream.rangeClosed(1, 2).forEach(index -> {
+				LnsSocketTicket lnsSocketTicket = new LnsSocketTicket("TICKET-" + index);
+				this.lnsSocketTicketQueue.set(lnsSocketTicket);
+				log.info(TITLE + ">>>>> tichet is {}", lnsSocketTicket.getName());
+			});
+		}
 		
 		if (Flag.flag) {
 			ServerSocket serverSocket = new ServerSocket();
@@ -37,16 +52,24 @@ public class ServerMainJob {
 			serverSocket.bind(inetSocketAddress);
 			
 			try {
-				log.info(">>>>> LISTENING for client connection with port={}....INFO = {}", port, inetSocketAddress);
+				log.info(TITLE + ">>>>> LISTENING for client connection with port={}....INFO = {}", port, inetSocketAddress);
 				
+				LnsSocketTicket lnsSocketTicket = null;
 				while (true) {
-					log.info(">>>>> BEFORE connection.");
-					Socket socket = serverSocket.accept(); // block waiting for connect
-					log.info(">>>>> AFTER connection is OK!!!");
+					lnsSocketTicket = lnsSocketTicketQueue.get();  // queue-block
+					log.info(TITLE + ">>>>> {} waiting for your accept(connection)", lnsSocketTicket.getName());
 					
-					if (Flag.flag) this.lnsStreamPacketQueue.set(new LnsStreamPacket(socket));
+					Socket socket = serverSocket.accept(); // connect-block
+					log.info(TITLE + ">>>>> {} has a connection.. OK!!!", lnsSocketTicket.getName());
 					
-					Sleep.run(3 * 1000);
+					// set socket to ticket
+					lnsSocketTicket.set(socket);
+					log.info(TITLE + ">>>>> {} has a socket. SET SOCKET.", lnsSocketTicket.getName());
+					
+					this.lnsSocketProcessQueue.set(lnsSocketTicket);
+					log.info(TITLE + ">>>>> {} go into the queue of lnsSocketProcessQueue.", lnsSocketTicket.getName());
+					
+					Sleep.run(1 * 1000);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -55,6 +78,6 @@ public class ServerMainJob {
 			}
 		}
 		
-		log.info("KANG-20200907 >>>>> END   param = {}, {}", param, CurrentInfo.get());
+		log.info(TITLE + ">>>>> END   param = {}, {}", param, CurrentInfo.get());
 	}
 }

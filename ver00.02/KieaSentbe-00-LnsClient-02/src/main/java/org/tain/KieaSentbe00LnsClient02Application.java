@@ -58,7 +58,7 @@ public class KieaSentbe00LnsClient02Application implements CommandLineRunner {
 	@Autowired
 	private ClientTasksWorking clientTasksWorking;
 	
-	private void job02() {
+	private void job02() throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
