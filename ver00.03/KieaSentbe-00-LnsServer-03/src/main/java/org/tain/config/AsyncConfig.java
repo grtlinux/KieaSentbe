@@ -26,8 +26,8 @@ public class AsyncConfig extends AsyncConfigurerSupport {
 	@Bean(name = "serverTask")
 	public Executor serverTask() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(3);
-		executor.setMaxPoolSize(3);
+		executor.setCorePoolSize(5);
+		executor.setMaxPoolSize(5);
 		executor.setQueueCapacity(0);
 		executor.setThreadNamePrefix("serverTask-");
 		executor.initialize();

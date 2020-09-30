@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.tain.object.ticket.LnsSocketTicket;
 
 @Component
-public class LnsSocketTicketQueue {
+public class SocketProcessQueue {
 
 	private final LinkedList<LnsSocketTicket> queue = new LinkedList<>();
 	

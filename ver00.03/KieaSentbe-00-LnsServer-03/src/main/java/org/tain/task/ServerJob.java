@@ -3,9 +3,9 @@ package org.tain.task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.tain.object.lns.LnsSocketTicket;
 import org.tain.object.lns.LnsStream;
-import org.tain.queue.LnsSocketProcessQueue;
+import org.tain.object.ticket.LnsSocketTicket;
+import org.tain.queue.SocketProcessQueue;
 import org.tain.task.process.CheckUserProcess;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
@@ -20,7 +20,7 @@ public class ServerJob {
 	private final String TITLE = "SERVER_JOB ";
 	
 	@Autowired
-	private LnsSocketProcessQueue lnsSocketProcessQueue;
+	private SocketProcessQueue socketProcessQueue;
 	
 	///////////////////////////////////////////////////////////////////////////
 	
@@ -35,8 +35,8 @@ public class ServerJob {
 		
 		LnsSocketTicket lnsSocketTicket = null;
 		if (Flag.flag) {
-			lnsSocketTicket = this.lnsSocketProcessQueue.get();  // blocking
-			log.info(TITLE + ">>>>> lnsSocketTicket: INFO = {}", lnsSocketTicket);
+			lnsSocketTicket = this.socketProcessQueue.get();  // blocking
+			log.info(TITLE + ">>>>> socketTicket: INFO = {}", lnsSocketTicket);
 		}
 		
 		////////////////////////////////////////////////////
@@ -66,6 +66,9 @@ public class ServerJob {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+			} finally {
+				lnsSocketTicket.close();
+				this.socketProcessQueue.set(lnsSocketTicket);
 			}
 		}
 		

@@ -3,15 +3,14 @@ package org.tain.task;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.tain.object.lns.LnsSocketTicket;
+import org.tain.object.ticket.LnsSocketTicket;
 import org.tain.properties.ProjEnvJobProperties;
-import org.tain.queue.LnsSocketProcessQueue;
 import org.tain.queue.LnsSocketTicketQueue;
+import org.tain.queue.SocketProcessQueue;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.utils.Sleep;
@@ -28,7 +27,7 @@ public class ServerMainJob {
 	private LnsSocketTicketQueue lnsSocketTicketQueue;
 	
 	@Autowired
-	private LnsSocketProcessQueue lnsSocketProcessQueue;
+	private SocketProcessQueue socketProcessQueue;
 	
 	@Autowired
 	private ProjEnvJobProperties projEnvJobProperties;
@@ -36,14 +35,6 @@ public class ServerMainJob {
 	@Async(value = "serverMainTask")
 	public void serverMainJob(String param) throws Exception {
 		log.info(TITLE + ">>>>> START param = {}, {}", param, CurrentInfo.get());
-		
-		if (Flag.flag) {
-			IntStream.rangeClosed(1, 2).forEach(index -> {
-				LnsSocketTicket lnsSocketTicket = new LnsSocketTicket("TICKET-" + index);
-				this.lnsSocketTicketQueue.set(lnsSocketTicket);
-				log.info(TITLE + ">>>>> tichet is {}", lnsSocketTicket.getName());
-			});
-		}
 		
 		if (Flag.flag) {
 			ServerSocket serverSocket = new ServerSocket();
@@ -59,14 +50,14 @@ public class ServerMainJob {
 					lnsSocketTicket = lnsSocketTicketQueue.get();  // queue-block
 					log.info(TITLE + ">>>>> {} waiting for your accept(connection)", lnsSocketTicket.getName());
 					
-					Socket socket = serverSocket.accept(); // connect-block
+					Socket socket = serverSocket.accept();  // connect-block
 					log.info(TITLE + ">>>>> {} has a connection.. OK!!!", lnsSocketTicket.getName());
 					
 					// set socket to ticket
 					lnsSocketTicket.set(socket);
 					log.info(TITLE + ">>>>> {} has a socket. SET SOCKET.", lnsSocketTicket.getName());
 					
-					this.lnsSocketProcessQueue.set(lnsSocketTicket);
+					this.socketProcessQueue.set(lnsSocketTicket);
 					log.info(TITLE + ">>>>> {} go into the queue of lnsSocketProcessQueue.", lnsSocketTicket.getName());
 					
 					Sleep.run(1 * 1000);

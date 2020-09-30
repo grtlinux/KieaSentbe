@@ -1,10 +1,15 @@
 package org.tain.working.tasks;
 
+import java.util.stream.IntStream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tain.queue.WakeServerTaskQueue;
-import org.tain.task.ServerMainJob;
+import org.tain.object.ticket.LnsServerJobTicket;
+import org.tain.object.ticket.LnsSocketTicket;
+import org.tain.queue.LnsSocketTicketQueue;
+import org.tain.queue.ServerJobQueue;
 import org.tain.task.ServerJob;
+import org.tain.task.ServerMainJob;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.utils.Sleep;
@@ -16,6 +21,50 @@ import lombok.extern.slf4j.Slf4j;
 public class ServerTasksWorking {
 
 	private final String TITLE = "SERVER_TASKS_WORKING ";
+	
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	
+	private final int SIZ_SOCKET_TICKET = 3;
+	
+	@Autowired
+	private LnsSocketTicketQueue lnsSocketTicketQueue;
+	
+	public void makeingLnsSocketTicketQueue() throws Exception {
+		log.info(TITLE + ">>>>> {} {}", CurrentInfo.get());
+		
+		if (Flag.flag) {
+			IntStream.rangeClosed(1, SIZ_SOCKET_TICKET).forEach(index -> {
+				LnsSocketTicket ticket = new LnsSocketTicket("TICKET-" + index);
+				this.lnsSocketTicketQueue.set(ticket);
+			});
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	
+	private final int SIZ_SERVER_JOB = 5;
+	
+	@Autowired
+	private ServerJobQueue serverJobQueue;
+	
+	public void makeingServerJobQueue() throws Exception {
+		log.info(TITLE + ">>>>> {} {}", CurrentInfo.get());
+		
+		if (Flag.flag) {
+			IntStream.rangeClosed(1, SIZ_SERVER_JOB).forEach(index -> {
+				LnsServerJobTicket ticket = new LnsServerJobTicket("SERVER-JOB-" + index);
+				this.serverJobQueue.set(ticket);
+			});
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
 	
 	@Autowired
 	private ServerMainJob serverMainJob;
@@ -37,31 +86,36 @@ public class ServerTasksWorking {
 	@Autowired
 	private ServerJob serverJob;
 	
-	@Autowired
-	private WakeServerTaskQueue wakeServerTaskQueue;
-	
 	public void runningServerTask() throws Exception {
 		log.info(TITLE + ">>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
-			int index = 0;
-			
-			// initialize
-			for (; index < 3; index++) {
-				String param = "SERVER-JOB-" + index;
-				this.serverJob.serverJob(param);
-				log.info(TITLE + ">>>>> 1. serverJob = {}", param);
+			int size = this.serverJobQueue.size();
+			IntStream.rangeClosed(1, size).forEach(index -> {
+				LnsServerJobTicket ticket = this.serverJobQueue.get();
+				String param = ticket.getName();
+				try {
+					this.serverJob.serverJob(param);
+					log.info(TITLE + ">>>>> serverJob = {}", param);
+				} catch (Exception e) {
+					//e.printStackTrace();
+					log.error(TITLE + ">>>>> ERROR: " + e.getMessage());
+				}
 				Sleep.run(1 * 1000);
-			}
-			
-			// other
+			});
+		}
+		
+		if (Flag.flag) {
 			while (true) {
-				this.wakeServerTaskQueue.get();  // blocking
-				
-				String param = "SERVER-JOB-" + index;
-				this.serverJob.serverJob(param);
-				log.info(TITLE + ">>>>> 2. serverJob = {}", param);
-				index ++;
+				LnsServerJobTicket ticket = this.serverJobQueue.get();
+				String param = ticket.getName();
+				try {
+					this.serverJob.serverJob(param);
+					log.info(TITLE + ">>>>> serverJob = {}", param);
+				} catch (Exception e) {
+					//e.printStackTrace();
+					log.error(TITLE + ">>>>> ERROR: " + e.getMessage());
+				}
 				Sleep.run(1 * 1000);
 			}
 		}
