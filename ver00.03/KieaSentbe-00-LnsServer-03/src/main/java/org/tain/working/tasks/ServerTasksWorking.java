@@ -37,6 +37,7 @@ public class ServerTasksWorking {
 			IntStream.rangeClosed(1, SIZ_SOCKET_TICKET).forEach(index -> {
 				LnsSocketTicket ticket = new LnsSocketTicket("SOCKET-TICKET-" + index);
 				this.socketTicketReadyQueue.set(ticket);
+				log.info(TITLE + ">>>>> makeLnsSocketTicket {}", ticket);
 			});
 		}
 	}
@@ -57,6 +58,7 @@ public class ServerTasksWorking {
 			IntStream.rangeClosed(1, SIZ_INFO_TICKET).forEach(index -> {
 				LnsInfoTicket ticket = new LnsInfoTicket("INFO-TICKET-" + index);
 				this.infoTicketReadyQueue.set(ticket);
+				log.info(TITLE + ">>>>> makeLnsInfoTicket {}", ticket);
 			});
 		}
 	}

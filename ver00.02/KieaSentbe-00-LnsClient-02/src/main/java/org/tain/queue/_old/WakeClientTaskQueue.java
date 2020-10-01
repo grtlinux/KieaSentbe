@@ -1,11 +1,11 @@
-package org.tain.queue;
+package org.tain.queue._old;
 
 import java.util.LinkedList;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class LnsSendQueue {
+public class WakeClientTaskQueue {
 
 	private final LinkedList<Object> queue = new LinkedList<>();
 	
@@ -14,6 +14,7 @@ public class LnsSendQueue {
 		this.notifyAll();
 	}
 	
+	/*
 	public synchronized Object get() {
 		while (this.queue.size() <= 0) {
 			try {
@@ -21,6 +22,17 @@ public class LnsSendQueue {
 			} catch (InterruptedException e) {}
 		}
 		return this.queue.removeFirst();
+	}
+	*/
+	
+	public synchronized Object get() {
+		while (this.queue.size() <= 0) {
+			try {
+				wait();
+			} catch (InterruptedException e) {}
+		}
+		this.queue.clear();
+		return null;
 	}
 	
 	public int size() {

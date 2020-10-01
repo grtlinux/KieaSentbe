@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.tain.object.lns.LnsStream;
+import org.tain.object.ticket.LnsInfoTicket;
 import org.tain.object.ticket.LnsSocketTicket;
-import org.tain.queue.LnsQueueObject;
-import org.tain.queue.LnsSendQueue;
-import org.tain.queue.ClientProcessQueue;
-import org.tain.queue.LnsSocketTicketQueue;
+import org.tain.queue.InfoTicketReadyQueue;
+import org.tain.queue.SocketTicketReadyQueue;
+import org.tain.queue.SocketTicketUseQueue;
+import org.tain.queue._old.LnsQueueObject;
+import org.tain.queue._old.LnsSendQueue;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 
@@ -21,50 +23,63 @@ public class ClientJob {
 	private final String TITLE = "CLIENT_JOB ";
 	
 	@Autowired
-	private LnsSocketTicketQueue lnsSocketTicketQueue;
+	private SocketTicketUseQueue socketTicketUseQueue;
 	
 	@Autowired
-	private ClientProcessQueue lnsSocketProcessQueue;
+	private SocketTicketReadyQueue socketTicketReadyQueue;
+	
+	@Autowired
+	private InfoTicketReadyQueue infoTicketReadyQueue;
+	
+	///////////////////////////////////////////////////////////////////////////
 	
 	@Autowired
 	private LnsSendQueue lnsSendQueue;
 	
 	///////////////////////////////////////////////////////////////////////////
 	
+	private LnsSocketTicket lnsSocketTicket = null;
+	
 	@Async(value = "clientTask")
-	public void clientJob(String param) throws Exception {
-		log.info(TITLE + ">>>>> START param = {}, {}", param, CurrentInfo.get());
+	public void clientJob(LnsInfoTicket infoTicket) throws Exception {
+		log.info(TITLE + ">>>>> START param = {}, {}", infoTicket, CurrentInfo.get());
 		
-		LnsSocketTicket lnsSocketTicket = null;
 		if (Flag.flag) {
-			lnsSocketTicket = this.lnsSocketProcessQueue.get();  // blocking
-			log.info(TITLE + ">>>>> lnsSocketTicket: INFO = {}", lnsSocketTicket);
+			this.lnsSocketTicket = this.socketTicketUseQueue.get();  // blocking
+			log.info(TITLE + ">>>>> clientJob: INFO = {} {}", infoTicket, this.lnsSocketTicket);
 		}
 		
 		////////////////////////////////////////////////////
 		if (Flag.flag) {
 			try {
+				LnsStream reqLnsStream = null;
+				LnsStream resLnsStream = null;
 				while (true) {
+					// from SendQueue
 					LnsQueueObject lnsQueueObject = (LnsQueueObject) this.lnsSendQueue.get();
 					
 					// send
-					LnsStream reqLnsStream = lnsQueueObject.getLnsStream();
-					lnsSocketTicket.sendStream(reqLnsStream);
+					reqLnsStream = lnsQueueObject.getLnsStream();
+					this.lnsSocketTicket.sendStream(reqLnsStream);
 					
 					// recv
-					LnsStream resLnsStream = lnsSocketTicket.recvStream();
+					resLnsStream = this.lnsSocketTicket.recvStream();
 					lnsQueueObject.getLnsRecvQueue().set(resLnsStream);
 				}
 			} catch (Exception e) {
 				//e.printStackTrace();
 				log.error(TITLE + " ERROR >>>>> {}", e.getMessage());
 			} finally {
-				lnsSocketTicket.close();
+				this.lnsSocketTicket.close();
 			}
 		}
 		
-		log.info(TITLE + ">>>>> END   param = {}, {}", param, CurrentInfo.get());
+		if (Flag.flag) {
+			// return the tickets.
+			this.socketTicketReadyQueue.set(this.lnsSocketTicket);
+			this.infoTicketReadyQueue.set(infoTicket);
+		}
 		
-		if (Flag.flag) this.lnsSocketTicketQueue.set(lnsSocketTicket);
+		log.info(TITLE + ">>>>> END   param = {}, {}", infoTicket, CurrentInfo.get());
 	}
 }

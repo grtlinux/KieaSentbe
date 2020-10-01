@@ -37,6 +37,7 @@ public class ServerMainJob {
 		log.info(TITLE + ">>>>> START param = {}, {}", param, CurrentInfo.get());
 		
 		if (Flag.flag) {
+			// server
 			ServerSocket serverSocket = new ServerSocket();
 			int port = this.projEnvJobProperties.getListenPort();
 			InetSocketAddress inetSocketAddress = new InetSocketAddress("localhost", port);
@@ -48,17 +49,17 @@ public class ServerMainJob {
 				LnsSocketTicket lnsSocketTicket = null;
 				while (true) {
 					lnsSocketTicket = this.socketTicketReadyQueue.get();  // queue-block
-					log.info(TITLE + ">>>>> {} waiting for your accept(connection)", lnsSocketTicket.getName());
+					log.info(TITLE + ">>>>> {} waiting for your accept(connection)", lnsSocketTicket);
 					
 					Socket socket = serverSocket.accept();  // connect-block
-					log.info(TITLE + ">>>>> {} has a connection.. OK!!!", lnsSocketTicket.getName());
+					log.info(TITLE + ">>>>> {} has a connection.. OK!!!", lnsSocketTicket);
 					
 					// set socket to ticket
 					lnsSocketTicket.set(socket);
-					log.info(TITLE + ">>>>> {} has a socket. SET SOCKET.", lnsSocketTicket.getName());
+					log.info(TITLE + ">>>>> {} has a socket. SET SOCKET.", lnsSocketTicket);
 					
 					this.socketTicketUseQueue.set(lnsSocketTicket);
-					log.info(TITLE + ">>>>> {} go into the queue of lnsSocketProcessQueue.", lnsSocketTicket.getName());
+					log.info(TITLE + ">>>>> {} go into the queue of socketTicketUseQueue.", lnsSocketTicket);
 					
 					Sleep.run(1 * 1000);
 				}

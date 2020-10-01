@@ -34,6 +34,10 @@ public class LnsSocketTicket {
 		return this.name;
 	}
 	
+	public String toString() {
+		return this.name;
+	}
+	
 	/*
 	@Deprecated
 	public LnsSocketTicket(Socket socket) throws Exception {
@@ -73,6 +77,13 @@ public class LnsSocketTicket {
 		if (this.socket != null) {
 			try { this.socket.close(); } catch (IOException e) {}
 		}
+		/*
+		while (!this.socket.isClosed()) {
+			Sleep.run(1 * 1000);
+			System.out.println("#");
+			System.out.flush();
+		}
+		*/
 		
 		return this;
 	}

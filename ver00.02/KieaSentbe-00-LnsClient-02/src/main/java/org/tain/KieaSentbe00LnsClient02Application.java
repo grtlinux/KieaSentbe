@@ -62,8 +62,10 @@ public class KieaSentbe00LnsClient02Application implements CommandLineRunner {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
-			if (Flag.flag) this.clientTasksWorking.runningServerMainTask();
-			if (Flag.flag) this.clientTasksWorking.runningServerTask();
+			if (Flag.flag) this.clientTasksWorking.makeLnsSocketTicket();
+			if (Flag.flag) this.clientTasksWorking.makeLnsInfoTicket();
+			if (Flag.flag) this.clientTasksWorking.runFactoryMainTask();
+			if (Flag.flag) this.clientTasksWorking.runClientMainTask();
 		}
 	}
 	
