@@ -1,21 +1,22 @@
-package org.tain.queue;
+package org.tain.queue._old;
 
 import java.util.LinkedList;
 
 import org.springframework.stereotype.Component;
-import org.tain.object.ticket.LnsSocketTicket;
+import org.tain.object.lns.LnsStreamPacket;
 
+@Deprecated
 @Component
-public class SocketProcessQueue {
+public class LnsStreamPacketQueue {
 
-	private final LinkedList<LnsSocketTicket> queue = new LinkedList<>();
+	private final LinkedList<LnsStreamPacket> queue = new LinkedList<>();
 	
-	public synchronized void set(LnsSocketTicket object) {
+	public synchronized void set(LnsStreamPacket object) {
 		this.queue.addLast(object);
 		this.notifyAll();
 	}
 	
-	public synchronized LnsSocketTicket get() {
+	public synchronized LnsStreamPacket get() {
 		while (this.queue.size() <= 0) {
 			try {
 				wait();

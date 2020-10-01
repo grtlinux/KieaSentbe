@@ -4,15 +4,14 @@ import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tain.object.ticket.LnsServerJobTicket;
+import org.tain.object.ticket.LnsInfoTicket;
 import org.tain.object.ticket.LnsSocketTicket;
-import org.tain.queue.LnsSocketTicketQueue;
-import org.tain.queue.ServerJobQueue;
-import org.tain.task.ServerJob;
+import org.tain.queue.InfoTicketReadyQueue;
+import org.tain.queue.SocketTicketReadyQueue;
+import org.tain.task.FactoryMainJob;
 import org.tain.task.ServerMainJob;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
-import org.tain.utils.Sleep;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,15 +28,15 @@ public class ServerTasksWorking {
 	private final int SIZ_SOCKET_TICKET = 3;
 	
 	@Autowired
-	private LnsSocketTicketQueue lnsSocketTicketQueue;
+	private SocketTicketReadyQueue socketTicketReadyQueue;
 	
-	public void makeingLnsSocketTicketQueue() throws Exception {
+	public void makeLnsSocketTicket() throws Exception {
 		log.info(TITLE + ">>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
 			IntStream.rangeClosed(1, SIZ_SOCKET_TICKET).forEach(index -> {
-				LnsSocketTicket ticket = new LnsSocketTicket("TICKET-" + index);
-				this.lnsSocketTicketQueue.set(ticket);
+				LnsSocketTicket ticket = new LnsSocketTicket("SOCKET-TICKET-" + index);
+				this.socketTicketReadyQueue.set(ticket);
 			});
 		}
 	}
@@ -46,18 +45,18 @@ public class ServerTasksWorking {
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
 	
-	private final int SIZ_SERVER_JOB = 5;
+	private final int SIZ_INFO_TICKET = 3;
 	
 	@Autowired
-	private ServerJobQueue serverJobQueue;
+	private InfoTicketReadyQueue infoTicketReadyQueue;
 	
-	public void makeingServerJobQueue() throws Exception {
+	public void makeLnsInfoTicket() throws Exception {
 		log.info(TITLE + ">>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
-			IntStream.rangeClosed(1, SIZ_SERVER_JOB).forEach(index -> {
-				LnsServerJobTicket ticket = new LnsServerJobTicket("SERVER-JOB-" + index);
-				this.serverJobQueue.set(ticket);
+			IntStream.rangeClosed(1, SIZ_INFO_TICKET).forEach(index -> {
+				LnsInfoTicket ticket = new LnsInfoTicket("INFO-TICKET-" + index);
+				this.infoTicketReadyQueue.set(ticket);
 			});
 		}
 	}
@@ -69,7 +68,7 @@ public class ServerTasksWorking {
 	@Autowired
 	private ServerMainJob serverMainJob;
 	
-	public void runningServerMainTask() throws Exception {
+	public void runServerMainTask() throws Exception {
 		log.info(TITLE + ">>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
@@ -84,40 +83,15 @@ public class ServerTasksWorking {
 	///////////////////////////////////////////////////////////////////////////
 	
 	@Autowired
-	private ServerJob serverJob;
+	private FactoryMainJob factoryMainJob;
 	
-	public void runningServerTask() throws Exception {
+	public void runFactoryMainTask() throws Exception {
 		log.info(TITLE + ">>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
-			int size = this.serverJobQueue.size();
-			IntStream.rangeClosed(1, size).forEach(index -> {
-				LnsServerJobTicket ticket = this.serverJobQueue.get();
-				String param = ticket.getName();
-				try {
-					this.serverJob.serverJob(param);
-					log.info(TITLE + ">>>>> serverJob = {}", param);
-				} catch (Exception e) {
-					//e.printStackTrace();
-					log.error(TITLE + ">>>>> ERROR: " + e.getMessage());
-				}
-				Sleep.run(1 * 1000);
-			});
-		}
-		
-		if (Flag.flag) {
-			while (true) {
-				LnsServerJobTicket ticket = this.serverJobQueue.get();
-				String param = ticket.getName();
-				try {
-					this.serverJob.serverJob(param);
-					log.info(TITLE + ">>>>> serverJob = {}", param);
-				} catch (Exception e) {
-					//e.printStackTrace();
-					log.error(TITLE + ">>>>> ERROR: " + e.getMessage());
-				}
-				Sleep.run(1 * 1000);
-			}
+			String param = "FACTORY-MAIN-JOB";
+			this.factoryMainJob.factoryMainJob(param);
+			log.info(TITLE + ">>>>> factoryMainJob = {}", param);
 		}
 	}
 }

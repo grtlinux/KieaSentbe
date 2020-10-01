@@ -61,7 +61,7 @@ public class LnsSocketTicket {
 		return String.format("[%s] %s", this.name, this.inetSocketAddress);
 	}
 	
-	public void close() {
+	public LnsSocketTicket close() {
 		if (this.outputStream != null) {
 			try { this.outputStream.close(); } catch (IOException e) {}
 		}
@@ -73,6 +73,23 @@ public class LnsSocketTicket {
 		if (this.socket != null) {
 			try { this.socket.close(); } catch (IOException e) {}
 		}
+		
+		return this;
+	}
+	
+	///////////////////////////////////////////////////////////
+	// message
+	
+	public String getReadyMessage() {
+		return String.format("[%s] READY to connect", this.name);
+	}
+	
+	public String getUseMessage() {
+		return String.format("[%s] USE this connection", this.name);
+	}
+	
+	public String getFinMessage() {
+		return String.format("[%s] FINISH this connection", this.name);
 	}
 	
 	///////////////////////////////////////////////////////////

@@ -3,19 +3,19 @@ package org.tain.queue;
 import java.util.LinkedList;
 
 import org.springframework.stereotype.Component;
-import org.tain.object.ticket.LnsSocketTicket;
+import org.tain.object.ticket.LnsClientJobTicket;
 
 @Component
-public class LnsSocketTicketQueue {
+public class ClientJobQueue {
 
-	private final LinkedList<LnsSocketTicket> queue = new LinkedList<>();
+	private final LinkedList<LnsClientJobTicket> queue = new LinkedList<>();
 	
-	public synchronized void set(LnsSocketTicket object) {
+	public synchronized void set(LnsClientJobTicket object) {
 		this.queue.addLast(object);
 		this.notifyAll();
 	}
 	
-	public synchronized LnsSocketTicket get() {
+	public synchronized LnsClientJobTicket get() {
 		while (this.queue.size() <= 0) {
 			try {
 				wait();

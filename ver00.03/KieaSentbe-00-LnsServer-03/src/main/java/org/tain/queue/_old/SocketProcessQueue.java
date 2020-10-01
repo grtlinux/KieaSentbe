@@ -1,21 +1,22 @@
-package org.tain.queue;
+package org.tain.queue._old;
 
 import java.util.LinkedList;
 
 import org.springframework.stereotype.Component;
-import org.tain.object.ticket.LnsServerJobTicket;
+import org.tain.object.ticket.LnsSocketTicket;
 
+@Deprecated
 @Component
-public class ServerJobQueue {
+public class SocketProcessQueue {
 
-	private final LinkedList<LnsServerJobTicket> queue = new LinkedList<>();
+	private final LinkedList<LnsSocketTicket> queue = new LinkedList<>();
 	
-	public synchronized void set(LnsServerJobTicket object) {
+	public synchronized void set(LnsSocketTicket object) {
 		this.queue.addLast(object);
 		this.notifyAll();
 	}
 	
-	public synchronized LnsServerJobTicket get() {
+	public synchronized LnsSocketTicket get() {
 		while (this.queue.size() <= 0) {
 			try {
 				wait();

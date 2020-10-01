@@ -23,6 +23,17 @@ public class AsyncConfig extends AsyncConfigurerSupport {
 		return executor;
 	}
 	
+	@Bean(name = "factoryMainTask")
+	public Executor factoryMainTask() {
+		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+		executor.setCorePoolSize(1);
+		executor.setMaxPoolSize(1);
+		executor.setQueueCapacity(0);
+		executor.setThreadNamePrefix("factoryMainTask-");
+		executor.initialize();
+		return executor;
+	}
+	
 	@Bean(name = "serverTask")
 	public Executor serverTask() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();

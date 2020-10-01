@@ -3,11 +3,11 @@ package org.tain.task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.tain.object.lns.LnsSocketTicket;
 import org.tain.object.lns.LnsStream;
+import org.tain.object.ticket.LnsSocketTicket;
 import org.tain.queue.LnsQueueObject;
 import org.tain.queue.LnsSendQueue;
-import org.tain.queue.LnsSocketProcessQueue;
+import org.tain.queue.ClientProcessQueue;
 import org.tain.queue.LnsSocketTicketQueue;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
@@ -24,7 +24,7 @@ public class ClientJob {
 	private LnsSocketTicketQueue lnsSocketTicketQueue;
 	
 	@Autowired
-	private LnsSocketProcessQueue lnsSocketProcessQueue;
+	private ClientProcessQueue lnsSocketProcessQueue;
 	
 	@Autowired
 	private LnsSendQueue lnsSendQueue;

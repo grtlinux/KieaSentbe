@@ -1,4 +1,4 @@
-package org.tain.object.lns;
+package org.tain.object.ticket;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
+import org.tain.object.lns.LnsStream;
 import org.tain.utils.Flag;
 import org.tain.utils.Sleep;
 

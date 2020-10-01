@@ -1,10 +1,10 @@
 package org.tain.object.ticket;
 
-public class LnsServerJobTicket {
+public class LnsClientJobTicket {
 
 	private String name;
 	
-	public LnsServerJobTicket(String name) {
+	public LnsClientJobTicket(String name) {
 		this.name = name;
 	}
 	

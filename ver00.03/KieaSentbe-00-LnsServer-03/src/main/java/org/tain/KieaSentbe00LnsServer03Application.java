@@ -27,10 +27,10 @@ public class KieaSentbe00LnsServer03Application implements CommandLineRunner {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) job01();  // properties
-		if (Flag.flag) job02();
+		if (Flag.flag) job02();  // server
 		if (Flag.flag) job03();
 		if (Flag.flag) job04();
-		if (Flag.flag) job05();  // server
+		if (Flag.flag) job05();
 		if (Flag.flag) job06();
 		if (Flag.flag) job07();
 		if (Flag.flag) job08();
@@ -55,10 +55,17 @@ public class KieaSentbe00LnsServer03Application implements CommandLineRunner {
 	
 	///////////////////////////////////////////////////////////////////////////
 	
+	@Autowired
+	private ServerTasksWorking serverTasksWorking;
+	
 	private void job02() throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
+			if (Flag.flag) this.serverTasksWorking.makeLnsSocketTicket();
+			if (Flag.flag) this.serverTasksWorking.makeLnsInfoTicket();
+			if (Flag.flag) this.serverTasksWorking.runFactoryMainTask();
+			if (Flag.flag) this.serverTasksWorking.runServerMainTask();
 		}
 	}
 	
@@ -82,17 +89,10 @@ public class KieaSentbe00LnsServer03Application implements CommandLineRunner {
 	
 	///////////////////////////////////////////////////////////////////////////
 	
-	@Autowired
-	private ServerTasksWorking serverTasksWorking;
-	
 	private void job05() throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
-			if (Flag.flag) this.serverTasksWorking.makeingLnsSocketTicketQueue();
-			if (Flag.flag) this.serverTasksWorking.makeingServerJobQueue();
-			if (Flag.flag) this.serverTasksWorking.runningServerMainTask();
-			if (Flag.flag) this.serverTasksWorking.runningServerTask();
 		}
 	}
 	
