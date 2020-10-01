@@ -1,6 +1,7 @@
 package org.tain.queue._old;
 
 import org.tain.object.lns.LnsStream;
+import org.tain.queue.LnsRecvQueue;
 
 import lombok.Builder;
 import lombok.Data;
