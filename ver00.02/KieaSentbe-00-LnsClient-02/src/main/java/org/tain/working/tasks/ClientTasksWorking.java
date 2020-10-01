@@ -70,7 +70,7 @@ public class ClientTasksWorking {
 	@Autowired
 	private ClientMainJob clientMainJob;
 	
-	public void runClientMainTask() throws Exception {
+	public void runClientMainJob() throws Exception {
 		log.info(TITLE + ">>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
@@ -87,7 +87,7 @@ public class ClientTasksWorking {
 	@Autowired
 	private FactoryMainJob factoryMainJob;
 	
-	public void runFactoryMainTask() throws Exception {
+	public void runFactoryMainJob() throws Exception {
 		log.info(TITLE + ">>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {

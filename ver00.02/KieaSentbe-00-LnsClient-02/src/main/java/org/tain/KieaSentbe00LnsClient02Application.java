@@ -10,6 +10,7 @@ import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.working.properties.PropertiesWorking;
 import org.tain.working.tasks.ClientTasksWorking;
+import org.tain.working.tasks.Task01Working;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -58,14 +59,21 @@ public class KieaSentbe00LnsClient02Application implements CommandLineRunner {
 	@Autowired
 	private ClientTasksWorking clientTasksWorking;
 	
+	@Autowired
+	private Task01Working task01Working;
+	
 	private void job02() throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
 			if (Flag.flag) this.clientTasksWorking.makeLnsSocketTicket();
 			if (Flag.flag) this.clientTasksWorking.makeLnsInfoTicket();
-			if (Flag.flag) this.clientTasksWorking.runFactoryMainTask();
-			if (Flag.flag) this.clientTasksWorking.runClientMainTask();
+			if (Flag.flag) this.clientTasksWorking.runFactoryMainJob();
+			if (Flag.flag) this.clientTasksWorking.runClientMainJob();
+		}
+		
+		if (Flag.flag) {
+			if (Flag.flag) this.task01Working.runTask01Job();
 		}
 	}
 	

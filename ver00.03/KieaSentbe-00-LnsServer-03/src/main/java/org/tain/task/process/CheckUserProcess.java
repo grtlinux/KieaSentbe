@@ -1,5 +1,7 @@
 package org.tain.task.process;
 
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Component;
 import org.tain.object.lns.LnsJson;
 import org.tain.object.lns.LnsStream;
@@ -29,7 +31,7 @@ public class CheckUserProcess {
 		LnsStream resLnsStream = null;
 		if (Flag.flag) {
 			// 5. lnsStream
-			String resStrData = "Hello, world!!!";
+			String resStrData = "RES  Hello, client!!! " + LocalDateTime.now();
 			String resTypeCode = "0210100";
 			String resLen = String.format("%04d", 7 + resStrData.length());
 			resLnsStream = new LnsStream(resLen + resTypeCode + resStrData);

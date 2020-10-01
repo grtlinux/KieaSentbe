@@ -51,12 +51,13 @@ public class ClientJob {
 		
 		////////////////////////////////////////////////////
 		if (Flag.flag) {
+			LnsQueueObject lnsQueueObject = null;
 			try {
 				LnsStream reqLnsStream = null;
 				LnsStream resLnsStream = null;
 				while (true) {
 					// from SendQueue
-					LnsQueueObject lnsQueueObject = (LnsQueueObject) this.lnsSendQueue.get();
+					lnsQueueObject = (LnsQueueObject) this.lnsSendQueue.get();
 					
 					// send
 					reqLnsStream = lnsQueueObject.getLnsStream();
@@ -69,6 +70,8 @@ public class ClientJob {
 			} catch (Exception e) {
 				//e.printStackTrace();
 				log.error(TITLE + " ERROR >>>>> {}", e.getMessage());
+				if (lnsQueueObject != null)
+					this.lnsSendQueue.set(lnsQueueObject);
 			} finally {
 				this.lnsSocketTicket.close();
 			}
