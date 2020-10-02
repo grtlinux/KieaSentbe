@@ -1,0 +1,10 @@
+# 2-2. detail req
+{
+  "sourceCountry" : "KOR",
+  "sourceSendCurrency" : "THB",
+  "destinationCountry" : "IDN",
+  "destinationReceiveAmount" : "1000",
+  "destinationReceiveCurrency" : "IDR",
+  "destinationOperatorCode" : "mgi",
+"deliveryMethod": "account_deposit"
+}

@@ -1,0 +1,68 @@
+{
+  "deliveryMethod" : "cash",
+  "remark" : "This is MGI test remark",
+  "promotionCodes" : [ "FLATFEE" ],
+  "receiver" : {
+    "accountNumber" : "MG-0012345",
+    "email" : "receiverEmail@test.com",
+    "firstName" : "receiverFirstName",
+    "lastName" : "receiverLastName",
+    "notification" : {
+      "transactionSMSOptIn" : false,
+      "transactionEmailOptIn" : false
+    },
+    "address" : {
+      "city" : "Bangkok",
+      "line1" : "MG-0012345"
+    },
+    "phone" : {
+      "number" : "345364566",
+      "countryCode" : "33"
+    }
+  },
+  "sender" : {
+    "idType" : "GOV",
+    "idCountryCode" : "MYS",
+    "idNumber" : "P83245384",
+    "dob" : "1992-03-23",
+    "purpose" : "PURCHASE_GOODS",
+    "birthCountryCode" : "THA",
+    "relationshipToReceiver" : "BUSINESS_PARTNER",
+    "citizenshipCountryCode" : "THA",
+    "email" : "senderEmail@test.com",
+    "firstName" : "KANGRHRDX55",
+    "middleName" : null,
+    "lastName" : "senderLastName",
+    "secondLastName" : "senderSecondLastName",
+    "notification" : {
+      "transactionSMSOptIn" : false,
+      "transactionEmailOptIn" : false,
+      "marketingSMSOptIn" : false,
+      "marketingEmailOptIn" : false
+    },
+    "address" : {
+      "city" : "Bangkok",
+      "postalCode" : "10400",
+      "line1" : "Temp address"
+    },
+    "homePhone" : {
+      "number" : "45645645666",
+      "countryCode" : "66"
+    }
+  },
+  "destination" : {
+    "country" : "IDN",
+    "receive" : {
+      "amount" : "43366.3500",
+      "currency" : "IDR"
+    },
+    "operatorCode" : "mgi"
+  },
+  "source" : {
+    "country" : "KOR",
+    "send" : {
+      "currency" : "THB"
+    },
+    "transactionId" : "HW2009151036A332"
+  }
+}

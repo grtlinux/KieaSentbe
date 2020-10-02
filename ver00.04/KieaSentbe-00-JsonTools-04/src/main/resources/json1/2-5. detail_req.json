@@ -1,0 +1,10 @@
+# 2-5. detail req
+# For now reward number is still bug from MGI side. You can not test it now.
+{
+  "sourceCountry" : "KOR",
+  "sourceSendCurrency" : "THB",
+  "destinationCountry" : "IDN",
+  "destinationReceiveAmount" : "1000",
+  "destinationReceiveCurrency" : "IDR",
+  "destinationOperatorCode" : "mgi"
+}

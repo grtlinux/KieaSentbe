@@ -1,0 +1,275 @@
+[
+	{
+		"name": "1. auth - init",
+		"mapping": "apis/auth",
+		"httpUrl": "/v1/auth",
+		"httpMethod": "POST",
+		"reqJson": "1. auth_req.json",
+		"resJson": "1. auth_res.json",
+		"batData": ""
+	}, {
+		"name": "2-1. detail - cash",
+		"mapping": "apis/detail",
+		"httpUrl": "/v1.1/remittances.detail",
+		"httpMethod": "GET",
+		"reqJson": "2-1. detail_req.json",
+		"resJson": "2-1. detail_res.json",
+		"batData": ""
+	}, {
+		"name": "2-2. detail - account deposit",
+		"mapping": "apis/detail",
+		"httpUrl": "/v1.1/remittances.detail",
+		"httpMethod": "GET",
+		"reqJson": "2-2. detail_req.json",
+		"resJson": "2-2. detail_res.json",
+		"batData": ""
+	}, {
+		"name": "2-3. detail - no delivery method",
+		"mapping": "apis/detail",
+		"httpUrl": "/v1.1/remittances.detail",
+		"httpMethod": "GET",
+		"reqJson": "2-3. detail_req.json",
+		"resJson": "2-3. detail_res.json",
+		"batData": ""
+	}, {
+		"name": "2-4. detail - promotion code",
+		"mapping": "apis/detail",
+		"httpUrl": "/v1.1/remittances.detail",
+		"httpMethod": "GET",
+		"reqJson": "2-4. detail_req.json",
+		"resJson": "2-4. detail_res.json",
+		"batData": ""
+	}, {
+		"name": "2-5. detail - sender.rewardsNumber",
+		"mapping": "apis/detail",
+		"httpUrl": "/v1.1/remittances.detail",
+		"httpMethod": "GET",
+		"reqJson": "2-5. detail_req.json",
+		"resJson": "2-5. detail_res.json",
+		"batData": ""
+	}, {
+		"name": "2-6. detail - error",
+		"mapping": "apis/detail",
+		"httpUrl": "/v1.1/remittances.detail",
+		"httpMethod": "GET",
+		"reqJson": "2-6. detail_req.json",
+		"resJson": "2-6. detail_res.json",
+		"batData": ""
+	}, {
+		"name": "2-7. detail - 3rd party error",
+		"mapping": "apis/detail",
+		"httpUrl": "/v1.1/remittances.detail",
+		"httpMethod": "GET",
+		"reqJson": "2-7. detail_req.json",
+		"resJson": "2-7. detail_res.json",
+		"batData": ""
+	}, {
+		"name": "3-1. validate - cash",
+		"mapping": "apis/validate",
+		"httpUrl": "/v1.1/remittances.validate",
+		"httpMethod": "POST",
+		"reqJson": "3-1. validate_req.json",
+		"resJson": "3-1. validate_res.json",
+		"batData": ""
+	}, {
+		"name": "3-2. validate - account deposit",
+		"mapping": "apis/validate",
+		"httpUrl": "/v1.1/remittances.validate",
+		"httpMethod": "POST",
+		"reqJson": "3-2. validate_req.json",
+		"resJson": "3-2. validate_res.json",
+		"batData": ""
+	}, {
+		"name": "3-3. validate - destination.receive.amount",
+		"mapping": "apis/validate",
+		"httpUrl": "/v1.1/remittances.validate",
+		"httpMethod": "POST",
+		"reqJson": "3-3. validate_req.json",
+		"resJson": "3-3. validate_res.json",
+		"batData": ""
+	}, {
+		"name": "3-4. validate - source.send.amount",
+		"mapping": "apis/validate",
+		"httpUrl": "/v1.1/remittances.validate",
+		"httpMethod": "POST",
+		"reqJson": "3-4. validate_req.json",
+		"resJson": "3-4. validate_res.json",
+		"batData": ""
+	}, {
+		"name": "3-5. validate - promotion code",
+		"mapping": "apis/validate",
+		"httpUrl": "/v1.1/remittances.validate",
+		"httpMethod": "POST",
+		"reqJson": "3-5. validate_req.json",
+		"resJson": "3-5. validate_res.json",
+		"batData": ""
+	}, {
+		"name": "3-6. validate - sender rewardsNumber",
+		"mapping": "apis/validate",
+		"httpUrl": "/v1.1/remittances.validate",
+		"httpMethod": "POST",
+		"reqJson": "3-6. validate_req.json",
+		"resJson": "3-6. validate_res.json",
+		"batData": ""
+	}, {
+		"name": "3-7. validate - sender notification params",
+		"mapping": "apis/validate",
+		"httpUrl": "/v1.1/remittances.validate",
+		"httpMethod": "POST",
+		"reqJson": "3-7. validate_req.json",
+		"resJson": "3-7. validate_res.json",
+		"batData": ""
+	}, {
+		"name": "3-8. validate - error",
+		"mapping": "apis/validate",
+		"httpUrl": "/v1.1/remittances.validate",
+		"httpMethod": "POST",
+		"reqJson": "3-8. validate_req.json",
+		"resJson": "3-8. validate_res.json",
+		"batData": ""
+	}, {
+		"name": "3-9. validate - 3rd party error",
+		"mapping": "apis/validate",
+		"httpUrl": "/v1.1/remittances.validate",
+		"httpMethod": "POST",
+		"reqJson": "3-9. validate_req.json",
+		"resJson": "3-9. validate_res.json",
+		"batData": ""
+	}, {
+		"name": "4-1. commit - successfully",
+		"mapping": "apis/commit",
+		"httpUrl": "/v1.1/remittances.commit",
+		"httpMethod": "POST",
+		"reqJson": "4-1. commit_req.json",
+		"resJson": "4-1. commit_res.json",
+		"batData": ""
+	}, {
+		"name": "4-2. commit - error",
+		"mapping": "apis/commit",
+		"httpUrl": "/v1.1/remittances.commit",
+		"httpMethod": "POST",
+		"reqJson": "4-2. commit_req.json",
+		"resJson": "4-2. commit_res.json",
+		"batData": ""
+	}, {
+		"name": "4-3. commit - 3rd party error",
+		"mapping": "apis/commit",
+		"httpUrl": "/v1.1/remittances.commit",
+		"httpMethod": "POST",
+		"reqJson": "4-3. commit_req.json",
+		"resJson": "4-3. commit_res.json",
+		"batData": ""
+	}, {
+		"name": "5-1. amend - successfully",
+		"mapping": "apis/amend",
+		"httpUrl": "/v1.1/remittances.amend",
+		"httpMethod": "POST",
+		"reqJson": "5-1. amend_req.json",
+		"resJson": "5-1. amend_res.json",
+		"batData": ""
+	}, {
+		"name": "5-2. amend - error",
+		"mapping": "apis/amend",
+		"httpUrl": "/v1.1/remittances.amend",
+		"httpMethod": "POST",
+		"reqJson": "5-2. amend_req.json",
+		"resJson": "5-2. amend_res.json",
+		"batData": ""
+	}, {
+		"name": "5-3. amend - 3rd party error",
+		"mapping": "apis/amend",
+		"httpUrl": "/v1.1/remittances.amend",
+		"httpMethod": "POST",
+		"reqJson": "5-3. amend_req.json",
+		"resJson": "5-3. amend_res.json",
+		"batData": ""
+	}, {
+		"name": "6-1. refund - refund Y",
+		"mapping": "apis/refund",
+		"httpUrl": "/v1.1/remittances.refund",
+		"httpMethod": "POST",
+		"reqJson": "6-1. refund_req.json",
+		"resJson": "6-1. refund_res.json",
+		"batData": ""
+	}, {
+		"name": "6-2. refund - refund N",
+		"mapping": "apis/refund",
+		"httpUrl": "/v1.1/remittances.refund",
+		"httpMethod": "POST",
+		"reqJson": "6-2. refund_req.json",
+		"resJson": "6-2. refund_res.json",
+		"batData": ""
+	}, {
+		"name": "6-3. refund - cancel",
+		"mapping": "apis/refund",
+		"httpUrl": "/v1.1/remittances.refund",
+		"httpMethod": "POST",
+		"reqJson": "6-3. refund_req.json",
+		"resJson": "6-3. refund_res.json",
+		"batData": ""
+	}, {
+		"name": "6-4. refund - error",
+		"mapping": "apis/refund",
+		"httpUrl": "/v1.1/remittances.refund",
+		"httpMethod": "POST",
+		"reqJson": "6-4. refund_req.json",
+		"resJson": "6-4. refund_res.json",
+		"batData": ""
+	}, {
+		"name": "6-5. refund - 3rd party error",
+		"mapping": "apis/refund",
+		"httpUrl": "/v1.1/remittances.refund",
+		"httpMethod": "POST",
+		"reqJson": "6-5. refund_req.json",
+		"resJson": "6-5. refund_res.json",
+		"batData": ""
+	}, {
+		"name": "7-1. customer - senderHomePhone",
+		"mapping": "apis/customer",
+		"httpUrl": "/v1.1/remittances.customer-lookup",
+		"httpMethod": "GET",
+		"reqJson": "7-1. customer_req.json",
+		"resJson": "7-1. customer_res.json",
+		"batData": ""
+	}, {
+		"name": "7-2. customer - senderCardNumber",
+		"mapping": "apis/customer",
+		"httpUrl": "/v1.1/remittances.customer-lookup",
+		"httpMethod": "GET",
+		"reqJson": "7-2. customer_req.json",
+		"resJson": "7-2. customer_res.json",
+		"batData": ""
+	}, {
+		"name": "7-3. customer - error",
+		"mapping": "apis/customer",
+		"httpUrl": "/v1.1/remittances.customer-lookup",
+		"httpMethod": "GET",
+		"reqJson": "7-3. customer_req.json",
+		"resJson": "7-3. customer_res.json",
+		"batData": ""
+	}, {
+		"name": "7-4. customer - 3rd party error",
+		"mapping": "apis/customer",
+		"httpUrl": "/v1.1/remittances.customer-lookup",
+		"httpMethod": "GET",
+		"reqJson": "7-4. customer_req.json",
+		"resJson": "7-4. customer_res.json",
+		"batData": ""
+	}, {
+		"name": "8-1. histories - successfully",
+		"mapping": "apis/histories",
+		"httpUrl": "/v1.1/remittances",
+		"httpMethod": "GET",
+		"reqJson": "8-1. histories_req.json",
+		"resJson": "8-1. histories_res.json",
+		"batData": ""
+	}, {
+		"name": "8-2. histories - error",
+		"mapping": "apis/histories",
+		"httpUrl": "/v1.1/remittances",
+		"httpMethod": "GET",
+		"reqJson": "8-1. histories_req.json",
+		"resJson": "8-1. histories_res.json",
+		"batData": ""
+	}
+]

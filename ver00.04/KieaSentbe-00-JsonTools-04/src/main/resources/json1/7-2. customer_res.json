@@ -1,0 +1,61 @@
+{
+  "status": "success",
+  "message": "OK",
+  "data": [
+    {
+      "address": {
+        "city": "Bangkok",
+        "countryCode": "THA",
+        "line1": "Temp address",
+        "postalCode": "10400"
+      },
+      "birthCountryCode": "THA",
+      "cardNumber": "204515304846",
+      "dob": "1992-03-23",
+      "email": "KAISER@LIGHTNET.IO",
+      "firstName": "Sender",
+      "homePhone": {
+        "number": "45645645666"
+      },
+      "lastName": "Man",
+      "receiver": [
+        {
+          "deliveryMethod": "cash",
+          "destination": {
+            "country": "IDN",
+            "transaction": {
+              "currency": "IDR"
+            }
+          },
+          "firstName": "RECEIVERFIRSTNAME",
+          "lastName": "RECEIVERLASTNAME",
+          "payoutCurrency": "IDR",
+          "source": {
+            "transaction": {
+              "amount": "100.64",
+              "currency": "THB"
+            }
+          }
+        },
+        {
+          "deliveryMethod": "cash",
+          "destination": {
+            "country": "RUS",
+            "transaction": {
+              "currency": "EUR"
+            }
+          },
+          "firstName": "RECEIVER",
+          "lastName": "MAN",
+          "payoutCurrency": "EUR",
+          "source": {
+            "transaction": {
+              "amount": "200",
+              "currency": "EUR"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

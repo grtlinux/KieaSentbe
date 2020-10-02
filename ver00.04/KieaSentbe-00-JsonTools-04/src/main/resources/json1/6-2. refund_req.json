@@ -1,0 +1,9 @@
+# When successfully refund MGI will return fee to sender
+# IF feeRefund set to Y
+{
+  "terminalName" : "Testterminal-01",
+  "reason" : "NO_RCV_LOC",
+  "feeRefFund" : "N",
+  "reversalType" : "cancel",
+  "transactionId" : "b6d21422-f02d-482e-7e04-9bc21341f967"
+}

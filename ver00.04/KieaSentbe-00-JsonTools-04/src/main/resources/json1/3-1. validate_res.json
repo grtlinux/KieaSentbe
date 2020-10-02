@@ -1,0 +1,113 @@
+{
+  "status": "success",
+  "message": "OK",
+  "data": {
+    "transactionId": "0d0323ca-b892-4b91-7ea9-3b8818086a2e",
+    "deliveryMethod": "cash",
+    "source": {
+      "transactionId": "HW2009221036A000",
+      "operatorCode": "hanwha",
+      "country": "KOR",
+      "send": {
+        "amount": "102.7100",
+        "currency": "THB"
+      }
+    },
+    "destination": {
+      "transactionId": "9760061E1600759106055110433434NN",
+      "operatorCode": "mgi",
+      "country": "IDN",
+      "receive": {
+        "amount": "43366.3500",
+        "currency": "IDR"
+      }
+    },
+    "fee": {
+      "amount": "2.0000",
+      "currency": "THB",
+      "model": "excluded"
+    },
+    "rate": {
+      "from": {
+        "amount": "1",
+        "currency": "THB"
+      },
+      "to": {
+        "amount": "430.616416",
+        "currency": "IDR"
+      }
+    },
+    "sender": {
+      "idType": "GOV",
+      "idCountryCode": "MYS",
+      "idNumber": "P83245384",
+      "dob": "1992-03-23",
+      "purpose": "PURCHASE_GOODS",
+      "birthCountryCode": "THA",
+      "relationshipToReceiver": "BUSINESS_PARTNER",
+      "citizenshipCountryCode": "THA",
+      "email": "senderEmail@test.com",
+      "firstName": "KANGRHRDX",
+      "middleName": null,
+      "lastName": "senderLastName",
+      "secondLastName": "senderSecondLastName",
+      "notification": {
+        "transactionSMSOptIn": false,
+        "transactionEmailOptIn": false,
+        "marketingSMSOptIn": false,
+        "marketingEmailOptIn": false
+      },
+      "address": {
+        "city": "Bangkok",
+        "postalCode": "10400",
+        "line1": "Temp address"
+      },
+      "homePhone": {
+        "number": "45645645666",
+        "countryCode": "66"
+      }
+    },
+    "receiver": {
+      "accountNumber": "MG-0012345",
+      "email": "receiverEmail@test.com",
+      "firstName": "receiverFirstName",
+      "lastName": "receiverLastName",
+      "notification": {
+        "transactionSMSOptIn": false,
+        "transactionEmailOptIn": false
+      },
+      "address": {
+        "city": "Bangkok",
+        "line1": "MG-0012345"
+      },
+      "phone": {
+        "number": "345364566",
+        "countryCode": "33"
+      }
+    },
+    "status": "PENDING",
+    "remittanceType": "MESSAGING",
+    "promotions": [
+      {
+        "code": "FLATFEE",
+        "discount": {
+          "amount": "298.0000",
+          "currency": "THB"
+        }
+      }
+    ],
+    "additionalInfo": {
+      "destinationCountryDisplayName": "INDONESIA",
+      "receiveAmountsReceiveFeesAreEstimated": "false",
+      "receiveAmountsReceiveTaxesAreEstimated": "false",
+      "receiveAmountsTotalReceiveTaxes": "0.00",
+      "receiveAmountsValidCurrencyIndicator": "true",
+      "receiveFeeDisclosureText": "false",
+      "receiveTaxDisclosureText": "false",
+      "sendAmountsSendAmount": "100.71",
+      "sendAmountsTotalSendTaxes": "0.00",
+      "senderPurposeDisplayName": "Payment for Goods/Services",
+      "totalReceiveFees": "0.00"
+    }
+  }
+}

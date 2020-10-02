@@ -1,0 +1,10 @@
+# 2-1. detail req
+{
+  "sourceCountry" : "KOR",
+  "sourceSendCurrency" : "THB",
+  "destinationCountry" : "IDN",
+  "destinationReceiveCurrency" : "IDR",
+  "destinationReceiveAmount" : "1000",
+  "destinationOperatorCode" : "mgi",
+"deliveryMethod": "cash"
+}

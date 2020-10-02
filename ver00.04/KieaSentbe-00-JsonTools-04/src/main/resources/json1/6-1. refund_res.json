@@ -1,0 +1,19 @@
+{
+  "status": "success",
+  "message": "OK",
+  "data": {
+    "feeInfo": {
+      "amount": "2",
+      "type": "FLATRATE",
+      "currency": "THB"
+    },
+    "source": {
+      "transaction": {
+        "amount": "100.71",
+        "currency": "THB"
+      }
+    },
+    "refundTotalAmount": "102.71",
+    "reversalType": "cancel"
+  }
+}

@@ -1,0 +1,22 @@
+{
+	"user_id": "1001099",
+	"phone": {
+		"iso": "KR",
+		"number": 1012345678
+	},
+	"user_name": {
+		"first": "Heung-min",
+		"middle": "",
+		"last": "Son"
+	},
+	"gender": 1,
+	"account_number": "05012345333323",
+	"account_holder_name": "Heung-min Son",
+	"birth_date": "19701225",
+	"nationality_iso": "KR",
+	"email": "",
+	"often_send_country_iso": "PH",
+	"occupation": 3,
+	"funds_source": 3,
+	"transfer_purpose": 3
+}
