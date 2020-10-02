@@ -2,16 +2,20 @@ package org.tain.queue;
 
 import java.util.LinkedList;
 
-public class LnsRecvQueue {
+import org.springframework.stereotype.Component;
+import org.tain.object.ticket.LnsInfoTicket;
 
-	private final LinkedList<Object> queue = new LinkedList<>();
+@Component
+public class InfoTicketReadyQueue {
+
+	private final LinkedList<LnsInfoTicket> queue = new LinkedList<>();
 	
-	public synchronized void set(Object object) {
+	public synchronized void set(LnsInfoTicket object) {
 		this.queue.addLast(object);
 		this.notifyAll();
 	}
 	
-	public synchronized Object get() {
+	public synchronized LnsInfoTicket get() {
 		while (this.queue.size() <= 0) {
 			try {
 				wait();

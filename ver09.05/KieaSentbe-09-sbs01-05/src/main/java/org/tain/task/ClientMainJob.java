@@ -6,12 +6,16 @@ import java.net.Socket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.tain.object.lns.LnsStreamPacket;
+import org.tain.object.lns.LnsStream;
+import org.tain.object.ticket.LnsSocketTicket;
 import org.tain.properties.ProjEnvJobProperties;
-import org.tain.queue.LnsStreamPacketQueue;
-import org.tain.queue.WakeClientTaskQueue;
+import org.tain.queue.LnsQueueObject;
+import org.tain.queue.LnsSendQueue;
+import org.tain.queue.SocketTicketReadyQueue;
+import org.tain.queue.SocketTicketUseQueue;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
+import org.tain.utils.JsonPrint;
 import org.tain.utils.Sleep;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,46 +24,90 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ClientMainJob {
 
+	private final String TITLE = "CLIENT_MAIN_JOB ";
+	
+	private final int MAX_RETRY_CNT = 3;
+	
 	@Autowired
-	private WakeClientTaskQueue wakeClientTaskQueue;
+	private SocketTicketReadyQueue socketTicketReadyQueue;
+	
+	@Autowired
+	private SocketTicketUseQueue socketTicketUseQueue;
+	
+	@Autowired
+	private LnsSendQueue lnsSendQueue;
 	
 	@Autowired
 	private ProjEnvJobProperties projEnvJobProperties;
 	
-	@Autowired
-	private LnsStreamPacketQueue lnsStreamPacketQueue;
-	
 	@Async(value = "clientMainTask")
 	public void clientMainJob(String param) throws Exception {
-		log.info("KANG-20200907 >>>>> START param = {}, {}", param, CurrentInfo.get());
+		log.info(TITLE + ">>>>> START param = {}, {}", param, CurrentInfo.get());
 		
 		if (Flag.flag) {
 			// client
 			String host = this.projEnvJobProperties.getOnlineHost();
 			int port = this.projEnvJobProperties.getOnlinePort();
 			
-			while (true) {
-				InetSocketAddress inetSocketAddress = new InetSocketAddress(host, port);
+			try {
+				log.info(TITLE + ">>>>> CONNECTION CLIENT for [host:port]=[{}:{}]", host, port);
 				
-				try {
-					log.info(">>>>> connection....INFO = {}", inetSocketAddress);
-					Socket socket = new Socket();
-					socket.connect(inetSocketAddress);
-					log.info(">>>>> connection is OK!!!");
+				LnsSocketTicket lnsSocketTicket = null;
+				while (true) {
+					lnsSocketTicket = this.socketTicketReadyQueue.get();  // queue-block
+					log.info(TITLE + ">>>>> {} trying to get a connection", lnsSocketTicket);
 					
-					if (Flag.flag) this.lnsStreamPacketQueue.set(new LnsStreamPacket(socket));
-				} catch (Exception e) {
-					//e.printStackTrace();
-					log.error(">>>>> ERROR: {}", e.getMessage());
-					Sleep.run(10 * 1000);
-					continue;
+					Socket socket = null;
+					int retry_cnt = 0;
+					for (; retry_cnt < MAX_RETRY_CNT; retry_cnt ++) {
+						try {
+							socket = new Socket();
+							InetSocketAddress inetSocketAddress = new InetSocketAddress(host, port);
+							socket.connect(inetSocketAddress);
+							log.info(TITLE + ">>>>> {} has got a connection.. OK!!!", lnsSocketTicket);
+							break;
+						} catch (Exception e) {
+							//ERROR: retry_cnt = {}, msg = Connection refused (Connection refused)
+							log.error(TITLE + "ERROR: retry_cnt = {}, msg = {}", retry_cnt, e.getMessage());
+							Sleep.run(10 * 1000);
+						}
+					}
+					if (retry_cnt >= MAX_RETRY_CNT) {
+						// because of unable to connect, return error message
+						int sizeQueue = this.lnsSendQueue.size();
+						for (int i = 0; i < sizeQueue; i++) {
+							LnsQueueObject reqLnsQueueObject = (LnsQueueObject) this.lnsSendQueue.get();
+							
+							String resStrData = String.format("99999couldn't connect to server");
+							String resTypeCode = "0210100";
+							String resLen = String.format("%04d", 7 + resStrData.length());
+							LnsStream resLnsStream = new LnsStream(resLen + resTypeCode + resStrData);
+							log.info(TITLE + ">>>>> ({}) ERROR.lnsStrem = {}", i+1, JsonPrint.getInstance().toPrettyJson(resLnsStream));
+							
+							reqLnsQueueObject.getLnsRecvQueue().set(resLnsStream);
+						}
+						this.lnsSendQueue.clear();
+						
+						this.socketTicketReadyQueue.set(lnsSocketTicket);
+						continue;
+					}
+					
+					// set socket to ticket
+					lnsSocketTicket.set(socket);
+					log.info(TITLE + ">>>>> {} has a socket. SET SOCKET.", lnsSocketTicket);
+					
+					this.socketTicketUseQueue.set(lnsSocketTicket);
+					log.info(TITLE + ">>>>> {} go into the queue of socketTicketUseQueue.", lnsSocketTicket);
+					
+					Sleep.run(1 * 1000);
 				}
-				
-				Sleep.run(10 * 1000);
-				if (Flag.flag) this.wakeClientTaskQueue.get();  // blocking
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				//
 			}
 		}
 		
-		log.info("KANG-20200907 >>>>> END   param = {}, {}", param, CurrentInfo.get());
+		log.info(TITLE + ">>>>> END   param = {}, {}", param, CurrentInfo.get());
 	}
 }

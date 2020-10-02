@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.tain.object.lns.LnsStream;
-import org.tain.object.lns.LnsStreamPacket;
-import org.tain.queue.LnsStreamPacketQueue;
+import org.tain.object.ticket.LnsInfoTicket;
+import org.tain.object.ticket.LnsSocketTicket;
+import org.tain.queue.InfoTicketReadyQueue;
+import org.tain.queue.SocketTicketReadyQueue;
+import org.tain.queue.SocketTicketUseQueue;
 import org.tain.task.process.CheckUserProcess;
 import org.tain.task.process.CreateUserProcess;
 import org.tain.task.process.DeleteUserProcess;
@@ -24,8 +27,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ServerJob {
 
+	private final String TITLE = "SERVER_JOB ";
+	
 	@Autowired
-	private LnsStreamPacketQueue lnsStreamPacketQueue;
+	private SocketTicketUseQueue socketTicketUseQueue;
+	
+	@Autowired
+	private SocketTicketReadyQueue socketTicketReadyQueue;
+	
+	@Autowired
+	private InfoTicketReadyQueue infoTicketReadyQueue;
 	
 	///////////////////////////////////////////////////////////////////////////
 	
@@ -56,13 +67,13 @@ public class ServerJob {
 	///////////////////////////////////////////////////////////////////////////
 	
 	@Async(value = "serverTask")
-	public void serverJob(String param) throws Exception {
-		log.info("KANG-20200908 >>>>> START param = {}, {}", param, CurrentInfo.get());
+	public void serverJob(LnsInfoTicket infoTicket) throws Exception {
+		log.info(TITLE + ">>>>> START param = {}, {}", infoTicket, CurrentInfo.get());
 		
-		LnsStreamPacket lnsStreamPacket = null;
+		LnsSocketTicket lnsSocketTicket = null;
 		if (Flag.flag) {
-			lnsStreamPacket = this.lnsStreamPacketQueue.get();  // blocking
-			log.info("KANG-20200907 >>>>> lnsStreamPacket: REMOTE_INFO = {}", lnsStreamPacket);
+			lnsSocketTicket = this.socketTicketUseQueue.get();  // blocking
+			log.info(TITLE + ">>>>> serverJob: INFO = {} {}", infoTicket, lnsSocketTicket);
 		}
 		
 		////////////////////////////////////////////////////
@@ -70,10 +81,10 @@ public class ServerJob {
 			try {
 				LnsStream reqLnsStream = null;
 				LnsStream resLnsStream = null;
-				do {
+				while (true) {
 					// recv
-					reqLnsStream = lnsStreamPacket.recvStream();
-					if (Flag.flag) JsonPrint.getInstance().printPrettyJson("REQ.lnsStream", reqLnsStream);
+					reqLnsStream = lnsSocketTicket.recvStream();
+					if (Flag.flag) log.info(TITLE + ">>>>> reqLnsStream = {}", JsonPrint.getInstance().toPrettyJson(reqLnsStream));
 					
 					// process
 					switch (reqLnsStream.getTypeCode()) {
@@ -106,19 +117,29 @@ public class ServerJob {
 					case "0200003":  // decrypt
 						break;
 					default:
-						log.error("ERROR >>>>> WRONG TypeCode: {}", JsonPrint.getInstance().toPrettyJson(reqLnsStream));
+						log.error(TITLE + "ERROR >>>>> WRONG TypeCode: {}", JsonPrint.getInstance().toPrettyJson(reqLnsStream));
 						break;
 					}
 					
 					// send
-					lnsStreamPacket.sendStream(resLnsStream);
-					if (Flag.flag) JsonPrint.getInstance().printPrettyJson("RES.lnsStream", resLnsStream);
-				} while (true);
+					lnsSocketTicket.sendStream(resLnsStream);
+					if (Flag.flag) log.info(TITLE + ">>>>> resLnsStream = {}", JsonPrint.getInstance().toPrettyJson(resLnsStream));
+				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				//e.printStackTrace();
+				// ERROR >>>>> ERROR: return value of read is negative(-)...
+				log.error(TITLE + " ERROR >>>>> {}", e.getMessage());
+			} finally {
+				lnsSocketTicket.close();
 			}
 		}
 		
-		log.info("KANG-20200907 >>>>> END   param = {}, {}", param, CurrentInfo.get());
+		if (Flag.flag) {
+			// return the tickets.
+			this.socketTicketReadyQueue.set(lnsSocketTicket);
+			this.infoTicketReadyQueue.set(infoTicket);
+		}
+		
+		log.info(TITLE + ">>>>> END   param = {}, {}", infoTicket, CurrentInfo.get());
 	}
 }

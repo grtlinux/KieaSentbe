@@ -7,10 +7,10 @@ import org.tain.object.lns.LnsStream;
 import org.tain.object.ticket.LnsInfoTicket;
 import org.tain.object.ticket.LnsSocketTicket;
 import org.tain.queue.InfoTicketReadyQueue;
+import org.tain.queue.LnsQueueObject;
 import org.tain.queue.LnsSendQueue;
 import org.tain.queue.SocketTicketReadyQueue;
 import org.tain.queue.SocketTicketUseQueue;
-import org.tain.queue._old.LnsQueueObject;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 

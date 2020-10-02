@@ -3,19 +3,19 @@ package org.tain.queue;
 import java.util.LinkedList;
 
 import org.springframework.stereotype.Component;
+import org.tain.object.ticket.LnsSocketTicket;
 
 @Component
-public class WakeServerTaskQueue {
+public class SocketTicketReadyQueue {
 
-	private final LinkedList<Object> queue = new LinkedList<>();
+	private final LinkedList<LnsSocketTicket> queue = new LinkedList<>();
 	
-	public synchronized void set(Object object) {
+	public synchronized void set(LnsSocketTicket object) {
 		this.queue.addLast(object);
 		this.notifyAll();
 	}
 	
-	/*
-	public synchronized Object get() {
+	public synchronized LnsSocketTicket get() {
 		while (this.queue.size() <= 0) {
 			try {
 				wait();
@@ -23,16 +23,9 @@ public class WakeServerTaskQueue {
 		}
 		return this.queue.removeFirst();
 	}
-	*/
 	
-	public synchronized Object get() {
-		while (this.queue.size() <= 0) {
-			try {
-				wait();
-			} catch (InterruptedException e) {}
-		}
+	public synchronized void clear() {
 		this.queue.clear();
-		return null;
 	}
 	
 	public int size() {

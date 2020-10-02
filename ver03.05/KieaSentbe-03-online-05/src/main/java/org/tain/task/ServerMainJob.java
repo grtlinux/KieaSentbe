@@ -7,9 +7,10 @@ import java.net.Socket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.tain.object.lns.LnsStreamPacket;
+import org.tain.object.ticket.LnsSocketTicket;
 import org.tain.properties.ProjEnvJobProperties;
-import org.tain.queue.LnsStreamPacketQueue;
+import org.tain.queue.SocketTicketReadyQueue;
+import org.tain.queue.SocketTicketUseQueue;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.utils.Sleep;
@@ -20,33 +21,47 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ServerMainJob {
 
+	private final String TITLE = "SERVER_MAIN_JOB ";
+	
+	@Autowired
+	private SocketTicketReadyQueue socketTicketReadyQueue;
+	
+	@Autowired
+	private SocketTicketUseQueue socketTicketUseQueue;
+	
 	@Autowired
 	private ProjEnvJobProperties projEnvJobProperties;
 	
-	@Autowired
-	private LnsStreamPacketQueue lnsStreamPacketQueue;
-	
 	@Async(value = "serverMainTask")
 	public void serverMainJob(String param) throws Exception {
-		log.info("KANG-20200907 >>>>> START param = {}, {}", param, CurrentInfo.get());
+		log.info(TITLE + ">>>>> START param = {}, {}", param, CurrentInfo.get());
 		
 		if (Flag.flag) {
+			// server
 			ServerSocket serverSocket = new ServerSocket();
 			int port = this.projEnvJobProperties.getListenPort();
 			InetSocketAddress inetSocketAddress = new InetSocketAddress("localhost", port);
 			serverSocket.bind(inetSocketAddress);
 			
 			try {
-				log.info(">>>>> LISTENING for client connection with port={}....INFO = {}", port, inetSocketAddress);
+				log.info(TITLE + ">>>>> LISTENING for client connection with port={}....INFO = {}", port, inetSocketAddress);
 				
+				LnsSocketTicket lnsSocketTicket = null;
 				while (true) {
-					log.info(">>>>> BEFORE connection.");
-					Socket socket = serverSocket.accept(); // block waiting for connect
-					log.info(">>>>> AFTER connection is OK!!!");
+					lnsSocketTicket = this.socketTicketReadyQueue.get();  // queue-block
+					log.info(TITLE + ">>>>> {} waiting for your accept(connection)", lnsSocketTicket);
 					
-					if (Flag.flag) this.lnsStreamPacketQueue.set(new LnsStreamPacket(socket));
+					Socket socket = serverSocket.accept();  // connect-block
+					log.info(TITLE + ">>>>> {} has a connection.. OK!!!", lnsSocketTicket);
 					
-					Sleep.run(3 * 1000);
+					// set socket to ticket
+					lnsSocketTicket.set(socket);
+					log.info(TITLE + ">>>>> {} has a socket. SET SOCKET.", lnsSocketTicket);
+					
+					this.socketTicketUseQueue.set(lnsSocketTicket);
+					log.info(TITLE + ">>>>> {} go into the queue of socketTicketUseQueue.", lnsSocketTicket);
+					
+					Sleep.run(1 * 1000);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -55,6 +70,6 @@ public class ServerMainJob {
 			}
 		}
 		
-		log.info("KANG-20200907 >>>>> END   param = {}, {}", param, CurrentInfo.get());
+		log.info(TITLE + ">>>>> END   param = {}, {}", param, CurrentInfo.get());
 	}
 }

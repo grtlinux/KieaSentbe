@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.tain.object.lns.LnsStream;
-import org.tain.object.lns.LnsStreamPacket;
+import org.tain.object.ticket.LnsInfoTicket;
+import org.tain.object.ticket.LnsSocketTicket;
+import org.tain.queue.InfoTicketReadyQueue;
 import org.tain.queue.LnsQueueObject;
 import org.tain.queue.LnsSendQueue;
-import org.tain.queue.LnsStreamPacketQueue;
-import org.tain.queue.WakeClientTaskQueue;
+import org.tain.queue.SocketTicketReadyQueue;
+import org.tain.queue.SocketTicketUseQueue;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 
@@ -18,11 +20,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ClientJob {
 
-	@Autowired
-	private WakeClientTaskQueue wakeClientTaskQueue;
+	private final String TITLE = "CLIENT_JOB ";
 	
 	@Autowired
-	private LnsStreamPacketQueue lnsStreamPacketQueue;
+	private SocketTicketUseQueue socketTicketUseQueue;
+	
+	@Autowired
+	private SocketTicketReadyQueue socketTicketReadyQueue;
+	
+	@Autowired
+	private InfoTicketReadyQueue infoTicketReadyQueue;
+	
+	///////////////////////////////////////////////////////////////////////////
 	
 	@Autowired
 	private LnsSendQueue lnsSendQueue;
@@ -30,37 +39,50 @@ public class ClientJob {
 	///////////////////////////////////////////////////////////////////////////
 	
 	@Async(value = "clientTask")
-	public void clientJob(String param) throws Exception {
-		log.info("KANG-20200907 >>>>> START param = {}, {}", param, CurrentInfo.get());
+	public void clientJob(LnsInfoTicket infoTicket) throws Exception {
+		log.info(TITLE + ">>>>> START param = {}, {}", infoTicket, CurrentInfo.get());
 		
-		LnsStreamPacket lnsStreamPacket = null;
+		LnsSocketTicket lnsSocketTicket = null;
 		if (Flag.flag) {
-			lnsStreamPacket = this.lnsStreamPacketQueue.get();
+			lnsSocketTicket = this.socketTicketUseQueue.get();  // blocking
+			log.info(TITLE + ">>>>> clientJob: INFO = {} {}", infoTicket, lnsSocketTicket);
 		}
 		
+		////////////////////////////////////////////////////
 		if (Flag.flag) {
+			LnsQueueObject lnsQueueObject = null;
 			try {
+				LnsStream reqLnsStream = null;
+				LnsStream resLnsStream = null;
 				while (true) {
-					LnsQueueObject lnsQueueObject = (LnsQueueObject) this.lnsSendQueue.get();
+					// from SendQueue
+					lnsQueueObject = (LnsQueueObject) this.lnsSendQueue.get();
 					
 					// send
-					LnsStream reqLnsStream = lnsQueueObject.getLnsStream();
-					lnsStreamPacket.sendStream(reqLnsStream);
+					reqLnsStream = lnsQueueObject.getLnsStream();
+					lnsSocketTicket.sendStream(reqLnsStream);
 					
 					// recv
-					LnsStream resLnsStream = lnsStreamPacket.recvStream();
+					resLnsStream = lnsSocketTicket.recvStream();
 					lnsQueueObject.getLnsRecvQueue().set(resLnsStream);
 				}
 			} catch (Exception e) {
 				//e.printStackTrace();
-				log.error("ERROR >>>>> {}", e.getMessage());
+				// ERROR >>>>> ERROR: return value of read is negative(-)...
+				log.error(TITLE + " ERROR >>>>> {}", e.getMessage());
+				if (lnsQueueObject != null)
+					this.lnsSendQueue.set(lnsQueueObject);
 			} finally {
-				lnsStreamPacket.close();
+				lnsSocketTicket.close();
 			}
 		}
 		
-		log.info("KANG-20200907 >>>>> END   param = {}, {}", param, CurrentInfo.get());
+		if (Flag.flag) {
+			// return the tickets.
+			this.socketTicketReadyQueue.set(lnsSocketTicket);
+			this.infoTicketReadyQueue.set(infoTicket);
+		}
 		
-		if (Flag.flag) this.wakeClientTaskQueue.set(null);  // notify
+		log.info(TITLE + ">>>>> END   param = {}, {}", infoTicket, CurrentInfo.get());
 	}
 }

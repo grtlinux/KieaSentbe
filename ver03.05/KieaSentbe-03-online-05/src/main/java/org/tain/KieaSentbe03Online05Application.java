@@ -58,12 +58,14 @@ public class KieaSentbe03Online05Application implements CommandLineRunner {
 	@Autowired
 	private ServerTasksWorking serverTasksWorking;
 	
-	private void job02() {
+	private void job02() throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
-			if (Flag.flag) this.serverTasksWorking.runningServerMainTask();
-			if (Flag.flag) this.serverTasksWorking.runningServerTask();
+			if (Flag.flag) this.serverTasksWorking.makeLnsSocketTicket();
+			if (Flag.flag) this.serverTasksWorking.makeLnsInfoTicket();
+			if (Flag.flag) this.serverTasksWorking.runFactoryMainJob();
+			if (Flag.flag) this.serverTasksWorking.runServerMainJob();
 		}
 	}
 	
