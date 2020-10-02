@@ -34,10 +34,10 @@ public class Task01Job {
 		
 		if (Flag.flag) {
 			// single
-			for (int i=0; i < 10; i++) {
+			for (int i=0; ; i++) {
 				if (Flag.flag) Sleep.run(10 * 1000);
 				
-				String reqStrData = "REQ  Hello, Server!!! " + LocalDateTime.now();
+				String reqStrData = String.format("REQ-[%04d]  Hello, Server!!! %s", i, LocalDateTime.now());
 				String reqTypeCode = "0200100";
 				String reqLen = String.format("%04d", 7 + reqStrData.length());
 				LnsStream reqLnsStream = new LnsStream(reqLen + reqTypeCode + reqStrData);

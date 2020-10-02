@@ -38,15 +38,14 @@ public class ClientJob {
 	
 	///////////////////////////////////////////////////////////////////////////
 	
-	private LnsSocketTicket lnsSocketTicket = null;
-	
 	@Async(value = "clientTask")
 	public void clientJob(LnsInfoTicket infoTicket) throws Exception {
 		log.info(TITLE + ">>>>> START param = {}, {}", infoTicket, CurrentInfo.get());
 		
+		LnsSocketTicket lnsSocketTicket = null;
 		if (Flag.flag) {
-			this.lnsSocketTicket = this.socketTicketUseQueue.get();  // blocking
-			log.info(TITLE + ">>>>> clientJob: INFO = {} {}", infoTicket, this.lnsSocketTicket);
+			lnsSocketTicket = this.socketTicketUseQueue.get();  // blocking
+			log.info(TITLE + ">>>>> clientJob: INFO = {} {}", infoTicket, lnsSocketTicket);
 		}
 		
 		////////////////////////////////////////////////////
@@ -61,10 +60,10 @@ public class ClientJob {
 					
 					// send
 					reqLnsStream = lnsQueueObject.getLnsStream();
-					this.lnsSocketTicket.sendStream(reqLnsStream);
+					lnsSocketTicket.sendStream(reqLnsStream);
 					
 					// recv
-					resLnsStream = this.lnsSocketTicket.recvStream();
+					resLnsStream = lnsSocketTicket.recvStream();
 					lnsQueueObject.getLnsRecvQueue().set(resLnsStream);
 				}
 			} catch (Exception e) {
@@ -73,13 +72,13 @@ public class ClientJob {
 				if (lnsQueueObject != null)
 					this.lnsSendQueue.set(lnsQueueObject);
 			} finally {
-				this.lnsSocketTicket.close();
+				lnsSocketTicket.close();
 			}
 		}
 		
 		if (Flag.flag) {
 			// return the tickets.
-			this.socketTicketReadyQueue.set(this.lnsSocketTicket);
+			this.socketTicketReadyQueue.set(lnsSocketTicket);
 			this.infoTicketReadyQueue.set(infoTicket);
 		}
 		

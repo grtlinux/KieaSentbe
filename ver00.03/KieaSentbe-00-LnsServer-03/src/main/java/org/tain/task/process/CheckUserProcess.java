@@ -31,7 +31,7 @@ public class CheckUserProcess {
 		LnsStream resLnsStream = null;
 		if (Flag.flag) {
 			// 5. lnsStream
-			String resStrData = "RES  Hello, client!!! " + LocalDateTime.now();
+			String resStrData = String.format("RES-[0000]  Hello, client!!! %s", LocalDateTime.now());
 			String resTypeCode = "0210100";
 			String resLen = String.format("%04d", 7 + resStrData.length());
 			resLnsStream = new LnsStream(resLen + resTypeCode + resStrData);

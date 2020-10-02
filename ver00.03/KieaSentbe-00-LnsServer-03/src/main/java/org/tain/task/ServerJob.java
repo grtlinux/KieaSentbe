@@ -38,15 +38,14 @@ public class ServerJob {
 	
 	///////////////////////////////////////////////////////////////////////////
 	
-	private LnsSocketTicket lnsSocketTicket = null;
-	
 	@Async(value = "serverTask")
 	public void serverJob(LnsInfoTicket infoTicket) throws Exception {
 		log.info(TITLE + ">>>>> START param = {}, {}", infoTicket, CurrentInfo.get());
 		
+		LnsSocketTicket lnsSocketTicket = null;
 		if (Flag.flag) {
-			this.lnsSocketTicket = this.socketTicketUseQueue.get();  // blocking
-			log.info(TITLE + ">>>>> serverJob: INFO = {} {}", infoTicket, this.lnsSocketTicket);
+			lnsSocketTicket = this.socketTicketUseQueue.get();  // blocking
+			log.info(TITLE + ">>>>> serverJob: INFO = {} {}", infoTicket, lnsSocketTicket);
 		}
 		
 		////////////////////////////////////////////////////
@@ -56,7 +55,7 @@ public class ServerJob {
 				LnsStream resLnsStream = null;
 				while (true) {
 					// recv
-					reqLnsStream = this.lnsSocketTicket.recvStream();
+					reqLnsStream = lnsSocketTicket.recvStream();
 					if (Flag.flag) log.info(TITLE + ">>>>> reqLnsStream = {}", JsonPrint.getInstance().toPrettyJson(reqLnsStream));
 					
 					// process
@@ -71,20 +70,20 @@ public class ServerJob {
 					}
 					
 					// send
-					this.lnsSocketTicket.sendStream(resLnsStream);
+					lnsSocketTicket.sendStream(resLnsStream);
 					if (Flag.flag) log.info(TITLE + ">>>>> resLnsStream = {}", JsonPrint.getInstance().toPrettyJson(resLnsStream));
 				}
 			} catch (Exception e) {
 				//e.printStackTrace();
 				log.error(TITLE + " ERROR >>>>> {}", e.getMessage());
 			} finally {
-				this.lnsSocketTicket.close();
+				lnsSocketTicket.close();
 			}
 		}
 		
 		if (Flag.flag) {
 			// return the tickets.
-			this.socketTicketReadyQueue.set(this.lnsSocketTicket);
+			this.socketTicketReadyQueue.set(lnsSocketTicket);
 			this.infoTicketReadyQueue.set(infoTicket);
 		}
 		
