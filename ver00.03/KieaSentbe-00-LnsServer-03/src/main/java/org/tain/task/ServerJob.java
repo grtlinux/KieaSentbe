@@ -75,6 +75,7 @@ public class ServerJob {
 				}
 			} catch (Exception e) {
 				//e.printStackTrace();
+				// ERROR >>>>> ERROR: return value of read is negative(-)...
 				log.error(TITLE + " ERROR >>>>> {}", e.getMessage());
 			} finally {
 				lnsSocketTicket.close();

@@ -68,15 +68,15 @@ public class ServerTasksWorking {
 	///////////////////////////////////////////////////////////////////////////
 	
 	@Autowired
-	private ServerMainJob serverMainJob;
+	private FactoryMainJob factoryMainJob;
 	
-	public void runServerMainTask() throws Exception {
+	public void runFactoryMainJob() throws Exception {
 		log.info(TITLE + ">>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
-			String param = "SERVER-MAIN-JOB";
-			this.serverMainJob.serverMainJob(param);
-			log.info(TITLE + ">>>>> serverMainJob = {}", param);
+			String param = "FACTORY-MAIN-JOB";
+			this.factoryMainJob.factoryMainJob(param);
+			log.info(TITLE + ">>>>> factoryMainJob = {}", param);
 		}
 	}
 	
@@ -85,15 +85,15 @@ public class ServerTasksWorking {
 	///////////////////////////////////////////////////////////////////////////
 	
 	@Autowired
-	private FactoryMainJob factoryMainJob;
+	private ServerMainJob serverMainJob;
 	
-	public void runFactoryMainTask() throws Exception {
+	public void runServerMainJob() throws Exception {
 		log.info(TITLE + ">>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
-			String param = "FACTORY-MAIN-JOB";
-			this.factoryMainJob.factoryMainJob(param);
-			log.info(TITLE + ">>>>> factoryMainJob = {}", param);
+			String param = "SERVER-MAIN-JOB";
+			this.serverMainJob.serverMainJob(param);
+			log.info(TITLE + ">>>>> serverMainJob = {}", param);
 		}
 	}
 }

@@ -64,8 +64,8 @@ public class KieaSentbe00LnsServer03Application implements CommandLineRunner {
 		if (Flag.flag) {
 			if (Flag.flag) this.serverTasksWorking.makeLnsSocketTicket();
 			if (Flag.flag) this.serverTasksWorking.makeLnsInfoTicket();
-			if (Flag.flag) this.serverTasksWorking.runFactoryMainTask();
-			if (Flag.flag) this.serverTasksWorking.runServerMainTask();
+			if (Flag.flag) this.serverTasksWorking.runFactoryMainJob();
+			if (Flag.flag) this.serverTasksWorking.runServerMainJob();
 		}
 	}
 	

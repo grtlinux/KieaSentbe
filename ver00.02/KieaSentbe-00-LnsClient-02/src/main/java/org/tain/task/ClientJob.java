@@ -68,6 +68,7 @@ public class ClientJob {
 				}
 			} catch (Exception e) {
 				//e.printStackTrace();
+				// ERROR >>>>> ERROR: return value of read is negative(-)...
 				log.error(TITLE + " ERROR >>>>> {}", e.getMessage());
 				if (lnsQueueObject != null)
 					this.lnsSendQueue.set(lnsQueueObject);

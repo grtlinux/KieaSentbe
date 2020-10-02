@@ -24,6 +24,10 @@ public class SocketTicketUseQueue {
 		return this.queue.removeFirst();
 	}
 	
+	public synchronized void clear() {
+		this.queue.clear();
+	}
+	
 	public int size() {
 		return this.queue.size();
 	}

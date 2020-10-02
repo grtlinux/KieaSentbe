@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CheckUserProcess {
 
-	private final String TITLE = "CHECK_USER_PROCESS";
+	private final String TITLE = "CHECK_USER_PROCESS ";
 	
 	public LnsStream process(LnsStream reqLnsStream) throws Exception {
 		log.info("KANG-20200908 >>>>> {}", CurrentInfo.get());
@@ -28,10 +28,16 @@ public class CheckUserProcess {
 			log.info(TITLE + ">>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
 		
+		int idx = -1;
+		if (Flag.flag) {
+			String strIdx = lnsJson.getReqStrData().substring(5, 9);
+			idx = Integer.parseInt(strIdx);
+		}
+		
 		LnsStream resLnsStream = null;
 		if (Flag.flag) {
 			// 5. lnsStream
-			String resStrData = String.format("RES-[0000]  Hello, client!!! %s", LocalDateTime.now());
+			String resStrData = String.format("RES-[%04d]  Hello, client!!! %s", idx, LocalDateTime.now());
 			String resTypeCode = "0210100";
 			String resLen = String.format("%04d", 7 + resStrData.length());
 			resLnsStream = new LnsStream(resLen + resTypeCode + resStrData);

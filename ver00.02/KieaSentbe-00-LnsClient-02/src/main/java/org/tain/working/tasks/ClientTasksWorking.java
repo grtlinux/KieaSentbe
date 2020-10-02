@@ -68,23 +68,6 @@ public class ClientTasksWorking {
 	///////////////////////////////////////////////////////////////////////////
 	
 	@Autowired
-	private ClientMainJob clientMainJob;
-	
-	public void runClientMainJob() throws Exception {
-		log.info(TITLE + ">>>>> {} {}", CurrentInfo.get());
-		
-		if (Flag.flag) {
-			String param = "CLIENT-MAIN-JOB";
-			this.clientMainJob.clientMainJob(param);
-			log.info(TITLE + ">>>>> clientMainJob = {}", param);
-		}
-	}
-	
-	///////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////
-	
-	@Autowired
 	private FactoryMainJob factoryMainJob;
 	
 	public void runFactoryMainJob() throws Exception {
@@ -94,6 +77,23 @@ public class ClientTasksWorking {
 			String param = "FACTORY-MAIN-JOB";
 			this.factoryMainJob.factoryMainJob(param);
 			log.info(TITLE + ">>>>> factoryMainJob = {}", param);
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	
+	@Autowired
+	private ClientMainJob clientMainJob;
+	
+	public void runClientMainJob() throws Exception {
+		log.info(TITLE + ">>>>> {} {}", CurrentInfo.get());
+		
+		if (Flag.flag) {
+			String param = "CLIENT-MAIN-JOB";
+			this.clientMainJob.clientMainJob(param);
+			log.info(TITLE + ">>>>> clientMainJob = {}", param);
 		}
 	}
 }
