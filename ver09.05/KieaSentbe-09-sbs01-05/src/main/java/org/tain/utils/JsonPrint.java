@@ -10,6 +10,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class JsonPrint implements JsonPrintImpl {
 
 	private static JsonPrintType oldType;
@@ -122,22 +125,22 @@ public class JsonPrint implements JsonPrintImpl {
 
 	@Override
 	public void printJson(Object object) {
-		System.out.println("JSON >>>>> " + this.toJson(object));
+		log.info("JSON >>>>> " + this.toJson(object));
 	}
 
 	@Override
 	public void printJson(String title, Object object) {
-		System.out.println(title + " JSON >>>>> " + this.toJson(object));
+		log.info(title + " JSON >>>>> " + this.toJson(object));
 	}
 
 	@Override
 	public void printPrettyJson(Object object) {
-		System.out.println("Pretty JSON >>>>> " + this.toPrettyJson(object));
+		log.info("Pretty JSON >>>>> " + this.toPrettyJson(object));
 	}
 
 	@Override
 	public void printPrettyJson(String title, Object object) {
-		System.out.println(title + " Pretty JSON >>>>> " + this.toPrettyJson(object));
+		log.info(title + " Pretty JSON >>>>> " + this.toPrettyJson(object));
 	}
 
 	@Override
