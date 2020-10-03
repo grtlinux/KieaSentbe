@@ -5,14 +5,13 @@ import org.tain.utils.CurrentInfo;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class Json02Working {
+public class Json03Working {
 
 	public void test01() throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
@@ -35,34 +34,10 @@ public class Json02Working {
 				"  }\n" + 
 				"}";
 		
-		String inputJson = "{\"name\":\"Jake\",\"salary\":3000,\"phones\":"
-				+ "[{\"phoneType\":\"cell\",\"phoneNumber\":\"111-111-111\"},"
-				+ "{\"phoneType\":\"work\",\"phoneNumber\":\"222-222-222\"}],"
-				+"\"taskIds\":[11,22,33],"
-				+ "\"address\":{\"street\":\"101 Blue Dr\",\"city\":\"White Smoke\"}}";
-		inputJson = mappingJson;
+		JsonNode rootNode = new ObjectMapper().readTree(mappingJson);
+		System.out.println(">>>>> " + rootNode.toPrettyString());
 		
-		JsonNode rootNode = new ObjectMapper().readTree(inputJson);
-		System.out.println("rootNode.getNodeType(): " + rootNode.getNodeType());
-		System.out.println("rootNode.toPrettyJson() : " + rootNode.toPrettyString());
-		
-		System.out.println("rootNode: " + rootNode);
 		traverse(rootNode, 1);
-		
-		System.out.println("----------------------------------");
-		System.out.println(">>>>> " + rootNode.at("/address/city").asText());
-		System.out.println(">>>>> " + rootNode.at("/phones/0/phoneNumber").asText());
-		System.out.println(">>>>> " + rootNode.at("/phones/1/phoneNumber").asText());
-		System.out.println(">>>>> " + rootNode.at("/phones/5/phoneNumber").asText());
-		System.out.println(">>>>> " + rootNode.at("/phones/1").isEmpty());
-		System.out.println(">>>>> " + rootNode.at("/phones/5").isEmpty());
-		((ArrayNode)rootNode.at("/taskIds")).add(88);
-		System.out.println(">>>>> " + rootNode.at("/taskIds/0").numberValue());
-		System.out.println(">>>>> " + rootNode.at("/taskIds/1").asInt());
-		System.out.println(">>>>> " + rootNode.at("/taskIds/2").asText());
-		System.out.println(">>>>> " + rootNode.at("/taskIds/2").getNodeType());
-		System.out.println(">>>>> " + rootNode.at("/taskIds/3").asText());
-		System.out.println(">>>>> " + rootNode.at("/taskIds/4").asText());
 	}
 	
 	private void traverse(JsonNode node, int level) {
