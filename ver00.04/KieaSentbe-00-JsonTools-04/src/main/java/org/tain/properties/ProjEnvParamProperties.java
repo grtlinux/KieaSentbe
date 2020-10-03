@@ -12,6 +12,9 @@ public class ProjEnvParamProperties {
 
 	private String name;  // default
 	
+	private String home;
+	private String base1;
+	private String base2;
 	
 	private String dummy;  // null
 }

@@ -182,7 +182,8 @@ proj-env:
     home: /Users/kang-air
     #home: /Users/kangmac
     #home: /hw01/ibridge
-    base: /STS/GIT/KieaSentbe/ver00.04/KieaSentbe-00-JsonTools-04/src/main/resources/json2
+    base1: /STS/GIT/KieaSentbe/ver00.04/KieaSentbe-00-JsonTools-04/src/main/resources/json1
+    base2: /STS/GIT/KieaSentbe/ver00.04/KieaSentbe-00-JsonTools-04/src/main/resources/json2
     #base: /KANG/json/sentbe
 
   job:
