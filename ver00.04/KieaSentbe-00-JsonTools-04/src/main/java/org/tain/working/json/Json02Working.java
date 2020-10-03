@@ -18,22 +18,28 @@ public class Json02Working {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		String mappingJson = "{\n" + 
-				"  \"name\" : \"Jake\",\n" + 
-				"  \"salary\" : 3000,\n" + 
+				"  \"_arraySize\" : {\n" + 
+				"    \"phones\" : 5,\n" + 
+				"    \"taskIds\" : 5\n" + 
+				"  },\n" + 
+				"\n" +
+				"  \"name\" : \"L:20,T:string\",\n" + 
+				"  \"salary\" : \"L:20,T:long\",\n" + 
 				"  \"phones\" : [ {\n" + 
-				"      \"phoneType\" : \"cell\",\n" + 
-				"      \"phoneNumber\" : \"111-111-111\"\n" + 
-				"    }, {\n" + 
-				"      \"phoneType\" : \"work\",\n" + 
-				"      \"phoneNumber\" : \"222-222-222\"\n" + 
+				"      \"phoneType\" : \"L:5,T:string\",\n" + 
+				"      \"phoneNumber\" : \"L:15,T:string\"\n" + 
 				"    } "  +
 				"  ],\n" + 
-				"  \"taskIds\" : [ 11, 22, 33 ],\n" + 
+				"  \"taskIds\" : [ \"L:3,T:int\" ],\n" + 
 				"  \"address\" : {\n" + 
-				"    \"street\" : \"101 Blue Dr\",\n" + 
-				"    \"city\" : \"White Smoke\"\n" + 
+				"    \"street\" : \"L:50,T:string\",\n" + 
+				"    \"city\" : \"L:50,T:string\"\n" + 
 				"  }\n" + 
 				"}";
+		JsonNode mappingNode = new ObjectMapper().readTree(mappingJson);
+		System.out.println(">>>>> " + mappingNode.toPrettyString());
+		
+		////////////////////////////////////////////////////////////////////
 		
 		String inputJson = "{\"name\":\"Jake\",\"salary\":3000,\"phones\":"
 				+ "[{\"phoneType\":\"cell\",\"phoneNumber\":\"111-111-111\"},"
@@ -48,6 +54,8 @@ public class Json02Working {
 		
 		System.out.println("rootNode: " + rootNode);
 		traverse(rootNode, 1);
+		
+		////////////////////////////////////////////////////////////////////
 		
 		System.out.println("----------------------------------");
 		System.out.println(">>>>> " + rootNode.at("/address/city").asText());
@@ -111,6 +119,8 @@ public class Json02Working {
 				value = node.textValue();
 			} else if (node.isNumber()) {
 				value = node.numberValue();
+			} else if (node.isBoolean()) {
+				value = node.booleanValue();
 			}
 			System.out.printf("%" + sizIndent + "s|-- %s(%s) = %s%n"
 					, "", keyName, node.getNodeType(), value);
