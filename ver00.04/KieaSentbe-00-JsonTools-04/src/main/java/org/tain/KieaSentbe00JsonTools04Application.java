@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
+import org.tain.working.generic.Generic01Working;
 import org.tain.working.json.Json01Working;
 import org.tain.working.json.Json02Working;
 import org.tain.working.properties.PropertiesWorking;
@@ -28,8 +29,8 @@ public class KieaSentbe00JsonTools04Application implements CommandLineRunner {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) job01();  // properties
-		if (Flag.flag) job02();  // json
-		if (Flag.flag) job03();
+		if (!Flag.flag) job02();  // json
+		if (Flag.flag) job03();  // generic
 		if (Flag.flag) job04();
 		if (Flag.flag) job05();
 		if (Flag.flag) job06();
@@ -75,16 +76,24 @@ public class KieaSentbe00JsonTools04Application implements CommandLineRunner {
 		if (Flag.flag) {
 			if (Flag.flag) this.json02Working.test01();
 		}
-		
-		//if (Flag.flag) System.exit(0);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
 	
-	private void job03() {
+	@Autowired
+	private Generic01Working generic01Working;
+	
+	private void job03() throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
+			if (Flag.flag) this.generic01Working.test01();
+			if (Flag.flag) this.generic01Working.test02();
+			if (Flag.flag) this.generic01Working.test03();
+			if (Flag.flag) this.generic01Working.test04();
+			if (Flag.flag) this.generic01Working.test05();
+			if (Flag.flag) this.generic01Working.test06();
+			if (Flag.flag) this.generic01Working.test07();
 		}
 	}
 	
