@@ -16,9 +16,32 @@ public class Json03Working {
 	public void test01() throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
-		String mappingJson = "{\n" + 
+		String jsonInfo = "{\n" + 
+				"  \"_arraySize\" : {\n" + 
+				"    \"phones\" : 5,\n" + 
+				"    \"taskIds\" : 5\n" + 
+				"  },\n" + 
+				"\n" +
+				"  \"name\" : \"L:20,T:string\",\n" + 
+				"  \"salary\" : \"L:20,T:long\",\n" + 
+				"  \"phones\" : [ {\n" + 
+				"      \"phoneType\" : \"L:5,T:string\",\n" + 
+				"      \"phoneNumber\" : \"L:15,T:string\"\n" + 
+				"    } "  +
+				"  ],\n" + 
+				"  \"taskIds\" : [ \"L:3,T:int\" ],\n" + 
+				"  \"address\" : {\n" + 
+				"    \"street\" : \"L:50,T:string\",\n" + 
+				"    \"city\" : \"L:50,T:string\",\n" + 
+				"    \"usable\" : \"L:5,T:boolean\"\n" + 
+				"  }\n" + 
+				"}";
+		JsonNode jsonNodeInfo = new ObjectMapper().readTree(jsonInfo);
+		System.out.println(">>>>> " + jsonNodeInfo.toPrettyString());
+		
+		String jsonInput = "{\n" + 
 				"  \"name\" : \"Jake\",\n" + 
-				"  \"salary\" : 3000,\n" + 
+				"  \"salary\" : 3000.5,\n" + 
 				"  \"phones\" : [ {\n" + 
 				"      \"phoneType\" : \"cell\",\n" + 
 				"      \"phoneNumber\" : \"111-111-111\"\n" + 
@@ -27,14 +50,15 @@ public class Json03Working {
 				"      \"phoneNumber\" : \"222-222-222\"\n" + 
 				"    } "  +
 				"  ],\n" + 
-				"  \"taskIds\" : [ 11, 22, 33 ],\n" + 
+				"  \"taskIds\" : [ 11, 22.2, 33000 ],\n" + 
 				"  \"address\" : {\n" + 
 				"    \"street\" : \"101 Blue Dr\",\n" + 
-				"    \"city\" : \"White Smoke\"\n" + 
+				"    \"city\" : \"White Smoke\",\n" + 
+				"    \"usable\" : true\n" + 
 				"  }\n" + 
 				"}";
 		
-		JsonNode rootNode = new ObjectMapper().readTree(mappingJson);
+		JsonNode rootNode = new ObjectMapper().readTree(jsonInput);
 		System.out.println(">>>>> " + rootNode.toPrettyString());
 		
 		traverse(rootNode, 1);
@@ -46,7 +70,7 @@ public class Json03Working {
 		} else if (node.getNodeType() == JsonNodeType.ARRAY) {
 			traverseArray(node, level);
 		} else {
-			throw new RuntimeException("Not yet implemented...");
+			throw new RuntimeException("not yet implemented...");
 		}
 	}
 	
@@ -61,10 +85,10 @@ public class Json03Working {
 	}
 	
 	private void traverseArray(JsonNode node, int level) {
-		for (JsonNode jsonNode : node) {
-			printNode(jsonNode, "arrayElement", level);
-			if (traversable(jsonNode)) {
-				traverse(jsonNode, level + 1);
+		for (JsonNode itemNode : node) {
+			printNode(itemNode, "arrayElement", level);
+			if (traversable(itemNode)) {
+				traverse(itemNode, level + 1);
 			}
 		}
 	}
@@ -76,9 +100,9 @@ public class Json03Working {
 	}
 	
 	private void printNode(JsonNode node, String keyName, int level) {
-		int sizIndent = level * 4 - 3;
+		int indent = level * 4 - 3;
 		if (traversable(node)) {
-			System.out.printf("%" + sizIndent + "s|-- %s(%s)%n"
+			System.out.printf("%" + indent + "s|-- %s(%s)%n"
 					, "", keyName, node.getNodeType());
 		} else {
 			Object value = null;
@@ -86,8 +110,10 @@ public class Json03Working {
 				value = node.textValue();
 			} else if (node.isNumber()) {
 				value = node.numberValue();
+			} else if (node.isBoolean()) {
+				value = node.booleanValue();
 			}
-			System.out.printf("%" + sizIndent + "s|-- %s(%s) = %s%n"
+			System.out.printf("%" + indent + "s|-- %s(%s) = %s%n"
 					, "", keyName, node.getNodeType(), value);
 		}
 	}
