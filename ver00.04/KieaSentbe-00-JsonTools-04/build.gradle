@@ -26,6 +26,7 @@ dependencies {
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:2.8.4'
 	implementation 'com.github.mervick:aes-everywhere-java:1.2.7'
+	//implementation 'com.google.guava:guava'
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'

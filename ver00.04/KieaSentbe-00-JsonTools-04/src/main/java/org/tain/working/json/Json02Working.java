@@ -18,9 +18,10 @@ public class Json02Working {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		String mappingJson = "{\n" + 
-				"  \"_arraySize\" : {\n" + 
-				"    \"phones\" : 5,\n" + 
-				"    \"taskIds\" : 5\n" + 
+				"  \"__masterInfo\" : {\n" + 
+				"    \"name\" : \"helloMstInfo\",\n" + 
+				"    \"phones__arrSize\" : 5,\n" + 
+				"    \"taskIds__arrSize\" : 5\n" + 
 				"  },\n" + 
 				"\n" +
 				"  \"name\" : \"L:20,T:string\",\n" + 
