@@ -83,7 +83,8 @@ public class KieaSentbe00JsonTools04Application implements CommandLineRunner {
 		
 		if (Flag.flag) {
 			if (!Flag.flag) this.json03Working.test01();
-			if (Flag.flag) this.json03Working.test02();
+			if (!Flag.flag) this.json03Working.test02();
+			if (Flag.flag) this.json03Working.test03();
 		}
 	}
 	

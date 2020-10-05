@@ -32,19 +32,20 @@ public class Json03Working {
 				"    \"phones__arrSize\" : 5,\n" + 
 				"    \"taskIds__arrSize\" : 5\n" + 
 				"  },\n" + 
-				"\n" +
-				"  \"name\" : \"L:20,T:string\",\n" + 
-				"  \"salary\" : \"L:20,T:long\",\n" + 
-				"  \"phones\" : [ {\n" + 
-				"      \"phoneType\" : \"L:5,T:string\",\n" + 
-				"      \"phoneNumber\" : \"L:15,T:string\"\n" + 
-				"    } "  +
-				"  ],\n" + 
-				"  \"taskIds\" : [ \"L:3,T:int\" ],\n" + 
-				"  \"address\" : {\n" + 
-				"    \"street\" : \"L:50,T:string\",\n" + 
-				"    \"city\" : \"L:50,T:string\",\n" + 
-				"    \"usable\" : \"L:5,T:boolean\"\n" + 
+				"  \"__nodeInfo\" : {\n" +
+				"    \"name\" : \"L:20,T:string\",\n" + 
+				"    \"salary\" : \"L:20,T:long\",\n" + 
+				"    \"phones\" : [ {\n" + 
+				"        \"phoneType\" : \"L:5,T:string\",\n" + 
+				"        \"phoneNumber\" : \"L:15,T:string\"\n" + 
+				"      } "  +
+				"    ],\n" + 
+				"    \"taskIds\" : [ \"L:3,T:int\" ],\n" + 
+				"    \"address\" : {\n" + 
+				"      \"street\" : \"L:50,T:string\",\n" + 
+				"      \"city\" : \"L:50,T:string\",\n" + 
+				"      \"usable\" : \"L:5,T:boolean\"\n" + 
+				"    }\n" + 
 				"  }\n" + 
 				"}";
 		JsonNode jsonNodeInfo = new ObjectMapper().readTree(jsonInfo);
@@ -212,19 +213,20 @@ public class Json03Working {
 				"    \"phones__arrSize\" : 5,\n" + 
 				"    \"taskIds__arrSize\" : 5\n" + 
 				"  },\n" + 
-				"\n" +
-				"  \"name\" : \"L:20,T:string\",\n" + 
-				"  \"salary\" : \"L:20,T:long\",\n" + 
-				"  \"phones\" : [ {\n" + 
-				"      \"phoneType\" : \"L:5,T:string\",\n" + 
-				"      \"phoneNumber\" : \"L:15,T:string\"\n" + 
-				"    } "  +
-				"  ],\n" + 
-				"  \"taskIds\" : [ \"L:3,T:int\" ],\n" + 
-				"  \"address\" : {\n" + 
-				"    \"street\" : \"L:50,T:string\",\n" + 
-				"    \"city\" : \"L:50,T:string\",\n" + 
-				"    \"usable\" : \"L:5,T:boolean\"\n" + 
+				"  \"__nodeInfo\" : {\n" +
+				"    \"name\" : \"L:20,T:string\",\n" + 
+				"    \"salary\" : \"L:20,T:long\",\n" + 
+				"    \"phones\" : [ {\n" + 
+				"        \"phoneType\" : \"L:5,T:string\",\n" + 
+				"        \"phoneNumber\" : \"L:15,T:string\"\n" + 
+				"      } "  +
+				"    ],\n" + 
+				"    \"taskIds\" : [ \"L:3,T:int\" ],\n" + 
+				"    \"address\" : {\n" + 
+				"      \"street\" : \"L:50,T:string\",\n" + 
+				"      \"city\" : \"L:50,T:string\",\n" + 
+				"      \"usable\" : \"L:5,T:boolean\"\n" + 
+				"    }\n" + 
 				"  }\n" + 
 				"}";
 		JsonNode jsonNodeInfo = new ObjectMapper().readTree(jsonInfo);
@@ -258,5 +260,34 @@ public class Json03Working {
 		System.out.println("2-1 >>>>> " + rootNode.toPrettyString());
 		
 		traverse(rootNode, 1, "root");
+	}
+	
+	/*
+	 * test03()
+	 */
+	public void test03() throws Exception {
+		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
+		
+		if (Flag.flag) {
+			LnsJsonMstInfo jsonMstInfo = new LnsJsonMstInfo();
+			
+			String _base = new _Base(jsonMstInfo).get();
+			if (Flag.flag) System.out.println(">>>>> _base = \n" + _base);
+		}
+		
+		if (Flag.flag) {
+			LnsJsonMstInfo jsonMstInfo = new LnsJsonMstInfo();
+			JsonNode inputNode = jsonMstInfo.getJsonInputNode();
+			inputNode = LnsNodeTools.put(inputNode, "/name", "Kiea Seok Kang");
+			inputNode = LnsNodeTools.put(inputNode, "/salary", 123456.789);
+			inputNode = LnsNodeTools.put(inputNode, "/phones/0/phoneNumber", "999-999-999");
+			if (Flag.flag) System.out.println(">>>>> jsonInput = \n" + inputNode.toPrettyString());
+			
+			if (Flag.flag) System.out.println(">>>>> 0 " + LnsNodeTools.getNumber(inputNode, "/taskIds/0"));
+			if (Flag.flag) System.out.println(">>>>> 1 " + LnsNodeTools.getNumber(inputNode, "/taskIds/1"));
+			if (Flag.flag) System.out.println(">>>>> 2 " + LnsNodeTools.getNumber(inputNode, "/taskIds/2"));
+			
+			if (Flag.flag) System.out.println(">>>>> usable " + LnsNodeTools.getBoolean(inputNode, "/address/usable"));
+		}
 	}
 }

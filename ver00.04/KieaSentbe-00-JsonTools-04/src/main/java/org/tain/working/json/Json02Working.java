@@ -24,17 +24,20 @@ public class Json02Working {
 				"    \"taskIds__arrSize\" : 5\n" + 
 				"  },\n" + 
 				"\n" +
-				"  \"name\" : \"L:20,T:string\",\n" + 
-				"  \"salary\" : \"L:20,T:long\",\n" + 
-				"  \"phones\" : [ {\n" + 
-				"      \"phoneType\" : \"L:5,T:string\",\n" + 
-				"      \"phoneNumber\" : \"L:15,T:string\"\n" + 
-				"    } "  +
-				"  ],\n" + 
-				"  \"taskIds\" : [ \"L:3,T:int\" ],\n" + 
-				"  \"address\" : {\n" + 
-				"    \"street\" : \"L:50,T:string\",\n" + 
-				"    \"city\" : \"L:50,T:string\"\n" + 
+				"  \"__nodeInfo\" : {\n" +
+				"    \"name\" : \"L:20,T:string\",\n" + 
+				"    \"salary\" : \"L:20,T:long\",\n" + 
+				"    \"phones\" : [ {\n" + 
+				"        \"phoneType\" : \"L:5,T:string\",\n" + 
+				"        \"phoneNumber\" : \"L:15,T:string\"\n" + 
+				"      } "  +
+				"    ],\n" + 
+				"    \"taskIds\" : [ \"L:3,T:int\" ],\n" + 
+				"    \"address\" : {\n" + 
+				"      \"street\" : \"L:50,T:string\",\n" + 
+				"      \"city\" : \"L:50,T:string\",\n" + 
+				"      \"usable\" : \"L:5,T:boolean\"\n" + 
+				"    }\n" + 
 				"  }\n" + 
 				"}";
 		JsonNode mappingNode = new ObjectMapper().readTree(mappingJson);
