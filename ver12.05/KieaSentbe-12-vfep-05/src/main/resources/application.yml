@@ -108,7 +108,7 @@ proj-env:
 
   param:
     name: PARAM (local)
-    home: /Users/kangmac
+    home: /Users/kang-air
     #home: /Users/kang-air
     #base: /STS_GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
     #base: /STS/GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
@@ -179,7 +179,7 @@ proj-env:
 
   param:
     name: PARAM (dfep)
-    home: /Users/kang-air
+    home: /hw01/ibridge
     #home: /Users/kangmac
     #home: /hw01/ibridge
     #base: /STS_GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
