@@ -70,4 +70,13 @@ public class LnsNodeTools {
 	public static Number getNumber(JsonNode node, String path) {
 		return node.at(path).numberValue();
 	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	
+	public static String getPrefix(String prefix, String fieldName) {
+		if (!"".equals(prefix)) {
+			return prefix + "_" + fieldName;
+		}
+		return fieldName;
+	}
 }

@@ -35,6 +35,7 @@ public class LnsMstInfo implements Cloneable {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
+			// common header
 			String jsonHeadInfo = "{\n" + 
 					"  \"__headBase\" : {\n" + 
 					"    \"name\" : \"Test.REQ.head\"\n" + 
@@ -65,6 +66,7 @@ public class LnsMstInfo implements Cloneable {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
+			// data info
 			String jsonBodyInfo = "{\n" + 
 					"  \"__bodyBase\" : {\n" + 
 					"    \"name\" : \"Test.REQ.body\",\n" + 
