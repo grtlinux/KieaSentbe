@@ -41,7 +41,7 @@ public class LnsMstInfo implements Cloneable {
 					"    \"name\" : \"Test.REQ.head\"\n" + 
 					"  },\n" + 
 					"  \"__headData\" : {\n" +
-					"    \"length\" : \"L:4,T:0int\",\n" + 
+					"    \"length\" : \"L:4,T:0int,D:0000\",\n" + 
 					"    \"reqres\" : \"L:4,T:string,D:0700\",\n" + 
 					"    \"type\" : \"L:3,T:string,D:100\",\n" + 
 					"    \"code\" : \"L:3,T:string\",\n" + 
@@ -75,7 +75,7 @@ public class LnsMstInfo implements Cloneable {
 					"  },\n" + 
 					"  \"__bodyData\" : {\n" +
 					"    \"name\" : \"L:20,T:string\",\n" + 
-					"    \"salary\" : \"L:20,T:long\",\n" + 
+					"    \"salary\" : \"L:7,T:long\",\n" + 
 					"    \"content\" : \"L:-100,T:string\",\n" + 
 					"    \"phones\" : [ {\n" + 
 					"        \"phoneType\" : \"L:5,T:string\",\n" + 

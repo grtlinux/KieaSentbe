@@ -3,42 +3,57 @@ package org.tain.working.json;
 import org.tain.utils.Flag;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 
-public class CStruct {
+@SuppressWarnings("unused")
+public class JsonToStream {
 
 	private LnsMstInfo lnsMstInfo;
 	
-	public CStruct(LnsMstInfo lnsMstInfo) {
+	private JsonNode jsonDataNode;
+	private JsonNode jsonHeadNode;
+	private JsonNode jsonBodyNode;
+	
+	public JsonToStream(LnsMstInfo lnsMstInfo, String jsonData) throws Exception {
+		this(lnsMstInfo, new ObjectMapper().readTree(jsonData));
+	}
+	
+	public JsonToStream(LnsMstInfo lnsMstInfo, JsonNode jsonDataNode) {
 		this.lnsMstInfo = lnsMstInfo;
+		this.jsonDataNode = jsonDataNode;
+		this.jsonHeadNode = this.jsonDataNode.at("/__head");
+		this.jsonBodyNode = this.jsonDataNode.at("/__body");
+		//System.out.println("KANG >>>>> " + this.jsonDataNode.at("/__head/length").asText());
+		//System.out.println("KANG >>>>> " + this.jsonDataNode.at("/__head/length").textValue());
 	}
 	
 	public String get() {
 		StringBuffer sb = new StringBuffer();
 		
-		sb.append(this.getHeadCStruct());
+		sb.append(this.getHeadStream());
 		sb.append("\n");
-		sb.append(this.getBodyCStruct());
+		sb.append(this.getBodyStream());
 		
 		return sb.toString();
 	}
 	
-	public String getHeadCStruct() {
+	public String getHeadStream() {
 		StringBuffer sb = new StringBuffer();
 		
 		JsonNode rootNode = this.lnsMstInfo.getHeadDataInfoNode();
-		String prefix = "";
+		String prefix = "/__head";
 		
 		traverse(sb, rootNode, prefix);
 		
 		return sb.toString();
 	}
 	
-	public String getBodyCStruct() {
+	public String getBodyStream() {
 		StringBuffer sb = new StringBuffer();
 		
 		JsonNode rootNode = this.lnsMstInfo.getBodyDataInfoNode();
-		String prefix = "";
+		String prefix = "/__body";
 		
 		traverse(sb, rootNode, prefix);
 		
@@ -52,7 +67,7 @@ public class CStruct {
 			} else if (node.getNodeType() == JsonNodeType.ARRAY) {
 				traverseArray(sb, node, prefix);
 			} else {
-				throw new RuntimeException("Not yet implemented... [by Kiea Seok Kang]");
+				throw new RuntimeException("Not yet implements...");
 			}
 		}
 	}
@@ -60,7 +75,7 @@ public class CStruct {
 	private void traverseObject(StringBuffer sb, JsonNode node, String prefix) {
 		if (Flag.flag) {
 			node.fieldNames().forEachRemaining((String fieldName) -> {
-				String subPrefix = LnsNodeTools.getPrefix(prefix, fieldName);
+				String subPrefix = LnsNodeTools.getPrefix(prefix, fieldName, "/");
 				
 				JsonNode childNode = node.get(fieldName);
 				processNode(sb, childNode, fieldName, subPrefix);
@@ -92,7 +107,7 @@ public class CStruct {
 					itemNode = node.at("/0");
 				}
 				
-				String subPrefix = LnsNodeTools.getPrefix(prefix, String.valueOf(index));
+				String subPrefix = LnsNodeTools.getPrefix(prefix, String.valueOf(index), "/");
 				
 				processNode(sb, itemNode, "arrayElements", subPrefix);
 				if (traversable(itemNode)) {
@@ -123,12 +138,39 @@ public class CStruct {
 			} else if (node.isBoolean()) {
 				value = node.booleanValue();
 			} else {
-				throw new RuntimeException("");
+				//throw new RuntimeException("");
+				return;
 			}
+			
 			LnsElementInfo info = new LnsElementInfo(String.valueOf(value));
-			//line = String.format("%-30s   %s(%s) = %s%n", prefix, keyName, node.getNodeType(), value);
-			line = String.format("char %-30s   [%3d]; /* %s */%n", prefix, info.getLength(), "comment");
-			if (info.isUsable()) sb.append(line);
+			if (info.isUsable()) {
+				JsonNode dataNode = this.jsonDataNode.at(prefix);
+				
+				Object data = null;
+				if (dataNode.isTextual()) {
+					data = dataNode.textValue();
+				} else if (dataNode.isNumber()) {
+					data = dataNode.numberValue();
+				} else if (dataNode.isBoolean()) {
+					data = dataNode.booleanValue();
+				}
+				
+				if (data == null) {
+					switch (info.getType()) {
+					case "STRING":
+					case "INT":
+					case "LONG":
+					case "DOUBLE":
+					case "FLOAT":
+					case "BOOLEAN":
+						data = "";
+						break;
+					}
+					info.setFormat("%" + info.getLength() + "s");
+				}
+				
+				if (Flag.flag) System.out.printf(">>>>> %s [%s] %s%n", prefix, data, info.getFormat());
+			}
 		}
 	}
 }
