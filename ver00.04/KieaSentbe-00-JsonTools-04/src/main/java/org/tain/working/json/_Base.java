@@ -7,9 +7,9 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 
 public class _Base {
 
-	private LnsJsonMstInfo jsonMstInfo;
+	private _LnsJsonMstInfo jsonMstInfo;
 	
-	public _Base(LnsJsonMstInfo jsonMstInfo) {
+	public _Base(_LnsJsonMstInfo jsonMstInfo) {
 		this.jsonMstInfo = jsonMstInfo;
 	}
 	

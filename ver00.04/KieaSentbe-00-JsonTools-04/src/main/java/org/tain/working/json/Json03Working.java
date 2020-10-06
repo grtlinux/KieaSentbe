@@ -269,14 +269,14 @@ public class Json03Working {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
-			LnsJsonMstInfo jsonMstInfo = new LnsJsonMstInfo();
+			_LnsJsonMstInfo jsonMstInfo = new _LnsJsonMstInfo();
 			
 			String _base = new _Base(jsonMstInfo).get();
 			if (Flag.flag) System.out.println(">>>>> _base = \n" + _base);
 		}
 		
 		if (Flag.flag) {
-			LnsJsonMstInfo jsonMstInfo = new LnsJsonMstInfo();
+			_LnsJsonMstInfo jsonMstInfo = new _LnsJsonMstInfo();
 			JsonNode inputNode = jsonMstInfo.getJsonInputNode();
 			inputNode = LnsNodeTools.put(inputNode, "/name", "Kiea Seok Kang");
 			inputNode = LnsNodeTools.put(inputNode, "/salary", 123456.789);

@@ -11,13 +11,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class LnsJsonMstInfo implements Cloneable {
+public class _LnsJsonMstInfo implements Cloneable {
 
 	////////////////////////////////////////////////////////////////////////
 	
 	@Override
-	public LnsJsonMstInfo clone() throws CloneNotSupportedException {
-		return (LnsJsonMstInfo) super.clone();
+	public _LnsJsonMstInfo clone() throws CloneNotSupportedException {
+		return (_LnsJsonMstInfo) super.clone();
 	}
 	
 	public String toString() {
@@ -31,7 +31,7 @@ public class LnsJsonMstInfo implements Cloneable {
 	
 	private LocalDateTime localDateTime = null;
 	
-	public LnsJsonMstInfo() throws Exception {
+	public _LnsJsonMstInfo() throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		this.localDateTime = LocalDateTime.now();
