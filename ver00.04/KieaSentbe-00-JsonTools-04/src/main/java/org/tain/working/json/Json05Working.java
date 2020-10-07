@@ -41,8 +41,12 @@ public class Json05Working {
 					"    \"length\" : \"0000\",\n" + 
 					"    \"reqres\" : \"0700\",\n" + 
 					"    \"type\" : \"100\",\n" + 
-					"    \"code\" : \"\",\n" + 
-					"    \"messaage\" : \"\",\n" + 
+					"    \"trNo\" : \"1\",\n" + 
+					"    \"reqDate\" : \"20201005\",\n" + 
+					"    \"reqTime\" : \"121212\",\n" + 
+					"    \"resTime\" : \"121313\",\n" + 
+					"    \"resCode\" : \"\",\n" + 
+					"    \"resMessaage\" : \"\",\n" + 
 					"    \"reserved\" : \"\"\n" + 
 					"  },\n" + 
 					"  \"__body\" : {\n" +

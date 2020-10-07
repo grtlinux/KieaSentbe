@@ -38,16 +38,19 @@ public class LnsMstInfo implements Cloneable {
 			// common header
 			String jsonHeadInfo = "{\n" + 
 					"  \"__headBase\" : {\n" + 
-					"    \"name\" : \"Test.REQ.head\"\n" + 
+					"    \"name\" : \"head\"\n" + 
 					"  },\n" + 
 					"  \"__headData\" : {\n" +
-					//"    \"length\" : \"L:4,T:0int,D:0000\",\n" + 
 					"    \"length\" : \"L:4,T:string,D:0000\",\n" + 
 					"    \"reqres\" : \"L:4,T:string,D:0700\",\n" + 
 					"    \"type\" : \"L:3,T:string,D:100\",\n" + 
-					"    \"code\" : \"L:3,T:string\",\n" + 
-					"    \"messaage\" : \"L:20,T:string\",\n" + 
-					"    \"reserved\" : \"L:66,T:string\",\n" + 
+					"    \"trNo\" : \"L:6,T:string\",\n" + 
+					"    \"reqDate\" : \"L:8,T:string\",\n" + 
+					"    \"reqTime\" : \"L:6,T:string\",\n" + 
+					"    \"resTime\" : \"L:6,T:string\",\n" + 
+					"    \"resCode\" : \"L:3,T:string\",\n" + 
+					"    \"resMessaage\" : \"L:20,T:string\",\n" + 
+					"    \"reserved\" : \"L:40,T:string\",\n" + 
 					"    \"dummy\" : \"L:-100,T:string\"\n" + 
 					"  }\n" + 
 					"}";
@@ -71,6 +74,8 @@ public class LnsMstInfo implements Cloneable {
 			String jsonBodyInfo = "{\n" + 
 					"  \"__bodyBase\" : {\n" + 
 					"    \"name\" : \"Test.REQ.body\",\n" + 
+					"    \"reqres\" : \"0700\",\n" + 
+					"    \"type\" : \"100\",\n" + 
 					"    \"/phones__arrSize\" : 5,\n" + 
 					"    \"/taskIds__arrSize\" : 7\n" + 
 					"  },\n" + 

@@ -74,10 +74,7 @@ public class LnsNodeTools {
 	///////////////////////////////////////////////////////////////////////////
 	
 	public static String getPrefix(String prefix, String fieldName, String split) {
-		if (!"".equals(prefix)) {
-			return prefix + split + fieldName;
-		}
-		return fieldName;
+		return prefix + split + fieldName;
 	}
 	
 	public static String getPrefix(String prefix, String fieldName) {

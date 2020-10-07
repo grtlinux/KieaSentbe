@@ -122,12 +122,12 @@ public class LnsStreamToJson {
 		}
 		if (Flag.flag) {
 			for (int index=0; index < 5; index++) {
+				String subPrefix = LnsNodeTools.getPrefix(prefix, String.valueOf(index), "/");
+				
 				JsonNode itemNode = node.at("/" + index);
 				if (itemNode.isEmpty()) {
 					itemNode = node.at("/0");
 				}
-				
-				String subPrefix = LnsNodeTools.getPrefix(prefix, String.valueOf(index), "/");
 				
 				processNode(sb, itemNode, "arrayElements", subPrefix);
 				if (traversable(itemNode)) {
