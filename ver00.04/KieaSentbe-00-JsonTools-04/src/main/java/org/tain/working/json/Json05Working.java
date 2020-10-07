@@ -34,6 +34,7 @@ public class Json05Working {
 			System.out.println(">>>>> CStruct \n" + new CStruct(lnsMstInfo).get());
 		}
 		
+		String streamData = null;
 		if (Flag.flag) {
 			String jsonData = "{\n" + 
 					"  \"__head\" : {\n" +
@@ -67,7 +68,16 @@ public class Json05Working {
 			LnsMstInfo lnsMstInfo = new LnsMstInfo();
 			//System.out.println(">>>>> HeadStream \n" + new JsonToStream(lnsMstInfo, jsonData).getHeadStream());
 			//System.out.println(">>>>> BodyStream \n" + new JsonToStream(lnsMstInfo, jsonData).getBodyStream());
-			System.out.println(">>>>> Stream \n" + new JsonToStream(lnsMstInfo, jsonData).get());
+			streamData = new LnsJsonToStream(lnsMstInfo, jsonData).get();
+			System.out.println(">>>>> Stream \n(" + streamData.length() + ") [" + streamData + "]");
+		}
+		
+		String jsonData = null;
+		if (Flag.flag) {
+			LnsMstInfo lnsMstInfo = new LnsMstInfo();
+			jsonData = new LnsStreamToJson(lnsMstInfo, streamData).get();
+			
+			System.out.println(">>>>> JsonData = " + jsonData);
 		}
 	}
 }

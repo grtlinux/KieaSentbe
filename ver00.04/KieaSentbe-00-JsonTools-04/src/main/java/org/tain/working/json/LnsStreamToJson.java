@@ -5,35 +5,55 @@ import org.tain.utils.Flag;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
-@SuppressWarnings("unused")
-public class JsonToStream {
+public class LnsStreamToJson {
 
 	private LnsMstInfo lnsMstInfo;
 	
-	private JsonNode jsonDataNode;
-	private JsonNode jsonHeadNode;
-	private JsonNode jsonBodyNode;
+	private String streamData;
+	private int offset = 0;
 	
-	public JsonToStream(LnsMstInfo lnsMstInfo, String jsonData) throws Exception {
-		this(lnsMstInfo, new ObjectMapper().readTree(jsonData));
-	}
+	private ObjectNode parentNode;
+	//private JsonNode jsonParentNode;
 	
-	public JsonToStream(LnsMstInfo lnsMstInfo, JsonNode jsonDataNode) {
+	public LnsStreamToJson(LnsMstInfo lnsMstInfo, String streamData) {
 		this.lnsMstInfo = lnsMstInfo;
-		this.jsonDataNode = jsonDataNode;
-		this.jsonHeadNode = this.jsonDataNode.at("/__head");
-		this.jsonBodyNode = this.jsonDataNode.at("/__body");
+		this.streamData = streamData;
+		//this.jsonHeadNode = this.jsonDataNode.at("/__head");
+		//this.jsonBodyNode = this.jsonDataNode.at("/__body");
 		//System.out.println("KANG >>>>> " + this.jsonDataNode.at("/__head/length").asText());
 		//System.out.println("KANG >>>>> " + this.jsonDataNode.at("/__head/length").textValue());
+		
+		this.parentNode = new ObjectMapper().createObjectNode();
+		this.parentNode.set("__head", this.lnsMstInfo.getHeadDataInfoNode());
+		this.parentNode.set("__body", this.lnsMstInfo.getBodyDataInfoNode());
+		//this.jsonParentNode = (JsonNode) this.parentNode;
+		//if (Flag.flag) System.out.println(">>>>> jsonParentNode = " + this.jsonParentNode.toPrettyString());
+		
+		jobForArray();
+	}
+	
+	private void jobForArray() {
+		JsonNode bodyBaseInfoNode = this.lnsMstInfo.getBodyBaseInfoNode();
+		bodyBaseInfoNode.fieldNames().forEachRemaining((String fieldName) -> {
+			if (fieldName.contains("__arrSize")) {
+				String prefix = "/__body" + fieldName.replaceAll("__arrSize", "");
+				System.out.printf(">>>>> jobForArray: %s %s%n", fieldName, prefix);
+			}
+		});
 	}
 	
 	public String get() {
 		StringBuffer sb = new StringBuffer();
 		
 		sb.append(this.getHeadStream());
-		sb.append("\n");
+		//sb.append("\n");
 		sb.append(this.getBodyStream());
+		
+		if (Flag.flag) {
+			System.out.println(">>>>> parentNode = " + this.parentNode.toPrettyString());
+		}
 		
 		return sb.toString();
 	}
@@ -127,7 +147,7 @@ public class JsonToStream {
 		String line = null;
 		if (traversable(node)) {
 			line = String.format("%-30s   %s(%s)%n", prefix, keyName, node.getNodeType());
-			//if (Flag.flag) System.out.print(">>>>> " + line);
+			if (!Flag.flag) System.out.print(">>>>> " + line);
 			//sb.append(line);
 		} else {
 			Object value = null;
@@ -142,34 +162,17 @@ public class JsonToStream {
 				return;
 			}
 			
+			// element info
 			LnsElementInfo info = new LnsElementInfo(String.valueOf(value));
 			if (info.isUsable()) {
-				JsonNode dataNode = this.jsonDataNode.at(prefix);
+				String data = this.streamData.substring(offset, offset + info.getLength());
+				offset += info.getLength();
 				
-				Object data = null;
-				if (dataNode.isTextual()) {
-					data = dataNode.textValue();
-				} else if (dataNode.isNumber()) {
-					data = dataNode.numberValue();
-				} else if (dataNode.isBoolean()) {
-					data = dataNode.booleanValue();
+				if (Flag.flag) System.out.printf(">>>>> %s = [%s] [%s]%n", prefix, data.trim(), data);
+				if (!prefix.contains("phones") && !prefix.contains("taskIds")) {
+					LnsSpliter lnsSpliter = LnsNodeTools.split(prefix);
+					((ObjectNode) this.parentNode.at(lnsSpliter.getPathName())).put(lnsSpliter.getFieldName(), data.trim());
 				}
-				
-				if (data == null) {
-					switch (info.getType()) {
-					case "STRING":
-					case "INT":
-					case "LONG":
-					case "DOUBLE":
-					case "FLOAT":
-					case "BOOLEAN":
-						data = "";
-						break;
-					}
-					info.setFormat("%" + info.getLength() + "s");
-				}
-				
-				if (Flag.flag) System.out.printf(">>>>> %s [%s] %s%n", prefix, data, info.getFormat());
 			}
 		}
 	}

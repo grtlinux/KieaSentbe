@@ -83,4 +83,14 @@ public class LnsNodeTools {
 	public static String getPrefix(String prefix, String fieldName) {
 		return getPrefix(prefix, fieldName, "_");
 	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	
+	public static LnsSpliter split(String atPath) {
+		int index = atPath.lastIndexOf('/');
+		String pathName = atPath.substring(0, index);
+		String fieldName = atPath.substring(index + 1);
+		LnsSpliter lnsSpliter = new LnsSpliter(pathName, fieldName);
+		return lnsSpliter;
+	}
 }
