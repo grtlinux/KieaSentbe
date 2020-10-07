@@ -75,7 +75,8 @@ public class Json05Working {
 		String jsonData = null;
 		if (Flag.flag) {
 			LnsMstInfo lnsMstInfo = new LnsMstInfo();
-			jsonData = new LnsStreamToJson(lnsMstInfo, streamData).get();
+			//jsonData = new LnsStreamToJson(lnsMstInfo, streamData).get();
+			jsonData = new _Test01(lnsMstInfo, streamData).get();
 			
 			System.out.println(">>>>> JsonData = " + jsonData);
 		}
