@@ -76,8 +76,8 @@ public class LnsMstInfo implements Cloneable {
 					"    \"name\" : \"Test.REQ.body\",\n" + 
 					"    \"reqres\" : \"0700\",\n" + 
 					"    \"type\" : \"100\",\n" + 
-					"    \"/phones__arrSize\" : 5,\n" + 
-					"    \"/taskIds__arrSize\" : 7\n" + 
+					"    \"/__body/phones__arrSize\" : 5,\n" + 
+					"    \"/__body/taskIds__arrSize\" : 7\n" + 
 					"  },\n" + 
 					"  \"__bodyData\" : {\n" +
 					"    \"name\" : \"L:20,T:string\",\n" + 

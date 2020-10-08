@@ -5,6 +5,8 @@ import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,14 +20,14 @@ public class Json05Working {
 	public void test01() throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
-		if (Flag.flag) {
+		if (!Flag.flag) {
 			// print body data
 			LnsMstInfo lnsMstInfo = new LnsMstInfo();
 			JsonNode bodyDataInfoNode = lnsMstInfo.getBodyDataInfoNode();
 			System.out.println(">>>>> \n" + bodyDataInfoNode.toPrettyString());
 		}
 		
-		if (Flag.flag) {
+		if (!Flag.flag) {
 			// print CStruct
 			LnsMstInfo lnsMstInfo = new LnsMstInfo();
 			
@@ -41,7 +43,7 @@ public class Json05Working {
 					"    \"length\" : \"0000\",\n" + 
 					"    \"reqres\" : \"0700\",\n" + 
 					"    \"type\" : \"100\",\n" + 
-					"    \"trNo\" : \"1\",\n" + 
+					"    \"trNo\" : \"000001\",\n" + 
 					"    \"reqDate\" : \"20201005\",\n" + 
 					"    \"reqTime\" : \"121212\",\n" + 
 					"    \"resTime\" : \"121313\",\n" + 
@@ -76,13 +78,35 @@ public class Json05Working {
 			System.out.println(">>>>> Stream \n(" + streamData.length() + ") [" + streamData + "]");
 		}
 		
-		String jsonData = null;
-		if (Flag.flag) {
+		if (!Flag.flag) {
 			LnsMstInfo lnsMstInfo = new LnsMstInfo();
 			//jsonData = new LnsStreamToJson(lnsMstInfo, streamData).get();
-			jsonData = new _Test01(lnsMstInfo, streamData).get();
+			String jsonData = new _Test01(lnsMstInfo, streamData).get();
+			if (Flag.flag) System.out.println(">>>>> JsonData = " + jsonData);
+		}
+		
+		if (!Flag.flag) {
+			LnsMstInfo lnsMstInfo = new LnsMstInfo();
 			
-			System.out.println(">>>>> JsonData = " + jsonData);
+			JsonNode dataNode = (JsonNode) new ObjectMapper().createObjectNode();
+			((ObjectNode) dataNode).set("__head", lnsMstInfo.getHeadDataInfoNode());
+			((ObjectNode) dataNode).set("__body", lnsMstInfo.getBodyDataInfoNode());
+			if (Flag.flag) System.out.println(">>>>> dataNode = " + dataNode.toPrettyString());
+			
+			JsonNode findValue = dataNode.findValue("address");
+			if (Flag.flag) System.out.println(">>>>> findValue = " + findValue.toPrettyString());
+			
+			JsonNode findParent = dataNode.findParent("address");
+			if (Flag.flag) System.out.println(">>>>> findParent = " + findParent.toPrettyString());
+			
+			JsonNode findPath = dataNode.findPath("address");
+			if (Flag.flag) System.out.println(">>>>> findPath = " + findPath.toPrettyString());
+		}
+		
+		if (Flag.flag) {
+			LnsMstInfo lnsMstInfo = new LnsMstInfo();
+			JsonNode retNode = new _Test02(lnsMstInfo, streamData).get();
+			if (Flag.flag) System.out.println(">>>>> retNode = " + retNode.toPrettyString());
 		}
 	}
 }
