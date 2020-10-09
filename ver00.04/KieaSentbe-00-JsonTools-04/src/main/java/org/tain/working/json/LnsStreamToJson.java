@@ -4,176 +4,132 @@ import org.tain.utils.Flag;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeType;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class LnsStreamToJson {
 
+	private ObjectMapper objectMapper;
+	
 	private LnsMstInfo lnsMstInfo;
+	private JsonNode bodyBaseInfoNode;
 	
 	private String streamData;
 	private int offset = 0;
 	
-	private ObjectNode parentNode;
-	//private JsonNode jsonParentNode;
+	private JsonNode dataNode;
 	
 	public LnsStreamToJson(LnsMstInfo lnsMstInfo, String streamData) {
+		this.objectMapper = new ObjectMapper();
+		
 		this.lnsMstInfo = lnsMstInfo;
 		this.streamData = streamData;
-		//this.jsonHeadNode = this.jsonDataNode.at("/__head");
-		//this.jsonBodyNode = this.jsonDataNode.at("/__body");
-		//System.out.println("KANG >>>>> " + this.jsonDataNode.at("/__head/length").asText());
-		//System.out.println("KANG >>>>> " + this.jsonDataNode.at("/__head/length").textValue());
 		
-		this.parentNode = new ObjectMapper().createObjectNode();
-		this.parentNode.set("__head", this.lnsMstInfo.getHeadDataInfoNode());
-		this.parentNode.set("__body", this.lnsMstInfo.getBodyDataInfoNode());
-		//this.jsonParentNode = (JsonNode) this.parentNode;
-		//if (Flag.flag) System.out.println(">>>>> jsonParentNode = " + this.jsonParentNode.toPrettyString());
+		this.bodyBaseInfoNode = this.lnsMstInfo.getBodyBaseInfoNode();
 		
-		jobForArray();
+		this.dataNode = (JsonNode) new ObjectMapper().createObjectNode();
+		((ObjectNode) this.dataNode).set("__head", this.lnsMstInfo.getHeadDataInfoNode());
+		((ObjectNode) this.dataNode).set("__body", this.lnsMstInfo.getBodyDataInfoNode());
+		if (Flag.flag) System.out.println(">>>>> rootNode = " + this.dataNode.toPrettyString());
 	}
 	
-	private void jobForArray() {
-		JsonNode bodyBaseInfoNode = this.lnsMstInfo.getBodyBaseInfoNode();
-		bodyBaseInfoNode.fieldNames().forEachRemaining((String fieldName) -> {
-			if (fieldName.contains("__arrSize")) {
-				String prefix = "/__body" + fieldName.replaceAll("__arrSize", "");
-				System.out.printf(">>>>> jobForArray: %s %s%n", fieldName, prefix);
+	public JsonNode get() {
+		this.offset = 0;
+		return traverse(this.dataNode, "");
+	}
+	
+	public JsonNode traverse(JsonNode node, String prefix) {
+		if (node.isObject()) {
+			return traverseObject(node, prefix);
+		} else if (node.isArray()) {
+			return traverseArray(node, prefix);
+		} else {
+			throw new RuntimeException("Not yet implemented....");
+		}
+	}
+	
+	public JsonNode traverseObject(JsonNode node, String prefix) {
+		ObjectNode objectNode = this.objectMapper.createObjectNode();
+		
+		node.fieldNames().forEachRemaining((String fieldName) -> {
+			JsonNode childNode = node.get(fieldName);
+			if (traversable(childNode)) {
+				JsonNode retNode = traverse(childNode, LnsNodeTools.getPrefix(prefix, fieldName, "/"));
+				objectNode.set(fieldName, retNode);
+			} else {
+				LnsElementInfo info = new LnsElementInfo(childNode.textValue());
+				if (info.isUsable()) {
+					int idxStart = this.offset;
+					int idxEnd = this.offset + info.getLength();
+					String data = this.streamData.substring(idxStart, idxEnd).trim();
+					this.offset = idxEnd;
+					
+					if (!"".equals(data)) {
+						switch (info.getType()) {
+						case "STRING" : objectNode.put(fieldName, data); break;
+						case "BOOLEAN": objectNode.put(fieldName, Boolean.valueOf(data)); break;
+						case "INT"    : objectNode.put(fieldName, Integer.valueOf(data)); break;
+						case "LONG"   : objectNode.put(fieldName, Long.valueOf(data)); break;
+						case "DOUBLE" : objectNode.put(fieldName, Double.valueOf(data)); break;
+						case "FLOAT"  : objectNode.put(fieldName, Float.valueOf(data)); break;
+						default:
+							objectNode.put(fieldName, data);
+							break;
+						}
+					}
+				}
 			}
 		});
+		
+		return (JsonNode) objectNode;
 	}
 	
-	public String get() {
-		StringBuffer sb = new StringBuffer();
-		
-		sb.append(this.getHeadStream());
-		//sb.append("\n");
-		sb.append(this.getBodyStream());
+	public JsonNode traverseArray(JsonNode node, String prefix) {
+		ArrayNode arrayNode = this.objectMapper.createArrayNode();
 		
 		if (Flag.flag) {
-			System.out.println(">>>>> parentNode = " + this.parentNode.toPrettyString());
+			String arrFieldName = prefix + "__arrSize";
+			JsonNode arrFieldNameNode = this.bodyBaseInfoNode.path(arrFieldName);
+			int arrSize = arrFieldNameNode.asInt();
+			if (Flag.flag) System.out.println(">>>>> [" + arrFieldName + "] = " + arrSize);
 		}
 		
-		return sb.toString();
-	}
-	
-	public String getHeadStream() {
-		StringBuffer sb = new StringBuffer();
-		
-		JsonNode rootNode = this.lnsMstInfo.getHeadDataInfoNode();
-		String prefix = "/__head";
-		
-		traverse(sb, rootNode, prefix);
-		
-		return sb.toString();
-	}
-	
-	public String getBodyStream() {
-		StringBuffer sb = new StringBuffer();
-		
-		JsonNode rootNode = this.lnsMstInfo.getBodyDataInfoNode();
-		String prefix = "/__body";
-		
-		traverse(sb, rootNode, prefix);
-		
-		return sb.toString();
-	}
-	
-	private void traverse(StringBuffer sb, JsonNode node, String prefix) {
-		if (Flag.flag) {
-			if (node.getNodeType() == JsonNodeType.OBJECT) {
-				traverseObject(sb, node, prefix);
-			} else if (node.getNodeType() == JsonNodeType.ARRAY) {
-				traverseArray(sb, node, prefix);
-			} else {
-				throw new RuntimeException("Not yet implements...");
-			}
-		}
-	}
-	
-	private void traverseObject(StringBuffer sb, JsonNode node, String prefix) {
-		if (Flag.flag) {
-			node.fieldNames().forEachRemaining((String fieldName) -> {
-				String subPrefix = LnsNodeTools.getPrefix(prefix, fieldName, "/");
-				
-				JsonNode childNode = node.get(fieldName);
-				processNode(sb, childNode, fieldName, subPrefix);
-				if (traversable(childNode)) {
-					traverse(sb, childNode, subPrefix);
-				}
-			});
-		}
-	}
-	
-	private void traverseArray(StringBuffer sb, JsonNode node, String prefix) {
-		if (!Flag.flag) {
-			/*
-			int index = -1;
-			for (JsonNode itemNode : node) {
-				String subPrefix = LnsNodeTools.getPrefix(prefix, String.valueOf(++index));
-				
-				processNode(sb, itemNode, "arrayElements", subPrefix);
-				if (traversable(itemNode)) {
-					traverse(sb, itemNode, subPrefix);
-				}
-			}
-			*/
-		}
-		if (Flag.flag) {
-			for (int index=0; index < 5; index++) {
-				String subPrefix = LnsNodeTools.getPrefix(prefix, String.valueOf(index), "/");
-				
-				JsonNode itemNode = node.at("/" + index);
-				if (itemNode.isEmpty()) {
-					itemNode = node.at("/0");
-				}
-				
-				processNode(sb, itemNode, "arrayElements", subPrefix);
-				if (traversable(itemNode)) {
-					traverse(sb, itemNode, subPrefix);
-				}
-			}
-		}
-	}
-	
-	private boolean traversable(JsonNode node) {
-		boolean isObject = node.getNodeType() == JsonNodeType.OBJECT;
-		boolean isArray = node.getNodeType() == JsonNodeType.ARRAY;
-		return isObject || isArray;
-	}
-	
-	private void processNode(StringBuffer sb, JsonNode node, String keyName, String prefix) {
-		String line = null;
-		if (traversable(node)) {
-			line = String.format("%-30s   %s(%s)%n", prefix, keyName, node.getNodeType());
-			if (!Flag.flag) System.out.print(">>>>> " + line);
-			//sb.append(line);
-		} else {
-			Object value = null;
-			if (node.isTextual()) {
-				value = node.textValue();
-			} else if (node.isNumber()) {
-				value = node.numberValue();
-			} else if (node.isBoolean()) {
-				value = node.booleanValue();
-			} else {
-				//throw new RuntimeException("");
-				return;
-			}
+		for (int index=0; index < 5; index++) {
+			JsonNode itemNode = node.at("/0");
 			
-			// element info
-			LnsElementInfo info = new LnsElementInfo(String.valueOf(value));
-			if (info.isUsable()) {
-				String data = this.streamData.substring(offset, offset + info.getLength());
-				offset += info.getLength();
-				
-				if (Flag.flag) System.out.printf(">>>>> %s = [%s] [%s]%n", prefix, data.trim(), data);
-				if (!prefix.contains("phones") && !prefix.contains("taskIds")) {
-					LnsSpliter lnsSpliter = LnsNodeTools.split(prefix);
-					((ObjectNode) this.parentNode.at(lnsSpliter.getPathName())).put(lnsSpliter.getFieldName(), data.trim());
+			if (traversable(itemNode)) {
+				JsonNode retNode = traverse(itemNode, LnsNodeTools.getPrefix(prefix, String.valueOf(index), "/"));
+				if (!retNode.isEmpty())
+					arrayNode.add(retNode);
+			} else {
+				LnsElementInfo info = new LnsElementInfo(itemNode.textValue());
+				if (info.isUsable()) {
+					int idxStart = this.offset;
+					int idxEnd = this.offset + info.getLength();
+					String data = this.streamData.substring(idxStart, idxEnd).trim();
+					this.offset = idxEnd;
+					
+					if (!"".equals(data)) {
+						switch (info.getType()) {
+						case "STRING" : arrayNode.add(data); break;
+						case "BOOLEAN": arrayNode.add(Boolean.valueOf(data)); break;
+						case "INT"    : arrayNode.add(Integer.valueOf(data)); break;
+						case "LONG"   : arrayNode.add(Long.valueOf(data)); break;
+						case "DOUBLE" : arrayNode.add(Double.valueOf(data)); break;
+						case "FLOAT"  : arrayNode.add(Float.valueOf(data)); break;
+						default:
+							arrayNode.add(data);
+							break;
+						}
+					}
 				}
 			}
 		}
+		
+		return (JsonNode) arrayNode;
+	}
+	
+	public boolean traversable(JsonNode node) {
+		return node.isObject() || node.isArray();
 	}
 }

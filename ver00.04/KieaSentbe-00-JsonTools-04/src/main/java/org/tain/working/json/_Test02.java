@@ -39,15 +39,13 @@ public class _Test02 {
 	}
 	
 	public JsonNode traverse(JsonNode node, String prefix) {
-		JsonNode retNode = null;
 		if (node.isObject()) {
-			retNode = traverseObject(node, prefix);
+			return traverseObject(node, prefix);
 		} else if (node.isArray()) {
-			retNode = traverseArray(node, prefix);
+			return traverseArray(node, prefix);
 		} else {
 			throw new RuntimeException("Not yet implemented....");
 		}
-		return retNode;
 	}
 	
 	public JsonNode traverseObject(JsonNode node, String prefix) {
@@ -61,11 +59,24 @@ public class _Test02 {
 			} else {
 				LnsElementInfo info = new LnsElementInfo(childNode.textValue());
 				if (info.isUsable()) {
-					String data = this.streamData.substring(this.offset, this.offset + info.getLength()).trim();
-					this.offset += info.getLength();
+					int idxStart = this.offset;
+					int idxEnd = this.offset + info.getLength();
+					String data = this.streamData.substring(idxStart, idxEnd).trim();
+					this.offset = idxEnd;
 					
-					if (!"".equals(data))
-						objectNode.put(fieldName, data);
+					if (!"".equals(data)) {
+						switch (info.getType()) {
+						case "STRING" : objectNode.put(fieldName, data); break;
+						case "BOOLEAN": objectNode.put(fieldName, Boolean.valueOf(data)); break;
+						case "INT"    : objectNode.put(fieldName, Integer.valueOf(data)); break;
+						case "LONG"   : objectNode.put(fieldName, Long.valueOf(data)); break;
+						case "DOUBLE" : objectNode.put(fieldName, Double.valueOf(data)); break;
+						case "FLOAT"  : objectNode.put(fieldName, Float.valueOf(data)); break;
+						default:
+							objectNode.put(fieldName, data);
+							break;
+						}
+					}
 				}
 			}
 		});
@@ -84,7 +95,6 @@ public class _Test02 {
 		}
 		
 		for (int index=0; index < 5; index++) {
-			
 			JsonNode itemNode = node.at("/0");
 			
 			if (traversable(itemNode)) {
@@ -94,11 +104,24 @@ public class _Test02 {
 			} else {
 				LnsElementInfo info = new LnsElementInfo(itemNode.textValue());
 				if (info.isUsable()) {
-					String data = this.streamData.substring(this.offset, this.offset + info.getLength()).trim();
-					this.offset += info.getLength();
+					int idxStart = this.offset;
+					int idxEnd = this.offset + info.getLength();
+					String data = this.streamData.substring(idxStart, idxEnd).trim();
+					this.offset = idxEnd;
 					
-					if (!"".equals(data))
-						arrayNode.add(data);
+					if (!"".equals(data)) {
+						switch (info.getType()) {
+						case "STRING" : arrayNode.add(data); break;
+						case "BOOLEAN": arrayNode.add(Boolean.valueOf(data)); break;
+						case "INT"    : arrayNode.add(Integer.valueOf(data)); break;
+						case "LONG"   : arrayNode.add(Long.valueOf(data)); break;
+						case "DOUBLE" : arrayNode.add(Double.valueOf(data)); break;
+						case "FLOAT"  : arrayNode.add(Float.valueOf(data)); break;
+						default:
+							arrayNode.add(data);
+							break;
+						}
+					}
 				}
 			}
 		}

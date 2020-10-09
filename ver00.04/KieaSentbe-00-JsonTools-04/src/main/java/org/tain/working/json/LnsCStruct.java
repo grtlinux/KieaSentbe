@@ -5,11 +5,11 @@ import org.tain.utils.Flag;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 
-public class CStruct {
+public class LnsCStruct {
 
 	private LnsMstInfo lnsMstInfo;
 	
-	public CStruct(LnsMstInfo lnsMstInfo) {
+	public LnsCStruct(LnsMstInfo lnsMstInfo) {
 		this.lnsMstInfo = lnsMstInfo;
 	}
 	

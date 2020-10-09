@@ -31,9 +31,9 @@ public class Json05Working {
 			// print CStruct
 			LnsMstInfo lnsMstInfo = new LnsMstInfo();
 			
-			System.out.println(">>>>> HeadCStruct \n" + new CStruct(lnsMstInfo).getHeadCStruct());
-			System.out.println(">>>>> BodyCStruct \n" + new CStruct(lnsMstInfo).getBodyCStruct());
-			System.out.println(">>>>> CStruct \n" + new CStruct(lnsMstInfo).get());
+			System.out.println(">>>>> HeadCStruct \n" + new LnsCStruct(lnsMstInfo).getHeadCStruct());
+			System.out.println(">>>>> BodyCStruct \n" + new LnsCStruct(lnsMstInfo).getBodyCStruct());
+			System.out.println(">>>>> CStruct \n" + new LnsCStruct(lnsMstInfo).get());
 		}
 		
 		String streamData = null;
