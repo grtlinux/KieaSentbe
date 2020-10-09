@@ -9,27 +9,32 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class LnsCStruct {
+public class LnsStreamLength {
 
 	private ObjectMapper objectMapper = new ObjectMapper();
 	
 	private LnsMstInfo lnsMstInfo;
+	private int length = -1;
 	
 	private JsonNode infoNode;
-	private StringBuffer sb = new StringBuffer();
 	
-	public LnsCStruct(LnsMstInfo lnsMstInfo) {
+	public LnsStreamLength(LnsMstInfo lnsMstInfo) {
 		this.lnsMstInfo = lnsMstInfo;
 		
 		this.infoNode = (JsonNode) this.objectMapper.createObjectNode();
 		((ObjectNode) this.infoNode).set("__head", this.lnsMstInfo.getHeadDataInfoNode());
 		((ObjectNode) this.infoNode).set("__body", this.lnsMstInfo.getBodyDataInfoNode());
-		if (Flag.flag) log.info(">>>>> LnsCStruct.infoNode = " + this.infoNode.toPrettyString());
+		if (Flag.flag) log.info(">>>>> LnsStreamLength.infoNode = " + this.infoNode.toPrettyString());
 	}
 	
-	public String get() {
+	public String getStrLength() {
+		return String.format("%04d", this.getLength());
+	}
+	
+	public int getLength() {
+		this.length = 0;
 		traverse(this.infoNode, "");
-		return sb.toString();
+		return length - 4;
 	}
 	
 	private void traverse(JsonNode node, String prefix) {
@@ -39,7 +44,7 @@ public class LnsCStruct {
 			} else if (node.isArray()) {
 				traverseArray(node, prefix);
 			} else {
-				throw new RuntimeException("Not yet implemented... [by Kiea Seok Kang]");
+				throw new RuntimeException("Not yet implemented...");
 			}
 		}
 	}
@@ -48,10 +53,16 @@ public class LnsCStruct {
 		if (Flag.flag) {
 			node.fieldNames().forEachRemaining((String fieldName) -> {
 				String _prefix = LnsNodeTools.getPrefix(prefix, fieldName, "/");
+				
 				JsonNode childNode = node.get(fieldName);
-				processNode(childNode, fieldName, _prefix);
 				if (traversable(childNode)) {
 					traverse(childNode, _prefix);
+				} else {
+					String strInfo = childNode.textValue();
+					LnsElementInfo info = new LnsElementInfo(strInfo);
+					if (info.isUsable()) {
+						this.length += info.getLength();
+					}
 				}
 			});
 		}
@@ -67,12 +78,18 @@ public class LnsCStruct {
 		}
 		
 		if (Flag.flag) {
-			for (int index=0; index < arrSize; index++) {
+			for (int index = 0; index < arrSize; index ++) {
 				String _prefix = LnsNodeTools.getPrefix(prefix, String.valueOf(index), "/");
+				
 				JsonNode itemNode = node.at("/0");
-				processNode(itemNode, "arrayElements", _prefix);
 				if (traversable(itemNode)) {
 					traverse(itemNode, _prefix);
+				} else {
+					String strInfo = itemNode.textValue();
+					LnsElementInfo info = new LnsElementInfo(strInfo);
+					if (info.isUsable()) {
+						this.length += info.getLength();
+					}
 				}
 			}
 		}
@@ -80,26 +97,5 @@ public class LnsCStruct {
 	
 	private boolean traversable(JsonNode node) {
 		return node.isObject() || node.isArray();
-	}
-	
-	private void processNode(JsonNode node, String keyName, String prefix) {
-		String line = null;
-		if (traversable(node)) {
-			line = String.format("%-30s   %s(%s)%n", prefix, keyName, node.getNodeType());
-			//if (Flag.flag) System.out.print(">>>>> " + line);
-			//sb.append(line);
-		} else {
-			String strInfo = node.textValue();
-			LnsElementInfo info = new LnsElementInfo(strInfo);
-			if (info.isUsable()) {
-				if (prefix.contains("/__head/")) {
-					prefix = prefix.substring(3).replace('/', '_');
-				} else if (prefix.contains("/__body/")) {
-					prefix = prefix.substring(8).replace('/', '_');
-				}
-				line = String.format("char %-30s   [%3d]; /* %s */%n", prefix, info.getLength(), info.getComment());
-				sb.append(line);
-			}
-		}
 	}
 }

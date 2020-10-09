@@ -11,6 +11,7 @@ public class LnsElementInfo {
 	private String leading = "";
 	private String defValue = "";
 	private String format = "%s";
+	private String comment = "";
 	
 	/*
 	 *   length     = L:4,T:0int
@@ -40,6 +41,9 @@ public class LnsElementInfo {
 				break;
 			case 'D':
 				this.defValue = info.substring(2);
+				break;
+			case 'C':
+				this.comment = info.substring(2);
 				break;
 			default:
 				throw new RuntimeException("Couldn't be parsing the string of info [" + strInfo + "].");

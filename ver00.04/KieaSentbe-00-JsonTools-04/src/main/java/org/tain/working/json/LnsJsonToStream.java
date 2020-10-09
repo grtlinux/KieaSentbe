@@ -4,146 +4,106 @@ import org.tain.utils.Flag;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeType;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class LnsJsonToStream {
 
+	private ObjectMapper objectMapper = new ObjectMapper();
+	
 	private LnsMstInfo lnsMstInfo;
 	
-	private JsonNode jsonDataNode;
-	//private JsonNode jsonHeadNode;
-	//private JsonNode jsonBodyNode;
+	private JsonNode infoNode;
 	
-	public LnsJsonToStream(LnsMstInfo lnsMstInfo, String jsonData) throws Exception {
-		this(lnsMstInfo, new ObjectMapper().readTree(jsonData));
+	private JsonNode dataNode;
+	
+	private StringBuffer sb = new StringBuffer();
+	
+	public LnsJsonToStream(LnsMstInfo lnsMstInfo, JsonNode dataNode) {
+		this.lnsMstInfo = lnsMstInfo;
+		
+		this.infoNode = (JsonNode) this.objectMapper.createObjectNode();
+		((ObjectNode) this.infoNode).set("__head", this.lnsMstInfo.getHeadDataInfoNode());
+		((ObjectNode) this.infoNode).set("__body", this.lnsMstInfo.getBodyDataInfoNode());
+		if (Flag.flag) log.info(">>>>> LnsJsonToStream.infoNode = " + this.infoNode.toPrettyString());
+		
+		this.dataNode = dataNode;
+		if (Flag.flag) log.info(">>>>> LnsJsonToStream.dataNode = " + this.dataNode.toPrettyString());
 	}
 	
-	public LnsJsonToStream(LnsMstInfo lnsMstInfo, JsonNode jsonDataNode) {
-		this.lnsMstInfo = lnsMstInfo;
-		this.jsonDataNode = jsonDataNode;
-		//this.jsonHeadNode = this.jsonDataNode.at("/__head");
-		//this.jsonBodyNode = this.jsonDataNode.at("/__body");
-		//System.out.println("KANG >>>>> " + this.jsonDataNode.at("/__head/length").asText());
-		//System.out.println("KANG >>>>> " + this.jsonDataNode.at("/__head/length").textValue());
+	public LnsJsonToStream(LnsMstInfo lnsMstInfo, String strJson) throws Exception {
+		this(lnsMstInfo, new ObjectMapper().readTree(strJson));
 	}
 	
 	public String get() {
-		StringBuffer sb = new StringBuffer();
-		
-		sb.append(this.getHeadStream());
-		//sb.append("\n");
-		sb.append(this.getBodyStream());
-		
+		traverse(this.infoNode, "");
 		return sb.toString();
 	}
 	
-	public String getHeadStream() {
-		StringBuffer sb = new StringBuffer();
-		
-		JsonNode rootNode = this.lnsMstInfo.getHeadDataInfoNode();
-		String prefix = "/__head";
-		
-		traverse(sb, rootNode, prefix);
-		
-		return sb.toString();
-	}
-	
-	public String getBodyStream() {
-		StringBuffer sb = new StringBuffer();
-		
-		JsonNode rootNode = this.lnsMstInfo.getBodyDataInfoNode();
-		String prefix = "/__body";
-		
-		traverse(sb, rootNode, prefix);
-		
-		return sb.toString();
-	}
-	
-	private void traverse(StringBuffer sb, JsonNode node, String prefix) {
+	private void traverse(JsonNode node, String prefix) {
 		if (Flag.flag) {
-			if (node.getNodeType() == JsonNodeType.OBJECT) {
-				traverseObject(sb, node, prefix);
-			} else if (node.getNodeType() == JsonNodeType.ARRAY) {
-				traverseArray(sb, node, prefix);
+			if (node.isObject()) {
+				traverseObject(node, prefix);
+			} else if (node.isArray()) {
+				traverseArray(node, prefix);
 			} else {
-				throw new RuntimeException("Not yet implements...");
+				throw new RuntimeException("Not yet implements... [by Kiea Seok Kang]");
 			}
 		}
 	}
 	
-	private void traverseObject(StringBuffer sb, JsonNode node, String prefix) {
+	private void traverseObject(JsonNode node, String prefix) {
 		if (Flag.flag) {
 			node.fieldNames().forEachRemaining((String fieldName) -> {
-				String subPrefix = LnsNodeTools.getPrefix(prefix, fieldName, "/");
-				
+				String _prefix = LnsNodeTools.getPrefix(prefix, fieldName, "/");
 				JsonNode childNode = node.get(fieldName);
-				processNode(sb, childNode, fieldName, subPrefix);
+				processNode(childNode, fieldName, _prefix);
 				if (traversable(childNode)) {
-					traverse(sb, childNode, subPrefix);
+					traverse(childNode, _prefix);
 				}
 			});
 		}
 	}
 	
-	private void traverseArray(StringBuffer sb, JsonNode node, String prefix) {
-		if (!Flag.flag) {
-			/*
-			int index = -1;
-			for (JsonNode itemNode : node) {
-				String subPrefix = LnsNodeTools.getPrefix(prefix, String.valueOf(++index));
-				
-				processNode(sb, itemNode, "arrayElements", subPrefix);
-				if (traversable(itemNode)) {
-					traverse(sb, itemNode, subPrefix);
-				}
-			}
-			*/
-		}
+	private void traverseArray(JsonNode node, String prefix) {
+		int arrSize = -1;
 		if (Flag.flag) {
-			for (int index=0; index < 5; index++) {
-				JsonNode itemNode = node.at("/" + index);
-				if (itemNode.isEmpty()) {
-					itemNode = node.at("/0");
-				}
-				
-				String subPrefix = LnsNodeTools.getPrefix(prefix, String.valueOf(index), "/");
-				
-				processNode(sb, itemNode, "arrayElements", subPrefix);
+			String arrFieldName = prefix + "__arrSize";
+			JsonNode arrFieldNameNode = this.lnsMstInfo.getBodyBaseInfoNode().path(arrFieldName);
+			arrSize = arrFieldNameNode.asInt();
+			if (Flag.flag) log.info(">>>>> {} = {}", arrFieldName, arrSize);
+		}
+		
+		if (Flag.flag) {
+			for (int index=0; index < arrSize; index++) {
+				String _prefix = LnsNodeTools.getPrefix(prefix, String.valueOf(index), "/");
+				JsonNode itemNode = node.at("/0");
+				processNode(itemNode, "arrayElements", _prefix);
 				if (traversable(itemNode)) {
-					traverse(sb, itemNode, subPrefix);
+					traverse(itemNode, _prefix);
 				}
 			}
 		}
 	}
 	
 	private boolean traversable(JsonNode node) {
-		boolean isObject = node.getNodeType() == JsonNodeType.OBJECT;
-		boolean isArray = node.getNodeType() == JsonNodeType.ARRAY;
-		return isObject || isArray;
+		return node.isObject() || node.isArray();
 	}
 	
-	private void processNode(StringBuffer sb, JsonNode node, String keyName, String prefix) {
+	private void processNode(JsonNode node, String keyName, String prefix) {
 		String line = null;
 		if (traversable(node)) {
 			line = String.format("%-30s   %s(%s)%n", prefix, keyName, node.getNodeType());
-			if (!Flag.flag) System.out.print(">>>>> " + line);
+			//if (!Flag.flag) log.info(">>>>> " + line);
 			//sb.append(line);
 		} else {
-			Object value = null;
-			if (node.isTextual()) {
-				value = node.textValue();
-			} else if (node.isNumber()) {
-				value = node.numberValue();
-			} else if (node.isBoolean()) {
-				value = node.booleanValue();
-			} else {
-				//throw new RuntimeException("");
-				return;
-			}
+			String strInfo = node.textValue();
 			
-			LnsElementInfo info = new LnsElementInfo(String.valueOf(value));
+			LnsElementInfo info = new LnsElementInfo(strInfo);
 			if (info.isUsable()) {
-				JsonNode dataNode = this.jsonDataNode.at(prefix);
+				JsonNode dataNode = this.dataNode.at(prefix);
 				
 				Object data = null;
 				if (dataNode.isTextual()) {
@@ -169,7 +129,8 @@ public class LnsJsonToStream {
 				}
 				
 				//if (Flag.flag) System.out.printf(">>>>> %s [%s] %s%n", prefix, data, info.getFormat());
-				if (Flag.flag) System.out.printf(">>>>> %s [" + info.getFormat() + "] %s%n", prefix, data, info.getFormat());
+				line = String.format("%s %s [" + info.getFormat() + "]", prefix, info.getFormat(), data);
+				if (Flag.flag) log.info(">>>>> {}", line);
 				String fieldValue = String.format(info.getFormat(), data);
 				sb.append(fieldValue);
 			}

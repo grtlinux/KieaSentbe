@@ -14,6 +14,7 @@ import org.tain.working.json.Json02Working;
 import org.tain.working.json.Json03Working;
 import org.tain.working.json.Json04Working;
 import org.tain.working.json.Json05Working;
+import org.tain.working.json.Json06Working;
 import org.tain.working.properties.PropertiesWorking;
 
 import lombok.extern.slf4j.Slf4j;
@@ -75,6 +76,9 @@ public class KieaSentbe00JsonTools04Application implements CommandLineRunner {
 	@Autowired
 	private Json05Working json05Working;
 	
+	@Autowired
+	private Json06Working json06Working;
+	
 	private void job02() throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
@@ -99,8 +103,15 @@ public class KieaSentbe00JsonTools04Application implements CommandLineRunner {
 			if (Flag.flag) this.json04Working.test01();
 		}
 		
-		if (Flag.flag) {
+		if (!Flag.flag) {
 			if (Flag.flag) this.json05Working.test01();
+		}
+		
+		if (Flag.flag) {
+			if (Flag.flag) this.json06Working.test01();
+			if (Flag.flag) this.json06Working.test02();
+			if (Flag.flag) this.json06Working.test03();
+			if (Flag.flag) this.json06Working.test04();
 		}
 	}
 	

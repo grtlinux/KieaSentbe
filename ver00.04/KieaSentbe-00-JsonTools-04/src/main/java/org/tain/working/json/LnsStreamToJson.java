@@ -7,35 +7,34 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class LnsStreamToJson {
 
-	private ObjectMapper objectMapper;
+	private ObjectMapper objectMapper = new ObjectMapper();
 	
 	private LnsMstInfo lnsMstInfo;
-	private JsonNode bodyBaseInfoNode;
 	
 	private String streamData;
-	private int offset = 0;
+	private int offset = -1;
 	
-	private JsonNode dataNode;
+	private JsonNode infoNode;
 	
 	public LnsStreamToJson(LnsMstInfo lnsMstInfo, String streamData) {
-		this.objectMapper = new ObjectMapper();
-		
 		this.lnsMstInfo = lnsMstInfo;
+		
+		this.infoNode = (JsonNode) this.objectMapper.createObjectNode();
+		((ObjectNode) this.infoNode).set("__head", this.lnsMstInfo.getHeadDataInfoNode());
+		((ObjectNode) this.infoNode).set("__body", this.lnsMstInfo.getBodyDataInfoNode());
+		if (Flag.flag) log.info(">>>>> LnsStreamToJson.infoNode = " + this.infoNode.toPrettyString());
+		
 		this.streamData = streamData;
-		
-		this.bodyBaseInfoNode = this.lnsMstInfo.getBodyBaseInfoNode();
-		
-		this.dataNode = (JsonNode) new ObjectMapper().createObjectNode();
-		((ObjectNode) this.dataNode).set("__head", this.lnsMstInfo.getHeadDataInfoNode());
-		((ObjectNode) this.dataNode).set("__body", this.lnsMstInfo.getBodyDataInfoNode());
-		if (Flag.flag) System.out.println(">>>>> rootNode = " + this.dataNode.toPrettyString());
 	}
 	
 	public JsonNode get() {
 		this.offset = 0;
-		return traverse(this.dataNode, "");
+		return traverse(this.infoNode, "");
 	}
 	
 	public JsonNode traverse(JsonNode node, String prefix) {
@@ -87,14 +86,15 @@ public class LnsStreamToJson {
 	public JsonNode traverseArray(JsonNode node, String prefix) {
 		ArrayNode arrayNode = this.objectMapper.createArrayNode();
 		
+		int arrSize = -1;
 		if (Flag.flag) {
 			String arrFieldName = prefix + "__arrSize";
-			JsonNode arrFieldNameNode = this.bodyBaseInfoNode.path(arrFieldName);
-			int arrSize = arrFieldNameNode.asInt();
-			if (Flag.flag) System.out.println(">>>>> [" + arrFieldName + "] = " + arrSize);
+			JsonNode arrFieldNameNode = this.lnsMstInfo.getBodyBaseInfoNode().path(arrFieldName);
+			arrSize = arrFieldNameNode.asInt();
+			if (Flag.flag) log.info(">>>>> [" + arrFieldName + "] = " + arrSize);
 		}
 		
-		for (int index=0; index < 5; index++) {
+		for (int index=0; index < arrSize; index++) {
 			JsonNode itemNode = node.at("/0");
 			
 			if (traversable(itemNode)) {
