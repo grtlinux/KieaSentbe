@@ -52,7 +52,7 @@ public class LnsMstInfo implements Cloneable {
 					"    \"reqTime\" : \"L:6,T:string,C:요청시간\",\n" +  // HHMMSS
 					"    \"resTime\" : \"L:6,T:string,C:응답시간\",\n" +  // HHMMSS
 					"    \"resCode\" : \"L:3,T:string,C:응답코드\",\n" + 
-					"    \"resMessaage\" : \"L:20,T:string,C:응답메시지\",\n" + 
+					"    \"resMessage\" : \"L:20,T:string,C:응답메시지\",\n" + 
 					"    \"reserved\" : \"L:40,T:string,C:예약공간\",\n" + 
 					"    \"dummy\" : \"L:-100,T:string,C:안쓴다\"\n" + 
 					"  }\n" + 
