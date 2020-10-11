@@ -112,7 +112,7 @@ public class KieaSentbe00JsonTools04Application implements CommandLineRunner {
 			if (Flag.flag) this.json06Working.test02();  // LnsCStruct
 			if (Flag.flag) this.json06Working.test03();  // LnsJsonToStream
 			if (Flag.flag) this.json06Working.test04();  // LnsStreamToJson
-			if (Flag.flag) this.json06Working.test05();  // put
+			if (Flag.flag) this.json06Working.test05();  // put, set, remove, at, path
 		}
 	}
 	
