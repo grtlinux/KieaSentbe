@@ -109,10 +109,8 @@ proj-env:
   param:
     name: PARAM (local)
     home: /Users/kang-air
-    #home: /Users/kang-air
-    #base: /STS_GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
     #base: /STS/GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
-    base: /KANG/json/sentbe
+    base: /KANG/sentbe/20201010/jsonData
 
   job:
     name: JOB (local)

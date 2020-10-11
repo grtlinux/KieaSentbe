@@ -30,6 +30,9 @@ public class Apis {
 	@Column(name = "http_method", length = 16)
 	private String httpMethod;
 	
+	@Column(name = "type", length = 3)
+	private String type;
+	
 	@Column(name = "req_json", length = 1024000)
 	private String reqJson;
 	

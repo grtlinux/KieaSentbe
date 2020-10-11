@@ -27,6 +27,7 @@
 				<thead>
 					<tr>
 						<th class="col-md-1">id</th>
+						<th class="col-md-1">Type</th>
 						<th class="col-md-4">Name</th>
 						<th class="col-md-1">Mapping</th>
 						<th class="col-md-5">HttpUrl</th>
@@ -36,6 +37,7 @@
 				<tbody>
 					<tr th:each="apis : ${apisList}">
 						<td th:text="${apis.id}">#</td>
+						<td th:text="${apis.type}">type</td>
 						<td><a th:href="@{'/'+${apis.mapping}+'Form'(id=${apis.id})}" th:text="${apis.name}">Name</a></td>
 						<td th:text="${apis.mapping}">mapping</td>
 						<td th:text="${apis.httpUrl}">httpUrl</td>

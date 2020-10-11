@@ -108,7 +108,7 @@ proj-env:
   param:
     name: PARAM (local)
     home: /Users/kang-air
-    base: /KANG/sentbe/20201010/json
+    base: /KANG/sentbe/20201010/jsonInfo
   job:
     name: JOB (local)
   json:
