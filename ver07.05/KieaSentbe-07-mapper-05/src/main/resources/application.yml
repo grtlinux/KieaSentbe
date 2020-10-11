@@ -11,10 +11,10 @@ server:
 spring:
   profiles.active:
   - proj-default
-  #- proj-local
-  #- proj-test
+  - proj-air
+  #- proj-pro
   #- proj-aws
-  - proj-dfep
+  #- proj-dfep
   #- proj-real
   h2.console:
     enabled: true
@@ -102,11 +102,13 @@ proj-env:
 ---
 # --------------------------------------------------------
 # proj-local
-spring.profiles: proj-local
+spring.profiles: proj-air
 
 proj-env:
   param:
     name: PARAM (local)
+    home: /Users/kang-air
+    base: /KANG/sentbe/20201010/json
   job:
     name: JOB (local)
   json:
@@ -117,7 +119,7 @@ proj-env:
 ---
 # --------------------------------------------------------
 # proj-test
-spring.profiles: proj-test
+spring.profiles: proj-pro
 
 proj-env:
   param:

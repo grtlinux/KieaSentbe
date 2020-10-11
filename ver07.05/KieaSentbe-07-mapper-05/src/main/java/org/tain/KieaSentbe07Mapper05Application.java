@@ -9,7 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.working.json.Json01Working;
+import org.tain.working.json.Json02Working;
 import org.tain.working.properties.PropertiesWorking;
+import org.tain.working.tasks.MapperReaderTask;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,8 +29,8 @@ public class KieaSentbe07Mapper05Application implements CommandLineRunner {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) job01();  // properties
-		if (!Flag.flag) job02();  // json
-		if (Flag.flag) job03();
+		if (!Flag.flag) job02();  // tasks: mapperReader
+		if (Flag.flag) job03();  // json
 		if (Flag.flag) job04();
 		if (Flag.flag) job05();
 		if (Flag.flag) job06();
@@ -56,26 +58,38 @@ public class KieaSentbe07Mapper05Application implements CommandLineRunner {
 	///////////////////////////////////////////////////////////////////////////
 	
 	@Autowired
-	private Json01Working json01Working;
+	private MapperReaderTask mapperReaderTask;
 	
 	private void job02() throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
-			if (!Flag.flag) this.json01Working.test01();
-			if (Flag.flag) this.json01Working.test02();
+			if (Flag.flag) this.mapperReaderTask.runMapperReaderJob();
 		}
-		
-		if (Flag.flag) System.exit(0);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
 	
-	private void job03() {
+	@Autowired
+	private Json01Working json01Working;
+	
+	@Autowired
+	private Json02Working json02Working;
+	
+	private void job03() throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
-		if (Flag.flag) {
+		if (!Flag.flag) {
+			if (Flag.flag) this.json01Working.test01();
+			if (Flag.flag) this.json01Working.test02();
 		}
+		
+		if (Flag.flag) {
+			if (Flag.flag) this.json02Working.test01();
+			if (Flag.flag) this.json02Working.test02();
+		}
+		
+		//if (Flag.flag) System.exit(0);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
