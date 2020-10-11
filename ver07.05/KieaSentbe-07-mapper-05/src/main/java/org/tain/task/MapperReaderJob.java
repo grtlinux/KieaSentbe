@@ -12,6 +12,7 @@ import org.tain.properties.ProjEnvParamProperties;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.utils.Sleep;
+import org.tain.utils.StringTools;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,6 +50,9 @@ public class MapperReaderJob {
 				if (fileEntry.isFile()) {
 					if (Flag.flag) log.info(">>>>> [{}] [{}]", fileEntry.getParent(), fileEntry.getName());
 					
+					if (!StringTools.isExtension(fileEntry.getName(), "json"))
+						continue;
+					
 					LnsMstInfo lnsMstInfo = new LnsMstInfo(fileEntry.getParent(), fileEntry.getName());
 					String reqResType = lnsMstInfo.getReqResType();
 					String fileName = lnsMstInfo.getFileName();
@@ -82,6 +86,9 @@ public class MapperReaderJob {
 						// subdirectory
 					} else if (fileEntry.isFile()) {
 						// file
+						if (!StringTools.isExtension(fileEntry.getName(), "json"))
+							continue;
+						
 						LnsMstInfo lnsMstInfo = mapInfo.get(fileEntry.getName());
 						if (lnsMstInfo.checkAndUpdate(fileEntry)) {
 							if (Flag.flag) log.info(">>>>> {} file is updated.", fileEntry.getName());

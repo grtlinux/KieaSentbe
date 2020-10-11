@@ -30,7 +30,7 @@ public class KieaSentbe07Mapper05Application implements CommandLineRunner {
 		
 		if (Flag.flag) job01();  // properties
 		if (Flag.flag) job02();  // tasks: mapperReader
-		if (Flag.flag) job03();  // json
+		if (!Flag.flag) job03();  // json
 		if (Flag.flag) job04();
 		if (Flag.flag) job05();
 		if (Flag.flag) job06();

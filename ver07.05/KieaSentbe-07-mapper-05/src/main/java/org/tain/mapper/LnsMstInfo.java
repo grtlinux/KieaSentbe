@@ -71,7 +71,7 @@ public class LnsMstInfo implements Cloneable {
 	////////////////////////////////////////////////////////////////////////
 	
 	public boolean checkAndUpdate(File entry) throws Exception {
-		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
+		//log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
 			if (this.lastModfied < entry.lastModified()) {

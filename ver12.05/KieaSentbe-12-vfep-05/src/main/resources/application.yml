@@ -11,10 +11,10 @@ server:
 spring:
   profiles.active:
   - proj-default
-  #- proj-local
+  - proj-air
   #- proj-test
   #- proj-aws
-  - proj-dfep
+  #- proj-dfep
   #- proj-real
   h2.console:
     enabled: true
@@ -102,7 +102,7 @@ proj-env:
 ---
 # --------------------------------------------------------
 # proj-local kang-air
-spring.profiles: proj-local
+spring.profiles: proj-air
 
 proj-env:
 
@@ -130,7 +130,7 @@ proj-env:
 ---
 # --------------------------------------------------------
 # proj-test kang-mac
-spring.profiles: proj-test
+spring.profiles: proj-pro
 
 proj-env:
 

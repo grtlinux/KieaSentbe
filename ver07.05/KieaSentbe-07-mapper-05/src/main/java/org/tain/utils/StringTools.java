@@ -122,4 +122,20 @@ public class StringTools {
 			}
 		}
 	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	
+	public static String getExtension(String fileName) {
+		int pos = fileName.lastIndexOf('.');
+		if (pos < 0)
+			return "_NO_EXT_";
+		
+		return fileName.substring(pos + 1);
+	}
+	
+	public static boolean isExtension(String fileName, String ext) {
+		return getExtension(fileName).equals(ext);
+	}
 }
