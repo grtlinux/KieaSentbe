@@ -22,9 +22,9 @@ public class LnsCStruct {
 		this.lnsMstInfo = lnsMstInfo;
 		
 		this.infoNode = (JsonNode) this.objectMapper.createObjectNode();
-		((ObjectNode) this.infoNode).set("__head", this.lnsMstInfo.getHeadDataInfoNode());
-		((ObjectNode) this.infoNode).set("__body", this.lnsMstInfo.getBodyDataInfoNode());
-		if (Flag.flag) log.info(">>>>> LnsCStruct.infoNode = " + this.infoNode.toPrettyString());
+		((ObjectNode) this.infoNode).set("__head_data", this.lnsMstInfo.getHeadDataInfoNode());
+		((ObjectNode) this.infoNode).set("__body_data", this.lnsMstInfo.getBodyDataInfoNode());
+		if (!Flag.flag) log.info(">>>>> LnsCStruct.infoNode = " + this.infoNode.toPrettyString());
 	}
 	
 	public String get() {
@@ -92,10 +92,10 @@ public class LnsCStruct {
 			String strInfo = node.textValue();
 			LnsElementInfo info = new LnsElementInfo(strInfo);
 			if (info.isUsable()) {
-				if (prefix.contains("/__head/")) {
-					prefix = prefix.substring(3).replace('/', '_');
-				} else if (prefix.contains("/__body/")) {
-					prefix = prefix.substring(8).replace('/', '_');
+				if (prefix.contains("/__head_data/")) {
+					prefix = "head_" + prefix.substring(13).replace('/', '_');
+				} else if (prefix.contains("/__body_data/")) {
+					prefix = prefix.substring(13).replace('/', '_');
 				}
 				line = String.format("char %-30s   [%3d]; /* %s */%n", prefix, info.getLength(), info.getComment());
 				sb.append(line);

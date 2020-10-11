@@ -6,15 +6,19 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.tain.mapper.LnsCStruct;
+import org.tain.mapper.LnsJsonToStream;
 import org.tain.mapper.LnsMstInfo;
+import org.tain.mapper.LnsStreamLength;
+import org.tain.mapper.LnsStreamToJson;
 import org.tain.properties.ProjEnvParamProperties;
+import org.tain.task.MapperReaderJob;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.utils.Sleep;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Component
 @Slf4j
 public class Json02Working {
@@ -67,9 +71,9 @@ public class Json02Working {
 	///////////////////////////////////////////////////////////////////////////
 	
 	private String strJsonData01 = "{\n" + 
-			"  \"__head\" : {\n" + 
+			"  \"__head_data\" : {\n" + 
 			"    \"length\" : \"0000\",\n" + 
-			"    \"reqres\" : \"0000\",\n" + 
+			"    \"reqres\" : \"1000\",\n" + 
 			"    \"type\" : \"000\",\n" + 
 			"    \"trNo\" : \"000001\",\n" + 
 			"    \"reqDate\" : \"20201011\",\n" + 
@@ -78,7 +82,7 @@ public class Json02Working {
 			"    \"resCode\" : \"000\",\n" + 
 			"    \"resMessage\" : \"SUCCESS\"\n" + 
 			"  },\n" + 
-			"  \"__body\" : {\n" + 
+			"  \"__body_data\" : {\n" + 
 			"    \"name\" : \"Jake\",\n" + 
 			"    \"salary\" : 3000,\n" + 
 			"    \"phones\" : [ {\n" + 
@@ -135,36 +139,18 @@ public class Json02Working {
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
 	
-	public void test01() throws Exception {
-		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
-		
-		String strJson = null;
-		if (Flag.flag) {
-			
-		}
-		
-		if (Flag.flag) {
-			/*
-			strJson = "{}";
-			strJson = strJsonMstInfo01;
-			LnsMstInfo lnsMstInfo = new LnsMstInfo(strJson);
-			if (Flag.flag) log.info(">>>>> headBaseInfoJson =\n{}", lnsMstInfo.getHeadBaseInfoNode().toPrettyString());
-			if (Flag.flag) log.info(">>>>> headDataInfoJson =\n{}", lnsMstInfo.getHeadDataInfoNode().toPrettyString());
-			if (Flag.flag) log.info(">>>>> bodyBaseInfoJson =\n{}", lnsMstInfo.getBodyBaseInfoNode().toPrettyString());
-			if (Flag.flag) log.info(">>>>> bodyDataInfoJson =\n{}", lnsMstInfo.getBodyDataInfoNode().toPrettyString());
-			*/
-		}
-	}
-	
-	///////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////
-	
 	@Autowired
 	private ProjEnvParamProperties projEnvParamProperties;
 	
-	public void test02() throws Exception {
+	public void test01() throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
+		
+		if (Flag.flag) {
+			if (Flag.flag) System.out.println(">>>>>>>>>> strJsonMstInfo01 =" + strJsonMstInfo01);
+			if (Flag.flag) System.out.println(">>>>>>>>>> strJsonMstInfo10 = " + strJsonMstInfo10);
+			if (Flag.flag) System.out.println(">>>>>>>>>> strJsonData01 = " + strJsonData01);
+			if (Flag.flag) System.out.println(">>>>>>>>>> strJsonData10 = " + strJsonData10);
+		}
 		
 		String basePath = null;
 		if (Flag.flag) {
@@ -224,6 +210,45 @@ public class Json02Working {
 				
 				Sleep.run(10 * 1000);
 			}
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	
+	@Autowired
+	private MapperReaderJob mapperReaderJob;
+	
+	public void test02() throws Exception {
+		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
+		
+		if (Flag.flag) Sleep.run(3 * 1000);
+		
+		String strCStruct = "";
+		String strLength = "";
+		if (Flag.flag) {
+			// CStruct
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get("0700100");
+			strCStruct = new LnsCStruct(lnsMstInfo).get();
+			strLength = new LnsStreamLength(lnsMstInfo).getStrLength();
+			if (Flag.flag) System.out.println(">>>>> CStruct = " + strCStruct);
+			if (Flag.flag) System.out.println(">>>>> StreamLength = " + strLength);
+		}
+		
+		String strStream = "";
+		if (Flag.flag) {
+			// JsonToStream
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get("test.req.json");
+			strStream = new LnsJsonToStream(lnsMstInfo, strJsonData01).get();
+			if (Flag.flag) System.out.println(">>>>> LnsJsonToStream = " + strStream);
+		}
+		
+		String strJson = "";
+		if (Flag.flag) {
+			// StreamToJson
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get("0700100");
+			strJson = new LnsStreamToJson(lnsMstInfo, strStream).get().toPrettyString();
+			if (Flag.flag) System.out.println(">>>>> LnsStreamToJson = " + strJson);
 		}
 	}
 }

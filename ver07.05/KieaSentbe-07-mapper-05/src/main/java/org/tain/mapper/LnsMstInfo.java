@@ -109,8 +109,8 @@ public class LnsMstInfo implements Cloneable {
 			this.reqResType = sb.toString();
 		}
 		
-		if (!Flag.flag) {
-			if (Flag.flag) System.out.printf(">>>>> infoNode = %s%n", this.infoNode.toPrettyString());
+		if (Flag.flag) {
+			if (Flag.flag) log.info(">>>>> updated.infoNode = {}", this.infoNode.toPrettyString());
 		}
 	}
 	

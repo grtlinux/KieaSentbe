@@ -21,16 +21,18 @@ public class LnsJsonToStream {
 	
 	private StringBuffer sb = new StringBuffer();
 	
+	private int length = -1;
+	
 	public LnsJsonToStream(LnsMstInfo lnsMstInfo, JsonNode dataNode) {
 		this.lnsMstInfo = lnsMstInfo;
 		
 		this.infoNode = (JsonNode) this.objectMapper.createObjectNode();
-		((ObjectNode) this.infoNode).set("__head", this.lnsMstInfo.getHeadDataInfoNode());
-		((ObjectNode) this.infoNode).set("__body", this.lnsMstInfo.getBodyDataInfoNode());
-		if (Flag.flag) log.info(">>>>> LnsJsonToStream.infoNode = " + this.infoNode.toPrettyString());
+		((ObjectNode) this.infoNode).set("__head_data", this.lnsMstInfo.getHeadDataInfoNode());
+		((ObjectNode) this.infoNode).set("__body_data", this.lnsMstInfo.getBodyDataInfoNode());
+		if (!Flag.flag) log.info(">>>>> LnsJsonToStream.infoNode = " + this.infoNode.toPrettyString());
 		
 		this.dataNode = dataNode;
-		if (Flag.flag) log.info(">>>>> LnsJsonToStream.dataNode = " + this.dataNode.toPrettyString());
+		if (!Flag.flag) log.info(">>>>> LnsJsonToStream.dataNode = " + this.dataNode.toPrettyString());
 	}
 	
 	public LnsJsonToStream(LnsMstInfo lnsMstInfo, String strJson) throws Exception {
@@ -38,7 +40,28 @@ public class LnsJsonToStream {
 	}
 	
 	public String get() {
+		this.length = 0;
+		
+		if (Flag.flag) {
+			// BEFORE:
+			String reqRes = this.lnsMstInfo.getHeadBaseInfoNode().path("reqres").asText();
+			String type = this.lnsMstInfo.getHeadBaseInfoNode().path("type").asText();
+			//((ObjectNode) this.dataNode.at("/__head_data")).put("reqres", reqRes);
+			//((ObjectNode) this.dataNode.at("/__head_data")).put("type", type);
+			ObjectNode objectNode = (ObjectNode) this.dataNode.at("/__head_data");
+			objectNode.put("reqres", reqRes);
+			objectNode.put("type", type);
+		}
+		
 		traverse(this.infoNode, "");
+		
+		if (Flag.flag) {
+			// AFTER: stream length process
+			String strLength = String.format("%04d", this.length - 4);
+			sb.delete(0, 4);
+			sb.insert(0, strLength);
+		}
+		
 		return sb.toString();
 	}
 	
@@ -133,6 +156,7 @@ public class LnsJsonToStream {
 				if (Flag.flag) log.info(">>>>> {}", line);
 				String fieldValue = String.format(info.getFormat(), data);
 				sb.append(fieldValue);
+				this.length += info.getLength();
 			}
 		}
 	}

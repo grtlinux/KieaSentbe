@@ -25,9 +25,9 @@ public class LnsStreamToJson {
 		this.lnsMstInfo = lnsMstInfo;
 		
 		this.infoNode = (JsonNode) this.objectMapper.createObjectNode();
-		((ObjectNode) this.infoNode).set("__head", this.lnsMstInfo.getHeadDataInfoNode());
-		((ObjectNode) this.infoNode).set("__body", this.lnsMstInfo.getBodyDataInfoNode());
-		if (Flag.flag) log.info(">>>>> LnsStreamToJson.infoNode = " + this.infoNode.toPrettyString());
+		((ObjectNode) this.infoNode).set("__head_data", this.lnsMstInfo.getHeadDataInfoNode());
+		((ObjectNode) this.infoNode).set("__body_data", this.lnsMstInfo.getBodyDataInfoNode());
+		if (!Flag.flag) log.info(">>>>> LnsStreamToJson.infoNode = " + this.infoNode.toPrettyString());
 		
 		this.streamData = streamData;
 	}

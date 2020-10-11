@@ -29,7 +29,7 @@ public class KieaSentbe07Mapper05Application implements CommandLineRunner {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) job01();  // properties
-		if (!Flag.flag) job02();  // tasks: mapperReader
+		if (Flag.flag) job02();  // tasks: mapperReader
 		if (Flag.flag) job03();  // json
 		if (Flag.flag) job04();
 		if (Flag.flag) job05();
@@ -85,7 +85,7 @@ public class KieaSentbe07Mapper05Application implements CommandLineRunner {
 		}
 		
 		if (Flag.flag) {
-			if (Flag.flag) this.json02Working.test01();
+			if (!Flag.flag) this.json02Working.test01();
 			if (Flag.flag) this.json02Working.test02();
 		}
 		
