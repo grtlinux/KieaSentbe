@@ -1,0 +1,51 @@
+{
+    "__head_base" : {
+        "name" : "createUser.REQ.head",
+        "reqres" : "0700",
+        "type" : "500"
+    },
+    "__head_data" : {
+        "length" : "L:4,T:string,D:0000,C:길이",
+        "reqres" : "L:4,T:string,D:0000,C:송수신",
+        "type" : "L:3,T:string,D:000,C:전문명",
+        "trNo" : "L:6,T:string,C:TR번호",
+        "reqDate" : "L:8,T:string,C:요청일자",
+        "reqTime" : "L:6,T:string,C:요청시간",
+        "resTime" : "L:6,T:string,C:응답시간",
+        "resCode" : "L:3,T:string,C:응답코드",
+        "resMessage" : "L:20,T:string,C:응답메시지",
+        "reserved" : "L:40,T:string,C:예약공간",
+        "dummy" : "L:-100,T:string,C:안쓴다"
+    },
+    "__body_base" : {
+        "name" : "createUser.REQ.body",
+        "/__body_data/agreements/list__arrSize" : 7
+    },
+    "__body_data" : {
+        "agreements": {
+            "version": "L:1,T:string",
+            "list": [ "L:10,T:string" ]
+        },
+        "phone": {
+            "iso": "L:3,T:string",
+            "number": "L:15,T:long"
+        },
+        "user_name": {
+            "first": "L:20,T:string",
+            "middle": "L:20,T:string",
+            "last": "L:20,T:string"
+        },
+        "gender": "L:1,T:int",
+        "account_number": "L:20,T:string",
+        "account_holder_name": "L:20,T:string",
+        "birth_date": "L:8,T:string",
+        "nationality_iso": "L:3,T:string",
+        "id_number": "L:20,T:string",
+        "id_type": "L:1,T:int",
+        "email": "L:50,T:string",
+        "often_send_country_iso": "L:3,T:string",
+        "occupation": "L:1,T:int",
+        "funds_source": "L:1,T:int",
+        "transfer_purpose": "L:1,T:int"
+    }
+}
