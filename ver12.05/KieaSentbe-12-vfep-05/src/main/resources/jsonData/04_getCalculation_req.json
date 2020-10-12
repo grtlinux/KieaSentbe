@@ -1,0 +1,8 @@
+{
+	"input_amount" : 1000000,
+	"input_currency" : "KRW",
+	"from_currency" : "KRW",
+	"to_currency" : "PHP",
+	"to_country" : "PH",
+	"exchange_rate_id" : 20190605175000
+}
