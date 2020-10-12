@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.tain.object.lns.LnsJson;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
+import org.tain.utils.JsonPrint;
 import org.tain.utils.LnsHttpClient;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,9 +32,11 @@ public class GetWebviewIdRestController {
 	public ResponseEntity<?> mapperReqJson2Str(HttpEntity<String> reqHttpEntity) throws Exception {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		
+		JsonNode node = null;
 		if (Flag.flag) {
 			log.info("SIT >>>>> Headers = {}", reqHttpEntity.getHeaders());
 			log.info("SIT >>>>> Body = {}", reqHttpEntity.getBody());
+			node = JsonPrint.getInstance().getObjectMapper().readTree(reqHttpEntity.getBody());
 		}
 		
 		LnsJson lnsJson = null;
@@ -40,6 +45,7 @@ public class GetWebviewIdRestController {
 			lnsJson.setName("GetWebviewId mapperReqJson2Str");
 			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/getWebviewId/req/j2s");
 			lnsJson.setHttpMethod("POST");
+			lnsJson.setType(node.at("/__head_data").get("type").asText());  // TODO
 			lnsJson.setReqJsonData(reqHttpEntity.getBody());
 			
 			lnsJson = this.lnsHttpClient.post(lnsJson);
@@ -55,9 +61,11 @@ public class GetWebviewIdRestController {
 	public ResponseEntity<?> getWebviewId(HttpEntity<String> reqHttpEntity) throws Exception {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		
+		JsonNode node = null;
 		if (Flag.flag) {
 			log.info("SIT >>>>> Headers = {}", reqHttpEntity.getHeaders());
 			log.info("SIT >>>>> Body = {}", reqHttpEntity.getBody());
+			node = JsonPrint.getInstance().getObjectMapper().readTree(reqHttpEntity.getBody());
 		}
 		
 		LnsJson lnsJson = null;
@@ -66,6 +74,7 @@ public class GetWebviewIdRestController {
 			lnsJson.setName("GetWebviewId sbs01");
 			lnsJson.setHttpUrl("http://localhost:17089/v0.5/sbs01/getWebviewId");
 			lnsJson.setHttpMethod("POST");
+			lnsJson.setType(node.at("/__head_data").get("type").asText());  // TODO
 			
 			//JsonNode jsonNode = new ObjectMapper().readTree(reqHttpEntity.getBody());
 			//lnsJson.setReqStrData("" + jsonNode.get("reqStrData").asText());  // len(4) + method(4) + division(3)
@@ -84,9 +93,11 @@ public class GetWebviewIdRestController {
 	public ResponseEntity<?> mapperResStr2Json(HttpEntity<String> reqHttpEntity) throws Exception {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		
+		JsonNode node = null;
 		if (Flag.flag) {
 			log.info("SIT >>>>> Headers = {}", reqHttpEntity.getHeaders());
 			log.info("SIT >>>>> Body = {}", reqHttpEntity.getBody());
+			node = JsonPrint.getInstance().getObjectMapper().readTree(reqHttpEntity.getBody());
 		}
 		
 		LnsJson lnsJson = null;
@@ -95,6 +106,7 @@ public class GetWebviewIdRestController {
 			lnsJson.setName("GetWebviewId mapperResStr2Json");
 			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/getWebviewId/res/s2j");
 			lnsJson.setHttpMethod("POST");
+			lnsJson.setType(node.at("/__head_data").get("type").asText());  // TODO
 			
 			//JsonNode jsonNode = new ObjectMapper().readTree(reqHttpEntity.getBody());
 			//lnsJson.setResStrData("" + jsonNode.get("resStrData").asText());  // len(4) + method(4) + division(3)
@@ -113,9 +125,11 @@ public class GetWebviewIdRestController {
 	public ResponseEntity<?> mapperReqCStruct(HttpEntity<String> reqHttpEntity) throws Exception {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		
+		JsonNode node = null;
 		if (Flag.flag) {
 			log.info("SIT >>>>> Headers = {}", reqHttpEntity.getHeaders());
 			log.info("SIT >>>>> Body = {}", reqHttpEntity.getBody());
+			node = JsonPrint.getInstance().getObjectMapper().readTree(reqHttpEntity.getBody());
 		}
 		
 		LnsJson lnsJson = null;
@@ -124,6 +138,7 @@ public class GetWebviewIdRestController {
 			lnsJson.setName("GetWebviewId mapperResStr2Json");
 			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/getWebviewId/req/cstruct");
 			lnsJson.setHttpMethod("POST");
+			lnsJson.setType(node.get("type").asText());
 			lnsJson.setReqJsonData(reqHttpEntity.getBody());
 			
 			lnsJson = this.lnsHttpClient.post(lnsJson);
@@ -139,9 +154,11 @@ public class GetWebviewIdRestController {
 	public ResponseEntity<?> mapperResCStruct(HttpEntity<String> reqHttpEntity) throws Exception {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		
+		JsonNode node = null;
 		if (Flag.flag) {
 			log.info("SIT >>>>> Headers = {}", reqHttpEntity.getHeaders());
 			log.info("SIT >>>>> Body = {}", reqHttpEntity.getBody());
+			node = JsonPrint.getInstance().getObjectMapper().readTree(reqHttpEntity.getBody());
 		}
 		
 		LnsJson lnsJson = null;
@@ -150,6 +167,7 @@ public class GetWebviewIdRestController {
 			lnsJson.setName("GetWebviewId mapperResStr2Json");
 			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/getWebviewId/res/cstruct");
 			lnsJson.setHttpMethod("POST");
+			lnsJson.setType(node.get("type").asText());
 			lnsJson.setReqJsonData(reqHttpEntity.getBody());
 			
 			lnsJson = this.lnsHttpClient.post(lnsJson);

@@ -11,17 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.tain.mapper.LnsCStruct;
+import org.tain.mapper.LnsJsonToStream;
 import org.tain.mapper.LnsMstInfo;
-import org.tain.object.getCalculation.req._ReqGetCalculationData;
-import org.tain.object.getCalculation.res._ResGetCalculationData;
+import org.tain.mapper.LnsStreamToJson;
 import org.tain.object.lns.LnsJson;
 import org.tain.task.MapperReaderJob;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.utils.JsonPrint;
-import org.tain.utils.SubString;
-import org.tain.utils.TransferStrAndJson;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +38,7 @@ public class GetCalculationRestController {
 	///////////////////////////////////////////////////////////////////////////
 	
 	/*
-	 * http://localhost:17087/v0.5/mapper/getCalculation/req/j2s
+	 * http://localhost:17087/v0.5/mapper/getCalculation/req/s2j
 	 */
 	@RequestMapping(value = {"/req/s2j"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public ResponseEntity<?> commitReqStrToJson(HttpEntity<String> reqHttpEntity) throws Exception {
@@ -53,7 +52,8 @@ public class GetCalculationRestController {
 		}
 		
 		LnsJson lnsJson = null;
-		if (Flag.flag) {
+		if (!Flag.flag) {
+			/*
 			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
 			
 			TransferStrAndJson.subString = new SubString(lnsJson.getReqStrData());
@@ -61,6 +61,15 @@ public class GetCalculationRestController {
 			reqData = (_ReqGetCalculationData) TransferStrAndJson.getObject(reqData);
 			
 			lnsJson.setReqJsonData(JsonPrint.getInstance().toJson(reqData));
+			log.info("MAPPER.req >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
+			*/
+		}
+		if (Flag.flag) {
+			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
+			
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get("0700" + lnsJson.getType());
+			JsonNode node = new LnsStreamToJson(lnsMstInfo, lnsJson.getReqStrData()).get();
+			lnsJson.setReqJsonData(node.toPrettyString());
 			log.info("MAPPER.req >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
 		
@@ -87,7 +96,8 @@ public class GetCalculationRestController {
 		}
 		
 		LnsJson lnsJson = null;
-		if (Flag.flag) {
+		if (!Flag.flag) {
+			/*
 			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
 			
 			TransferStrAndJson.subString = new SubString(lnsJson.getResStrData());
@@ -96,6 +106,15 @@ public class GetCalculationRestController {
 			
 			lnsJson.setResJsonData(JsonPrint.getInstance().toJson(resData));
 			log.info("MAPPER.res >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
+			*/
+		}
+		if (Flag.flag) {
+			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
+			
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get("0710" + lnsJson.getType());
+			JsonNode node = new LnsStreamToJson(lnsMstInfo, lnsJson.getResStrData()).get();
+			lnsJson.setResJsonData(node.toPrettyString());
+			log.info("MAPPER.req >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
 		
 		if (Flag.flag) log.info("========================================================");
@@ -125,12 +144,22 @@ public class GetCalculationRestController {
 		}
 		
 		LnsJson lnsJson = null;
-		if (Flag.flag) {
+		if (!Flag.flag) {
+			/*
 			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
 			
 			_ReqGetCalculationData reqData = new ObjectMapper().readValue(lnsJson.getReqJsonData(), _ReqGetCalculationData.class);
 			String reqStream = TransferStrAndJson.getStream(reqData);
 			lnsJson.setReqStrData(reqStream);
+			log.info("MAPPER.req >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
+			*/
+		}
+		if (Flag.flag) {
+			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
+			
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get("0700" + lnsJson.getType());
+			String strStream = new LnsJsonToStream(lnsMstInfo, lnsJson.getReqJsonData()).get();
+			lnsJson.setReqStrData(strStream);
 			log.info("MAPPER.req >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
 		
@@ -157,13 +186,23 @@ public class GetCalculationRestController {
 		}
 		
 		LnsJson lnsJson = null;
-		if (Flag.flag) {
+		if (!Flag.flag) {
+			/*
 			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
 			
 			_ResGetCalculationData resData = new ObjectMapper().readValue(lnsJson.getResJsonData(), _ResGetCalculationData.class);
 			String resStream = TransferStrAndJson.getStream(resData);
 			lnsJson.setResStrData(resStream);
 			log.info("MAPPER.res >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
+			*/
+		}
+		if (Flag.flag) {
+			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
+			
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get("0710" + lnsJson.getType());
+			String strStream = new LnsJsonToStream(lnsMstInfo, lnsJson.getResJsonData()).get();
+			lnsJson.setResStrData(strStream);
+			log.info("MAPPER.req >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
 		
 		if (Flag.flag) log.info("========================================================");
@@ -236,10 +275,20 @@ public class GetCalculationRestController {
 		
 		LnsJson lnsJson = null;
 		if (Flag.flag) {
+			/*
 			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
 			
 			//_ResCommitData resData = new ObjectMapper().readValue(lnsJson.getResJsonData(), _ResCommitData.class);
 			String resCStruct = TransferStrAndJson.getCStruct(new _ResGetCalculationData());
+			lnsJson.setBatData(resCStruct);
+			log.info("MAPPER.res >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
+			*/
+		}
+		if (Flag.flag) {
+			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
+			
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get("0710" + lnsJson.getType());
+			String resCStruct = new LnsCStruct(lnsMstInfo).get();
 			lnsJson.setBatData(resCStruct);
 			log.info("MAPPER.res >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}

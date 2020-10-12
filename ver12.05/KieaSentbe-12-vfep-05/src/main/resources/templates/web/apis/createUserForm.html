@@ -20,6 +20,7 @@
 		</div>
 		<br/>
 		<input id="apis_id" type="hidden" th:value="${apis?.id}"/>
+		<input id="apis_type" type="hidden" th:value="${apis?.type}"/>
 		<table class="table">
 			<tr>
 				<th style="padding:13px 0 0 15px;">id</th>
@@ -515,10 +516,13 @@
 	<script>
 		$('#btnShowReqCStruct').click(function() {
 			console.log('Hello btnShowReqCStruct');
+			var jsonType = JSON.stringify({
+				type: $('#apis_type').val()
+			}, null, 2);
 			$.ajax({
 				url: _contextPath_ + "apis/createUser/mapper/req/cstruct",
 				type: "POST",
-				data: "{}",
+				data: jsonType,
 				contentType: "application/json",
 				header: {
 					"Authorization": "Basic " + btoa("havi" + ":" + "test")
@@ -535,10 +539,13 @@
 		});
 		$('#btnShowResCStruct').click(function() {
 			console.log('Hello btnShowResCStruct');
+			var jsonType = JSON.stringify({
+				type: $('#apis_type').val()
+			}, null, 2);
 			$.ajax({
 				url: _contextPath_ + "apis/createUser/mapper/res/cstruct",
 				type: "POST",
-				data: "{}",
+				data: jsonType,
 				contentType: "application/json",
 				header: {
 					"Authorization": "Basic " + btoa("havi" + ":" + "test")

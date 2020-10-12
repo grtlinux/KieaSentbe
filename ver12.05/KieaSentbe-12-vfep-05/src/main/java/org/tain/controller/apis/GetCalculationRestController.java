@@ -32,9 +32,11 @@ public class GetCalculationRestController {
 	public ResponseEntity<?> mapperReqJson2Str(HttpEntity<String> reqHttpEntity) throws Exception {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		
+		JsonNode node = null;
 		if (Flag.flag) {
 			log.info("SIT >>>>> Headers = {}", reqHttpEntity.getHeaders());
 			log.info("SIT >>>>> Body = {}", reqHttpEntity.getBody());
+			node = JsonPrint.getInstance().getObjectMapper().readTree(reqHttpEntity.getBody());
 		}
 		
 		LnsJson lnsJson = null;
@@ -43,6 +45,7 @@ public class GetCalculationRestController {
 			lnsJson.setName("GetCalculation mapperReqJson2Str");
 			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/getCalculation/req/j2s");
 			lnsJson.setHttpMethod("POST");
+			lnsJson.setType(node.at("/__head_data").get("type").asText());  // TODO
 			lnsJson.setReqJsonData(reqHttpEntity.getBody());
 			
 			lnsJson = this.lnsHttpClient.post(lnsJson);
@@ -58,9 +61,11 @@ public class GetCalculationRestController {
 	public ResponseEntity<?> getCalculation(HttpEntity<String> reqHttpEntity) throws Exception {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		
+		JsonNode node = null;
 		if (Flag.flag) {
 			log.info("SIT >>>>> Headers = {}", reqHttpEntity.getHeaders());
 			log.info("SIT >>>>> Body = {}", reqHttpEntity.getBody());
+			node = JsonPrint.getInstance().getObjectMapper().readTree(reqHttpEntity.getBody());
 		}
 		
 		LnsJson lnsJson = null;
@@ -69,6 +74,7 @@ public class GetCalculationRestController {
 			lnsJson.setName("GetCalculation sbs01");
 			lnsJson.setHttpUrl("http://localhost:17089/v0.5/sbs01/getCalculation");
 			lnsJson.setHttpMethod("POST");
+			lnsJson.setType(node.at("/__head_data").get("type").asText());  // TODO
 			
 			//JsonNode jsonNode = new ObjectMapper().readTree(reqHttpEntity.getBody());
 			//lnsJson.setReqStrData("" + jsonNode.get("reqStrData").asText());  // len(4) + method(4) + division(3)
@@ -87,9 +93,11 @@ public class GetCalculationRestController {
 	public ResponseEntity<?> mapperResStr2Json(HttpEntity<String> reqHttpEntity) throws Exception {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		
+		JsonNode node = null;
 		if (Flag.flag) {
 			log.info("SIT >>>>> Headers = {}", reqHttpEntity.getHeaders());
 			log.info("SIT >>>>> Body = {}", reqHttpEntity.getBody());
+			node = JsonPrint.getInstance().getObjectMapper().readTree(reqHttpEntity.getBody());
 		}
 		
 		LnsJson lnsJson = null;
@@ -98,6 +106,7 @@ public class GetCalculationRestController {
 			lnsJson.setName("GetCalculation mapperResStr2Json");
 			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/getCalculation/res/s2j");
 			lnsJson.setHttpMethod("POST");
+			lnsJson.setType(node.at("/__head_data").get("type").asText());  // TODO
 			
 			//JsonNode jsonNode = new ObjectMapper().readTree(reqHttpEntity.getBody());
 			//lnsJson.setResStrData("" + jsonNode.get("resStrData").asText());  // len(4) + method(4) + division(3)
@@ -116,11 +125,11 @@ public class GetCalculationRestController {
 	public ResponseEntity<?> mapperReqCStruct(HttpEntity<String> reqHttpEntity) throws Exception {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		
-		JsonNode reqNode = null;
+		JsonNode node = null;
 		if (Flag.flag) {
 			log.info("SIT >>>>> Headers = {}", reqHttpEntity.getHeaders());
 			log.info("SIT >>>>> Body = {}", reqHttpEntity.getBody());
-			reqNode = JsonPrint.getInstance().getObjectMapper().readTree(reqHttpEntity.getBody());
+			node = JsonPrint.getInstance().getObjectMapper().readTree(reqHttpEntity.getBody());
 		}
 		
 		LnsJson lnsJson = null;
@@ -129,7 +138,7 @@ public class GetCalculationRestController {
 			lnsJson.setName("GetCalculation mapperResStr2Json");
 			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/getCalculation/req/cstruct");
 			lnsJson.setHttpMethod("POST");
-			lnsJson.setType(reqNode.get("type").asText());
+			lnsJson.setType(node.get("type").asText());
 			lnsJson.setReqJsonData(reqHttpEntity.getBody());
 			
 			lnsJson = this.lnsHttpClient.post(lnsJson);
@@ -145,9 +154,11 @@ public class GetCalculationRestController {
 	public ResponseEntity<?> mapperResCStruct(HttpEntity<String> reqHttpEntity) throws Exception {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		
+		JsonNode node = null;
 		if (Flag.flag) {
 			log.info("SIT >>>>> Headers = {}", reqHttpEntity.getHeaders());
 			log.info("SIT >>>>> Body = {}", reqHttpEntity.getBody());
+			node = JsonPrint.getInstance().getObjectMapper().readTree(reqHttpEntity.getBody());
 		}
 		
 		LnsJson lnsJson = null;
@@ -156,6 +167,7 @@ public class GetCalculationRestController {
 			lnsJson.setName("GetCalculation mapperResStr2Json");
 			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/getCalculation/res/cstruct");
 			lnsJson.setHttpMethod("POST");
+			lnsJson.setType(node.get("type").asText());
 			lnsJson.setReqJsonData(reqHttpEntity.getBody());
 			
 			lnsJson = this.lnsHttpClient.post(lnsJson);

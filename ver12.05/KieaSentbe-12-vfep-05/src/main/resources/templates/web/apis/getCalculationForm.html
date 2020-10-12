@@ -332,12 +332,26 @@
 		$('#btnToJson').click(function() {
 			console.log('Hello btnToJson');
 			var reqJson = JSON.stringify({
-				input_amount: $('#modal1_input_amount').val(),
-				input_currency: $('#modal1_input_currency').val(),
-				from_currency: $('#modal1_from_currency').val(),
-				to_currency: $('#modal1_to_currency').val(),
-				to_country: $('#modal1_to_country').val(),
-				exchange_rate_id: $('#modal1_exchange_rate_id').val()
+				__head_data: {
+					length: "0000",
+					reqres: "0700",
+					type: "200",
+					trNo: "000001",
+					reqDate: "20201010",
+					reqTime: "121212",
+					resTime: "",
+					resCode: "",
+					resMessage: "",
+					reserved: ""
+				},
+				__body_data: {
+					input_amount: $('#modal1_input_amount').val(),
+					input_currency: $('#modal1_input_currency').val(),
+					from_currency: $('#modal1_from_currency').val(),
+					to_currency: $('#modal1_to_currency').val(),
+					to_country: $('#modal1_to_country').val(),
+					exchange_rate_id: $('#modal1_exchange_rate_id').val()
+				}
 			}, null, 2);
 			$('#modal1_reqJson').val(reqJson);
 		});
@@ -442,13 +456,13 @@
 	<script>
 		$('#btnShowReqCStruct').click(function() {
 			console.log('Hello btnShowReqCStruct');
-			var reqJson = JSON.stringify({
+			var jsonType = JSON.stringify({
 				type: $('#apis_type').val()
 			}, null, 2);
 			$.ajax({
 				url: _contextPath_ + "apis/getCalculation/mapper/req/cstruct",
 				type: "POST",
-				data: reqJson,
+				data: jsonType,
 				contentType: "application/json",
 				header: {
 					"Authorization": "Basic " + btoa("havi" + ":" + "test")
@@ -465,13 +479,13 @@
 		});
 		$('#btnShowResCStruct').click(function() {
 			console.log('Hello btnShowResCStruct');
-			var reqJson = JSON.stringify({
+			var jsonType = JSON.stringify({
 				type: $('#apis_type').val()
 			}, null, 2);
 			$.ajax({
 				url: _contextPath_ + "apis/getCalculation/mapper/res/cstruct",
 				type: "POST",
-				data: reqJson,
+				data: jsonType,
 				contentType: "application/json",
 				header: {
 					"Authorization": "Basic " + btoa("havi" + ":" + "test")

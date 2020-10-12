@@ -1,5 +1,6 @@
 package org.tain.controller.apis;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -9,16 +10,17 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.tain.object.createUser.req._ReqCreateUserAgreements;
-import org.tain.object.createUser.req._ReqCreateUserData;
-import org.tain.object.createUser.res._ResCreateUserData;
+import org.tain.mapper.LnsCStruct;
+import org.tain.mapper.LnsJsonToStream;
+import org.tain.mapper.LnsMstInfo;
+import org.tain.mapper.LnsStreamToJson;
 import org.tain.object.lns.LnsJson;
+import org.tain.task.MapperReaderJob;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.utils.JsonPrint;
-import org.tain.utils.SubString;
-import org.tain.utils.TransferStrAndJson;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CreateUserRestController {
 
+	@Autowired
+	private MapperReaderJob mapperReaderJob;
+	
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
@@ -48,6 +53,7 @@ public class CreateUserRestController {
 		
 		LnsJson lnsJson = null;
 		if (Flag.flag) {
+			/*
 			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
 			
 			TransferStrAndJson.subString = new SubString(lnsJson.getReqStrData());
@@ -57,6 +63,15 @@ public class CreateUserRestController {
 			reqData.setAgrements(new _ReqCreateUserAgreements());
 			
 			lnsJson.setReqJsonData(JsonPrint.getInstance().toJson(reqData));
+			log.info("MAPPER.req >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
+			*/
+		}
+		if (Flag.flag) {
+			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
+			
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get("0700" + lnsJson.getType());
+			JsonNode node = new LnsStreamToJson(lnsMstInfo, lnsJson.getReqStrData()).get();
+			lnsJson.setReqJsonData(node.toPrettyString());
 			log.info("MAPPER.req >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
 		
@@ -84,6 +99,7 @@ public class CreateUserRestController {
 		
 		LnsJson lnsJson = null;
 		if (Flag.flag) {
+			/*
 			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
 			
 			TransferStrAndJson.subString = new SubString(lnsJson.getResStrData());
@@ -92,6 +108,15 @@ public class CreateUserRestController {
 			
 			lnsJson.setResJsonData(JsonPrint.getInstance().toJson(resData));
 			log.info("MAPPER.res >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
+			*/
+		}
+		if (Flag.flag) {
+			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
+			
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get("0710" + lnsJson.getType());
+			JsonNode node = new LnsStreamToJson(lnsMstInfo, lnsJson.getResStrData()).get();
+			lnsJson.setResJsonData(node.toPrettyString());
+			log.info("MAPPER.req >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
 		
 		if (Flag.flag) log.info("========================================================");
@@ -122,11 +147,21 @@ public class CreateUserRestController {
 		
 		LnsJson lnsJson = null;
 		if (Flag.flag) {
+			/*
 			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
 			
 			_ReqCreateUserData reqData = new ObjectMapper().readValue(lnsJson.getReqJsonData(), _ReqCreateUserData.class);
 			String reqStream = TransferStrAndJson.getStream(reqData);
 			lnsJson.setReqStrData(reqStream);
+			log.info("MAPPER.req >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
+			*/
+		}
+		if (Flag.flag) {
+			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
+			
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get("0700" + lnsJson.getType());
+			String strStream = new LnsJsonToStream(lnsMstInfo, lnsJson.getReqJsonData()).get();
+			lnsJson.setReqStrData(strStream);
 			log.info("MAPPER.req >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
 		
@@ -154,12 +189,22 @@ public class CreateUserRestController {
 		
 		LnsJson lnsJson = null;
 		if (Flag.flag) {
+			/*
 			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
 			
 			_ResCreateUserData resData = new ObjectMapper().readValue(lnsJson.getResJsonData(), _ResCreateUserData.class);
 			String resStream = TransferStrAndJson.getStream(resData);
 			lnsJson.setResStrData(resStream);
 			log.info("MAPPER.res >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
+			*/
+		}
+		if (Flag.flag) {
+			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
+			
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get("0710" + lnsJson.getType());
+			String strStream = new LnsJsonToStream(lnsMstInfo, lnsJson.getResJsonData()).get();
+			lnsJson.setResStrData(strStream);
+			log.info("MAPPER.req >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
 		
 		if (Flag.flag) log.info("========================================================");
@@ -189,11 +234,21 @@ public class CreateUserRestController {
 		}
 		
 		LnsJson lnsJson = null;
-		if (Flag.flag) {
+		if (!Flag.flag) {
+			/*
 			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
 			
 			//_ReqCommitData reqData = new ObjectMapper().readValue(lnsJson.getReqJsonData(), _ReqCommitData.class);
 			String reqCStruct = TransferStrAndJson.getCStruct(new _ReqCreateUserData());
+			lnsJson.setBatData(reqCStruct);
+			log.info("MAPPER.req >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
+			*/
+		}
+		if (Flag.flag) {
+			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
+			
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get("0700" + lnsJson.getType());
+			String reqCStruct = new LnsCStruct(lnsMstInfo).get();
 			lnsJson.setBatData(reqCStruct);
 			log.info("MAPPER.req >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
@@ -221,11 +276,21 @@ public class CreateUserRestController {
 		}
 		
 		LnsJson lnsJson = null;
-		if (Flag.flag) {
+		if (!Flag.flag) {
+			/*
 			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
 			
 			//_ResCommitData resData = new ObjectMapper().readValue(lnsJson.getResJsonData(), _ResCommitData.class);
 			String resCStruct = TransferStrAndJson.getCStruct(new _ResCreateUserData());
+			lnsJson.setBatData(resCStruct);
+			log.info("MAPPER.res >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
+			*/
+		}
+		if (Flag.flag) {
+			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
+			
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get("0710" + lnsJson.getType());
+			String resCStruct = new LnsCStruct(lnsMstInfo).get();
 			lnsJson.setBatData(resCStruct);
 			log.info("MAPPER.res >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
