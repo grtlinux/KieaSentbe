@@ -11,10 +11,10 @@ server:
 spring:
   profiles.active:
   - proj-default
-  #- proj-local
-  #- proj-test
+  - proj-air
+  - proj-pro
   #- proj-aws
-  - proj-dfep
+  #- proj-dfep
   #- proj-real
   h2.console:
     enabled: true
@@ -102,42 +102,42 @@ proj-env:
 ---
 # --------------------------------------------------------
 # proj-local kang-air
-spring.profiles: proj-local
+spring.profiles: proj-air
 
 proj-env:
 
   param:
-    name: PARAM (local)
+    name: PARAM (air)
 
   job:
-    name: JOB (local)
+    name: JOB (air)
     listen-port: 17090
 
   json:
-    name: JSON (local)
+    name: JSON (air)
 
   url:
-    name: URL (local)
+    name: URL (air)
 
 ---
 # --------------------------------------------------------
 # proj-test kang-pro
-spring.profiles: proj-test
+spring.profiles: proj-pro
 
 proj-env:
 
   param:
-    name: PARAM (test)
+    name: PARAM (pro)
 
   job:
-    name: JOB (test)
+    name: JOB (pro)
     listen-port: 17090
 
   json:
-    name: JSON (test)
+    name: JSON (pro)
 
   url:
-    name: URL (test)
+    name: URL (pro)
 
 ---
 # --------------------------------------------------------

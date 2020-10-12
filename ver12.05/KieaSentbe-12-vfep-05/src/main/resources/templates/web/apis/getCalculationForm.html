@@ -331,7 +331,7 @@
 		});
 		$('#btnToJson').click(function() {
 			console.log('Hello btnToJson');
-			var reqJson = JSON.stringify({
+			var reqJson = JSON.stringify({  // TODO - 1
 				__head_data: {
 					length: "0000",
 					reqres: "0700",
@@ -345,7 +345,7 @@
 					reserved: ""
 				},
 				__body_data: {
-					input_amount: $('#modal1_input_amount').val(),
+					input_amount: Number($('#modal1_input_amount').val()),
 					input_currency: $('#modal1_input_currency').val(),
 					from_currency: $('#modal1_from_currency').val(),
 					to_currency: $('#modal1_to_currency').val(),
@@ -456,7 +456,7 @@
 	<script>
 		$('#btnShowReqCStruct').click(function() {
 			console.log('Hello btnShowReqCStruct');
-			var jsonType = JSON.stringify({
+			var jsonType = JSON.stringify({     // TODO - 2
 				type: $('#apis_type').val()
 			}, null, 2);
 			$.ajax({
@@ -479,7 +479,7 @@
 		});
 		$('#btnShowResCStruct').click(function() {
 			console.log('Hello btnShowResCStruct');
-			var jsonType = JSON.stringify({
+			var jsonType = JSON.stringify({      // TODO - 3
 				type: $('#apis_type').val()
 			}, null, 2);
 			$.ajax({
@@ -515,7 +515,30 @@
 		$('#btnSendJson').click(function() {
 			console.log('Hello btnSendJson');
 			//var reqJson = JSON.stringify(reqJson, null, 2);
-			$('#modal5_reqJson').val(JSON.stringify(reqJson, null, 2));
+			var strJson = JSON.stringify({  // TODO - 4
+				__head_data: {
+					length: "0000",
+					reqres: "0700",
+					type: "200",
+					trNo: "000001",
+					reqDate: "20201010",
+					reqTime: "121212",
+					resTime: "",
+					resCode: "",
+					resMessage: "",
+					reserved: ""
+				},
+				__body_data: {
+					input_amount: Number(reqJson.input_amount),
+					input_currency: reqJson.input_currency,
+					from_currency: reqJson.from_currency,
+					to_currency: reqJson.to_currency,
+					to_country: reqJson.to_country,
+					exchange_rate_id: reqJson.exchange_rate_id
+				}
+			}, null, 2);
+			//$('#modal1_reqJson').val(strJson);
+			$('#modal5_reqJson').val(strJson);
 		});
 		$('#btnSendRecvJson').click(function() {
 			console.log('Hello btnSendRecvJson');
