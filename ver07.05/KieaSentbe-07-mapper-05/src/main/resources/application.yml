@@ -106,15 +106,15 @@ spring.profiles: proj-air
 
 proj-env:
   param:
-    name: PARAM (local)
+    name: PARAM (air)
     home: /Users/kang-air
     base: /KANG/sentbe/20201010/jsonInfo
   job:
-    name: JOB (local)
+    name: JOB (air)
   json:
-    name: JSON (local)
+    name: JSON (air)
   url:
-    name: URL (local)
+    name: URL (air)
 
 ---
 # --------------------------------------------------------
@@ -123,15 +123,15 @@ spring.profiles: proj-pro
 
 proj-env:
   param:
-    name: PARAM (test)
+    name: PARAM (pro)
     home: /Users/kangmac
     base: /KANG/sentbe/20201010/jsonInfo
   job:
-    name: JOB (test)
+    name: JOB (pro)
   json:
-    name: JSON (test)
+    name: JSON (pro)
   url:
-    name: URL (test)
+    name: URL (pro)
 
 ---
 # --------------------------------------------------------
@@ -156,6 +156,8 @@ spring.profiles: proj-dfep
 proj-env:
   param:
     name: PARAM (dfep)
+    home: /hw01/ibridge
+    base: /KANG/sentbe/20201010/jsonInfo
   job:
     name: JOB (dfep)
   json:

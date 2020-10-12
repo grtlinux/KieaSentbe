@@ -12,7 +12,7 @@ spring:
   profiles.active:
   - proj-default
   - proj-air
-  #- proj-test
+  - proj-pro
   #- proj-aws
   #- proj-dfep
   #- proj-real
@@ -107,20 +107,20 @@ spring.profiles: proj-air
 proj-env:
 
   param:
-    name: PARAM (local)
+    name: PARAM (air)
     home: /Users/kang-air
     #base: /STS/GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
     base: /KANG/sentbe/20201010/jsonData
 
   job:
-    name: JOB (local)
+    name: JOB (air)
 
   json:
-    name: JSON (local)
+    name: JSON (air)
     apis-info-file: apis.json
 
   url:
-    name: URL (local)
+    name: URL (air)
     sentbe: https://hanwha.dev.sentbe.com:10443
     online: http://localhost:17083/v0.5
     #online: http://172.30.222.3:17083/v0.5
@@ -133,22 +133,20 @@ spring.profiles: proj-pro
 proj-env:
 
   param:
-    name: PARAM (test)
+    name: PARAM (pro)
     home: /Users/kangmac
-    #home: /Users/kang-air
-    #base: /STS_GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
     #base: /STS/GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
-    base: /KANG/json/sentbe
+    base: /KANG/sentbe/20201010/jsonData
 
   job:
-    name: JOB (test)
+    name: JOB (pro)
 
   json:
-    name: JSON (test)
+    name: JSON (pro)
     apis-info-file: apis.json
 
   url:
-    name: URL (test)
+    name: URL (pro)
     sentbe: https://hanwha.dev.sentbe.com:10443
     online: http://localhost:17083/v0.5
     #online: http://172.30.222.3:17083/v0.5
@@ -178,10 +176,7 @@ proj-env:
   param:
     name: PARAM (dfep)
     home: /hw01/ibridge
-    #home: /Users/kangmac
-    #home: /hw01/ibridge
-    #base: /STS_GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
-    base: /KANG/json/sentbe
+    base: /KANG/sentbe/20201010/jsonData
 
   job:
     name: JOB (dfep)

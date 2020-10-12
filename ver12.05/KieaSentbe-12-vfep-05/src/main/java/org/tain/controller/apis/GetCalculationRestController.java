@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.tain.object.lns.LnsJson;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
+import org.tain.utils.JsonPrint;
 import org.tain.utils.LnsHttpClient;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -113,9 +116,11 @@ public class GetCalculationRestController {
 	public ResponseEntity<?> mapperReqCStruct(HttpEntity<String> reqHttpEntity) throws Exception {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		
+		JsonNode reqNode = null;
 		if (Flag.flag) {
 			log.info("SIT >>>>> Headers = {}", reqHttpEntity.getHeaders());
 			log.info("SIT >>>>> Body = {}", reqHttpEntity.getBody());
+			reqNode = JsonPrint.getInstance().getObjectMapper().readTree(reqHttpEntity.getBody());
 		}
 		
 		LnsJson lnsJson = null;
@@ -124,6 +129,7 @@ public class GetCalculationRestController {
 			lnsJson.setName("GetCalculation mapperResStr2Json");
 			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/getCalculation/req/cstruct");
 			lnsJson.setHttpMethod("POST");
+			lnsJson.setType(reqNode.get("type").asText());
 			lnsJson.setReqJsonData(reqHttpEntity.getBody());
 			
 			lnsJson = this.lnsHttpClient.post(lnsJson);

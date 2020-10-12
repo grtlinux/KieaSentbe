@@ -1,5 +1,6 @@
 package org.tain.controller.apis;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -9,9 +10,12 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.tain.mapper.LnsCStruct;
+import org.tain.mapper.LnsMstInfo;
 import org.tain.object.getCalculation.req._ReqGetCalculationData;
 import org.tain.object.getCalculation.res._ResGetCalculationData;
 import org.tain.object.lns.LnsJson;
+import org.tain.task.MapperReaderJob;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.utils.JsonPrint;
@@ -27,6 +31,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GetCalculationRestController {
 
+	@Autowired
+	private MapperReaderJob mapperReaderJob;
+	
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
@@ -186,11 +193,21 @@ public class GetCalculationRestController {
 		}
 		
 		LnsJson lnsJson = null;
-		if (Flag.flag) {
+		if (!Flag.flag) {
+			/*
 			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
 			
 			//_ReqCommitData reqData = new ObjectMapper().readValue(lnsJson.getReqJsonData(), _ReqCommitData.class);
 			String reqCStruct = TransferStrAndJson.getCStruct(new _ReqGetCalculationData());
+			lnsJson.setBatData(reqCStruct);
+			log.info("MAPPER.req >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
+			*/
+		}
+		if (Flag.flag) {
+			lnsJson = new ObjectMapper().readValue(reqHttpEntity.getBody(), LnsJson.class);
+			
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get("0700" + lnsJson.getType());
+			String reqCStruct = new LnsCStruct(lnsMstInfo).get();
 			lnsJson.setBatData(reqCStruct);
 			log.info("MAPPER.req >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}

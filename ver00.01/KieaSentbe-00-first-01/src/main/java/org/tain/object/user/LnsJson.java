@@ -1,4 +1,4 @@
-package org.tain.object.lns;
+package org.tain.object.user;
 
 import java.sql.Timestamp;
 

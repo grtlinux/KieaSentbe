@@ -20,6 +20,7 @@ public class LnsJson {
 	
 	private String httpUrl;        // scheme:[//[user:password@]host[:port]][/]path[?query][#fragment]
 	private String httpMethod;     // trid/validate/commit/list/detail/callback
+	private String type;           // type 100, 200 ...
 	
 	private String reqStrData;     // request stream data
 	private String reqJsonData;    // request json data
@@ -40,6 +41,7 @@ public class LnsJson {
 			String name,
 			String httpUrl,
 			String httpMethod,
+			String type,
 			String reqStrData,
 			String reqJsonData,
 			String resStrData,
@@ -52,6 +54,7 @@ public class LnsJson {
 		this.name = name;
 		this.httpUrl = httpUrl;
 		this.httpMethod = httpMethod;
+		this.type = type;
 		this.reqStrData = reqStrData;
 		this.reqJsonData = reqJsonData;
 		this.resStrData = resStrData;
