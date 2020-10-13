@@ -16,7 +16,9 @@ import org.tain.object.lns.LnsJson;
 import org.tain.utils.enums.RestTemplateType;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -111,7 +113,18 @@ public class LnsHttpClient {
 			String httpUrl = lnsJson.getHttpUrl();
 			HttpMethod httpMethod = HttpMethod.POST;
 			
-			String json = JsonPrint.getInstance().toPrettyJson(lnsJson);
+			//String json = JsonPrint.getInstance().toPrettyJson(lnsJson);
+			ObjectMapper objectMapper = new ObjectMapper();
+			JsonNode headNode = null;
+			JsonNode bodyNode = null;
+			String json = null;
+			if (Flag.flag) {
+				// del header
+				JsonNode node = objectMapper.readTree(lnsJson.getReqJsonData());
+				headNode = node.at("/__head_data");
+				bodyNode = node.at("/__body_data");
+				json = bodyNode.toPrettyString();
+			}
 			log.info(">>>>> REQ.lnsJson        = {}", json);
 			
 			HttpHeaders reqHeaders = new HttpHeaders();
@@ -132,7 +145,19 @@ public class LnsHttpClient {
 				log.info(">>>>> RES.getStatusCodeValue() = {}", response.getStatusCodeValue());
 				log.info(">>>>> RES.getStatusCode()      = {}", response.getStatusCode());
 				log.info(">>>>> RES.getBody()            = {}", response.getBody());
-				json = response.getBody();
+				if (Flag.flag) {
+					// add header
+					ObjectNode node = (ObjectNode) headNode;
+					node.put("reqres", "0710");
+					node.put("resTime", LnsNodeTools.getTime());
+					node.put("resCode", "000");
+					node.put("resMessage", "SUCCESS");
+					
+					JsonNode jsonNode = (JsonNode) objectMapper.createObjectNode();
+					((ObjectNode) jsonNode).set("__head_data", node);
+					((ObjectNode) jsonNode).set("__body_data", objectMapper.readTree(response.getBody()));
+					json = jsonNode.toPrettyString();
+				}
 				lnsJson.setResJsonData(json);
 				log.info(">>>>> RES.lnsJson              = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 			} catch (Exception e) {
