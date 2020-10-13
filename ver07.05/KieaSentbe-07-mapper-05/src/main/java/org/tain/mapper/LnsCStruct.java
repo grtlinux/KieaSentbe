@@ -97,8 +97,11 @@ public class LnsCStruct {
 				} else if (prefix.contains("/__body_data/")) {
 					prefix = prefix.substring(13).replace('/', '_');
 				}
-				line = String.format("char %-30s   [%3d]; /* %s */%n", prefix, info.getLength(), info.getComment());
+				//line = String.format("char %-30s   [%3d]; /* %s */%n", prefix, info.getLength(), info.getComment());
+				line = String.format("char %-30s   [%3d]; /* %s */%n", prefix, info.getLength(), prefix);
 				sb.append(line);
+				if (prefix.contains("head_reserved"))
+					sb.append("\n");
 			}
 		}
 	}
