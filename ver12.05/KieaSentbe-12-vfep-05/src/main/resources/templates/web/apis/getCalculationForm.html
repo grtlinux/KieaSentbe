@@ -390,10 +390,14 @@
 	<script>
 		$('#btnSendReqStream').click(function() {
 			console.log('Hello btnSendReqStream');
+			var strJson = JSON.stringify({  // TODO - 5
+				type: "200",
+				streamData: $('#apis_reqStream').val()
+			}, null, 2);
 			$.ajax({
 				url: _contextPath_ + "apis/getCalculation/sbs01",
 				type: "POST",
-				data: $('#apis_reqStream').val(),
+				data: strJson,
 				contentType: "application/json",
 				header: {
 					"Authorization": "Basic " + btoa("havi" + ":" + "test")

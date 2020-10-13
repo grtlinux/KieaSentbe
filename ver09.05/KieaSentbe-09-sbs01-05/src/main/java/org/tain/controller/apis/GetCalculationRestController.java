@@ -49,9 +49,9 @@ public class GetCalculationRestController {
 			LnsStream reqLnsStream = null;
 			if (Flag.flag) {
 				String reqStrData = lnsJson.getReqStrData();
-				String reqTypeCode = "0200200";
-				String reqLen = String.format("%04d", 7 + reqStrData.length());
-				reqLnsStream = new LnsStream(reqLen + reqTypeCode + reqStrData);
+				//String reqTypeCode = "0700200";
+				//String reqLen = String.format("%04d", 7 + reqStrData.length());
+				reqLnsStream = new LnsStream(reqStrData);
 				log.info("Lns01/GetCalculation >>>>> reqLnsStream = {}", JsonPrint.getInstance().toPrettyJson(reqLnsStream));
 			}
 			

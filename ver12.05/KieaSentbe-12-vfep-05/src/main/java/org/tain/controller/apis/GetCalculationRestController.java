@@ -74,11 +74,8 @@ public class GetCalculationRestController {
 			lnsJson.setName("GetCalculation sbs01");
 			lnsJson.setHttpUrl("http://localhost:17089/v0.5/sbs01/getCalculation");
 			lnsJson.setHttpMethod("POST");
-			lnsJson.setType(node.at("/__head_data").get("type").asText());  // TODO
-			
-			//JsonNode jsonNode = new ObjectMapper().readTree(reqHttpEntity.getBody());
-			//lnsJson.setReqStrData("" + jsonNode.get("reqStrData").asText());  // len(4) + method(4) + division(3)
-			lnsJson.setReqStrData("" + reqHttpEntity.getBody());  // len(4) + method(4) + division(3)
+			lnsJson.setType(node.get("type").asText());  // TODO
+			lnsJson.setReqStrData("" + node.get("streamData").asText());
 			
 			lnsJson = this.lnsHttpClient.post(lnsJson);
 		}

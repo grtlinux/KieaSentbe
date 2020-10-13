@@ -25,7 +25,7 @@ public class GetCalculationProcess {
 		if (Flag.flag) {
 			// 1. LnsJson
 			lnsJson = LnsJson.builder().name("GetCalculation").build();
-			lnsJson.setReqStrData(reqLnsStream.getContent());
+			lnsJson.setReqStrData(reqLnsStream.getData());
 			log.info("ONLINE-1 >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
 		
@@ -33,6 +33,7 @@ public class GetCalculationProcess {
 			// 2. mapper TestReq Stream to Json
 			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/getCalculation/req/s2j");
 			lnsJson.setHttpMethod("POST");
+			lnsJson.setType("200");
 			lnsJson = this.lnsHttpClient.post(lnsJson);
 			log.info("ONLINE-2 >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
@@ -42,6 +43,7 @@ public class GetCalculationProcess {
 			//lnsJson = httpLinkPost(lnsJson);
 			lnsJson.setHttpUrl("http://localhost:17082/v0.5/link/getCalculation");
 			lnsJson.setHttpMethod("POST");
+			lnsJson.setType("200");
 			lnsJson = this.lnsHttpClient.post(lnsJson);
 			log.info("ONLINE-3 >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
@@ -50,6 +52,7 @@ public class GetCalculationProcess {
 			// 4. mapper TestRes Json to Stream
 			lnsJson.setHttpUrl("http://localhost:17087/v0.5/mapper/getCalculation/res/j2s");
 			lnsJson.setHttpMethod("POST");
+			lnsJson.setType("200");
 			lnsJson = this.lnsHttpClient.post(lnsJson);
 			log.info("ONLINE-4 >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 		}
@@ -58,7 +61,7 @@ public class GetCalculationProcess {
 		if (Flag.flag) {
 			// 5. lnsStream
 			String resStrData = lnsJson.getResStrData();
-			String resTypeCode = "0210200";
+			String resTypeCode = "0710200";
 			String resLen = String.format("%04d", 7 + resStrData.length());
 			resLnsStream = new LnsStream(resLen + resTypeCode + resStrData);
 			log.info("ONLINE-5 >>>>> resLnsStream = {}", JsonPrint.getInstance().toPrettyJson(resLnsStream));
