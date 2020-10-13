@@ -123,7 +123,6 @@ proj-env:
     name: URL (air)
     sentbe: https://hanwha.dev.sentbe.com:10443
     online: http://localhost:17083/v0.5
-    #online: http://172.30.222.3:17083/v0.5
 
 ---
 # --------------------------------------------------------
@@ -135,7 +134,6 @@ proj-env:
   param:
     name: PARAM (pro)
     home: /Users/kangmac
-    #base: /STS/GIT/KieaSentbe/ver12.05/KieaSentbe-12-vfep-05/src/main/resources/json
     base: /KANG/sentbe/20201010/jsonData
 
   job:
@@ -149,7 +147,6 @@ proj-env:
     name: URL (pro)
     sentbe: https://hanwha.dev.sentbe.com:10443
     online: http://localhost:17083/v0.5
-    #online: http://172.30.222.3:17083/v0.5
 
 ---
 # --------------------------------------------------------
@@ -188,8 +185,7 @@ proj-env:
   url:
     name: URL (dfep)
     sentbe: https://hanwha.dev.sentbe.com:10443
-    online: http://localhost:17083/v0.5
-    #online: http://172.30.222.3:17083/v0.5
+    online: http://172.30.222.3:17083/v0.5
 
 ---
 # --------------------------------------------------------

@@ -88,33 +88,33 @@ public class ServerJob {
 					
 					// process
 					switch (reqLnsStream.getTypeCode()) {
-					case "0200100":  // checkUser
+					case "0700100":  // checkUser
 						resLnsStream = this.checkUserProcess.process(reqLnsStream);
 						break;
-					case "0200200":  // getCalculation
+					case "0700200":  // getCalculation
 						resLnsStream = this.getCalculationProcess.process(reqLnsStream);
 						break;
-					case "0200300":  // deleteUser
+					case "0700300":  // deleteUser
 						resLnsStream = this.deleteUserProcess.process(reqLnsStream);
 						break;
-					case "0200400":  // getWebviewId
+					case "0700400":  // getWebviewId
 						resLnsStream = this.getWebviewIdProcess.process(reqLnsStream);
 						break;
-					case "0200500":  // createUser
+					case "0700500":  // createUser
 						resLnsStream = this.createUserProcess.process(reqLnsStream);
 						break;
-					case "0200600":  // getResult
+					case "0700600":  // getResult
 						resLnsStream = this.getResultProcess.process(reqLnsStream);
 						break;
-					case "0200700":  // getVerification
+					case "0700700":  // getVerification
 						resLnsStream = this.getVerificationProcess.process(reqLnsStream);
 						break;
-					case "0200800":  // migrationUser
+					case "0700800":  // migrationUser
 						resLnsStream = this.migrationUserProcess.process(reqLnsStream);
 						break;
-					case "0200001":  // ping
-					case "0200002":  // encrypt
-					case "0200003":  // decrypt
+					case "0700001":  // ping
+					case "0700002":  // encrypt
+					case "0700003":  // decrypt
 						break;
 					default:
 						log.error(TITLE + "ERROR >>>>> WRONG TypeCode: {}", JsonPrint.getInstance().toPrettyJson(reqLnsStream));
