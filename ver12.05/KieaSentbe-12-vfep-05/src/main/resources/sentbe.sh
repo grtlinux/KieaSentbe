@@ -1,16 +1,14 @@
 #!/bin/sh
 
-#HOME=/Users/kang-air
-HOME=/Users/kangmac
+HOME=/Users/kang-air
+#HOME=/Users/kang-pro
 #HOME=/hw01/ibridge
 
 BASE=/KANG/sentbe/20201010
 
-#BASE_SRC=/STS/GIT/KieaSentbe
-BASE_SRC=/STS_GIT/KieaSentbe
-
-#USER=kang-air
-USER=kangmac
+BASE_SRC=/STS/GIT/KieaSentbe
+USER=kang-air
+#USER=kangmac
 #USER=ibridge
 
 SRC_PATH=$HOME$BASE_SRC
@@ -20,8 +18,8 @@ SNAPSHOT=0.0.1-SNAPSHOT
 
 JAVA=java
 JDK_PORT=
-JAVA_PROPS='-Dspring.profiles.active=proj-default,proj-pro'
-JAVA_OPTS='-Xms128m -Xmx128m'
+JAVA_PROPS='-Dspring.profiles.active=proj-default,proj-air'
+JAVA_OPTS='-Xms128m -Xmx128m' 
 
 # -----------------------------------------------------
 #
@@ -57,7 +55,7 @@ run_link() {
         echo ">>>>> already running..... pid = $PID"
         return
     fi
-    $JAVA $JAVA_OPTS $JAVA_PROPS -jar $PROJ_PATH/$PROJ_NAME-02-link-05-$SNAPSHOT.jar > /dev/null 2>&1 &
+    nohup $JAVA $JAVA_OPTS $JAVA_PROPS -jar $PROJ_PATH/$PROJ_NAME-02-link-05-$SNAPSHOT.jar > /dev/null 2>&1 &
 }
 kill_link() {
     echo "------------------[ 2. kill_link ]-------------------"
@@ -81,7 +79,7 @@ run_online() {
         echo ">>>>> already running..... pid = $PID"
         return
     fi
-    $JAVA $JAVA_OPTS $JAVA_PROPS -jar $PROJ_PATH/$PROJ_NAME-03-online-05-$SNAPSHOT.jar > /dev/null 2>&1 &
+    nohup $JAVA $JAVA_OPTS $JAVA_PROPS -jar $PROJ_PATH/$PROJ_NAME-03-online-05-$SNAPSHOT.jar > /dev/null 2>&1 &
 }
 kill_online() {
     echo "------------------[ 3. kill_online ]-------------------"
@@ -105,7 +103,7 @@ run_mapper() {
         echo ">>>>> already running..... pid = $PID"
         return
     fi
-    $JAVA $JAVA_OPTS $JAVA_PROPS -jar $PROJ_PATH/$PROJ_NAME-07-mapper-05-$SNAPSHOT.jar > /dev/null 2>&1 &
+    nohup $JAVA $JAVA_OPTS $JAVA_PROPS -jar $PROJ_PATH/$PROJ_NAME-07-mapper-05-$SNAPSHOT.jar > /dev/null 2>&1 &
 }
 kill_mapper() {
     echo "------------------[ 7. kill_mapper ]-------------------"
@@ -129,7 +127,7 @@ run_sbs01() {
         echo ">>>>> already running..... pid = $PID"
         return
     fi
-    $JAVA $JAVA_OPTS $JAVA_PROPS -jar $PROJ_PATH/$PROJ_NAME-09-sbs01-05-$SNAPSHOT.jar > /dev/null 2>&1 &
+    nohup $JAVA $JAVA_OPTS $JAVA_PROPS -jar $PROJ_PATH/$PROJ_NAME-09-sbs01-05-$SNAPSHOT.jar > /dev/null 2>&1 &
 }
 kill_sbs01() {
     echo "------------------[ 9. kill_sbs01 ]-------------------"
@@ -153,7 +151,7 @@ run_vfep() {
         echo ">>>>> already running..... pid = $PID"
         return
     fi
-    $JAVA $JAVA_OPTS $JAVA_PROPS -jar $PROJ_PATH/$PROJ_NAME-12-vfep-05-$SNAPSHOT.jar > /dev/null 2>&1 &
+    nohup $JAVA $JAVA_OPTS $JAVA_PROPS -jar $PROJ_PATH/$PROJ_NAME-12-vfep-05-$SNAPSHOT.jar > /dev/null 2>&1 &
 }
 kill_vfep() {
     echo "------------------[ 12. kill_vfep ]-------------------"
@@ -270,7 +268,7 @@ case "$1" in
         echo
         exit 1
         ;;
-
+    
 esac
 
 exit 0
