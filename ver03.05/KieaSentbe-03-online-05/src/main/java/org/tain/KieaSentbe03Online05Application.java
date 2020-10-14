@@ -10,6 +10,7 @@ import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.working.properties.PropertiesWorking;
 import org.tain.working.tasks.ServerTasksWorking;
+import org.tain.working.test.Test01Working;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,8 +28,8 @@ public class KieaSentbe03Online05Application implements CommandLineRunner {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) job01();  // properties
-		if (Flag.flag) job02();  // server
-		if (Flag.flag) job03();
+		if (!Flag.flag) job02();  // server
+		if (Flag.flag) job03();  // test
 		if (Flag.flag) job04();
 		if (Flag.flag) job05();
 		if (Flag.flag) job06();
@@ -71,10 +72,14 @@ public class KieaSentbe03Online05Application implements CommandLineRunner {
 	
 	///////////////////////////////////////////////////////////////////////////
 	
-	private void job03() {
+	@Autowired
+	private Test01Working test01Working;
+	
+	private void job03() throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
+			if (Flag.flag) this.test01Working.test01();
 		}
 	}
 	

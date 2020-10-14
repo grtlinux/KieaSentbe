@@ -8,10 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
+import org.tain.utils.Sleep;
 import org.tain.working.json.Json01Working;
 import org.tain.working.json.Json02Working;
 import org.tain.working.properties.PropertiesWorking;
 import org.tain.working.tasks.MapperReaderTask;
+import org.tain.working.test.Test400Working;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,7 +33,7 @@ public class KieaSentbe07Mapper05Application implements CommandLineRunner {
 		if (Flag.flag) job01();  // properties
 		if (Flag.flag) job02();  // tasks: mapperReader
 		if (!Flag.flag) job03();  // json
-		if (Flag.flag) job04();
+		if (Flag.flag) job04();  // test
 		if (Flag.flag) job05();
 		if (Flag.flag) job06();
 		if (Flag.flag) job07();
@@ -94,11 +96,20 @@ public class KieaSentbe07Mapper05Application implements CommandLineRunner {
 	
 	///////////////////////////////////////////////////////////////////////////
 	
-	private void job04() {
+	@Autowired
+	private Test400Working test400Working;
+	
+	private void job04() throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
+		if (Flag.flag) Sleep.run(3 * 1000);
+		
 		if (Flag.flag) {
+			if (Flag.flag) this.test400Working.test0700();
+			if (Flag.flag) this.test400Working.test0710();
 		}
+		
+		//if (Flag.flag) System.exit(0);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
