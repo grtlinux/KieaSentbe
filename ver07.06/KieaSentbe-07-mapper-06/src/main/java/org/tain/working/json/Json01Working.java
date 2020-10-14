@@ -255,22 +255,22 @@ public class Json01Working {
 			//if (Flag.flag) log.info(">>>>>> strJsonHead: " + strJsonHead);
 			
 			// get LnsJsonNode
-			LnsJsonNode jsonData = new LnsJsonNode();
+			LnsJsonNode nodeData = new LnsJsonNode();
 			LnsJsonNode jsonHead = new LnsJsonNode(strJsonHead);
 			jsonHead.put("resTime", LnsNodeTools.getTime());
 			LnsJsonNode jsonBody = new LnsJsonNode(strJson);
-			jsonData.put("__head_data", jsonHead.get());
-			jsonData.put("__body_data", jsonBody.get());
-			if (Flag.flag) log.info(">>>>>> jsonData: " + jsonData.toPrettyString());
+			nodeData.put("__head_data", jsonHead.get());
+			nodeData.put("__body_data", jsonBody.get());
+			if (Flag.flag) log.info(">>>>>> jsonData: " + nodeData.toPrettyString());
 			
 			// json to stream
 			lnsMstInfo = this.mapperReaderJob.get(fileName);
-			String strData = new LnsJsonToStream(lnsMstInfo, jsonData.get()).get();
+			String strData = new LnsJsonToStream(lnsMstInfo, nodeData.get()).get();
 			if (Flag.flag) log.info(">>>>>> json to stream:\n[{}]", strData);
 			
 			// stream to json
-			LnsJsonNode node = new LnsJsonNode(new LnsStreamToJson(lnsMstInfo, strData).get());
-			if (Flag.flag) log.info(">>>>>> stream to json: {}", node.toPrettyString());
+			LnsJsonNode nodeData2 = new LnsJsonNode(new LnsStreamToJson(lnsMstInfo, strData).get());
+			if (Flag.flag) log.info(">>>>>> stream to json: {}", nodeData2.toPrettyString());
 		}
 	}
 }
