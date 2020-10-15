@@ -12,11 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @SpringBootApplication
 @Slf4j
-public class KieaSentbe02Link05Application implements CommandLineRunner {
+public class KieaSentbe02Link06Application implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
-		SpringApplication.run(KieaSentbe02Link05Application.class, args);
+		SpringApplication.run(KieaSentbe02Link06Application.class, args);
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class KieaSentbe02Link05Application implements CommandLineRunner {
 		if (Flag.flag) job09();
 		if (Flag.flag) job10();
 		
-		//if (Flag.flag) System.exit(0);
+		if (Flag.flag) System.exit(0);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
