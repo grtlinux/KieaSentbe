@@ -55,8 +55,8 @@ public class GetCalculationRestController {
 		}
 		if (Flag.flag) {
 			
-			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get(lnsJsonNode.value("reqResType"));
-			JsonNode node = new LnsStreamToJson(lnsMstInfo, lnsJsonNode.value("reqStream")).get();
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get(lnsJsonNode.getValue("reqResType"));
+			JsonNode node = new LnsStreamToJson(lnsMstInfo, lnsJsonNode.getValue("reqStream")).get();
 			lnsJsonNode.put("reqJson", node.toPrettyString());
 			log.info("MAPPER.req >>>>> lnsJsonNode = {}", lnsJsonNode.toPrettyString());
 		}
@@ -92,8 +92,8 @@ public class GetCalculationRestController {
 		}
 		if (Flag.flag) {
 			
-			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get(lnsJsonNode.value("reqResType"));
-			JsonNode node = new LnsStreamToJson(lnsMstInfo, lnsJsonNode.value("resStream")).get();
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get(lnsJsonNode.getValue("reqResType"));
+			JsonNode node = new LnsStreamToJson(lnsMstInfo, lnsJsonNode.getValue("resStream")).get();
 			lnsJsonNode.put("resJson", node.toPrettyString());
 			log.info("MAPPER.req >>>>> lnsJsonNode = {}", lnsJsonNode.toPrettyString());
 		}
@@ -133,8 +133,8 @@ public class GetCalculationRestController {
 		}
 		if (Flag.flag) {
 			
-			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get(lnsJsonNode.value("reqResType"));
-			String stream = new LnsJsonToStream(lnsMstInfo, lnsJsonNode.value("reqJson")).get();
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get(lnsJsonNode.getValue("reqResType"));
+			String stream = new LnsJsonToStream(lnsMstInfo, lnsJsonNode.getValue("reqJson")).get();
 			lnsJsonNode.put("reqStream", stream);
 			log.info("MAPPER.req >>>>> lnsJsonNode = {}", lnsJsonNode.toPrettyString());
 		}
@@ -170,8 +170,8 @@ public class GetCalculationRestController {
 		}
 		if (Flag.flag) {
 			
-			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get(lnsJsonNode.value("reqResType"));
-			String stream = new LnsJsonToStream(lnsMstInfo, lnsJsonNode.value("resJson")).get();
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get(lnsJsonNode.getValue("reqResType"));
+			String stream = new LnsJsonToStream(lnsMstInfo, lnsJsonNode.getValue("resJson")).get();
 			lnsJsonNode.put("resStream", stream);
 			log.info("MAPPER.req >>>>> lnsJsonNode = {}", lnsJsonNode.toPrettyString());
 		}
@@ -211,7 +211,7 @@ public class GetCalculationRestController {
 		}
 		if (Flag.flag) {
 			
-			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get(lnsJsonNode.value("reqResType"));
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get(lnsJsonNode.getValue("reqResType"));
 			String strCStruct = new LnsCStruct(lnsMstInfo).get();
 			lnsJsonNode.put("reqCStruct", strCStruct);
 			log.info("MAPPER.req >>>>> lnsJsonNode = {}", lnsJsonNode.toPrettyString());
@@ -248,7 +248,7 @@ public class GetCalculationRestController {
 		}
 		if (Flag.flag) {
 			
-			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get(lnsJsonNode.value("reqResType"));
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get(lnsJsonNode.getValue("reqResType"));
 			String strCStruct = new LnsCStruct(lnsMstInfo).get();
 			lnsJsonNode.put("resCStruct", strCStruct);
 			log.info("MAPPER.req >>>>> lnsJsonNode = {}", lnsJsonNode.toPrettyString());

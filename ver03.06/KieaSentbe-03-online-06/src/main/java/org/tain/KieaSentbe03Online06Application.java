@@ -8,20 +8,19 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
-import org.tain.utils.Sleep;
-import org.tain.working.json.Json01Working;
 import org.tain.working.properties.PropertiesWorking;
-import org.tain.working.tasks.MapperReaderTask;
+import org.tain.working.tasks.ServerTasksWorking;
+import org.tain.working.test.Test01Working;
 
 import lombok.extern.slf4j.Slf4j;
 
 @SpringBootApplication
 @Slf4j
-public class KieaSentbe07Mapper06Application implements CommandLineRunner {
+public class KieaSentbe03Online06Application implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get(), LocalDateTime.now());
-		SpringApplication.run(KieaSentbe07Mapper06Application.class, args);
+		SpringApplication.run(KieaSentbe03Online06Application.class, args);
 	}
 
 	@Override
@@ -29,8 +28,8 @@ public class KieaSentbe07Mapper06Application implements CommandLineRunner {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) job01();  // properties
-		if (Flag.flag) job02();  // tasks
-		if (Flag.flag) job03();  // json
+		if (!Flag.flag) job02();  // server
+		if (Flag.flag) job03();  // test
 		if (Flag.flag) job04();
 		if (Flag.flag) job05();
 		if (Flag.flag) job06();
@@ -58,54 +57,36 @@ public class KieaSentbe07Mapper06Application implements CommandLineRunner {
 	///////////////////////////////////////////////////////////////////////////
 	
 	@Autowired
-	private MapperReaderTask mapperReaderTask;
+	private ServerTasksWorking serverTasksWorking;
 	
 	private void job02() throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
-			if (Flag.flag) this.mapperReaderTask.runMapperReaderJob();
+			if (Flag.flag) this.serverTasksWorking.makeLnsSocketTicket();
+			if (Flag.flag) this.serverTasksWorking.makeLnsInfoTicket();
+			if (Flag.flag) this.serverTasksWorking.runFactoryMainJob();
+			if (Flag.flag) this.serverTasksWorking.runServerMainJob();
 		}
-		
-		if (Flag.flag) Sleep.run(3 * 1000);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
 	
 	@Autowired
-	private Json01Working json01Working;
-	
-	//@Autowired
-	//private Json02Working json02Working;
+	private Test01Working test01Working;
 	
 	private void job03() throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
-			if (Flag.flag) this.json01Working.test01();
-			if (Flag.flag) this.json01Working.test02();
-			if (Flag.flag) this.json01Working.test03();
-			if (Flag.flag) this.json01Working.test04getCalculation();
-			if (Flag.flag) this.json01Working.test05createUser();
-			if (Flag.flag) this.json01Working.test06checkUser();
-			if (Flag.flag) this.json01Working.test07deleteUser();
-			if (Flag.flag) this.json01Working.test08getWebviewId();
-			if (Flag.flag) this.json01Working.test09getResult();
-			if (Flag.flag) this.json01Working.test10getVerification();
-			if (Flag.flag) this.json01Working.test11migrationUser();
-		}
-		
-		if (!Flag.flag) {
-			/*
-			if (!Flag.flag) this.json02Working.test01();
-			if (Flag.flag) this.json02Working.test02();
-			*/
+			if (Flag.flag) this.test01Working.test01();
+			if (Flag.flag) this.test01Working.test02();
 		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
 	
-	private void job04() throws Exception {
+	private void job04() {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
