@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping(value = {"/mapper"})
 @Slf4j
-public class MapperRestController {
+public class ApisRestController {
 
 	@Autowired
 	private MapperReaderJob mapperReaderJob;

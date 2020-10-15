@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class ApiProcess {
+public class ApisProcess {
 
 	@Autowired
 	private LnsHttpClient lnsHttpClient;

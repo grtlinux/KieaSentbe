@@ -9,7 +9,7 @@ import org.tain.object.ticket.LnsSocketTicket;
 import org.tain.queue.InfoTicketReadyQueue;
 import org.tain.queue.SocketTicketReadyQueue;
 import org.tain.queue.SocketTicketUseQueue;
-import org.tain.task.process.ApiProcess;
+import org.tain.task.process.ApisProcess;
 import org.tain.task.process.CheckUserProcess;
 import org.tain.task.process.CreateUserProcess;
 import org.tain.task.process.DeleteUserProcess;
@@ -68,7 +68,7 @@ public class ServerJob {
 	///////////////////////////////////////////////////////////////////////////
 	
 	@Autowired
-	private ApiProcess apiProcess;
+	private ApisProcess apiProcess;
 	
 	///////////////////////////////////////////////////////////////////////////
 	
