@@ -27,6 +27,26 @@ public class Test01Working {
 		strResStream = "0162071020099999920201015080241080241000SUCCESS                                                     "
 				+ "20190605175000         1000000KRW     43474PHP0         23.00184  ";
 		
+		String strReqJson = "{\n" + 
+				"  \"__head_data\" : {\n" + 
+				"    \"length\" : \"0138\",\n" + 
+				"    \"reqres\" : \"0700\",\n" + 
+				"    \"type\" : \"200\",\n" + 
+				"    \"trNo\" : \"999999\",\n" + 
+				"    \"reqDate\" : \"20201015\",\n" + 
+				"    \"reqTime\" : \"111153\",\n" + 
+				"    \"resTime\" : \"\"\n" + 
+				"  },\n" + 
+				"  \"__body_data\" : {\n" + 
+				"    \"input_amount\" : 1000000,\n" + 
+				"    \"input_currency\" : \"KRW\",\n" + 
+				"    \"from_currency\" : \"KRW\",\n" + 
+				"    \"to_currency\" : \"PHP\",\n" + 
+				"    \"to_country\" : \"PH\",\n" + 
+				"    \"exchange_rate_id\" : \"20190605175000\"\n" + 
+				"  }\n" + 
+				"}";
+		
 		String strResJson = "{\n" + 
 				"  \"__head_data\" : {\n" + 
 				"    \"length\" : \"0162\",\n" + 
@@ -36,8 +56,8 @@ public class Test01Working {
 				"    \"reqDate\" : \"20201015\",\n" + 
 				"    \"reqTime\" : \"080241\",\n" + 
 				"    \"resTime\" : \"080241\",\n" + 
-				"    \"resCode\" : \"\",\n" + 
-				"    \"resMessage\" : \"\",\n" + 
+				"    \"resCode\" : \"000\",\n" + 
+				"    \"resMessage\" : \"SUCCESS\",\n" + 
 				"    \"reserved\" : \"\"\n" + 
 				"  },\n" + 
 				"  \"__body_data\" : {\n" + 
@@ -72,7 +92,7 @@ public class Test01Working {
 		}
 		
 		if (Flag.flag) {
-			// 3. Stream to Json
+			// 3. Stream to Json of strReqStream
 			LnsJsonNode lnsJsonNode = new LnsJsonNode();
 			lnsJsonNode.put("httpUrl", "http://localhost:17087/v0.6/mapper/s2j");
 			lnsJsonNode.put("httpMethod", "POST");
@@ -83,7 +103,7 @@ public class Test01Working {
 		}
 		
 		if (Flag.flag) {
-			// 4. Stream to Json
+			// 4. Stream to Json of strResStream
 			LnsJsonNode lnsJsonNode = new LnsJsonNode();
 			lnsJsonNode.put("httpUrl", "http://localhost:17087/v0.6/mapper/s2j");
 			lnsJsonNode.put("httpMethod", "POST");
@@ -94,14 +114,25 @@ public class Test01Working {
 		}
 		
 		if (Flag.flag) {
-			// 5. Json to Stream
+			// 5. link
+			LnsJsonNode lnsJsonNode = new LnsJsonNode();
+			lnsJsonNode.put("httpUrl", "http://localhost:17082/v0.6/link/process");
+			lnsJsonNode.put("httpMethod", "POST");
+			lnsJsonNode.put("reqResType", "0700200");
+			lnsJsonNode.put("reqJson", strReqJson);
+			lnsJsonNode = this.lnsHttpClient.post(lnsJsonNode);
+			log.info("ONLINE-5 >>>>> lnsJsonNode.link {} = \n[{}]", lnsJsonNode.getValue("reqResType"), lnsJsonNode.getValue("resJson"));
+		}
+		
+		if (Flag.flag) {
+			// 6. Json to Stream
 			LnsJsonNode lnsJsonNode = new LnsJsonNode();
 			lnsJsonNode.put("httpUrl", "http://localhost:17087/v0.6/mapper/j2s");
 			lnsJsonNode.put("httpMethod", "POST");
 			lnsJsonNode.put("reqResType", "0710200");
 			lnsJsonNode.put("json", strResJson);
 			lnsJsonNode = this.lnsHttpClient.post(lnsJsonNode);
-			log.info("ONLINE-4 >>>>> lnsJsonNode.j2s {} = \n[{}]", lnsJsonNode.getValue("reqResType"), lnsJsonNode.getValue("stream"));
+			log.info("ONLINE-6 >>>>> lnsJsonNode.j2s {} = \n[{}]", lnsJsonNode.getValue("reqResType"), lnsJsonNode.getValue("stream"));
 		}
 	}
 	
@@ -189,7 +220,7 @@ public class Test01Working {
 			lnsJsonNode.put("reqResType", "0710400");
 			lnsJsonNode.put("json", strResJson);
 			lnsJsonNode = this.lnsHttpClient.post(lnsJsonNode);
-			log.info("ONLINE-4 >>>>> lnsJsonNode.j2s {} = \n[{}]", lnsJsonNode.getValue("reqResType"), lnsJsonNode.getValue("stream"));
+			log.info("ONLINE-5 >>>>> lnsJsonNode.j2s {} = \n[{}]", lnsJsonNode.getValue("reqResType"), lnsJsonNode.getValue("stream"));
 		}
 	}
 }

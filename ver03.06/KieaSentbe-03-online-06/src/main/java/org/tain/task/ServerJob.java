@@ -9,6 +9,7 @@ import org.tain.object.ticket.LnsSocketTicket;
 import org.tain.queue.InfoTicketReadyQueue;
 import org.tain.queue.SocketTicketReadyQueue;
 import org.tain.queue.SocketTicketUseQueue;
+import org.tain.task.process.ApiProcess;
 import org.tain.task.process.CheckUserProcess;
 import org.tain.task.process.CreateUserProcess;
 import org.tain.task.process.DeleteUserProcess;
@@ -66,8 +67,61 @@ public class ServerJob {
 	
 	///////////////////////////////////////////////////////////////////////////
 	
+	@Autowired
+	private ApiProcess apiProcess;
+	
+	///////////////////////////////////////////////////////////////////////////
+	
 	@Async(value = "serverTask")
 	public void serverJob(LnsInfoTicket infoTicket) throws Exception {
+		log.info(TITLE + ">>>>> START param = {}, {}", infoTicket, CurrentInfo.get());
+		
+		LnsSocketTicket lnsSocketTicket = null;
+		if (Flag.flag) {
+			lnsSocketTicket = this.socketTicketUseQueue.get();  // blocking
+			log.info(TITLE + ">>>>> serverJob: INFO = {} {}", infoTicket, lnsSocketTicket);
+		}
+		
+		////////////////////////////////////////////////////
+		if (Flag.flag) {
+			try {
+				LnsStream reqLnsStream = null;
+				LnsStream resLnsStream = null;
+				while (true) {
+					// recv
+					reqLnsStream = lnsSocketTicket.recvStream();
+					if (Flag.flag) log.info(TITLE + ">>>>> reqLnsStream = {}", JsonPrint.getInstance().toPrettyJson(reqLnsStream));
+					
+					// process
+					resLnsStream = this.apiProcess.process(reqLnsStream);
+					
+					// send
+					lnsSocketTicket.sendStream(resLnsStream);
+					if (Flag.flag) log.info(TITLE + ">>>>> resLnsStream = {}", JsonPrint.getInstance().toPrettyJson(resLnsStream));
+				}
+			} catch (Exception e) {
+				//e.printStackTrace();
+				// ERROR >>>>> ERROR: return value of read is negative(-)...
+				log.error(TITLE + " ERROR >>>>> {}", e.getMessage());
+			} finally {
+				lnsSocketTicket.close();
+			}
+		}
+		
+		if (Flag.flag) {
+			// return the tickets.
+			this.socketTicketReadyQueue.set(lnsSocketTicket);
+			this.infoTicketReadyQueue.set(infoTicket);
+		}
+		
+		log.info(TITLE + ">>>>> END   param = {}, {}", infoTicket, CurrentInfo.get());
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	
+	//@Async(value = "serverTask")
+	@Deprecated
+	public void serverJob_old(LnsInfoTicket infoTicket) throws Exception {
 		log.info(TITLE + ">>>>> START param = {}, {}", infoTicket, CurrentInfo.get());
 		
 		LnsSocketTicket lnsSocketTicket = null;
