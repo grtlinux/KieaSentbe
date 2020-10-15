@@ -37,7 +37,7 @@ public class ApisProcess {
 			lnsJsonNode.put("httpUrl", "http://localhost:17082/v0.6/link/process");
 			lnsJsonNode.put("httpMethod", "POST");
 			lnsJsonNode.put("reqResType", reqLnsStream.getTypeCode());
-			lnsJsonNode.put("json", lnsJsonNode.getValue("json"));
+			lnsJsonNode.put("reqJson", lnsJsonNode.getValue("json"));
 			lnsJsonNode = this.lnsHttpClient.post(lnsJsonNode);
 			// 3. post link
 			/*
@@ -48,6 +48,7 @@ public class ApisProcess {
 			lnsJson = this.lnsHttpClient.post(lnsJson);
 			log.info("ONLINE-3 >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 			*/
+			/*
 			strResJson = "{\n" + 
 					"  \"__head_data\" : {\n" + 
 					"    \"length\" : \"0162\",\n" + 
@@ -71,6 +72,8 @@ public class ApisProcess {
 					"    \"base_rate\" : 23.00184\n" + 
 					"  }\n" + 
 					"}";
+			*/
+			strResJson = lnsJsonNode.getValue("resJson");
 		}
 		
 		String strStream = null;
@@ -78,7 +81,7 @@ public class ApisProcess {
 			// 4. mapper TestRes Json to Stream
 			lnsJsonNode.put("httpUrl", "http://localhost:17087/v0.6/mapper/j2s");
 			lnsJsonNode.put("httpMethod", "POST");
-			lnsJsonNode.put("reqResType", "0710200");
+			lnsJsonNode.put("reqResType", lnsJsonNode.getValue("reqResType"));
 			lnsJsonNode.put("json", strResJson);
 			lnsJsonNode = this.lnsHttpClient.post(lnsJsonNode);
 			log.info("ONLINE-3 >>>>> lnsJsonNode.j2s {} = \n[{}]", lnsJsonNode.getValue("reqResType"), lnsJsonNode.getValue("stream"));

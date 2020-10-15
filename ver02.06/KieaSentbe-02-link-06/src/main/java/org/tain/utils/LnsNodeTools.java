@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+//@Deprecated
 public class LnsNodeTools {
 
 	public static JsonNode put(JsonNode node, String path, String value) {
