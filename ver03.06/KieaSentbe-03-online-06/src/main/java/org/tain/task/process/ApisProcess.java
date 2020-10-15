@@ -21,78 +21,56 @@ public class ApisProcess {
 	public LnsStream process(LnsStream reqLnsStream) throws Exception {
 		log.info("KANG-20200908 >>>>> {}", CurrentInfo.get());
 		
-		LnsJsonNode lnsJsonNode = new LnsJsonNode();
+		String strReqJson = null;
 		if (Flag.flag) {
-			// 2. Stream to Json
+			// 1. Stream to Json
+			LnsJsonNode lnsJsonNode = new LnsJsonNode();
 			lnsJsonNode.put("httpUrl", "http://localhost:17087/v0.6/mapper/s2j");
 			lnsJsonNode.put("httpMethod", "POST");
 			lnsJsonNode.put("reqResType", reqLnsStream.getTypeCode());
 			lnsJsonNode.put("stream", reqLnsStream.getData());
 			lnsJsonNode = this.lnsHttpClient.post(lnsJsonNode);
-			log.info("ONLINE-1 >>>>> lnsJsonNode.s2j {} = \n{}", lnsJsonNode.getValue("reqResType"), lnsJsonNode.getValue("json"));
+			log.info("ONLINE-1 >>>>> lnsJsonNode.s2j = {}", lnsJsonNode.toPrettyString());
+			
+			strReqJson = lnsJsonNode.getValue("json");
 		}
 		
 		String strResJson = null;
+		String reqResType = null;
 		if (Flag.flag) {
+			// 2. link
+			LnsJsonNode lnsJsonNode = new LnsJsonNode();
 			lnsJsonNode.put("httpUrl", "http://localhost:17082/v0.6/link/process");
 			lnsJsonNode.put("httpMethod", "POST");
 			lnsJsonNode.put("reqResType", reqLnsStream.getTypeCode());
-			lnsJsonNode.put("reqJson", lnsJsonNode.getValue("json"));
+			lnsJsonNode.put("reqJson", strReqJson);
 			lnsJsonNode = this.lnsHttpClient.post(lnsJsonNode);
-			// 3. post link
-			/*
-			LnsJsonNode lnsJsonNode = new LnsJsonNode();
-			lnsJson.setHttpUrl("http://localhost:17082/v0.5/link/getCalculation");
-			lnsJson.setHttpMethod("POST");
-			lnsJson.setType("200");
-			lnsJson = this.lnsHttpClient.post(lnsJson);
-			log.info("ONLINE-3 >>>>> lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
-			*/
-			/*
-			strResJson = "{\n" + 
-					"  \"__head_data\" : {\n" + 
-					"    \"length\" : \"0162\",\n" + 
-					"    \"reqres\" : \"0710\",\n" + 
-					"    \"type\" : \"200\",\n" + 
-					"    \"trNo\" : \"999999\",\n" + 
-					"    \"reqDate\" : \"20201015\",\n" + 
-					"    \"reqTime\" : \"080241\",\n" + 
-					"    \"resTime\" : \"080241\",\n" + 
-					"    \"resCode\" : \"\",\n" + 
-					"    \"resMessage\" : \"\",\n" + 
-					"    \"reserved\" : \"\"\n" + 
-					"  },\n" + 
-					"  \"__body_data\" : {\n" + 
-					"    \"exchange_rate_id\" : \"20190605175000\",\n" + 
-					"    \"from_amount\" : 1000000,\n" + 
-					"    \"from_currency\" : \"KRW\",\n" + 
-					"    \"to_amount\" : 43474,\n" + 
-					"    \"to_currency\" : \"PHP\",\n" + 
-					"    \"transfer_fee\" : 0,\n" + 
-					"    \"base_rate\" : 23.00184\n" + 
-					"  }\n" + 
-					"}";
-			*/
+			log.info("ONLINE-2 >>>>> lnsJsonNode.link = {}", lnsJsonNode.toPrettyString());
+			
 			strResJson = lnsJsonNode.getValue("resJson");
+			reqResType = lnsJsonNode.getValue("reqResType");
 		}
 		
-		String strStream = null;
+		String strResStream = null;
 		if (Flag.flag) {
-			// 4. mapper TestRes Json to Stream
+			// 3. Json to Stream
+			LnsJsonNode lnsJsonNode = new LnsJsonNode();
 			lnsJsonNode.put("httpUrl", "http://localhost:17087/v0.6/mapper/j2s");
 			lnsJsonNode.put("httpMethod", "POST");
-			lnsJsonNode.put("reqResType", lnsJsonNode.getValue("reqResType"));
+			lnsJsonNode.put("reqResType", reqResType);
 			lnsJsonNode.put("json", strResJson);
 			lnsJsonNode = this.lnsHttpClient.post(lnsJsonNode);
-			log.info("ONLINE-3 >>>>> lnsJsonNode.j2s {} = \n[{}]", lnsJsonNode.getValue("reqResType"), lnsJsonNode.getValue("stream"));
+			log.info("ONLINE-3 >>>>> lnsJsonNode.j2s = {}", lnsJsonNode.toPrettyString());
 			
-			strStream = lnsJsonNode.getValue("stream");
+			// 4. get stream
+			strResStream = lnsJsonNode.getValue("stream");
+			log.info("ONLINE-4 >>>>> lnsJsonNode.ResStream = [{}]", strResStream);
 		}
 		
 		LnsStream resLnsStream = null;
 		if (Flag.flag) {
 			// 5. lnsStream
-			resLnsStream = new LnsStream(strStream);
+			resLnsStream = new LnsStream(strResStream);
 			log.info("ONLINE-5 >>>>> resLnsStream = {}", JsonPrint.getInstance().toPrettyJson(resLnsStream));
 		}
 		

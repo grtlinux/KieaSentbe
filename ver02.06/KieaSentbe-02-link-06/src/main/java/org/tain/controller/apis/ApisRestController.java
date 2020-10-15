@@ -36,9 +36,28 @@ public class ApisRestController {
 	@Autowired
 	private LnsHttpClient lnsHttpClient;
 	
+	private LnsJsonNode process_0700400_getWebviewId(LnsJsonNode lnsJsonNode) throws Exception {
+		if (Flag.flag) log.info("KANG-20200623 >>>>> {}", CurrentInfo.get());
+		
+		if (Flag.flag) {
+			String sentbe = this.projEnvUrlProperties.getSentbe();
+			if (sentbe.contains("localhost")) {
+				lnsJsonNode.put("httpUrl", sentbe + "/apis/getCalculation");
+				lnsJsonNode.put("httpMethod", "POST");
+				lnsJsonNode = this.lnsHttpClient.post(lnsJsonNode);
+			} else {
+				lnsJsonNode.put("httpUrl", sentbe + "/hanwha/getCalculation");
+				lnsJsonNode.put("httpMethod", "POST");
+				lnsJsonNode = this.lnsHttpClient.post(lnsJsonNode);
+			}
+			log.info(">>>>> RES.lnsJsonNode  = {}", lnsJsonNode.toPrettyString());
+		}
+		
+		return null;
+	}
 	@RequestMapping(value = {"/process"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public ResponseEntity<?> process(HttpEntity<String> reqHttpEntity) throws Exception {
-		if (Flag.flag) log.info("\n================== Link START ===================\n");
+		if (Flag.flag) log.info("\n================== START: link ===================\n");
 		if (Flag.flag) log.info("KANG-20200623 >>>>> {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
@@ -46,17 +65,33 @@ public class ApisRestController {
 			log.info("LINK >>>>> Body = {}", reqHttpEntity.getBody());
 		}
 		
-		LnsJsonNode reqHeadNode = null;
-		LnsJsonNode reqBodyNode = null;
+		LnsJsonNode lnsJsonNode = null;
+		String reqResType = null;
 		if (Flag.flag) {
-			LnsJsonNode lnsJsonNode = new LnsJsonNode(reqHttpEntity.getBody());
-			LnsJsonNode reqNode = new LnsJsonNode(lnsJsonNode.getValue("reqJson"));
-			if (Flag.flag) log.info(">>>>> REQ.reqNode = {}", reqNode.toPrettyString());
-			reqHeadNode = new LnsJsonNode(reqNode.get().path("__head_data"));
-			reqBodyNode = new LnsJsonNode(reqNode.get().path("__body_data"));
-			String reqResType = lnsJsonNode.getValue("reqResType");
-			if (Flag.flag) log.info(">>>>> REQ.lnsJsonNode = {}", lnsJsonNode.toPrettyString());
+			lnsJsonNode = new LnsJsonNode(reqHttpEntity.getBody());
+			reqResType = lnsJsonNode.getValue("reqResType");
+			if (Flag.flag) log.info(">>>>> [{}] REQ.lnsJsonNode = {}", reqResType, lnsJsonNode.toPrettyString());
 		}
+		
+		/*
+		LnsJsonNode reqNode = null;
+		if (Flag.flag) {
+			reqNode = new LnsJsonNode(lnsJsonNode.getValue("reqJson"));
+			if (Flag.flag) log.info(">>>>> reqResType = {},  reqNode = {}", reqResType, reqNode.toPrettyString());
+			
+			//LnsJsonNode reqHeadNode = new LnsJsonNode(reqNode.get().path("__head_data"));
+			//LnsJsonNode reqBodyNode = new LnsJsonNode(reqNode.get().path("__body_data"));
+		}
+		*/
+		
+		LnsJsonNode resNode = null;
+		switch (reqResType) {
+		case "0700400":  // getWebviewId
+			lnsJsonNode = process_0700400_getWebviewId(lnsJsonNode);
+			break;
+		}
+		
+		
 		
 		String strResJson = null;
 		if (Flag.flag) {
@@ -84,7 +119,6 @@ public class ApisRestController {
 					"    \"base_rate\" : 23.00184\n" + 
 					"  }\n" + 
 					"}";
-					*/
 			strResJson = "{\n" + 
 					"  \"__head_data\" : {\n" + 
 					"    \"length\" : \"0306\",\n" + 
@@ -103,10 +137,12 @@ public class ApisRestController {
 					"    \"webview_id\" : \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NTk4MjU4MjAsImp0aSI6ImJqc2drNjdtb2FxdnBpaTNuazNnIiwidXNlcl9pZCI6ODIxNTB9.Wy2W1nUI5VbgzpMFuDzPLiwgJh0e8XYAcbOHj2XSoHI\"\n" + 
 					"  }\n" + 
 					"}";
+			*/
 			
 			Sleep.run(1 * 1000);
 		}
 		
+		/*
 		LnsJsonNode resHeadNode = null;
 		LnsJsonNode resBodyNode = null;
 		if (Flag.flag) {
@@ -115,7 +151,6 @@ public class ApisRestController {
 			resBodyNode = new LnsJsonNode(lnsJsonNode.get().path("__body_data"));
 		}
 		
-		String reqResType = null;
 		if (Flag.flag) {
 			resHeadNode.put("trNo", reqHeadNode.getValue("trNo"));
 			resHeadNode.put("resTime", LnsNodeTools.getTime());
@@ -133,6 +168,7 @@ public class ApisRestController {
 			resNode.put("resJson", resJsonNode.toPrettyString());
 			if (Flag.flag) log.info(">>>>> RES.resNode = {}", resNode.toPrettyString());
 		}
+		*/
 		
 		/*
 		LnsJson lnsJson = null;
@@ -159,8 +195,8 @@ public class ApisRestController {
 			headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
 		}
 		
-		if (Flag.flag) log.info("\n================== Link FINISH ===================\n");
+		if (Flag.flag) log.info("\n================== END: link ===================\n");
 		
-		return new ResponseEntity<>(resNode.toPrettyString(), headers, HttpStatus.OK);
+		return new ResponseEntity<>(lnsJsonNode.toPrettyString(), headers, HttpStatus.OK);
 	}
 }

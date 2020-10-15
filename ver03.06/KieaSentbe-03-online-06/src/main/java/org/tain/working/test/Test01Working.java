@@ -16,15 +16,13 @@ public class Test01Working {
 	@Autowired
 	private LnsHttpClient lnsHttpClient;
 	
-	public void test01() throws Exception {
+	public void test01_200GetCalculation() throws Exception {
 		log.info("KANG-20200908 >>>>> {}", CurrentInfo.get());
 		
-		String strReqStream = null;
-		String strResStream = null;
-		
-		strReqStream = "0138070020099999920201015080241                                                                     "
+		String strReqStream = "0138070020099999920201015080241                                                                     "
 				+ "   1000000KRWKRWPHPPH 20190605175000      ";
-		strResStream = "0162071020099999920201015080241080241000SUCCESS                                                     "
+		
+		String strResStream = "0162071020099999920201015080241080241000SUCCESS                                                     "
 				+ "20190605175000         1000000KRW     43474PHP0         23.00184  ";
 		
 		String strReqJson = "{\n" + 
@@ -140,14 +138,12 @@ public class Test01Working {
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
 	
-	public void test02() throws Exception {
+	public void test02_400GetWebviewId() throws Exception {
 		log.info("KANG-20200908 >>>>> {}", CurrentInfo.get());
 		
-		String strReqStream = null;
-		String strResStream = null;
+		String strReqStream = "0106070040099999920201015100116100116                                                               82161     ";
 		
-		strReqStream = "0106070040099999920201015100116100116                                                               82161     ";
-		strResStream = "0306071040099999920201015100116100116                                                               82150     "
+		String strResStream = "0306071040099999920201015100116100116                                                               82150     "
 				+ "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NTk4MjU4MjAsImp0aSI6ImJqc2drNjdtb2FxdnBpaTNuazNnIiw"
 				+ "idXNlcl9pZCI6ODIxNTB9.Wy2W1nUI5VbgzpMFuDzPLiwgJh0e8XYAcbOHj2XSoHI                                   ";
 		
@@ -230,7 +226,7 @@ public class Test01Working {
 			log.info("ONLINE-4 >>>>> lnsJsonNode.s2j {} = \n{}", lnsJsonNode.getValue("reqResType"), lnsJsonNode.getValue("json"));
 		}
 		
-		if (Flag.flag) {
+		if (!Flag.flag) {
 			// 5. link
 			LnsJsonNode lnsJsonNode = new LnsJsonNode();
 			lnsJsonNode.put("httpUrl", "http://localhost:17082/v0.6/link/process");

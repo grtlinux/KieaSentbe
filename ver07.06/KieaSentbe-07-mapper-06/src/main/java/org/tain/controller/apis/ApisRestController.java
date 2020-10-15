@@ -39,8 +39,8 @@ public class ApisRestController {
 	 * http://localhost:17087/v0.6/mapper/s2j
 	 */
 	@RequestMapping(value = {"/s2j"}, method = {RequestMethod.GET, RequestMethod.POST})
-	public ResponseEntity<?> getCalculation_ReqStrToJson(HttpEntity<String> reqHttpEntity) throws Exception {
-		if (Flag.flag) log.info("========================== START =========================");
+	public ResponseEntity<?> strToJson(HttpEntity<String> reqHttpEntity) throws Exception {
+		if (Flag.flag) log.info("========================== START: mapper =========================");
 		if (Flag.flag) log.info("KANG-20200623 >>>>> {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
@@ -66,7 +66,7 @@ public class ApisRestController {
 			headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
 		}
 		
-		if (Flag.flag) log.info("========================== END =========================");
+		if (Flag.flag) log.info("========================== END: mapper =========================");
 		
 		return new ResponseEntity<>(lnsJsonNode.toPrettyString(), headers, HttpStatus.OK);
 	}
@@ -79,8 +79,8 @@ public class ApisRestController {
 	 * http://localhost:17087/v0.6/mapper/j2s
 	 */
 	@RequestMapping(value = {"/j2s"}, method = {RequestMethod.GET, RequestMethod.POST})
-	public ResponseEntity<?> getCalculation_ReqJsonToStr(HttpEntity<String> reqHttpEntity) throws Exception {
-		if (Flag.flag) log.info("========================== START =========================");
+	public ResponseEntity<?> jsonToStr(HttpEntity<String> reqHttpEntity) throws Exception {
+		if (Flag.flag) log.info("========================== START: mapper =========================");
 		if (Flag.flag) log.info("KANG-20200623 >>>>> {}", CurrentInfo.get());
 		
 		log.info("KANG-20200623 >>>>> {}", CurrentInfo.get());
@@ -108,7 +108,7 @@ public class ApisRestController {
 			headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
 		}
 		
-		if (Flag.flag) log.info("========================== END =========================");
+		if (Flag.flag) log.info("========================== END: mapper =========================");
 		
 		return new ResponseEntity<>(lnsJsonNode.toPrettyString(), headers, HttpStatus.OK);
 	}
@@ -122,7 +122,7 @@ public class ApisRestController {
 	 */
 	@RequestMapping(value = {"/cstruct"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public ResponseEntity<?> cstruct(HttpEntity<String> reqHttpEntity) throws Exception {
-		if (Flag.flag) log.info("========================== START =========================");
+		if (Flag.flag) log.info("========================== START: mapper =========================");
 		if (Flag.flag) log.info("KANG-20200623 >>>>> {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
@@ -148,7 +148,7 @@ public class ApisRestController {
 			headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
 		}
 		
-		if (Flag.flag) log.info("========================== END =========================");
+		if (Flag.flag) log.info("========================== END: mapper =========================");
 		
 		return new ResponseEntity<>(lnsJsonNode.toPrettyString(), headers, HttpStatus.OK);
 	}

@@ -101,6 +101,42 @@ public class Json01Working {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
+			String strJsonData = "{\n" + 
+					"  \"agreements\": {\n" + 
+					"    \"version\": 1,\n" + 
+					"    \"list\": [\n" + 
+					"      \"SSFCTS\",\n" + 
+					"      \"EFTS\",\n" + 
+					"      \"PRIVACY\",\n" + 
+					"      \"CAUTIONS\",\n" + 
+					"      \"CLAIMS\"\n" + 
+					"    ]\n" + 
+					"  },\n" + 
+					"  \"phone\": {\n" + 
+					"    \"iso\": \"KR\",\n" + 
+					"    \"number\": \"1012340001\"\n" + 
+					"  },\n" + 
+					"  \"user_name\": {\n" + 
+					"    \"first\": \"Jiwon\",\n" + 
+					"    \"middle\": \"\",\n" + 
+					"    \"last\": \"Tak\"\n" + 
+					"  },\n" + 
+					"  \"gender\": \"1\",\n" + 
+					"  \"account_number\": \"05012345670001\",\n" + 
+					"  \"account_holder_name\": \"Jiwon Tak\",\n" + 
+					"  \"birth_date\": \"19701225\",\n" + 
+					"  \"id_number\": \"KR\",\n" + 
+					"  \"nationality_iso\": \"701225-1230001\",\n" + 
+					"  \"id_type\": \"1\",\n" + 
+					"  \"email\": \"email0001@sentbe.com\",\n" + 
+					"  \"often_send_country_iso\": \"PH\",\n" + 
+					"  \"occupation\": \"3\",\n" + 
+					"  \"funds_source\": \"3\",\n" + 
+					"  \"transfer_purpose\": \"3\"\n" + 
+					"}";
+			
+			@SuppressWarnings("unused")
+			LnsJsonNode lnsJsonNode = new LnsJsonNode(strJsonData);
 		}
 	}
 	
