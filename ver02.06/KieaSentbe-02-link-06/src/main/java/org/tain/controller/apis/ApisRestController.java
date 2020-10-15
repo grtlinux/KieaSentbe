@@ -22,7 +22,7 @@ import org.tain.utils.Sleep;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping(value = {"/link/process"})
+@RequestMapping(value = {"/link"})
 @Slf4j
 @SuppressWarnings("unused")
 public class ApisRestController {
@@ -36,8 +36,8 @@ public class ApisRestController {
 	@Autowired
 	private LnsHttpClient lnsHttpClient;
 	
-	@RequestMapping(value = {""}, method = {RequestMethod.GET, RequestMethod.POST})
-	public ResponseEntity<?> reqStrToJson(HttpEntity<String> reqHttpEntity) throws Exception {
+	@RequestMapping(value = {"/process"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public ResponseEntity<?> process(HttpEntity<String> reqHttpEntity) throws Exception {
 		if (Flag.flag) log.info("\n================== Link START ===================\n");
 		if (Flag.flag) log.info("KANG-20200623 >>>>> {}", CurrentInfo.get());
 		

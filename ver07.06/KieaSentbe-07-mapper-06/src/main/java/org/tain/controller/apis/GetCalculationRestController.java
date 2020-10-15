@@ -26,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping(value = {"/mapper/getCalculation"})
 @Slf4j
+@Deprecated
 public class GetCalculationRestController {
 
 	@Autowired

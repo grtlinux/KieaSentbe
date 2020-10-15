@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping(value = {"/link/createUser"})
 @Slf4j
+@Deprecated
 public class CreateUserRestController {
 
 	@Autowired

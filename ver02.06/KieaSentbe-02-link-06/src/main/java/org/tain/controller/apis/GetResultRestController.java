@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping(value = {"/link/getResult"})
 @Slf4j
+@Deprecated
 public class GetResultRestController {
 
 	@Autowired

@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ApisRestController {
 
+	@SuppressWarnings("unused")
 	@Autowired
 	private LnsHttpClient lnsHttpClient;
 	
@@ -47,7 +48,7 @@ public class ApisRestController {
 			lnsJson.setReqJsonData(reqHttpEntity.getBody());
 			log.info("ONLINE:GetCalculation >>>>> REQ.lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 			
-			lnsJson = this.lnsHttpClient.post(lnsJson);
+			//lnsJson = this.lnsHttpClient.post(lnsJson);
 			log.info("ONLINE:GetCalculation >>>>> RES.lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
 			
 			resJson = lnsJson.getResJsonData();
