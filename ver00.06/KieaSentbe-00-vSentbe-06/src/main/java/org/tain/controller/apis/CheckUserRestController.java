@@ -10,8 +10,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.tain.domain.apis.Apis;
 import org.tain.repository.apis.ApisRepository;
 import org.tain.utils.CurrentInfo;
@@ -36,6 +34,7 @@ public class CheckUserRestController {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
+			/*
 			// TODO: KANG-2020-09-27: make a module to utils package
 			UriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequest();
 			String requestedValue = builder.buildAndExpand().getPath();  // I want this.
@@ -47,6 +46,7 @@ public class CheckUserRestController {
 			else if (requestedValue.equals("left"))
 				result = "left";
 			System.out.println(">>>>> result = " + result);
+			*/
 		}
 		
 		if (Flag.flag) {
@@ -61,13 +61,15 @@ public class CheckUserRestController {
 			
 			String strRes = apis.getResJson();
 			JsonNode jsonNodeRes = new ObjectMapper().readTree(strRes);
-			if (Flag.flag) System.out.println(">>>>> jsonNodeRes = " + jsonNodeRes.toPrettyString());
-			
 			jsonRes = jsonNodeRes.toPrettyString();
+			if (Flag.flag) System.out.println(">>>>> jsonRes = " + jsonRes);
 		}
 		
-		MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();
-		headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
+		MultiValueMap<String,String> headers = null;
+		if (Flag.flag) {
+			headers = new LinkedMultiValueMap<>();
+			headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
+		}
 		
 		return new ResponseEntity<>(jsonRes, headers, HttpStatus.OK);
 	}

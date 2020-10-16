@@ -1,8 +1,8 @@
 {
     "__head_base" : {
         "name" : "Test.REQ.head",
-        "reqres" : "0700",
-        "type" : "100"
+        "reqres" : "0000",
+        "type" : "000"
     },
     "__head_data" : {
         "length" : "L:4,T:string,D:0000,C:길이",

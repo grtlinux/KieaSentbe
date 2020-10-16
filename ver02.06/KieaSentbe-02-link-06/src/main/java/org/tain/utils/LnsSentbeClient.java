@@ -18,6 +18,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.tain.mapper.LnsJsonNode;
 import org.tain.object.lns.LnsJson;
 import org.tain.properties.ProjEnvParamProperties;
 import org.tain.utils.enums.RestTemplateType;
@@ -109,10 +110,22 @@ public class LnsSentbeClient {
 	
 	///////////////////////////////////////////////////////////////////////////
 	
+	public LnsJsonNode post(LnsJsonNode lnsJsonNode) throws Exception {
+		return post(lnsJsonNode, false);
+	}
+	
+	public LnsJsonNode post(LnsJsonNode lnsJsonNode, boolean flag) throws Exception {
+		return null;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	
+	@Deprecated
 	public LnsJson post(LnsJson lnsJson) throws Exception {
 		return post(lnsJson, false);
 	}
 	
+	@Deprecated
 	public LnsJson post(LnsJson lnsJson, boolean flagAccessToken) throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		

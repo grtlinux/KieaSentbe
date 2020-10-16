@@ -62,13 +62,15 @@ public class GetVerificationRestController {
 			
 			String strRes = apis.getResJson();
 			JsonNode jsonNodeRes = new ObjectMapper().readTree(strRes);
-			if (Flag.flag) System.out.println(">>>>> jsonNodeRes = " + jsonNodeRes.toPrettyString());
-			
 			jsonRes = jsonNodeRes.toPrettyString();
+			if (Flag.flag) System.out.println(">>>>> jsonRes = " + jsonRes);
 		}
 		
-		MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();
-		headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
+		MultiValueMap<String,String> headers = null;
+		if (Flag.flag) {
+			headers = new LinkedMultiValueMap<>();
+			headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
+		}
 		
 		return new ResponseEntity<>(jsonRes, headers, HttpStatus.OK);
 	}

@@ -103,20 +103,20 @@ public class LnsHttpClient {
 		return post(lnsJsonNode, false);
 	}
 	
-	public LnsJsonNode post(LnsJsonNode lnsJsonNode, boolean flag) throws Exception {
+	public LnsJsonNode post(LnsJsonNode reqLnsJsonNode, boolean flag) throws Exception {
 		if (Flag.flag) log.info("========================== START =========================");
 		if (Flag.flag) log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
 			log.info(">>>>> flag: {}", flag);
-			log.info(">>>>> lnsJsonNode: {}", lnsJsonNode.toPrettyString());
+			log.info(">>>>> lnsJsonNode: {}", reqLnsJsonNode.toPrettyString());
 		}
 		
-		String strReqJson = null;
 		LnsJsonNode reqHeadNode = null;
 		LnsJsonNode reqBodyNode = null;
+		String strReqJson = null;
 		if (Flag.flag) {
-			LnsJsonNode reqNode = new LnsJsonNode(lnsJsonNode.getValue("reqJson"));
+			LnsJsonNode reqNode = new LnsJsonNode(reqLnsJsonNode.getValue("reqJson"));
 			if (Flag.flag) log.info(">>>>> reqNode = {}", reqNode.toPrettyString());
 			
 			reqHeadNode = new LnsJsonNode(reqNode.get().path("__head_data"));
@@ -125,8 +125,9 @@ public class LnsHttpClient {
 			strReqJson = reqBodyNode.toPrettyString();
 		}
 		
+		LnsJsonNode resLnsJsonNode = new LnsJsonNode();
 		if (Flag.flag) {
-			String httpUrl = lnsJsonNode.getValue("httpUrl");
+			String httpUrl = reqLnsJsonNode.getValue("httpUrl");
 			HttpMethod httpMethod = HttpMethod.POST;
 			
 			HttpHeaders reqHeaders = new HttpHeaders();
@@ -153,33 +154,40 @@ public class LnsHttpClient {
 					LnsJsonNode resHeadNode = new LnsJsonNode(reqHeadNode.get());
 					LnsJsonNode resBodyNode = new LnsJsonNode(strResJson);
 					
+					resHeadNode.put("length", "0000"); // changed by mapper
 					resHeadNode.put("reqres", "0710");
 					resHeadNode.put("resTime", LnsNodeTools.getTime());
 					resHeadNode.put("resCode", "000");
 					resHeadNode.put("resMessage", "SUCCESS");
 					
 					// add reshead + resbody
+					LnsJsonNode resNode = new LnsJsonNode();
+					resNode.put("__head_data", resHeadNode.get());
+					resNode.put("__body_data", resBodyNode.get());
+					
+					resLnsJsonNode.put("httpUrl", reqLnsJsonNode.getValue("httpUrl"));
+					resLnsJsonNode.put("httpMethod", reqLnsJsonNode.getValue("httpMethod"));
+					resLnsJsonNode.put("reqResType", resHeadNode.getValue("reqres") + reqHeadNode.getValue("type"));
+					resLnsJsonNode.put("reqJson", reqLnsJsonNode.getValue("reqJson"));
+					resLnsJsonNode.put("resJson", resNode.get().toPrettyString());
 				}
-				
-				
-				
-				lnsJsonNode = new LnsJsonNode(strReqJson);
-				log.info(">>>>> RES.lnsJsonNode          = {}", lnsJsonNode.toPrettyString());
+				log.info(">>>>> RES.resLnsJsonNode          = {}", resLnsJsonNode.toPrettyString());
 			} catch (Exception e) {
+				// TODO: 
 				//e.printStackTrace();
 				String message = e.getMessage();
 				log.error("ERROR >>>>> {}", message);
 				int pos1 = message.indexOf('[');
 				int pos2 = message.lastIndexOf(']');
-				lnsJsonNode.put("resCode", "999");
-				lnsJsonNode.put("resMessage", "FAIL");
-				lnsJsonNode.put("errMessage", message.substring(pos1 + 1, pos2));
+				reqLnsJsonNode.put("resCode", "999");
+				reqLnsJsonNode.put("resMessage", "FAIL");
+				reqLnsJsonNode.put("errMessage", message.substring(pos1 + 1, pos2));
 			}
 		}
 		
 		if (Flag.flag) log.info("========================== END ===========================");
 		
-		return lnsJsonNode;
+		return resLnsJsonNode;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////

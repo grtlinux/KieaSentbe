@@ -11,6 +11,14 @@ import org.tain.utils.Flag;
 import org.tain.working.properties.PropertiesWorking;
 import org.tain.working.tasks.ServerTasksWorking;
 import org.tain.working.test.Test01Working;
+import org.tain.working.test._0700100_CheckUser_Working;
+import org.tain.working.test._0700200_GetCalculation_Working;
+import org.tain.working.test._0700300_DeleteUser_Working;
+import org.tain.working.test._0700400_GetWebviewId_Working;
+import org.tain.working.test._0700500_CreateUser_Working;
+import org.tain.working.test._0700600_GetResult_Working;
+import org.tain.working.test._0700700_GetVerification_Working;
+import org.tain.working.test._0700800_MigrationUser_Working;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,7 +36,7 @@ public class KieaSentbe03Online06Application implements CommandLineRunner {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) job01();  // properties
-		if (!Flag.flag) job02();  // server
+		if (Flag.flag) job02();  // server
 		if (Flag.flag) job03();  // test
 		if (Flag.flag) job04();
 		if (Flag.flag) job05();
@@ -38,7 +46,7 @@ public class KieaSentbe03Online06Application implements CommandLineRunner {
 		if (Flag.flag) job09();
 		if (Flag.flag) job10();
 		
-		if (Flag.flag) System.exit(0);
+		//if (Flag.flag) System.exit(0);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
@@ -75,12 +83,43 @@ public class KieaSentbe03Online06Application implements CommandLineRunner {
 	@Autowired
 	private Test01Working test01Working;
 	
+	@Autowired
+	private _0700100_CheckUser_Working _0700100_CheckUser_Working;
+	
+	@Autowired
+	private _0700200_GetCalculation_Working _0700200_GetCalculation_Working;
+	
+	@Autowired
+	private _0700300_DeleteUser_Working _0700300_DeleteUser_Working;
+	
+	@Autowired
+	private _0700400_GetWebviewId_Working _0700400_GetWebviewId_Working;
+	
+	@Autowired
+	private _0700500_CreateUser_Working _0700500_CreateUser_Working;
+	
+	@Autowired
+	private _0700600_GetResult_Working _0700600_GetResult_Working;
+	
+	@Autowired
+	private _0700700_GetVerification_Working _0700700_GetVerification_Working;
+	
+	@Autowired
+	private _0700800_MigrationUser_Working _0700800_MigrationUser_Working;
+	
 	private void job03() throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
-			if (!Flag.flag) this.test01Working.test01_200GetCalculation();
-			if (Flag.flag) this.test01Working.test02_400GetWebviewId();
+			if (Flag.flag) this.test01Working.test01();
+			if (Flag.flag) this._0700100_CheckUser_Working.test01();
+			if (Flag.flag) this._0700200_GetCalculation_Working.test01();
+			if (Flag.flag) this._0700300_DeleteUser_Working.test01();
+			if (Flag.flag) this._0700400_GetWebviewId_Working.test01();
+			if (Flag.flag) this._0700500_CreateUser_Working.test01();
+			if (Flag.flag) this._0700600_GetResult_Working.test01();
+			if (Flag.flag) this._0700700_GetVerification_Working.test01();
+			if (Flag.flag) this._0700800_MigrationUser_Working.test01();
 		}
 	}
 	
