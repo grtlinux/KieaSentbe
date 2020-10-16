@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
+import org.tain.working.apis.ApisWorking;
 import org.tain.working.properties.PropertiesWorking;
 
 import lombok.extern.slf4j.Slf4j;
@@ -54,10 +55,14 @@ public class KieaSentbe00Virtual05Application implements CommandLineRunner {
 	
 	///////////////////////////////////////////////////////////////////////////
 	
-	private void job02() {
+	@Autowired
+	private ApisWorking apisWorking;
+	
+	private void job02() throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
+			if (Flag.flag) this.apisWorking.test01();
 		}
 	}
 	

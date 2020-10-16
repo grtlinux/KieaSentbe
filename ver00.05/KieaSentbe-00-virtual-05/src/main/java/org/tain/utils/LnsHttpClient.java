@@ -12,6 +12,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.tain.data.LnsData;
+import org.tain.mapper.LnsJsonNode;
 import org.tain.object.lns.LnsJson;
 import org.tain.utils.enums.RestTemplateType;
 
@@ -95,10 +96,77 @@ public class LnsHttpClient {
 	
 	///////////////////////////////////////////////////////////////////////////
 	
+	public static LnsJsonNode post(LnsJsonNode lnsJsonNode) throws Exception {
+		return post(lnsJsonNode, false);
+	}
+	
+	public static LnsJsonNode post(LnsJsonNode lnsJsonNode, boolean flag) throws Exception {
+		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
+		
+		if (Flag.flag) {
+			log.info("===================== START =======================");
+			log.info(">>>>> REQ.httpUrl(method): {} ({})", lnsJsonNode.getValue("httpUrl"), lnsJsonNode.getValue("httpMethod"));
+		}
+		
+		String json = null;
+		if (Flag.flag) {
+			json = lnsJsonNode.getValue("reqJson");
+			log.info(">>>>> REQ.lnsJson        = {}", json);
+		}
+		
+		if (Flag.flag) {
+			String httpUrl = lnsJsonNode.getValue("httpUrl");
+			HttpMethod httpMethod = HttpMethod.POST;
+			
+			HttpHeaders reqHeaders = new HttpHeaders();
+			reqHeaders.setContentType(MediaType.APPLICATION_JSON);
+			if (flag) reqHeaders.set("Authorization", "Bearer " + LnsData.getInstance().getAccessToken());
+			log.info(">>>>> REQ.reqHeaders     = {}", reqHeaders);
+			
+			HttpEntity<String> reqHttpEntity = new HttpEntity<>(json, reqHeaders);
+			log.info(">>>>> REQ.reqHttpEntity  = {}", reqHttpEntity);
+			
+			ResponseEntity<String> response = null;
+			try {
+				response = RestTemplateConfig.get(RestTemplateType.SETENV).exchange(
+						httpUrl
+						, httpMethod
+						, reqHttpEntity
+						, String.class);
+				
+				log.info(">>>>> RES.getStatusCodeValue() = {}", response.getStatusCodeValue());
+				log.info(">>>>> RES.getStatusCode()      = {}", response.getStatusCode());
+				log.info(">>>>> RES.getBody()            = {}", response.getBody());
+				json = response.getBody();
+				lnsJsonNode.put("resJson", json);
+				log.info(">>>>> RES.lnsJsonNode          = {}", lnsJsonNode.toPrettyString());
+			} catch (Exception e) {
+				//e.printStackTrace();
+				String message = e.getMessage();
+				log.error("ERROR >>>>> {}", message);
+				int pos1 = message.indexOf('[');
+				int pos2 = message.lastIndexOf(']');
+				lnsJsonNode.put("code", "999");
+				lnsJsonNode.put("message", "FAIL");
+				lnsJsonNode.put("errMessage", message.substring(pos1 + 1, pos2));
+			}
+		}
+		
+		if (Flag.flag) {
+			log.info("===================== END =======================");
+		}
+		
+		return lnsJsonNode;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	
+	@Deprecated
 	public static LnsJson post(LnsJson lnsJson) throws Exception {
 		return post(lnsJson, false);
 	}
 	
+	@Deprecated
 	public static LnsJson post(LnsJson lnsJson, boolean flagAccessToken) throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		

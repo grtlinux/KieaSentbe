@@ -2,7 +2,7 @@ package org.tain.data;
 
 public class LnsData {
 
-	private static LnsData instance = null;
+private static LnsData instance = null;
 	
 	public static LnsData getInstance() {
 		if (instance == null) {
