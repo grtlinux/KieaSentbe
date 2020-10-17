@@ -49,7 +49,7 @@ public class DeleteUserRestController {
 			LnsStream reqLnsStream = null;
 			if (Flag.flag) {
 				String reqStrData = lnsJson.getReqStrData();
-				String reqTypeCode = "0200300";
+				String reqTypeCode = "0700300";
 				String reqLen = String.format("%04d", 7 + reqStrData.length());
 				reqLnsStream = new LnsStream(reqLen + reqTypeCode + reqStrData);
 				log.info("Lns01/DeleteUser >>>>> reqLnsStream = {}", JsonPrint.getInstance().toPrettyJson(reqLnsStream));
