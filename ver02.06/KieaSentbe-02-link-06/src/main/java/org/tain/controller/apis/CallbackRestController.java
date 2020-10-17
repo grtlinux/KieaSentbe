@@ -11,29 +11,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.tain.mapper.LnsJsonNode;
-import org.tain.properties.ProjEnvUrlProperties;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
-import org.tain.utils.LnsHttpClient;
-import org.tain.utils.LnsSentbeClient;
-import org.tain.utils.Sleep;
+import org.tain.utils.LnsHttpClient2;
 
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping(value = {"/callback"})
 @Slf4j
-@SuppressWarnings("unused")
 public class CallbackRestController {
 
-	@Autowired
-	private ProjEnvUrlProperties projEnvUrlProperties;
+	//@Autowired
+	//private ProjEnvUrlProperties projEnvUrlProperties;
 	
 	@Autowired
-	private LnsHttpClient lnsHttpClient;
-	
-	@Autowired
-	private LnsSentbeClient lnsSentbeClient;
+	private LnsHttpClient2 lnsHttpClient2;
 	
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
@@ -50,43 +43,26 @@ public class CallbackRestController {
 		}
 		
 		LnsJsonNode lnsJsonNode = null;
-		String reqResType = null;
 		if (Flag.flag) {
-			lnsJsonNode = new LnsJsonNode(reqHttpEntity.getBody());
-			reqResType = lnsJsonNode.getValue("reqResType");
-			if (Flag.flag) log.info(">>>>> [{}] REQ.lnsJsonNode = {}", reqResType, lnsJsonNode.toPrettyString());
+			lnsJsonNode = new LnsJsonNode();
+			lnsJsonNode.put("name", "apis/getVerification");
+			lnsJsonNode.put("httpUrl", "http://localhost:17082/v0.6/callback/getVerification");
+			lnsJsonNode.put("httpMethod", "POST");
+			lnsJsonNode.put("reqResType", "0700700");
+			lnsJsonNode.put("reqJson", reqHttpEntity.getBody());
+			if (Flag.flag) log.info(">>>>> BEFORE: lnsJsonNode = {}", lnsJsonNode.toPrettyString());
+			
+			lnsJsonNode = this.lnsHttpClient2.post(lnsJsonNode);
+			
+			lnsJsonNode.put("reqResType", "0710700");
+			lnsJsonNode.put("resJson", "{ \"verification_code\" : \"HW20201015\" }");
+			if (Flag.flag) log.info(">>>>> AFTER: lnsJsonNode = {}", lnsJsonNode.toPrettyString());
 		}
-		/*
-		switch (reqResType) {
-		case "0700100":  // checkUser
-			lnsJsonNode = process_0700100_checkUser(lnsJsonNode);
-			break;
-		case "0700200":  // getWebviewId
-			lnsJsonNode = process_0700200_getCalculation(lnsJsonNode);
-			break;
-		case "0700300":  // deleteUser
-			lnsJsonNode = process_0700300_deleteUser(lnsJsonNode);
-			break;
-		case "0700400":  // getWebviewId
-			lnsJsonNode = process_0700400_getWebviewId(lnsJsonNode);
-			break;
-		case "0700500":  // createUser
-			lnsJsonNode = process_0700500_createUser(lnsJsonNode);
-			break;
-		case "0700600":  // getResult
-			lnsJsonNode = process_0700600_getResult(lnsJsonNode);
-			break;
-		case "0700700":  // getVerification
-			lnsJsonNode = process_0700700_getVerification(lnsJsonNode);
-			break;
-		case "0700800":  // migrationUser
-			lnsJsonNode = process_0700800_migrationUser(lnsJsonNode);
-			break;
-		default:
-			throw new RuntimeException("WRONG REQRESTYPE....");
+		
+		String resJson = null;
+		if (Flag.flag) {
+			resJson = lnsJsonNode.getValue("resJson");
 		}
-		*/
-		if (Flag.flag) Sleep.run(1 * 1000);
 		
 		MultiValueMap<String,String> headers = null;
 		if (Flag.flag) {
@@ -96,6 +72,6 @@ public class CallbackRestController {
 		
 		if (Flag.flag) log.info("\n================== END: link ===================\n");
 		
-		return new ResponseEntity<>(lnsJsonNode.toPrettyString(), headers, HttpStatus.OK);
+		return new ResponseEntity<>(resJson, headers, HttpStatus.OK);
 	}
 }

@@ -105,15 +105,16 @@ public class LnsHttpClient {
 		
 		if (Flag.flag) {
 			log.info("===================== START =======================");
-			log.info(">>>>> REQ.httpUrl(method): {} ({})", lnsJsonNode.getValue("httpUrl"), lnsJsonNode.getValue("httpMethod"));
+			log.info(">>>>> REQ.lnsJsonNode    = {}", lnsJsonNode.toPrettyString());
 		}
 		
-		String json = null;
+		String reqJson = null;
 		if (Flag.flag) {
-			json = lnsJsonNode.getValue("reqJson");
-			log.info(">>>>> REQ.lnsJson        = {}", json);
+			reqJson = lnsJsonNode.getValue("reqJson");
+			log.info(">>>>> REQ.reqJson        = {}", reqJson);
 		}
 		
+		String resJson = null;
 		if (Flag.flag) {
 			String httpUrl = lnsJsonNode.getValue("httpUrl");
 			HttpMethod httpMethod = HttpMethod.POST;
@@ -123,7 +124,7 @@ public class LnsHttpClient {
 			if (flag) reqHeaders.set("Authorization", "Bearer " + LnsData.getInstance().getAccessToken());
 			log.info(">>>>> REQ.reqHeaders     = {}", reqHeaders);
 			
-			HttpEntity<String> reqHttpEntity = new HttpEntity<>(json, reqHeaders);
+			HttpEntity<String> reqHttpEntity = new HttpEntity<>(reqJson, reqHeaders);
 			log.info(">>>>> REQ.reqHttpEntity  = {}", reqHttpEntity);
 			
 			ResponseEntity<String> response = null;
@@ -137,9 +138,9 @@ public class LnsHttpClient {
 				log.info(">>>>> RES.getStatusCodeValue() = {}", response.getStatusCodeValue());
 				log.info(">>>>> RES.getStatusCode()      = {}", response.getStatusCode());
 				log.info(">>>>> RES.getBody()            = {}", response.getBody());
-				json = response.getBody();
-				lnsJsonNode.put("resJson", json);
-				log.info(">>>>> RES.lnsJsonNode          = {}", lnsJsonNode.toPrettyString());
+				resJson = response.getBody();
+				lnsJsonNode.put("resJson", resJson);
+				log.info(">>>>> RES.resJson          = {}", resJson);
 			} catch (Exception e) {
 				//e.printStackTrace();
 				String message = e.getMessage();
@@ -153,6 +154,7 @@ public class LnsHttpClient {
 		}
 		
 		if (Flag.flag) {
+			log.info(">>>>> RES.lnsJsonNode    = {}", lnsJsonNode.toPrettyString());
 			log.info("===================== END =======================");
 		}
 		

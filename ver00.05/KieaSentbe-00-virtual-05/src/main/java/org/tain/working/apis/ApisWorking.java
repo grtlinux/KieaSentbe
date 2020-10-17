@@ -8,6 +8,7 @@ import org.tain.repository.apis.ApisRepository;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.utils.JsonPrint;
+import org.tain.utils.LnsHttpClient;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,7 +35,12 @@ public class ApisWorking {
 			lnsJsonNode.put("httpMethod", "POST");
 			lnsJsonNode.put("reqResType", "0700700");
 			lnsJsonNode.put("reqJson", apis.getReqJson());
-			if (Flag.flag) log.info(">>>>> lnsJsonNode = {}", lnsJsonNode.toPrettyString());
+			if (Flag.flag) log.info(">>>>> BEFORE: lnsJsonNode = {}", lnsJsonNode.toPrettyString());
+			
+			lnsJsonNode = LnsHttpClient.post(lnsJsonNode);
+			
+			lnsJsonNode.put("reqResType", "0710700");
+			if (Flag.flag) log.info(">>>>> AFTER: lnsJsonNode = {}", lnsJsonNode.toPrettyString());
 		}
 	}
 }
