@@ -10,6 +10,7 @@ import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.working.apis.ApisWorking;
 import org.tain.working.properties.PropertiesWorking;
+import org.tain.working.sas.SasWorking;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,7 +29,7 @@ public class KieaSentbe00Virtual05Application implements CommandLineRunner {
 		
 		if (Flag.flag) job01();  // properties
 		if (Flag.flag) job02();  // apis
-		if (Flag.flag) job03();
+		if (!Flag.flag) job03();  // sas
 		if (Flag.flag) job04();
 		if (Flag.flag) job05();
 		if (Flag.flag) job06();
@@ -68,10 +69,14 @@ public class KieaSentbe00Virtual05Application implements CommandLineRunner {
 	
 	///////////////////////////////////////////////////////////////////////////
 	
-	private void job03() {
+	@Autowired
+	private SasWorking sasWorking;
+	
+	private void job03() throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
+			if (Flag.flag) this.sasWorking.test01();
 		}
 	}
 	

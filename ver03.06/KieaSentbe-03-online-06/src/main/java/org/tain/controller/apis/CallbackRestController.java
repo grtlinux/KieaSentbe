@@ -59,23 +59,6 @@ public class CallbackRestController {
 		if (Flag.flag) {
 			resJson = lnsJsonNode.getValue("resJson");
 		}
-		/*
-		 * 
-		String resJson = null;
-		if (Flag.flag) {
-			LnsJson lnsJson = new LnsJson();
-			lnsJson.setName("CheckUser sbs01");
-			lnsJson.setHttpUrl("http://localhost:17082/v0.5/link/checkUser");
-			lnsJson.setHttpMethod("POST");
-			lnsJson.setReqJsonData(reqHttpEntity.getBody());
-			log.info("ONLINE:CheckUser >>>>> REQ.lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
-			
-			lnsJson = this.lnsHttpClient.post(lnsJson);
-			log.info("ONLINE:CheckUser >>>>> RES.lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
-			
-			resJson = lnsJson.getResJsonData();
-		}
-		*/
 		
 		MultiValueMap<String,String> headers = null;
 		if (Flag.flag) {
