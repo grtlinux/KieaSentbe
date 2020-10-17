@@ -46,7 +46,7 @@ public class CallbackRestController {
 		if (Flag.flag) {
 			lnsJsonNode = new LnsJsonNode();
 			lnsJsonNode.put("name", "apis/getVerification");
-			lnsJsonNode.put("httpUrl", "http://localhost:17082/v0.6/callback/getVerification");
+			lnsJsonNode.put("httpUrl", "http://localhost:17083/v0.6/callback/getVerification");
 			lnsJsonNode.put("httpMethod", "POST");
 			lnsJsonNode.put("reqResType", "0700700");
 			lnsJsonNode.put("reqJson", reqHttpEntity.getBody());
@@ -54,8 +54,8 @@ public class CallbackRestController {
 			
 			lnsJsonNode = this.lnsHttpClient2.post(lnsJsonNode);
 			
-			lnsJsonNode.put("reqResType", "0710700");
-			lnsJsonNode.put("resJson", "{ \"verification_code\" : \"HW20201015\" }");
+			//lnsJsonNode.put("reqResType", "0710700");
+			//lnsJsonNode.put("resJson", "{ \"verification_code\" : \"HW20201015\" }");
 			if (Flag.flag) log.info(">>>>> AFTER: lnsJsonNode = {}", lnsJsonNode.toPrettyString());
 		}
 		

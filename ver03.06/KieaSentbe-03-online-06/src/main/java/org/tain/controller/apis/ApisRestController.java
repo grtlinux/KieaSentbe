@@ -19,7 +19,7 @@ import org.tain.utils.LnsHttpClient;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping(value = {"/online/"})
+@RequestMapping(value = {"/online"})
 @Slf4j
 public class ApisRestController {
 
