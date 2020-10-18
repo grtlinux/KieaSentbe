@@ -71,6 +71,7 @@ public class SasWorking {
 					// casUrl = https://www.test.com:80/SASLogon
 					URL casUrl = new URL(targetUrl.getProtocol(), targetUrl.getHost(), targetUrl.getPort(), "/SASLogon");
 					
+					/*
 					AuthenticationClient client = new AuthenticationClient(casUrl.toString());
 					client.logon(username, password);
 					AuthenticationClientHolder.set(client);
@@ -84,9 +85,10 @@ public class SasWorking {
 					if (reconnectUrl.toString() != null) {
 						response.sendRedirect(reconnectUrl.toString());
 					}
+					*/
 				}
 			} catch (Exception e) {
-				response.sendRedirect("/SASLogon/logout");
+				//response.sendRedirect("/SASLogon/logout");
 			}
 		}
 	}

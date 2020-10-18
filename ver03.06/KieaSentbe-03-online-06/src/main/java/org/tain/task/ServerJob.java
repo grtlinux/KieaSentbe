@@ -58,9 +58,6 @@ public class ServerJob {
 					reqLnsStream = lnsSocketTicket.recvStream();
 					if (Flag.flag) log.info(TITLE + ">>>>> reqLnsStream = {}", JsonPrint.getInstance().toPrettyJson(reqLnsStream));
 					
-					// callback process
-					//resLnsStream = this.apiProcess.process(reqLnsStream);
-					
 					// other process
 					resLnsStream = this.apiProcess.process(reqLnsStream);
 					
