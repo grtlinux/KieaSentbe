@@ -7,7 +7,6 @@ import java.net.Socket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.tain.controller.apis.CallbackRestController;
 import org.tain.object.ticket.LnsSocketTicket;
 import org.tain.properties.ProjEnvJobProperties;
 import org.tain.queue.SocketTicketReadyQueue;
@@ -33,8 +32,8 @@ public class ServerMainJob {
 	@Autowired
 	private ProjEnvJobProperties projEnvJobProperties;
 	
-	@Autowired
-	private CallbackRestController callbackRestController;
+	//@Autowired
+	//private CallbackRestController callbackRestController;
 	
 	@Async(value = "serverMainTask")
 	public void serverMainJob(String param) throws Exception {
@@ -66,7 +65,7 @@ public class ServerMainJob {
 					log.info(TITLE + ">>>>> {} go into the queue of socketTicketUseQueue.", lnsSocketTicket);
 					
 					// for callback...
-					this.callbackRestController.set(lnsSocketTicket);
+					//this.callbackRestController.set(lnsSocketTicket);
 					
 					Sleep.run(1 * 1000);
 				}

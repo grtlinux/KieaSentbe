@@ -11,8 +11,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.tain.mapper.LnsJsonNode;
-import org.tain.object.lns.LnsStream;
-import org.tain.object.ticket.LnsSocketTicket;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
 import org.tain.utils.LnsHttpClient;
@@ -22,17 +20,19 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping(value = {"/callback"})
 @Slf4j
+@Deprecated
 public class CallbackRestController {
 
 	@SuppressWarnings("unused")
 	@Autowired
 	private LnsHttpClient lnsHttpClient;
 	
+	/*
 	private LnsSocketTicket lnsSocketTicket = null;
-	
 	public void set(LnsSocketTicket lnsSocketTicket) {
 		this.lnsSocketTicket = lnsSocketTicket;
 	}
+	*/
 	
 	/*
 	 * url: http://localhost:17083/v0.6/callback/getVerification
@@ -46,10 +46,12 @@ public class CallbackRestController {
 			log.info("SIT >>>>> Body = {}", reqHttpEntity.getBody());
 		}
 		
+		/*
 		if (Flag.flag) {
 			LnsStream lnsStream = this.lnsSocketTicket.recvStream();
 			this.lnsSocketTicket.sendStream(lnsStream);
 		}
+		*/
 		
 		LnsJsonNode lnsJsonNode = null;
 		if (Flag.flag) {
