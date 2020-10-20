@@ -42,7 +42,7 @@ public class CallbackRestController {
 	private LnsHttpClient lnsHttpClient;
 	
 	/*
-	 * url: http://localhost:17083/v0.6/callback/getVerification
+	 * url: http://localhost:17084/v0.6/callback/getVerification
 	 */
 	@RequestMapping(value = {""}, method = {RequestMethod.GET, RequestMethod.POST})
 	public ResponseEntity<?> checkUser(HttpEntity<String> reqHttpEntity) throws Exception {
@@ -55,7 +55,9 @@ public class CallbackRestController {
 		
 		String reqJson = null;
 		if (Flag.flag) {
-			reqJson = "{ \"user_id\" : \"1001329\"}";
+			//reqJson = "{ \"user_id\" : \"1001329\"}";
+			reqJson = reqHttpEntity.getBody();
+			if (Flag.flag) log.info(">>>>> reqJson = {}", reqJson);
 		}
 		
 		LnsJsonNode reqJsonNode = null;
@@ -94,13 +96,14 @@ public class CallbackRestController {
 			
 			// get stream
 			strReqStream = lnsJsonNode.getValue("stream");
-			if (Flag.flag) log.info(">>>>> lnsJsonNode.stream = [{}]", strReqStream);
+			if (Flag.flag) log.info(">>>>> lnsJsonNode.reqStream = [{}]", strReqStream);
 		}
 		
 		String strResStream = null;
 		if (Flag.flag) {
 			// send
 			LnsStream reqLnsStream = new LnsStream(strReqStream);
+			if (Flag.flag) log.info(">>>>> strReqStream = [{}]", strReqStream);
 			this.lnsSendQueue.set(reqLnsStream);
 			
 			// connect and processing
@@ -109,6 +112,7 @@ public class CallbackRestController {
 			// recv
 			LnsStream resLnsStream = (LnsStream) this.lnsRecvQueue.get();
 			strResStream = resLnsStream.getData();
+			if (Flag.flag) log.info(">>>>> strResStream = [{}]", strResStream);
 		}
 		
 		LnsJsonNode resLnsJsonNode = null;
