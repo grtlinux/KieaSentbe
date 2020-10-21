@@ -1,5 +1,7 @@
 package org.tain.controller.apis;
 
+import java.net.URLDecoder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -56,7 +58,7 @@ public class CallbackRestController {
 		String reqJson = null;
 		if (Flag.flag) {
 			//reqJson = "{ \"user_id\" : \"1001329\"}";
-			reqJson = reqHttpEntity.getBody();
+			reqJson = URLDecoder.decode(reqHttpEntity.getBody(), "utf-8");
 			if (Flag.flag) log.info(">>>>> reqJson = {}", reqJson);
 		}
 		

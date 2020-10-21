@@ -94,7 +94,7 @@ public class ClientJob {
 					
 					// send
 					//reqLnsStream = lnsQueueObject.getLnsStream();
-					resLnsStream = new LnsStream("0106071070000000020201020093033                                                                     HW2009201010        ");
+					resLnsStream = new LnsStream("0116071070000000020201020093033                                                                     HW2009201010        ");
 					lnsSocketTicket.sendStream(resLnsStream);
 					if (Flag.flag) log.info(">>>>> strResStream = [{}]", resLnsStream.getData());
 				}
