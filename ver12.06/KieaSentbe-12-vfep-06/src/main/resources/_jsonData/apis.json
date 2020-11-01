@@ -1,0 +1,91 @@
+[
+	{
+		"name": "1. ping",
+		"mapping": "apis/ping",
+		"httpUrl": "/hanwha/ping",
+		"httpMethod": "GET",
+		"type": "001",
+		"reqJson": "01_ping_req.json",
+		"resJson": "01_ping_res.json"
+	}, {
+		"name": "2. encrypt",
+		"mapping": "apis/encrypt",
+		"httpUrl": "/hanwha/test/encrypt",
+		"httpMethod": "POST",
+		"type": "002",
+		"reqJson": "02_encrypt_req.json",
+		"resJson": "02_encrypt_res.json"
+	}, {
+		"name": "3. decrypt",
+		"mapping": "apis/decrypt",
+		"httpUrl": "/hanwha/test/decrypt",
+		"httpMethod": "POST",
+		"type": "003",
+		"reqJson": "03_decrypt_req.json",
+		"resJson": "03_decrypt_res.json"
+	}, {
+		"name": "4. getCalculation - exchange rate",
+		"mapping": "apis/getCalculation",
+		"httpUrl": "/hanwha/getCalculation",
+		"httpMethod": "POST",
+		"type": "200",
+		"reqJson": "04_getCalculation_req.json",
+		"resJson": "04_getCalculation_res.json"
+	}, {
+		"name": "5. createUser - create user",
+		"mapping": "apis/createUser",
+		"httpUrl": "/hanwha/createUser",
+		"httpMethod": "POST",
+		"type": "500",
+		"reqJson": "05_createUser_req.json",
+		"resJson": "05_createUser_res.json"
+	}, {
+		"name": "6. checkUser - check user",
+		"mapping": "apis/checkUser",
+		"httpUrl": "/hanwha/checkUser",
+		"httpMethod": "POST",
+		"type": "100",
+		"reqJson": "06_checkUser_req.json",
+		"resJson": "06_checkUser_res.json"
+	}, {
+		"name": "7. deleteUser - delete user",
+		"mapping": "apis/deleteUser",
+		"httpUrl": "/hanwha/deleteUser",
+		"httpMethod": "POST",
+		"type": "300",
+		"reqJson": "07_deleteUser_req.json",
+		"resJson": "07_deleteUser_res.json"
+	}, {
+		"name": "8. getWebviewId - WebviewId",
+		"mapping": "apis/getWebviewId",
+		"httpUrl": "/hanwha/getWebviewId",
+		"httpMethod": "POST",
+		"type": "400",
+		"reqJson": "08_getWebviewId_req.json",
+		"resJson": "08_getWebviewId_res.json"
+	}, {
+		"name": "9. getResult (new)",
+		"mapping": "apis/getResult",
+		"httpUrl": "/hanwha/getResult",
+		"httpMethod": "POST",
+		"type": "600",
+		"reqJson": "09_getResult_req.json",
+		"resJson": "09_getResult_res.json"
+	}, {
+		"name": "10. getVerification (new.callback)",
+		"mapping": "apis/getVerification",
+		"httpUrl": "/hanwha/getVerification",
+		"httpMethod": "POST",
+		"type": "700",
+		"reqJson": "10_getVerification_req.json",
+		"resJson": "10_getVerification_res.json"
+	}, {
+		"name": "11. migrationUser (new)",
+		"mapping": "apis/migrationUser",
+		"httpUrl": "/hanwha/migrationUser",
+		"httpMethod": "POST",
+		"type": "800",
+		"reqJson": "11_migrationUser_req.json",
+		"resJson": "11_migrationUser_res.json"
+	}
+]

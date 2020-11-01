@@ -1,0 +1,32 @@
+{
+    "__head_base" : {
+        "name" : "checkUser.RES.head",
+        "reqres" : "0710",
+        "type" : "100"
+    },
+    "__head_data" : {
+        "length" : "L:4,T:string,D:0000,C:길이",
+        "reqres" : "L:4,T:string,D:0000,C:송수신",
+        "type" : "L:3,T:string,D:000,C:전문명",
+        "trNo" : "L:6,T:string,C:TR번호",
+        "reqDate" : "L:8,T:string,C:요청일자",
+        "reqTime" : "L:6,T:string,C:요청시간",
+        "resTime" : "L:6,T:string,C:응답시간",
+        "resCode" : "L:3,T:string,C:응답코드",
+        "resMessage" : "L:20,T:string,C:응답메시지",
+        "reserved" : "L:40,T:string,C:예약공간",
+        "dummy" : "L:-100,T:string,C:안쓴다"
+    },
+    "__body_base" : {
+        "name" : "checkUser.RES.body"
+    },
+    "__body_data" : {
+        "id_number": "L:20,T:string",
+        "sign_status": "L:5,T:boolean",
+        "sentbe_exist_status": "L:5,T:boolean",
+        "remittable_status": "L:5,T:boolean",
+        "phone": "L:20,T:string",
+        "user_id": "L:10,T:string",
+        "account_number": "L:20,T:string"
+    }
+}
