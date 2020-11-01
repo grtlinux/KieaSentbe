@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import org.springframework.stereotype.Component;
 import org.tain.utils.CurrentInfo;
@@ -18,6 +17,7 @@ import net.minidev.json.JSONObject;
 @Slf4j
 public class SasWorking {
 
+	@SuppressWarnings("unused")
 	public void test01() throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
