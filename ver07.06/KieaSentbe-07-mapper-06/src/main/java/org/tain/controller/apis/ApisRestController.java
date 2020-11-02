@@ -1,5 +1,7 @@
 package org.tain.controller.apis;
 
+import java.io.File;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +20,7 @@ import org.tain.mapper.LnsStreamToJson;
 import org.tain.task.MapperReaderJob;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
+import org.tain.utils.StringTools;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -173,15 +176,12 @@ public class ApisRestController {
 		if (Flag.flag) {
 			lnsJsonNode = new LnsJsonNode(reqHttpEntity.getBody());
 		}
-		/*
 		if (Flag.flag) {
-			
 			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get(lnsJsonNode.getValue("reqResType"));
-			String strCStruct = new LnsCStruct(lnsMstInfo).get();
-			lnsJsonNode.put("cstruct", strCStruct);
-			log.info("MAPPER.cstruct >>>>> lnsJsonNode = {}", lnsJsonNode.toPrettyString());
+			String jsonInfo = lnsMstInfo.getStrJsonInfo();
+			lnsJsonNode.put("jsonInfo", jsonInfo);
+			log.info("MAPPER.cstruct >>>>> jsonInfo = {}", jsonInfo);
 		}
-		*/
 		
 		MultiValueMap<String,String> headers = null;
 		if (Flag.flag) {
@@ -211,18 +211,30 @@ public class ApisRestController {
 		}
 		
 		LnsJsonNode lnsJsonNode = null;
+		LnsMstInfo lnsMstInfo = null;
 		if (Flag.flag) {
 			lnsJsonNode = new LnsJsonNode(reqHttpEntity.getBody());
+			lnsMstInfo = this.mapperReaderJob.get(lnsJsonNode.getValue("reqResType"));
 		}
-		/*
 		if (Flag.flag) {
-			
-			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get(lnsJsonNode.getValue("reqResType"));
-			String strCStruct = new LnsCStruct(lnsMstInfo).get();
-			lnsJsonNode.put("cstruct", strCStruct);
-			log.info("MAPPER.cstruct >>>>> lnsJsonNode = {}", lnsJsonNode.toPrettyString());
+			// rename
+			String srcPath = lnsMstInfo.getFilePath();
+			String dstPath = lnsMstInfo.getFilePath() + "_" + StringTools.getYYMMDDHHMMSS();
+			File file = new File(srcPath);
+			boolean isSuccess = file.renameTo(new File(dstPath));
+			log.info("MAPPER.rename file -------------\nFROM: {}\nTO: {}\nSTATUS: {}", srcPath, dstPath, isSuccess);
 		}
-		*/
+		
+		if (Flag.flag) {
+			// save
+			String filePath = lnsMstInfo.getFilePath();
+			String jsonInfo = lnsJsonNode.getValue("jsonInfo");
+			
+			StringTools.stringToFile(jsonInfo, filePath);
+			
+			lnsJsonNode.put("status", "SUCCESS");
+			log.info("MAPPER.save >>>>> lnsJsonNode = {}", lnsJsonNode.toPrettyString());
+		}
 		
 		MultiValueMap<String,String> headers = null;
 		if (Flag.flag) {
