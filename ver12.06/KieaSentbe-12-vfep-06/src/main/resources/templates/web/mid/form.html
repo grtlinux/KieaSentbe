@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>form.html</title>
+	<!-- css and script -->
+	<th:block th:replace="layout/css::css1"></th:block>
+	<th:block th:replace="layout/script::script1"></th:block>
+	<!-- /css and script -->
+</head>
+<body>
+	<!-- header -->
+	<div th:replace="layout/header::header1"></div>
+	<!-- /header -->
+	
+	<!-- main -->
+	<div class="container">
+		<div class="page-header">
+			<h1>Mid 등록</h1>
+		</div>
+		<br/>
+		<!-- input id="mid_compId" type="hidden" th:value="${mid?.compId}"/ -->
+		<table class="table">
+			<!-- tr>
+				<th style="padding:13px 0 0 15px;">id</th>
+				<td><input type="text" class="col-md-1 form-control input-sm" readonly="readonly" th:value="${mid?.id}"/></td>
+			</tr -->
+			<tr>
+				<th style="padding:13px 0 0 15px;">divCode</th>
+				<td><input id="mid_divCode" type="text" class="col-md-1 form-control input-sm" th:value="${mid?.divCode}"/></td>
+			</tr>
+			<tr>
+				<th style="padding:13px 0 0 15px;">divTitle</th>
+				<td><input id="mid_divTitle" type="text" class="col-md-1 form-control input-sm" th:value="${mid?.divTitle}"/></td>
+			</tr>
+			<tr>
+				<th style="padding:13px 0 0 15px;">divContent</th>
+				<td><input id="mid_divContent" type="text" class="col-md-1 form-control input-sm" th:value="${mid?.divContent}"/></td>
+			</tr>
+			<tr>
+				<th style="padding:13px 0 0 15px;">compId</th>
+				<td><input id="mid_compId" type="text" class="col-md-1 form-control input-sm" th:value="${mid?.compId}"/></td>
+			</tr>
+			<tr>
+				<th style="padding:13px 0 0 15px;">compStmtKr</th>
+				<td><input id="mid_compStmtKr" type="text" class="col-md-1 form-control input-sm" th:value="${mid?.compStmtKr}"/></td>
+			</tr>
+			<tr>
+				<th style="padding:13px 0 0 15px;">compStmtEn</th>
+				<td><input id="mid_compStmtEn" type="text" class="col-md-1 form-control input-sm" th:value="${mid?.compStmtEn}"/></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		<div class="pull-left">
+			<a th:href="@{/mid/list}" class="btn btn-default">목록으로</a>
+		</div>
+		<div class="pull-right">
+			<button th:if="!${mid?.compId}" type="button" class="btn btn-primary" id="insert">저장</button>
+			<button th:if="${mid?.compId}" type="button" class="btn btn-info" id="update">수정</button>
+			<button th:if="${mid?.compId}" type="button" class="btn btn-danger" id="delete">삭제</button>
+		</div>
+	</div>
+	<!-- /main -->
+	
+	<!-- footer -->
+	<div th:replace="layout/footer::footer1"></div>
+	<!-- /footer -->
+	
+	<!-- script -->
+	<script th:if="!${mid?.compId}">
+		$('#insert').click(function() {
+			var jsonData = JSON.stringify({
+				divCode: $('#mid_divCode').val(),
+				divTitle: $('#mid_divTitle').val(),
+				divContent: $('#mid_divContent').val(),
+				compId: $('#mid_compId').val(),
+				compStmtKr: $('#mid_compStmtKr').val(),
+				compStmtEn: $('#mid_compStmtEn').val()
+			});
+			if (true) console.log("INSERT: " + jsonData);
+			//$.ajax({
+			//	url: _contextPath_ + "api/mids/",
+			//	type: "POST",
+			//	data: jsonData,
+			//	contentType: "application/json",
+			//	header: {
+			//		"Authorization": "Basic " + btoa("havi" + ":" + "test")
+			//	},
+			//	dataType: "json",
+			//	success: function() {
+			//		alert('저장 성공~~');
+			//		location.href = _contextPath_ + 'mid/list';
+			//	},
+			//	error: function() {
+			//		alert('저장 실패!!');
+			//	}
+			//});
+		});
+	</script>
+	<script th:if="${mid?.compId}">
+		$('#update').click(function() {
+			var jsonData = JSON.stringify({
+				divCode: $('#mid_divCode').val(),
+				divTitle: $('#mid_divTitle').val(),
+				divContent: $('#mid_divContent').val(),
+				compId: $('#mid_compId').val(),
+				compStmtKr: $('#mid_compStmtKr').val(),
+				compStmtEn: $('#mid_compStmtEn').val()
+			});
+			if (true) console.log("UPDATE: " + jsonData);
+			//$.ajax({
+			//	url: _contextPath_ + "api/mids/" + $('#mid_id').val(),
+			//	type: "PUT",
+			//	data: jsonData,
+			//	contentType: "application/json",
+			//	dataType: "json",
+			//	success: function() {
+			//		alert('수정 성공~~');
+			//		location.href = _contextPath_ + 'mid/list';
+			//	},
+			//	error: function() {
+			//		alert('수정 실패!!');
+			//	}
+			//});
+		});
+		$('#delete').click(function() {
+			var jsonData = JSON.stringify({
+				divCode: $('#mid_divCode').val(),
+				divTitle: $('#mid_divTitle').val(),
+				divContent: $('#mid_divContent').val(),
+				compId: $('#mid_compId').val(),
+				compStmtKr: $('#mid_compStmtKr').val(),
+				compStmtEn: $('#mid_compStmtEn').val()
+			});
+			if (true) console.log("DELETE: " + jsonData);
+			//$.ajax({
+			//	url: _contextPath_ + "api/mids/" + $('#mid_id').val(),
+			//	type: "DELETE",
+			//	success: function() {
+			//		alert('삭제 성공~~');
+			//		location.href = _contextPath_ + 'mid/list';
+			//	},
+			//	error: function() {
+			//		alert('삭제 실패!!');
+			//	}
+			//});
+		});
+	</script>
+</body>
+</html>

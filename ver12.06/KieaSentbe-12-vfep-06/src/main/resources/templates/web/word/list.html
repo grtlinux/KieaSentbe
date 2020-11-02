@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>list.html</title>
+	<!-- css and script -->
+	<th:block th:replace="layout/css::css1"></th:block>
+	<th:block th:replace="layout/script::script1"></th:block>
+	<!-- /css and script -->
+</head>
+<body>
+	<!-- header -->
+	<div th:replace="layout/header::header1"></div>
+	<!-- /header -->
+	
+	<!-- main -->
+	<div class="container">
+		<div class="page-header">
+			<h1>Word 목록(page: <span id="page_number" th:text="${wordList.number}+1"></span>)</h1>
+		</div>
+		<div class="pull-right" style="width:100px;margin:10px 0;">
+			<a th:href="@{/word}" class="btn btn-primary btn-block">등록</a>
+		</div>
+		<br/><br/><br/>
+		<div id="mainHide">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th class="col-md-1">id</th>
+						<th class="col-md-3">Word</th>
+						<th class="col-md-8">Mean</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="word : ${wordList}">
+						<td th:text="${word.id}">#</td>
+						<td><a th:href="@{/word(id=${word.id})}" th:text="${word.word}">제목</a></td>
+						<td th:text="${word.mean}">부제</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<br/>
+		
+		<!-- textarea -->
+		<!-- textarea class="col-md-1 form-control input-sm" maxlength="150" rows="3" style="height:100px;"></textarea -->
+		<textarea id="test-box" class="col-md-1 form-control input-sm" maxlength="150" rows="3"></textarea>
+		<br/>
+		<!-- /textarea -->
+		
+		<!-- page -->
+		<th:block th:replace="layout/page::page2"></th:block>
+		<!-- /page -->
+	</div>
+	<br/><br/>
+	<br/><br/>
+	<!-- /main -->
+	
+	<!-- footer -->
+	<div th:replace="layout/footer::footer1"></div>
+	<!-- /footer -->
+	
+	<!-- script -->
+	<script>
+		$('#test-box').focus();
+		$('#test-box').keypress(function(event){
+			var keycode = (event.keyCode ? event.keyCode : event.which);
+			if(keycode == '13'){
+				var next_page = Number($('#page_number').text()) + 1;
+				//alert('You pressed a "enter" key in textbox > ' + 'word/list?page=' + next_page);
+				location.href = _contextPath_ + 'word/list?page=' + next_page;
+			}
+		});
+	</script>
+	<!-- /script -->
+</body>
+</html>
