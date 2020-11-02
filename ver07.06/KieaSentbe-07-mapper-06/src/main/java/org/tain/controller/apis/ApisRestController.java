@@ -152,4 +152,86 @@ public class ApisRestController {
 		
 		return new ResponseEntity<>(lnsJsonNode.toPrettyString(), headers, HttpStatus.OK);
 	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	/*
+	 * http://localhost:17087/v0.6/mapper/info/get
+	 */
+	@RequestMapping(value = {"/info/get"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public ResponseEntity<?> infoGet(HttpEntity<String> reqHttpEntity) throws Exception {
+		if (Flag.flag) log.info("========================== START: mapper =========================");
+		if (Flag.flag) log.info("KANG-20200623 >>>>> {}", CurrentInfo.get());
+		
+		if (Flag.flag) {
+			log.info("MAPPER.cstruct >>>>> Headers = {}", reqHttpEntity.getHeaders());
+			log.info("MAPPER.cstruct >>>>> Body = {}", reqHttpEntity.getBody());
+		}
+		
+		LnsJsonNode lnsJsonNode = null;
+		if (Flag.flag) {
+			lnsJsonNode = new LnsJsonNode(reqHttpEntity.getBody());
+		}
+		/*
+		if (Flag.flag) {
+			
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get(lnsJsonNode.getValue("reqResType"));
+			String strCStruct = new LnsCStruct(lnsMstInfo).get();
+			lnsJsonNode.put("cstruct", strCStruct);
+			log.info("MAPPER.cstruct >>>>> lnsJsonNode = {}", lnsJsonNode.toPrettyString());
+		}
+		*/
+		
+		MultiValueMap<String,String> headers = null;
+		if (Flag.flag) {
+			headers = new LinkedMultiValueMap<>();
+			headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
+		}
+		
+		if (Flag.flag) log.info("========================== END: mapper =========================");
+		
+		return new ResponseEntity<>(lnsJsonNode.toPrettyString(), headers, HttpStatus.OK);
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	/*
+	 * http://localhost:17087/v0.6/mapper/info/save
+	 */
+	@RequestMapping(value = {"/info/save"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public ResponseEntity<?> infoSave(HttpEntity<String> reqHttpEntity) throws Exception {
+		if (Flag.flag) log.info("========================== START: mapper =========================");
+		if (Flag.flag) log.info("KANG-20200623 >>>>> {}", CurrentInfo.get());
+		
+		if (Flag.flag) {
+			log.info("MAPPER.cstruct >>>>> Headers = {}", reqHttpEntity.getHeaders());
+			log.info("MAPPER.cstruct >>>>> Body = {}", reqHttpEntity.getBody());
+		}
+		
+		LnsJsonNode lnsJsonNode = null;
+		if (Flag.flag) {
+			lnsJsonNode = new LnsJsonNode(reqHttpEntity.getBody());
+		}
+		/*
+		if (Flag.flag) {
+			
+			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get(lnsJsonNode.getValue("reqResType"));
+			String strCStruct = new LnsCStruct(lnsMstInfo).get();
+			lnsJsonNode.put("cstruct", strCStruct);
+			log.info("MAPPER.cstruct >>>>> lnsJsonNode = {}", lnsJsonNode.toPrettyString());
+		}
+		*/
+		
+		MultiValueMap<String,String> headers = null;
+		if (Flag.flag) {
+			headers = new LinkedMultiValueMap<>();
+			headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
+		}
+		
+		if (Flag.flag) log.info("========================== END: mapper =========================");
+		
+		return new ResponseEntity<>(lnsJsonNode.toPrettyString(), headers, HttpStatus.OK);
+	}
 }
