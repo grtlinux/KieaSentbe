@@ -22,7 +22,7 @@
 		<input id="apis_id" type="hidden" th:value="${apis?.id}"/>
 		<input id="apis_type" type="hidden" th:value="${apis?.type}"/>
 		<table class="table">
-			<tr>
+			<tr class="hide">
 				<th style="padding:13px 0 0 15px;">&nbsp;</th>
 				<td>
 					<button id="btnGetStreamInfo" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalGetStreamInfo">Get Stream Info</button>
@@ -99,6 +99,9 @@
 	<!-- ================================================================================== -->
 	<!-- ================================================================================== -->
 	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
 	
 	<!-- script: variables -->
 	<script th:inline="javascript">
@@ -108,9 +111,11 @@
 		//if (true) console.log(">>>>> json = " + json);
 		//$('#line_reqParameters').val(JSON.stringify(JSON.parse(json), null, 2));
 		var reqJson = JSON.parse(/*[[${apis?.reqJson}]]*/);
-		//console.log(">>>>>", reqJson);
+		console.log(">>>>> reqJson = " + reqJson);
 		var urlOnline = /*[[${urlOnline}]]*/ 'default';
-		//console.log(">>>>>", urlOnline);
+		console.log(">>>>> urlOnline = " + urlOnline);
+		var urlMapper = /*[[${urlMapper}]]*/ 'default';
+		console.log(">>>>> urlMapper = " + urlMapper);
 	</script>
 	<!-- /script: variables -->
 	
@@ -151,7 +156,7 @@
 					<table class="table">
 						<tr>
 							<th style="padding:13px 0 0 15px;">reqResType</th>
-							<td><input id="modal1_reqResType" value="" type="text" class="col-md-1 form-control input-sm"/></td>
+							<td><input id="modal1_reqResType" value="" readOnly type="text" class="col-md-1 form-control input-sm"/></td>
 						</tr>
 						<tr>
 							<th style="padding:13px 0 0 15px;">
@@ -183,11 +188,8 @@
 	<script>
 		$('#btnGetStreamInfo').click(function() {
 			console.log('Hello btnGetStreamInfo');
-			//console.log('Hello json', json);
-			console.log('Hello reqJson', reqJson);
-			console.log('Hello urlOnline', urlOnline);
 			$.ajax({
-				url: "http://localhost:17087/v0.6/mapper/info/get",
+				url: urlMapper + "/mapper/info/get",
 				type: "POST",
 				data: JSON.stringify({
 					reqResType: "0700200"
@@ -207,11 +209,27 @@
 				}
 			});
 		});
-		$('#btnCopyJsonInfo').click(function() {
-			console.log('Hello btnCopyJsonInfo');
-		});
 		$('#btnSaveJsonInfo').click(function() {
 			console.log('Hello btnSaveJsonInfo');
+			$.ajax({
+				url: urlMapper + "/mapper/info/save",
+				type: "POST",
+				data: JSON.stringify({
+					reqResType: $('#modal1_reqResType').val(),
+					jsonInfo: $('#modal1_jsonInfo').val()
+				}),
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function(data, status) {
+					if (true) alert("STATUS: " + data.status);
+				},
+				error: function() {
+					alert('FAIL of SAVE1');
+				}
+			});
 		});
 		$('#btnCloseGetStreamInfo').click(function() {
 			console.log('Hello btnCloseGetStreamInfo');

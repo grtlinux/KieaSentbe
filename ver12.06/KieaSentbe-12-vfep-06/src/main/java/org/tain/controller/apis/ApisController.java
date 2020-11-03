@@ -29,6 +29,7 @@ public class ApisController {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apisList", this.apisService.findApisList(pageable));
 		model.addAttribute("urlOnline", this.projEnvUrlProperties.getOnline());
+		model.addAttribute("urlMapper", this.projEnvUrlProperties.getMapper());
 		return "web/apis/list";
 	}
 	
@@ -37,6 +38,7 @@ public class ApisController {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
 		model.addAttribute("urlOnline", this.projEnvUrlProperties.getOnline());
+		model.addAttribute("urlMapper", this.projEnvUrlProperties.getMapper());
 		return "web/apis/form";
 	}
 	
@@ -78,6 +80,7 @@ public class ApisController {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
 		model.addAttribute("urlOnline", this.projEnvUrlProperties.getOnline());
+		model.addAttribute("urlMapper", this.projEnvUrlProperties.getMapper());
 		return "web/apis/getCalculationForm";
 	}
 	
@@ -86,6 +89,7 @@ public class ApisController {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
 		model.addAttribute("urlOnline", this.projEnvUrlProperties.getOnline());
+		model.addAttribute("urlMapper", this.projEnvUrlProperties.getMapper());
 		return "web/apis/getWebviewIdForm";
 	}
 	
@@ -94,6 +98,7 @@ public class ApisController {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
 		model.addAttribute("urlOnline", this.projEnvUrlProperties.getOnline());
+		model.addAttribute("urlMapper", this.projEnvUrlProperties.getMapper());
 		return "web/apis/getResultForm";
 	}
 	
@@ -102,6 +107,7 @@ public class ApisController {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
 		model.addAttribute("urlOnline", this.projEnvUrlProperties.getOnline());
+		model.addAttribute("urlMapper", this.projEnvUrlProperties.getMapper());
 		return "web/apis/getVerificationForm";
 		//return "redirect:/apis/list";
 		//return new RedirectView("/apis/list");
@@ -112,6 +118,7 @@ public class ApisController {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
 		model.addAttribute("urlOnline", this.projEnvUrlProperties.getOnline());
+		model.addAttribute("urlMapper", this.projEnvUrlProperties.getMapper());
 		return "web/apis/checkUserForm";
 	}
 	
@@ -120,6 +127,7 @@ public class ApisController {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
 		model.addAttribute("urlOnline", this.projEnvUrlProperties.getOnline());
+		model.addAttribute("urlMapper", this.projEnvUrlProperties.getMapper());
 		return "web/apis/deleteUserForm";
 	}
 	
@@ -128,6 +136,7 @@ public class ApisController {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
 		model.addAttribute("urlOnline", this.projEnvUrlProperties.getOnline());
+		model.addAttribute("urlMapper", this.projEnvUrlProperties.getMapper());
 		return "web/apis/createUserForm";
 	}
 	
@@ -136,6 +145,7 @@ public class ApisController {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		model.addAttribute("apis", this.apisService.findApisById(id));
 		model.addAttribute("urlOnline", this.projEnvUrlProperties.getOnline());
+		model.addAttribute("urlMapper", this.projEnvUrlProperties.getMapper());
 		return "web/apis/migrationUserForm";
 	}
 }

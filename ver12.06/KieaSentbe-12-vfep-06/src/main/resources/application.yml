@@ -122,7 +122,8 @@ proj-env:
   url:
     name: URL (air)
     sentbe: https://hanwha.dev.sentbe.com:10443
-    online: http://localhost:17083/v0.5
+    online: http://localhost:17083/v0.6
+    mapper: http://localhost:17087/v0.6
 
 ---
 # --------------------------------------------------------
@@ -146,7 +147,8 @@ proj-env:
   url:
     name: URL (pro)
     sentbe: https://hanwha.dev.sentbe.com:10443
-    online: http://localhost:17083/v0.5
+    online: http://localhost:17083/v0.6
+    mapper: http://localhost:17087/v0.6
 
 ---
 # --------------------------------------------------------
@@ -185,7 +187,8 @@ proj-env:
   url:
     name: URL (dfep)
     sentbe: https://hanwha.dev.sentbe.com:10443
-    online: http://172.30.222.3:17083/v0.5
+    online: http://172.30.222.3:17083/v0.6
+    mapper: http://172.30.222.3:17087/v0.6
 
 ---
 # --------------------------------------------------------

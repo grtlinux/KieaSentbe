@@ -209,15 +209,17 @@ public class ApisRestController {
 		if (Flag.flag) log.info("========================== START: mapper =========================");
 		if (Flag.flag) log.info("KANG-20200623 >>>>> {}", CurrentInfo.get());
 		
+		String strBody = null;
 		if (Flag.flag) {
-			log.info("MAPPER.infoSave >>>>> Headers = {}", reqHttpEntity.getHeaders());
-			log.info("MAPPER.infoSave >>>>> Body = {}", reqHttpEntity.getBody());
+			strBody = URLDecoder.decode(reqHttpEntity.getBody(), "utf-8");
+			log.info("MAPPER.infoGet >>>>> Headers = {}", reqHttpEntity.getHeaders());
+			log.info("MAPPER.infoGet >>>>> Body = {}", strBody);
 		}
 		
 		LnsJsonNode lnsJsonNode = null;
 		LnsMstInfo lnsMstInfo = null;
 		if (Flag.flag) {
-			lnsJsonNode = new LnsJsonNode(reqHttpEntity.getBody());
+			lnsJsonNode = new LnsJsonNode(strBody);
 			lnsMstInfo = this.mapperReaderJob.get(lnsJsonNode.getValue("reqResType"));
 		}
 		if (Flag.flag) {

@@ -19,7 +19,10 @@
 			<h1>Sentbe-vFEP: List (page: <span id="page_number" th:text="${apisList.number}+1"></span>)</h1>
 		</div>
 		<div class="pull-right" style="width:100px;margin:10px 0;">
+			<button id="btnGetStreamInfo" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalGetStreamInfo">Get Stream Info</button>
+			<!-- disable Register button
 			<a th:href="@{/apis}" class="btn btn-primary btn-block">Register</a>
+			-->
 		</div>
 		<br/><br/><br/>
 		<div id="mainHide">
@@ -65,6 +68,176 @@
 	<!-- footer -->
 	<div th:replace="layout/footer::footer1"></div>
 	<!-- /footer -->
+	
+	
+	
+	
+	
+	
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	<!-- script: variables -->
+	<script th:inline="javascript">
+		if (true) console.log(">>>>> _contextPath_ = " + _contextPath_);
+		var urlOnline = /*[[${urlOnline}]]*/ 'default';
+		console.log(">>>>> urlOnline = " + urlOnline);
+		var urlMapper = /*[[${urlMapper}]]*/ 'default';
+		console.log(">>>>> urlMapper = " + urlMapper);
+	</script>
+	<!-- /script: variables -->
+	
+	
+	
+	
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	<!-- script : main -->
+	<script>
+	</script>
+	<!-- /script : main -->
+	
+	
+	
+	
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	<!-- 1. Modal dialog : GetStreamInfo -->
+	<div class="modal fase" id="modalGetStreamInfo">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+			
+				<!-- Modal Header -->
+				<div class="modal-header bg-success">
+					<h4 class="modal-title">Get Stream Info</h4>
+					<!-- button type="button" class="close" data-dismiss="modal">&times;</button -->
+				</div>
+				
+				<!-- Modal body -->
+				<div class="modal-body">
+					<table class="table">
+						<tr>
+							<th style="padding:13px 0 0 15px;">reqResType</th>
+							<td>
+								<input id="modal1_reqResType" value="" type="text" class="col-md-1 form-control input-sm"/>
+							</td>
+						</tr>
+						<tr>
+							<th style="padding:13px 0 0 15px;">&nbsp;</th>
+							<td>
+								<button id="btnGetJsonInfo" type="button" class="btn btn-primary">Get JsonInfo</button>
+							</td>
+						</tr>
+						<tr>
+							<th style="padding:13px 0 0 15px;">
+								JsonInfo<br>
+								<button id="btnCopyJsonInfo" type="button" class="btn btn-info btn-xs">copy</button>
+							</th>
+							<td><textarea id="modal1_jsonInfo" class="col-md-1 form-control input-sm" rows="7" style="height:300px;"></textarea></td>
+						</tr>
+						<tr>
+							<th style="padding:13px 0 0 15px;"> </th>
+							<td>
+								<button id="btnSaveJsonInfo" type="button" class="btn btn-primary">Save JsonInfo</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+				
+				<!-- Modal footer -->
+				<div class="modal-footer bg-success">
+					<button id="btnCloseGetStreamInfo" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+	<!-- /Modal dialog : GetStreamInfo -->
+	
+	<!-- script : GetStreamInfo -->
+	<script>
+		$('#btnGetStreamInfo').click(function() {
+			console.log('Hello btnGetStreamInfo');
+			$('#modal1_reqResType').val("");
+			$('#modal1_jsonInfo').val("");
+		});
+		$('#btnGetJsonInfo').click(function() {
+			console.log('Hello btnGetJsonInfo');
+			$.ajax({
+				url: urlMapper + "/mapper/info/get",
+				type: "POST",
+				data: JSON.stringify({
+					reqResType: $('#modal1_reqResType').val()
+				}),
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function(data, status) {
+					//console.log("data = ", data);
+					$('#modal1_reqResType').val(data.reqResType);
+					$('#modal1_jsonInfo').val(data.jsonInfo);
+				},
+				error: function() {
+					alert('FAIL of SAVE1');
+					$('#modal1_jsonInfo').val("");
+				}
+			});
+		});
+		$('#btnCopyJsonInfo').click(function() {
+			console.log('Hello btnCopyJsonInfo');
+			var copyText = document.getElementById("modal1_jsonInfo");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+		});
+		$('#btnSaveJsonInfo').click(function() {
+			console.log('Hello btnSaveJsonInfo');
+			$.ajax({
+				url: urlMapper + "/mapper/info/save",
+				type: "POST",
+				data: JSON.stringify({
+					reqResType: $('#modal1_reqResType').val(),
+					jsonInfo: $('#modal1_jsonInfo').val()
+				}),
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function(data, status) {
+					if (true) alert("status: " + data.status);
+				},
+				error: function() {
+					alert('FAIL of SAVE1');
+				}
+			});
+		});
+		$('#btnCloseGetStreamInfo').click(function() {
+			console.log('Hello btnCloseGetStreamInfo');
+		});
+	</script>
+	<!-- /script : GetStreamInfo -->
+	
+	
+	
+	
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
 	
 	<!-- script -->
 	<script>

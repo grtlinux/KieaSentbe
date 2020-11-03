@@ -16,5 +16,7 @@ public class ProjEnvUrlProperties {
 	
 	private String online;
 	
+	private String mapper;
+	
 	private String dummy;  // null
 }
