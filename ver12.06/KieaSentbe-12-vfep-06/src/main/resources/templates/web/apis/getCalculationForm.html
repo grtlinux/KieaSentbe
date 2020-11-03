@@ -187,16 +187,20 @@
 			console.log('Hello reqJson', reqJson);
 			console.log('Hello urlOnline', urlOnline);
 			$.ajax({
-				url: _contextPath_ + "apis/getCalculation/mapper/req/json2str",
+				url: "http://localhost:17087/v0.6/mapper/info/get",
 				type: "POST",
-				data: $('#modal1_reqResType').val(),
+				data: JSON.stringify({
+					reqResType: "0700200"
+				}),
 				contentType: "application/json",
 				header: {
 					"Authorization": "Basic " + btoa("havi" + ":" + "test")
 				},
 				dataType: "json",
 				success: function(data, status) {
-					$('#modal1_reqStream').val(data.reqStrData);
+					//console.log("data = ", data);
+					$('#modal1_reqResType').val(data.reqResType);
+					$('#modal1_jsonInfo').val(data.jsonInfo);
 				},
 				error: function() {
 					alert('FAIL of SAVE1');
@@ -779,6 +783,13 @@
 		$('#btnCopy5ResJson').click(function() {
 			console.log('Hello btnCopy5ResJson');
 			var copyText = document.getElementById("modal5_resJson");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+		});
+		$('#btnCopyJsonInfo').click(function() {
+			console.log('Hello btnCopyJsonInfo');
+			var copyText = document.getElementById("modal1_jsonInfo");
 			copyText.select();
 			copyText.setSelectionRange(0, 99999);
 			document.execCommand("copy");
