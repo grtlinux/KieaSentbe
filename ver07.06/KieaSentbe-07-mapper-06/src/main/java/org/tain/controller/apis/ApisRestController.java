@@ -1,6 +1,7 @@
 package org.tain.controller.apis;
 
 import java.io.File;
+import java.net.URLDecoder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -161,26 +162,29 @@ public class ApisRestController {
 	///////////////////////////////////////////////////////////////////////////
 	/*
 	 * http://localhost:17087/v0.6/mapper/info/get
+	 * $ curl -d '{"reqResType": "0700200"}' -H 'Context-Type: application/json' -X POST http://localhost:17087/v0.6/mapper/info/get
 	 */
 	@RequestMapping(value = {"/info/get"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public ResponseEntity<?> infoGet(HttpEntity<String> reqHttpEntity) throws Exception {
 		if (Flag.flag) log.info("========================== START: mapper =========================");
 		if (Flag.flag) log.info("KANG-20200623 >>>>> {}", CurrentInfo.get());
 		
+		String strBody = null;
 		if (Flag.flag) {
-			log.info("MAPPER.cstruct >>>>> Headers = {}", reqHttpEntity.getHeaders());
-			log.info("MAPPER.cstruct >>>>> Body = {}", reqHttpEntity.getBody());
+			strBody = URLDecoder.decode(reqHttpEntity.getBody(), "utf-8");
+			log.info("MAPPER.infoGet >>>>> Headers = {}", reqHttpEntity.getHeaders());
+			log.info("MAPPER.infoGet >>>>> Body = {}", strBody);
 		}
 		
 		LnsJsonNode lnsJsonNode = null;
 		if (Flag.flag) {
-			lnsJsonNode = new LnsJsonNode(reqHttpEntity.getBody());
+			lnsJsonNode = new LnsJsonNode(strBody);
 		}
 		if (Flag.flag) {
 			LnsMstInfo lnsMstInfo = this.mapperReaderJob.get(lnsJsonNode.getValue("reqResType"));
 			String jsonInfo = lnsMstInfo.getStrJsonInfo();
 			lnsJsonNode.put("jsonInfo", jsonInfo);
-			log.info("MAPPER.cstruct >>>>> jsonInfo = {}", jsonInfo);
+			log.info("MAPPER.infoGet >>>>> jsonInfo = {}", jsonInfo);
 		}
 		
 		MultiValueMap<String,String> headers = null;
@@ -206,8 +210,8 @@ public class ApisRestController {
 		if (Flag.flag) log.info("KANG-20200623 >>>>> {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
-			log.info("MAPPER.cstruct >>>>> Headers = {}", reqHttpEntity.getHeaders());
-			log.info("MAPPER.cstruct >>>>> Body = {}", reqHttpEntity.getBody());
+			log.info("MAPPER.infoSave >>>>> Headers = {}", reqHttpEntity.getHeaders());
+			log.info("MAPPER.infoSave >>>>> Body = {}", reqHttpEntity.getBody());
 		}
 		
 		LnsJsonNode lnsJsonNode = null;
@@ -233,7 +237,7 @@ public class ApisRestController {
 			StringTools.stringToFile(jsonInfo, filePath);
 			
 			lnsJsonNode.put("status", "SUCCESS");
-			log.info("MAPPER.save >>>>> lnsJsonNode = {}", lnsJsonNode.toPrettyString());
+			log.info("MAPPER.infoSave >>>>> lnsJsonNode = {}", lnsJsonNode.toPrettyString());
 		}
 		
 		MultiValueMap<String,String> headers = null;

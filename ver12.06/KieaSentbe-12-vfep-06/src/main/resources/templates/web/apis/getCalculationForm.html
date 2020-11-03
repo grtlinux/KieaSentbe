@@ -23,6 +23,12 @@
 		<input id="apis_type" type="hidden" th:value="${apis?.type}"/>
 		<table class="table">
 			<tr>
+				<th style="padding:13px 0 0 15px;">&nbsp;</th>
+				<td>
+					<button id="btnGetStreamInfo" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalGetStreamInfo">Get Stream Info</button>
+				</td>
+			</tr>
+			<tr>
 				<th style="padding:13px 0 0 15px;">id</th>
 				<td><input type="text" class="col-md-1 form-control input-sm" readonly th:value="${apis?.id}"/></td>
 			</tr>
@@ -89,7 +95,136 @@
 	
 	
 	
-	<!-- Modal dialog : MakeReqStream -->
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	<!-- script: variables -->
+	<script th:inline="javascript">
+		if (true) console.log(">>>>> _contextPath_ = " + _contextPath_);
+		// document.ready
+		//var json = /*[[${line?.reqParameters}]]*/;     // NOT_USE
+		//if (true) console.log(">>>>> json = " + json);
+		//$('#line_reqParameters').val(JSON.stringify(JSON.parse(json), null, 2));
+		var reqJson = JSON.parse(/*[[${apis?.reqJson}]]*/);
+		//console.log(">>>>>", reqJson);
+		var urlOnline = /*[[${urlOnline}]]*/ 'default';
+		//console.log(">>>>>", urlOnline);
+	</script>
+	<!-- /script: variables -->
+	
+	
+	
+	
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	<!-- script : main -->
+	<script>
+	</script>
+	<!-- /script : main -->
+	
+	
+	
+	
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	<!-- 1. Modal dialog : GetStreamInfo -->
+	<div class="modal fase" id="modalGetStreamInfo">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+			
+				<!-- Modal Header -->
+				<div class="modal-header bg-success">
+					<h4 class="modal-title">Get Stream Info</h4>
+					<!-- button type="button" class="close" data-dismiss="modal">&times;</button -->
+				</div>
+				
+				<!-- Modal body -->
+				<div class="modal-body">
+					<table class="table">
+						<tr>
+							<th style="padding:13px 0 0 15px;">reqResType</th>
+							<td><input id="modal1_reqResType" value="" type="text" class="col-md-1 form-control input-sm"/></td>
+						</tr>
+						<tr>
+							<th style="padding:13px 0 0 15px;">
+								JsonInfo<br>
+								<button id="btnCopyJsonInfo" type="button" class="btn btn-info btn-xs">copy</button>
+							</th>
+							<td><textarea id="modal1_jsonInfo" class="col-md-1 form-control input-sm" rows="7" style="height:300px;"></textarea></td>
+						</tr>
+						<tr>
+							<th style="padding:13px 0 0 15px;"> </th>
+							<td>
+								<button id="btnSaveJsonInfo" type="button" class="btn btn-primary">Save JsonInfo</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+				
+				<!-- Modal footer -->
+				<div class="modal-footer bg-success">
+					<button id="btnCloseGetStreamInfo" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+	<!-- /Modal dialog : GetStreamInfo -->
+	
+	<!-- script : GetStreamInfo -->
+	<script>
+		$('#btnGetStreamInfo').click(function() {
+			console.log('Hello btnGetStreamInfo');
+			//console.log('Hello json', json);
+			console.log('Hello reqJson', reqJson);
+			console.log('Hello urlOnline', urlOnline);
+			$.ajax({
+				url: _contextPath_ + "apis/getCalculation/mapper/req/json2str",
+				type: "POST",
+				data: $('#modal1_reqResType').val(),
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function(data, status) {
+					$('#modal1_reqStream').val(data.reqStrData);
+				},
+				error: function() {
+					alert('FAIL of SAVE1');
+				}
+			});
+		});
+		$('#btnCopyJsonInfo').click(function() {
+			console.log('Hello btnCopyJsonInfo');
+		});
+		$('#btnSaveJsonInfo').click(function() {
+			console.log('Hello btnSaveJsonInfo');
+		});
+		$('#btnCloseGetStreamInfo').click(function() {
+			console.log('Hello btnCloseGetStreamInfo');
+		});
+	</script>
+	<!-- /script : GetStreamInfo -->
+	
+	
+	
+	
+	
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	<!-- 2. Modal dialog : MakeReqStream -->
 	<div class="modal fase" id="modalMakeReqStream">
 		<div class="modal-dialog modal-lg modal-dialog-centered">
 			<div class="modal-content">
@@ -164,10 +299,19 @@
 	<!-- /Modal dialog : MakeReqStream -->
 	
 	
+	<!-- script : main -->
+	<script>
+	</script>
+	<!-- /script : main -->
 	
 	
 	
-	<!-- Modal dialog : ShowResJson -->
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	<!-- 3. Modal dialog : ShowResJson -->
 	<div class="modal fase" id="modalShowResJson">
 		<div class="modal-dialog modal-lg modal-dialog-centered">
 			<div class="modal-content">
@@ -202,10 +346,19 @@
 	<!-- /Modal dialog : ShowResJson -->
 	
 	
+	<!-- script : main -->
+	<script>
+	</script>
+	<!-- /script : main -->
 	
 	
 	
-	<!-- Modal dialog : ShowCStruct -->
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	<!-- 4. Modal dialog : ShowCStruct -->
 	<div class="modal fase" id="modalShowCStruct">
 		<div class="modal-dialog modal-lg modal-dialog-centered">
 			<div class="modal-content">
@@ -240,10 +393,19 @@
 	<!-- /Modal dialog : ShowCStruct -->
 	
 	
+	<!-- script : main -->
+	<script>
+	</script>
+	<!-- /script : main -->
 	
 	
 	
-	<!-- Modal dialog : SendJson -->
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	<!-- 5. Modal dialog : SendJson -->
 	<div class="modal fase" id="modalSendJson">
 		<div class="modal-dialog modal-lg modal-dialog-centered">
 			<div class="modal-content">
@@ -291,9 +453,6 @@
 	<!-- /Modal dialog : SendJson -->
 	
 	
-	
-	
-	
 	<!-- script : main -->
 	<script>
 	</script>
@@ -301,18 +460,15 @@
 	
 	
 	
-	<!-- script -->
-	<script th:inline="javascript">
-		// document.ready
-		var json = /*[[${line?.reqParameters}]]*/;
-		//if (true) console.log(">>>>> json = " + json);
-		//$('#line_reqParameters').val(JSON.stringify(JSON.parse(json), null, 2));
-		var reqJson = JSON.parse(/*[[${apis?.reqJson}]]*/);
-		//console.log(">>>>>", reqJson);
-		var urlOnline = /*[[${urlOnline}]]*/ 'default';
-		//console.log(">>>>>", urlOnline);
-	</script>
-	<!-- /script -->
+	
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
 	
 	
 	
