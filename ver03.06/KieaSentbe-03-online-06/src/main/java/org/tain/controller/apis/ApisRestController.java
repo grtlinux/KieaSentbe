@@ -10,11 +10,13 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.tain.object.lns.LnsJson;
+import org.tain.mapper.LnsJsonNode;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
-import org.tain.utils.JsonPrint;
 import org.tain.utils.LnsHttpClient;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,35 +25,50 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ApisRestController {
 
-	@SuppressWarnings("unused")
 	@Autowired
 	private LnsHttpClient lnsHttpClient;
 	
 	/*
 	 * url: http://localhost:18083/v1.0/online/getCalculation
 	 */
-	@RequestMapping(value = {""}, method = {RequestMethod.GET, RequestMethod.POST})
-	public ResponseEntity<?> getCalculation(HttpEntity<String> reqHttpEntity) throws Exception {
+	@RequestMapping(value = {"/process"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public ResponseEntity<?> process(HttpEntity<String> reqHttpEntity) throws Exception {
 		log.info("KANG-20200730 >>>>> {} {}", CurrentInfo.get());
 		
+		String strBody = null;
 		if (Flag.flag) {
-			log.info("SIT >>>>> Headers = {}", reqHttpEntity.getHeaders());
-			log.info("SIT >>>>> Body = {}", reqHttpEntity.getBody());
+			strBody = reqHttpEntity.getBody();
+			log.info("ONLINE-1 >>>>> Headers = {}", reqHttpEntity.getHeaders());
+			log.info("ONLINE-1 >>>>> Body = {}", strBody);
+		}
+		
+		String reqResType = null;
+		String reqJson = null;
+		if (Flag.flag) {
+			JsonNode jsonNode = new ObjectMapper().readTree(strBody);
+			String strReqRes = jsonNode.at("/__head_data").get("reqres").asText();
+			String strType = jsonNode.at("/__head_data").get("type").asText();
+			
+			reqResType = strReqRes + strType;
+			log.info("ONLINE-2 >>>>> reqResType = {}", reqResType);
+			
+			reqJson = jsonNode.toPrettyString();
+			log.info("ONLINE-2 >>>>> reqJson = {}", reqJson);
 		}
 		
 		String resJson = null;
 		if (Flag.flag) {
-			LnsJson lnsJson = new LnsJson();
-			lnsJson.setName("GetCalculation sbs01");
-			lnsJson.setHttpUrl("http://localhost:17082/v0.5/link/getCalculation");
-			lnsJson.setHttpMethod("POST");
-			lnsJson.setReqJsonData(reqHttpEntity.getBody());
-			log.info("ONLINE:GetCalculation >>>>> REQ.lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
+			// 2. link
+			LnsJsonNode lnsJsonNode = new LnsJsonNode();
+			lnsJsonNode.put("httpUrl", "http://localhost:17082/v0.6/link/process");
+			lnsJsonNode.put("httpMethod", "POST");
+			lnsJsonNode.put("reqResType", reqResType);
+			lnsJsonNode.put("reqJson", reqJson);
+			lnsJsonNode = this.lnsHttpClient.post(lnsJsonNode);
+			log.info("ONLINE-3 >>>>> lnsJsonNode = {}", lnsJsonNode.toPrettyString());
 			
-			//lnsJson = this.lnsHttpClient.post(lnsJson);
-			log.info("ONLINE:GetCalculation >>>>> RES.lnsJson = {}", JsonPrint.getInstance().toPrettyJson(lnsJson));
-			
-			resJson = lnsJson.getResJsonData();
+			resJson = lnsJsonNode.getValue("resJson");
+			log.info("ONLINE-3 >>>>> resJson = {}", resJson);
 		}
 		
 		MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();

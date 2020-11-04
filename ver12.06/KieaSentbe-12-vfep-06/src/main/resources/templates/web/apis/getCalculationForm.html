@@ -173,7 +173,8 @@
 				streamData: $('#apis_reqStream').val()
 			}, null, 2);
 			$.ajax({
-				url: _contextPath_ + "apis/getCalculation/sbs01",
+				//url: _contextPath_ + "apis/getCalculation/sbs01",
+				url: _urlSbs01 + "apis/getCalculation/sbs01",
 				type: "POST",
 				data: strJson,
 				contentType: "application/json",
@@ -588,11 +589,11 @@
 		});
 		$('#btnSendRecvJson').click(function() {
 			console.log('Hello btnSendRecvJson');
-			var strJson = "";
+			var strJson = $('#modal5_reqJson').val();
 			$.ajax({
-				url: _urlOnline + "/online/getCalculation",
+				url: _urlOnline + "/online/process",
 				type: "POST",
-				data: $('#modal5_reqJson').val(),
+				data: strJson,
 				contentType: "application/json",
 				header: {
 					"Authorization": "Basic " + btoa("havi" + ":" + "test")
