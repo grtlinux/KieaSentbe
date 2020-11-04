@@ -92,9 +92,9 @@ public class KieaSentbe00First01Application implements CommandLineRunner {
 		if (!Flag.flag) this.connectWorking.testEncrypt();
 		if (!Flag.flag) this.connectWorking.testDecrypt();
 		
-		if (Flag.flag) this.connectWorking.getCalculation();
+		if (!Flag.flag) this.connectWorking.getCalculation();
 		if (!Flag.flag) this.connectWorking.checkUser();
-		if (!Flag.flag) this.connectWorking.createUser();
+		if (Flag.flag) this.connectWorking.createUser();
 		if (!Flag.flag) this.connectWorking.getWebviewId();
 		if (!Flag.flag) this.connectWorking.deleteUser();
 	}

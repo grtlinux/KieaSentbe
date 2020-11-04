@@ -30,7 +30,7 @@ public class User {
 	
 	@JsonProperty(value = "account_number")
 	//private String accountNumber       = "05012345670000";  // 계좌번호. unique key
-	private String accountNumber       = "01012345670000";  // 계좌번호. unique key
+	private String accountNumber       = "01012345678001";  // 계좌번호. unique key
 	
 	@JsonProperty(value = "account_holder_name")
 	//private String accountHolderName   = "Jiwon Tak";  // 계좌주명
@@ -43,13 +43,13 @@ public class User {
 	private String nationalityIso      = "KR";  // 국적 (ISO)
 	
 	@JsonProperty(value = "id_number")
-	private String idNumber            = "801225-1230000";  // 실명번호. unique key
+	private String idNumber            = "801225-1230001";  // 실명번호. unique key
 	
 	@JsonProperty(value = "id_type")
 	private int idType                 = 1;     // id 타입
 	
 	@JsonProperty(value = "email")
-	private String email               = "email@sentbe.com";  // [옵션] 이메일
+	private String email               = "email0001@sentbe.com";  // [옵션] 이메일
 	
 	@JsonProperty(value = "often_send_country_iso")
 	private String oftenSendCountryIso = "PH";  // 주송금 국가(ISO)

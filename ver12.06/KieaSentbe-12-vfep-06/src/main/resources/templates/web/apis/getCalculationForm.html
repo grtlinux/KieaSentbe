@@ -165,16 +165,13 @@
 			});
 		});
 		//////////////////////////////////////////////////////////////////////////////
-		// TODO
 		$('#btnSendReqStream').click(function() {
 			console.log('Hello btnSendReqStream');
-			var strJson = JSON.stringify({  // TODO - 5
-				type: "200",
-				streamData: $('#apis_reqStream').val()
+			var strJson = JSON.stringify({
+				reqStream: $('#apis_reqStream').val()
 			}, null, 2);
 			$.ajax({
-				//url: _contextPath_ + "apis/getCalculation/sbs01",
-				url: _urlSbs01 + "apis/getCalculation/sbs01",
+				url: _urlSbs01 + "/sbs01/process",
 				type: "POST",
 				data: strJson,
 				contentType: "application/json",
@@ -183,7 +180,7 @@
 				},
 				dataType: "json",
 				success: function(data, status) {
-					$('#apis_resStream').val(data.resStrData);
+					$('#apis_resStream').val(data.resStream);
 				},
 				error: function() {
 					alert('FAIL of SAVE1');
@@ -251,18 +248,21 @@
 		//////////////////////////////////////////////////////////////////////////////
 		$('#btnShowResJson').click(function() {
 			console.log('Hello btnShowResJson');
+			var strJson = JSON.stringify({
+				reqResType: _resType,
+				stream: $('#apis_resStream').val()
+			});
 			$.ajax({
-				url: _contextPath_ + "apis/getCalculation/mapper/res/str2json",
+				url: _urlMapper + "/mapper/s2j",
 				type: "POST",
-				data: $('#apis_resStream').val(),
+				data: strJson,
 				contentType: "application/json",
 				header: {
 					"Authorization": "Basic " + btoa("havi" + ":" + "test")
 				},
 				dataType: "json",
 				success: function(data, status) {
-					var resJsonData = JSON.stringify(JSON.parse(data.resJsonData), null, 2);
-					$('#modal2_resJson').val(resJsonData);
+					$('#modal2_resJson').val(data.json);
 				},
 				error: function() {
 					alert('FAIL of SAVE1');
@@ -412,10 +412,8 @@
 				json: $('#modal1_reqJson').val()
 			});
 			$.ajax({
-				//url: _contextPath_ + "apis/getCalculation/mapper/req/json2str",
 				url: _urlMapper + "/mapper/j2s",
 				type: "POST",
-				//data: $('#modal1_reqJson').val(),
 				data: strJson,
 				contentType: "application/json",
 				header: {
