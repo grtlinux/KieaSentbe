@@ -33,8 +33,14 @@ public class Apis {
 	@Column(name = "type", length = 3)
 	private String type;
 	
+	@Column(name = "req_type", length = 7)
+	private String reqType;
+	
 	@Column(name = "req_json", length = 1024000)
 	private String reqJson;
+	
+	@Column(name = "res_type", length = 7)
+	private String resType;
 	
 	@Column(name = "res_json", length = 1024000)
 	private String resJson;

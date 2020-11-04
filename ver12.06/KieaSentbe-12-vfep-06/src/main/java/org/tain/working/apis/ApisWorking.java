@@ -52,6 +52,8 @@ public class ApisWorking {
 					apis.setHttpUrl(this.projEnvUrlProperties.getSentbe() + apis.getHttpUrl());
 					apis.setReqJson(StringTools.stringFromFile(rootPath + apis.getReqJson()));
 					apis.setResJson(StringTools.stringFromFile(rootPath + apis.getResJson()));
+					apis.setReqType("0700" + apis.getType());
+					apis.setResType("0710" + apis.getType());
 					//apis.setResJson("");
 					this.apisRepository.save(apis);                     // personal save
 				});
