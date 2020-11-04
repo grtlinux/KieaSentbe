@@ -5,7 +5,7 @@
 
 server:
   port: 17089
-  servlet.context-path: /v0.5
+  servlet.context-path: /v0.6
 
 
 spring:

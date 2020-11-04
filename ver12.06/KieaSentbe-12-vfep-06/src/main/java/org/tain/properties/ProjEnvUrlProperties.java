@@ -18,5 +18,7 @@ public class ProjEnvUrlProperties {
 	
 	private String mapper;
 	
+	private String sbs01;
+	
 	private String dummy;  // null
 }

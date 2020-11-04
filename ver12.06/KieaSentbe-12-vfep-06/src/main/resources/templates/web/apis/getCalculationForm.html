@@ -22,12 +22,6 @@
 		<input id="apis_id" type="hidden" th:value="${apis?.id}"/>
 		<input id="apis_type" type="hidden" th:value="${apis?.type}"/>
 		<table class="table">
-			<tr class="hide">
-				<th style="padding:13px 0 0 15px;">&nbsp;</th>
-				<td>
-					<button id="btnGetStreamInfo" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalGetStreamInfo">Get Stream Info</button>
-				</td>
-			</tr>
 			<tr>
 				<th style="padding:13px 0 0 15px;">id</th>
 				<td><input type="text" class="col-md-1 form-control input-sm" readonly th:value="${apis?.id}"/></td>
@@ -116,6 +110,8 @@
 		console.log(">>>>> urlOnline = " + urlOnline);
 		var urlMapper = /*[[${urlMapper}]]*/ 'default';
 		console.log(">>>>> urlMapper = " + urlMapper);
+		var urlSbs01 = /*[[${urlSbs01}]]*/ 'default';
+		console.log(">>>>> urlSbs01 = " + urlSbs01);
 	</script>
 	<!-- /script: variables -->
 	
@@ -140,113 +136,7 @@
 	<!-- ================================================================================== -->
 	<!-- ================================================================================== -->
 	
-	<!-- 1. Modal dialog : GetStreamInfo -->
-	<div class="modal fase" id="modalGetStreamInfo">
-		<div class="modal-dialog modal-lg modal-dialog-centered">
-			<div class="modal-content">
-			
-				<!-- Modal Header -->
-				<div class="modal-header bg-success">
-					<h4 class="modal-title">Get Stream Info</h4>
-					<!-- button type="button" class="close" data-dismiss="modal">&times;</button -->
-				</div>
-				
-				<!-- Modal body -->
-				<div class="modal-body">
-					<table class="table">
-						<tr>
-							<th style="padding:13px 0 0 15px;">reqResType</th>
-							<td><input id="modal1_reqResType" value="" readOnly type="text" class="col-md-1 form-control input-sm"/></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">
-								JsonInfo<br>
-								<button id="btnCopyJsonInfo" type="button" class="btn btn-info btn-xs">copy</button>
-							</th>
-							<td><textarea id="modal1_jsonInfo" class="col-md-1 form-control input-sm" rows="7" style="height:300px;"></textarea></td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;"> </th>
-							<td>
-								<button id="btnSaveJsonInfo" type="button" class="btn btn-primary">Save JsonInfo</button>
-							</td>
-						</tr>
-					</table>
-				</div>
-				
-				<!-- Modal footer -->
-				<div class="modal-footer bg-success">
-					<button id="btnCloseGetStreamInfo" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-				</div>
-			
-			</div>
-		</div>
-	</div>
-	<!-- /Modal dialog : GetStreamInfo -->
-	
-	<!-- script : GetStreamInfo -->
-	<script>
-		$('#btnGetStreamInfo').click(function() {
-			console.log('Hello btnGetStreamInfo');
-			$.ajax({
-				url: urlMapper + "/mapper/info/get",
-				type: "POST",
-				data: JSON.stringify({
-					reqResType: "0700200"
-				}),
-				contentType: "application/json",
-				header: {
-					"Authorization": "Basic " + btoa("havi" + ":" + "test")
-				},
-				dataType: "json",
-				success: function(data, status) {
-					//console.log("data = ", data);
-					$('#modal1_reqResType').val(data.reqResType);
-					$('#modal1_jsonInfo').val(data.jsonInfo);
-				},
-				error: function() {
-					alert('FAIL of SAVE1');
-				}
-			});
-		});
-		$('#btnSaveJsonInfo').click(function() {
-			console.log('Hello btnSaveJsonInfo');
-			$.ajax({
-				url: urlMapper + "/mapper/info/save",
-				type: "POST",
-				data: JSON.stringify({
-					reqResType: $('#modal1_reqResType').val(),
-					jsonInfo: $('#modal1_jsonInfo').val()
-				}),
-				contentType: "application/json",
-				header: {
-					"Authorization": "Basic " + btoa("havi" + ":" + "test")
-				},
-				dataType: "json",
-				success: function(data, status) {
-					if (true) alert("STATUS: " + data.status);
-				},
-				error: function() {
-					alert('FAIL of SAVE1');
-				}
-			});
-		});
-		$('#btnCloseGetStreamInfo').click(function() {
-			console.log('Hello btnCloseGetStreamInfo');
-		});
-	</script>
-	<!-- /script : GetStreamInfo -->
-	
-	
-	
-	
-	
-	
-	<!-- ================================================================================== -->
-	<!-- ================================================================================== -->
-	<!-- ================================================================================== -->
-	
-	<!-- 2. Modal dialog : MakeReqStream -->
+	<!-- 1. Modal dialog : MakeReqStream -->
 	<div class="modal fase" id="modalMakeReqStream">
 		<div class="modal-dialog modal-lg modal-dialog-centered">
 			<div class="modal-content">
@@ -321,178 +211,6 @@
 	<!-- /Modal dialog : MakeReqStream -->
 	
 	
-	<!-- script : main -->
-	<script>
-	</script>
-	<!-- /script : main -->
-	
-	
-	
-	
-	<!-- ================================================================================== -->
-	<!-- ================================================================================== -->
-	<!-- ================================================================================== -->
-	
-	<!-- 3. Modal dialog : ShowResJson -->
-	<div class="modal fase" id="modalShowResJson">
-		<div class="modal-dialog modal-lg modal-dialog-centered">
-			<div class="modal-content">
-			
-				<!-- Modal Header -->
-				<div class="modal-header bg-success">
-					<h4 class="modal-title">Show ResJson</h4>
-					<!-- button type="button" class="close" data-dismiss="modal">&times;</button -->
-				</div>
-				
-				<!-- Modal body -->
-				<div class="modal-body">
-					<table class="table">
-						<tr>
-							<th style="padding:13px 0 0 15px;">
-								ResJson<br>
-								<button id="btnCopyResJson" type="button" class="btn btn-info btn-xs">copy</button>
-							</th>
-							<td><textarea id="modal2_resJson" class="col-md-1 form-control input-sm" rows="7" style="height:200px;"></textarea></td>
-						</tr>
-					</table>
-				</div>
-				
-				<!-- Modal footer -->
-				<div class="modal-footer bg-success">
-					<button id="btnCloseShowResJson" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-				</div>
-			
-			</div>
-		</div>
-	</div>
-	<!-- /Modal dialog : ShowResJson -->
-	
-	
-	<!-- script : main -->
-	<script>
-	</script>
-	<!-- /script : main -->
-	
-	
-	
-	
-	<!-- ================================================================================== -->
-	<!-- ================================================================================== -->
-	<!-- ================================================================================== -->
-	
-	<!-- 4. Modal dialog : ShowCStruct -->
-	<div class="modal fase" id="modalShowCStruct">
-		<div class="modal-dialog modal-lg modal-dialog-centered">
-			<div class="modal-content">
-			
-				<!-- Modal Header -->
-				<div class="modal-header bg-success">
-					<h4 class="modal-title">Show C Structure</h4>
-					<!-- button type="button" class="close" data-dismiss="modal">&times;</button -->
-				</div>
-				
-				<!-- Modal body -->
-				<div class="modal-body">
-					<table class="table">
-						<tr>
-							<th style="padding:13px 0 0 15px;">
-								C Structure<br>
-								<button id="btnCopyCStruct" type="button" class="btn btn-info btn-xs">copy</button>
-							</th>
-							<td><textarea id="modal3_cstruct" class="col-md-1 form-control input-sm" rows="7" style="height:200px;"></textarea></td>
-						</tr>
-					</table>
-				</div>
-				
-				<!-- Modal footer -->
-				<div class="modal-footer bg-success">
-					<button id="btnCloseShowCStruct" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-				</div>
-			
-			</div>
-		</div>
-	</div>
-	<!-- /Modal dialog : ShowCStruct -->
-	
-	
-	<!-- script : main -->
-	<script>
-	</script>
-	<!-- /script : main -->
-	
-	
-	
-	
-	<!-- ================================================================================== -->
-	<!-- ================================================================================== -->
-	<!-- ================================================================================== -->
-	
-	<!-- 5. Modal dialog : SendJson -->
-	<div class="modal fase" id="modalSendJson">
-		<div class="modal-dialog modal-lg modal-dialog-centered">
-			<div class="modal-content">
-			
-				<!-- Modal Header -->
-				<div class="modal-header bg-success">
-					<h4 class="modal-title">Send JSON(Req -> Res)</h4>
-					<!-- button type="button" class="close" data-dismiss="modal">&times;</button -->
-				</div>
-				
-				<!-- Modal body -->
-				<div class="modal-body">
-					<table class="table">
-						<tr>
-							<th style="padding:13px 0 0 15px;">
-								Req JSON<br>
-								<button id="btnCopy5ReqJson" type="button" class="btn btn-info btn-xs">copy</button>
-							</th>
-							<td><textarea id="modal5_reqJson" class="col-md-1 form-control input-sm" rows="7" style="height:100px;"></textarea></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>
-								<button id="btnSendRecvJson" type="button" class="btn btn-primary">Send/Recv JSON</button>
-							</td>
-						</tr>
-						<tr>
-							<th style="padding:13px 0 0 15px;">
-								Res JSON<br>
-								<button id="btnCopy5ResJson" type="button" class="btn btn-info btn-xs">copy</button>
-							</th>
-							<td><textarea id="modal5_resJson" class="col-md-1 form-control input-sm" rows="7" style="height:100px;"></textarea></td>
-						</tr>
-					</table>
-				</div>
-				
-				<!-- Modal footer -->
-				<div class="modal-footer bg-success">
-					<button id="btnCloseSendJson" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-				</div>
-			
-			</div>
-		</div>
-	</div>
-	<!-- /Modal dialog : SendJson -->
-	
-	
-	<!-- script : main -->
-	<script>
-	</script>
-	<!-- /script : main -->
-	
-	
-	
-	
-	
-	<!-- ================================================================================== -->
-	<!-- ================================================================================== -->
-	<!-- ================================================================================== -->
-	<!-- ================================================================================== -->
-	<!-- ================================================================================== -->
-	<!-- ================================================================================== -->
-	
-	
-	
 	
 	
 	
@@ -558,6 +276,174 @@
 		});
 	</script>
 	<!-- /script : MakeReqStream -->
+	
+	
+	
+	
+	
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	<!-- 2. Modal dialog : ShowResJson -->
+	<div class="modal fase" id="modalShowResJson">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+			
+				<!-- Modal Header -->
+				<div class="modal-header bg-success">
+					<h4 class="modal-title">Show ResJson</h4>
+					<!-- button type="button" class="close" data-dismiss="modal">&times;</button -->
+				</div>
+				
+				<!-- Modal body -->
+				<div class="modal-body">
+					<table class="table">
+						<tr>
+							<th style="padding:13px 0 0 15px;">
+								ResJson<br>
+								<button id="btnCopyResJson" type="button" class="btn btn-info btn-xs">copy</button>
+							</th>
+							<td><textarea id="modal2_resJson" class="col-md-1 form-control input-sm" rows="7" style="height:200px;"></textarea></td>
+						</tr>
+					</table>
+				</div>
+				
+				<!-- Modal footer -->
+				<div class="modal-footer bg-success">
+					<button id="btnCloseShowResJson" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+	<!-- /Modal dialog : ShowResJson -->
+	
+	
+	<!-- script : main -->
+	<script>
+	</script>
+	<!-- /script : main -->
+	
+	
+	
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	<!-- 3. Modal dialog : ShowCStruct -->
+	<div class="modal fase" id="modalShowCStruct">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+			
+				<!-- Modal Header -->
+				<div class="modal-header bg-success">
+					<h4 class="modal-title">Show C Structure</h4>
+					<!-- button type="button" class="close" data-dismiss="modal">&times;</button -->
+				</div>
+				
+				<!-- Modal body -->
+				<div class="modal-body">
+					<table class="table">
+						<tr>
+							<th style="padding:13px 0 0 15px;">
+								C Structure<br>
+								<button id="btnCopyCStruct" type="button" class="btn btn-info btn-xs">copy</button>
+							</th>
+							<td><textarea id="modal3_cstruct" class="col-md-1 form-control input-sm" rows="7" style="height:200px;"></textarea></td>
+						</tr>
+					</table>
+				</div>
+				
+				<!-- Modal footer -->
+				<div class="modal-footer bg-success">
+					<button id="btnCloseShowCStruct" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+	<!-- /Modal dialog : ShowCStruct -->
+	
+	
+	<!-- script : main -->
+	<script>
+	</script>
+	<!-- /script : main -->
+	
+	
+	
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	<!-- 4. Modal dialog : SendJson -->
+	<div class="modal fase" id="modalSendJson">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+			
+				<!-- Modal Header -->
+				<div class="modal-header bg-success">
+					<h4 class="modal-title">Send JSON(Req -> Res)</h4>
+					<!-- button type="button" class="close" data-dismiss="modal">&times;</button -->
+				</div>
+				
+				<!-- Modal body -->
+				<div class="modal-body">
+					<table class="table">
+						<tr>
+							<th style="padding:13px 0 0 15px;">
+								Req JSON<br>
+								<button id="btnCopy5ReqJson" type="button" class="btn btn-info btn-xs">copy</button>
+							</th>
+							<td><textarea id="modal5_reqJson" class="col-md-1 form-control input-sm" rows="7" style="height:100px;"></textarea></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<button id="btnSendRecvJson" type="button" class="btn btn-primary">Send/Recv JSON</button>
+							</td>
+						</tr>
+						<tr>
+							<th style="padding:13px 0 0 15px;">
+								Res JSON<br>
+								<button id="btnCopy5ResJson" type="button" class="btn btn-info btn-xs">copy</button>
+							</th>
+							<td><textarea id="modal5_resJson" class="col-md-1 form-control input-sm" rows="7" style="height:100px;"></textarea></td>
+						</tr>
+					</table>
+				</div>
+				
+				<!-- Modal footer -->
+				<div class="modal-footer bg-success">
+					<button id="btnCloseSendJson" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+	<!-- /Modal dialog : SendJson -->
+	
+	
+	<!-- script : main -->
+	<script>
+	</script>
+	<!-- /script : main -->
+	
+	
+	
+	
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
 	
 	
 	
