@@ -151,6 +151,8 @@ public class LnsJsonToStream {
 					info.setFormat("%" + info.getLength() + "s");
 				}
 				
+				// TODO: thinking more
+				
 				//if (Flag.flag) System.out.printf(">>>>> %s [%s] %s%n", prefix, data, info.getFormat());
 				line = String.format("%s %s [" + info.getFormat() + "]", prefix, info.getFormat(), data);
 				if (Flag.flag) log.info(">>>>> {}", line);

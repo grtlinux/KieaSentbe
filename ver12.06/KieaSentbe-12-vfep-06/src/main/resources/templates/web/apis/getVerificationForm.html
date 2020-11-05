@@ -7,6 +7,37 @@
 	<th:block th:replace="layout/css::css1"></th:block>
 	<th:block th:replace="layout/script::script1"></th:block>
 	<!-- /css and script -->
+	
+	<!-- 0. script: variables -->
+	<script th:inline="javascript">
+		// document.ready
+		if (true) console.log(">>>>> _contextPath_ = " + _contextPath_);
+		//var json = /*[[${line?.reqParameters}]]*/;     // NOT_USE
+		//if (true) console.log(">>>>> json = " + json);
+		//$('#line_reqParameters').val(JSON.stringify(JSON.parse(json), null, 2));
+		
+		var _type = /*[[${apis?.type}]]*/ 'xxx';  // apis.type
+		console.log(">>>>> _type = ", _type);
+		
+		var _reqType = /*[[${apis?.reqType}]]*/ '0700xxx';  // apis.reqType
+		console.log(">>>>> _reqType = ", _reqType);
+		
+		var _resType = /*[[${apis?.resType}]]*/ '0710xxx';  // apis.resType
+		console.log(">>>>> _resType = ", _resType);
+		
+		var _reqJson = JSON.parse(/*[[${apis?.reqJson}]]*/);  // apis.reqJson
+		console.log(">>>>> _reqJson = ", _reqJson);
+		
+		var _urlOnline = /*[[${urlOnline}]]*/ 'default';
+		console.log(">>>>> _urlOnline = ", _urlOnline);
+		
+		var _urlMapper = /*[[${urlMapper}]]*/ 'default';
+		console.log(">>>>> _urlMapper = ", _urlMapper);
+		
+		var _urlSbs01 = /*[[${urlSbs01}]]*/ 'default';
+		console.log(">>>>> _urlSbs01 = ", _urlSbs01);
+	</script>
+	<!-- /script: variables -->
 </head>
 <body>
 	<!-- header -->
@@ -86,10 +117,173 @@
 	
 	
 	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	<!-- script : main -->
+	<script>
+		$('#btnMakeReqStream').click(function() {
+			console.log('Hello btnMakeReqStream');
+			// START: fields
+			$('#modal1_user_id').val(_reqJson.user_id);
+			// END: fields
+		});
+		//////////////////////////////////////////////////////////////////////////////
+		$('#btnCopyReqStream').click(function() {
+			console.log('Hello btnCopyReqStream');
+			var copyText = document.getElementById("apis_reqStream");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+		});
+		$('#btnShowReqCStruct').click(function() {
+			console.log('Hello btnShowReqCStruct');
+			var strJson = JSON.stringify({
+				reqResType: _reqType
+			}, null, 2);
+			$.ajax({
+				url: _urlMapper + "/mapper/cstruct",
+				type: "POST",
+				data: strJson,
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function(data, status) {
+					//var resJsonData = JSON.stringify(JSON.parse(data.resJsonData), null, 2);
+					$('#modal3_cstruct').val(data.cstruct);
+				},
+				error: function() {
+					alert('FAIL of SAVE1');
+				}
+			});
+		});
+		//////////////////////////////////////////////////////////////////////////////
+		$('#btnSendReqStream').click(function() {
+			console.log('Hello btnSendReqStream');
+			var strJson = JSON.stringify({
+				reqStream: $('#apis_reqStream').val()
+			}, null, 2);
+			$.ajax({
+				url: _urlSbs01 + "/sbs01/process",
+				type: "POST",
+				data: strJson,
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function(data, status) {
+					$('#apis_resStream').val(data.resStream);
+				},
+				error: function() {
+					alert('FAIL of SAVE1');
+				}
+			});
+		});
+		$('#btnSendJson').click(function() {
+			console.log('Hello btnSendJson');
+			var strJson = JSON.stringify({
+				__head_data: {
+					length: "0000",
+					reqres: "0700",
+					type: _type,
+					trNo: "000001",
+					reqDate: "20201010",
+					reqTime: "121212",
+					resTime: "",
+					resCode: "",
+					resMessage: "",
+					reserved: ""
+				},
+				__body_data: {
+					user_id: _reqJson.user_id
+				}
+			}, null, 2);
+			//$('#modal1_reqJson').val(strJson);
+			$('#modal5_reqJson').val(strJson);
+		});
+		//////////////////////////////////////////////////////////////////////////////
+		$('#btnCopyResStream').click(function() {
+			console.log('Hello btnCopyResStream');
+			var copyText = document.getElementById("apis_resStream");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+		});
+		$('#btnShowResCStruct').click(function() {
+			console.log('Hello btnShowResCStruct');
+			var strJson = JSON.stringify({
+				reqResType: _resType
+			}, null, 2);
+			$.ajax({
+				url: _urlMapper + "/mapper/cstruct",
+				type: "POST",
+				data: strJson,
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function(data, status) {
+					//var resJsonData = JSON.stringify(JSON.parse(data.resJsonData), null, 2);
+					$('#modal3_cstruct').val(data.cstruct);
+				},
+				error: function() {
+					alert('FAIL of SAVE1');
+				}
+			});
+		});
+		//////////////////////////////////////////////////////////////////////////////
+		$('#btnShowResJson').click(function() {
+			console.log('Hello btnShowResJson');
+			var strJson = JSON.stringify({
+				reqResType: _resType,
+				stream: $('#apis_resStream').val()
+			});
+			$.ajax({
+				url: _urlMapper + "/mapper/s2j",
+				type: "POST",
+				data: strJson,
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function(data, status) {
+					$('#modal2_resJson').val(data.json);
+				},
+				error: function() {
+					alert('FAIL of SAVE1');
+				}
+			});
+		});
+	</script>
+	<!-- /script : main -->
 	
 	
 	
-	<!-- Modal dialog : MakeReqStream -->
+	
+	
+	
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	
+	
+	
+	
+	
+	<!-- 1. Modal dialog : MakeReqStream -->
 	<div class="modal fase" id="modalMakeReqStream">
 		<div class="modal-dialog modal-lg modal-dialog-centered">
 			<div class="modal-content">
@@ -145,47 +339,93 @@
 	
 	
 	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	<!-- 1. script : MakeReqStream -->
+	<script>
+		$('#btnToJson').click(function() {
+			console.log('Hello btnToJson');
+			var reqJson = JSON.stringify({
+				__head_data: {
+					length: "0000",
+					reqres: "0700",
+					type: _type,
+					trNo: "000001",
+					reqDate: "20201010",
+					reqTime: "121212",
+					resTime: "",
+					resCode: "",
+					resMessage: "",
+					reserved: ""
+				},
+				__body_data: {
+					user_id: $('#modal1_user_id').val()
+				}
+			}, null, 2);
+			$('#modal1_reqJson').val(reqJson);
+		});
+		//////////////////////////////////////////////////////////////////////////////
+		$('#btnCopyReqJson').click(function() {
+			console.log('Hello btnCopyReqJson');
+			var copyText = document.getElementById("modal1_reqJson");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+		});
+		$('#btnGetReqStream').click(function() {
+			console.log('Hello btnGetReqStream');
+			var strJson = JSON.stringify({
+				reqResType: _reqType,
+				json: $('#modal1_reqJson').val()
+			});
+			$.ajax({
+				url: _urlMapper + "/mapper/j2s",
+				type: "POST",
+				data: strJson,
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function(data, status) {
+					$('#modal1_reqStream').val(data.stream);
+				},
+				error: function() {
+					alert('FAIL of SAVE1');
+				}
+			});
+		});
+		//////////////////////////////////////////////////////////////////////////////
+		$('#btnCloseMakeReqStream').click(function() {
+			console.log('Hello btnCloseMakeReqStream');
+			$('#apis_reqStream').val($('#modal1_reqStream').val());
+		});
+	</script>
+	<!-- /script : MakeReqStream -->
 	
 	
-	<!-- Modal dialog : ShowResJson -->
-	<div class="modal fase" id="modalShowResJson">
-		<div class="modal-dialog modal-lg modal-dialog-centered">
-			<div class="modal-content">
-			
-				<!-- Modal Header -->
-				<div class="modal-header bg-success">
-					<h4 class="modal-title">Show ResJson</h4>
-					<!-- button type="button" class="close" data-dismiss="modal">&times;</button -->
-				</div>
-				
-				<!-- Modal body -->
-				<div class="modal-body">
-					<table class="table">
-						<tr>
-							<th style="padding:13px 0 0 15px;">
-								ResJson<br>
-								<button id="btnCopyResJson" type="button" class="btn btn-info btn-xs">copy</button>
-							</th>
-							<td><textarea id="modal2_resJson" class="col-md-1 form-control input-sm" rows="7" style="height:200px;"></textarea></td>
-						</tr>
-					</table>
-				</div>
-				
-				<!-- Modal footer -->
-				<div class="modal-footer bg-success">
-					<button id="btnCloseShowResJson" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-				</div>
-			
-			</div>
-		</div>
-	</div>
-	<!-- /Modal dialog : ShowResJson -->
 	
 	
 	
 	
 	
-	<!-- Modal dialog : ShowCStruct -->
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	
+	
+	
+	
+	<!-- 2. Modal dialog : ShowCStruct -->
 	<div class="modal fase" id="modalShowCStruct">
 		<div class="modal-dialog modal-lg modal-dialog-centered">
 			<div class="modal-content">
@@ -221,9 +461,46 @@
 	
 	
 	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	<!-- 2. script : ShowCStruct -->
+	<script>
+		$('#btnCopyCStruct').click(function() {
+			console.log('Hello btnCopyCStruct');
+			var copyText = document.getElementById("modal3_cstruct");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+		});
+		//////////////////////////////////////////////////////////////////////////////
+		$('#btnCloseShowCStruct').click(function() {
+			console.log('Hello btnCloseShowCStruct');
+		});
+	</script>
+	<!-- /script : ShowCStruct -->
 	
 	
-	<!-- Modal dialog : SendJson -->
+	
+	
+	
+	
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	
+	
+	
+	
+	<!-- 3. Modal dialog : SendJson -->
 	<div class="modal fase" id="modalSendJson">
 		<div class="modal-dialog modal-lg modal-dialog-centered">
 			<div class="modal-content">
@@ -269,6 +546,146 @@
 		</div>
 	</div>
 	<!-- /Modal dialog : SendJson -->
+	
+	
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	<!-- 3. script : SendJson -->
+	<script>
+		$('#btnCopy5ReqJson').click(function() {
+			console.log('Hello btnCopy5ReqJson');
+			var copyText = document.getElementById("modal5_reqJson");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+		});
+		$('#btnSendRecvJson').click(function() {
+			console.log('Hello btnSendRecvJson');
+			var strJson = $('#modal5_reqJson').val();
+			$.ajax({
+				url: _urlOnline + "/online/process",
+				type: "POST",
+				data: strJson,
+				contentType: "application/json",
+				header: {
+					"Authorization": "Basic " + btoa("havi" + ":" + "test")
+				},
+				dataType: "json",
+				success: function(data, status) {
+					$('#modal5_resJson').val(JSON.stringify(data, null, 2));
+				},
+				error: function() {
+					alert('FAIL of SAVE1');
+				}
+			});
+		});
+		$('#btnCopy5ResJson').click(function() {
+			console.log('Hello btnCopy5ResJson');
+			var copyText = document.getElementById("modal5_resJson");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+		});
+		//////////////////////////////////////////////////////////////////////////////
+		$('#btnCloseSendJson').click(function() {
+			console.log('Hello btnCloseSendJson');
+		});
+	</script>
+	<!-- /script : SendJson -->
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	
+	
+	
+	
+	<!-- 4. Modal dialog : ShowResJson -->
+	<div class="modal fase" id="modalShowResJson">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+			
+				<!-- Modal Header -->
+				<div class="modal-header bg-success">
+					<h4 class="modal-title">Show ResJson</h4>
+					<!-- button type="button" class="close" data-dismiss="modal">&times;</button -->
+				</div>
+				
+				<!-- Modal body -->
+				<div class="modal-body">
+					<table class="table">
+						<tr>
+							<th style="padding:13px 0 0 15px;">
+								ResJson<br>
+								<button id="btnCopyResJson" type="button" class="btn btn-info btn-xs">copy</button>
+							</th>
+							<td><textarea id="modal2_resJson" class="col-md-1 form-control input-sm" rows="7" style="height:200px;"></textarea></td>
+						</tr>
+					</table>
+				</div>
+				
+				<!-- Modal footer -->
+				<div class="modal-footer bg-success">
+					<button id="btnCloseShowResJson" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+	<!-- /Modal dialog : ShowResJson -->
+	
+	
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	
+	<!-- 4. script : ShowResJson -->
+	<script>
+		$('#btnCopyResJson').click(function() {
+			console.log('Hello btnCopyResJson');
+			var copyText = document.getElementById("modal2_resJson");
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			document.execCommand("copy");
+		});
+		//////////////////////////////////////////////////////////////////////////////
+		$('#btnCloseShowResJson').click(function() {
+			console.log('Hello btnCloseShowResJson');
+		});
+	</script>
+	<!-- /script : ShowResJson -->
+	
+	
+	
+	
+	
+	
+	
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
+	<!-- ================================================================================== -->
 	
 	
 	

@@ -10,8 +10,8 @@
 	
 	<!-- 0. script: variables -->
 	<script th:inline="javascript">
-		if (true) console.log(">>>>> _contextPath_ = " + _contextPath_);
 		// document.ready
+		if (true) console.log(">>>>> _contextPath_ = " + _contextPath_);
 		//var json = /*[[${line?.reqParameters}]]*/;     // NOT_USE
 		//if (true) console.log(">>>>> json = " + json);
 		//$('#line_reqParameters').val(JSON.stringify(JSON.parse(json), null, 2));
@@ -373,7 +373,7 @@
 	<script>
 		$('#btnToJson').click(function() {
 			console.log('Hello btnToJson');
-			var reqJson = JSON.stringify({  // TODO - 1
+			var reqJson = JSON.stringify({
 				__head_data: {
 					length: "0000",
 					reqres: "0700",
