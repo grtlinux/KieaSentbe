@@ -184,7 +184,8 @@ proj-env:
 
   url:
     name: URL (dfep)
-    sentbe: http://localhost:17080/v0.6
+    sentbe: http://localhost:17080/v0.6      # vSentbe
+    #sentbe: https://10.200.50.4:10443
     #sentbe: https://hanwha.dev.sentbe.com:10443
 
 ---
@@ -201,5 +202,7 @@ proj-env:
     name: JSON (real)
   url:
     name: URL (real)
+    sentbe: https://hanwha.sentbe.com:10443
+    #sentbe: https://10.200.50.1:11443
 
 
