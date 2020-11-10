@@ -137,7 +137,6 @@ public class LnsSentbeClient {
 			log.trace("KANG-20200721 >>>>> jsonBodyNode = {}", jsonBodyNode);
 		}
 		
-		//String path = "/hanwha/checkUser";
 		String body = null;
 		String nonce = null;
 		String signature = null;
@@ -166,7 +165,9 @@ public class LnsSentbeClient {
 		if (Flag.flag) {
 			log.trace("KANG-20200721 >>>>> STEP-2");
 			
-			String url = lnsJsonNode.getValue("httpUrl").substring(8);
+			//String url = lnsJsonNode.getValue("httpUrl").substring(8);
+			String url = "/" + StringTools.getHttpPath(lnsJsonNode.getValue("httpUrl"));
+			
 			long epochTime = System.currentTimeMillis();
 			nonce = String.valueOf(epochTime / 1000);
 			String message = nonce + url + body;
@@ -277,6 +278,13 @@ public class LnsSentbeClient {
 						
 						// lnsJsonNode set of res
 						lnsJsonNode.put("resJson", resNode.toPrettyString());
+					}
+					
+					if (Flag.flag) {
+						// change reqResType
+						String reqResType = lnsJsonNode.getValue("reqResType");
+						reqResType = "0710" + reqResType.substring(4);
+						lnsJsonNode.put("reqResType", reqResType);
 					}
 				}
 				

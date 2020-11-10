@@ -164,4 +164,18 @@ public class StringTools {
 	public static String getHHMMSS() throws Exception {
 		return getDateTime("HHmmss");
 	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	
+	public static String getHttpPath(String url) {
+		for (int i = 0; i < 3; i++) {
+			int pos = url.indexOf('/');
+			if (pos < 0)
+				break;
+			url = url.substring(pos + 1);
+		}
+		return url;
+	}
 }

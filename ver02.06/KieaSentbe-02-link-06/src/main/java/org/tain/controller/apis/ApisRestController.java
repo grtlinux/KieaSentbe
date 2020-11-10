@@ -111,6 +111,7 @@ public class ApisRestController {
 				lnsJsonNode.put("httpMethod", "POST");
 				lnsJsonNode = this.lnsHttpClient.post(lnsJsonNode);
 			} else {
+				lnsJsonNode.put("name", "0700100-checkUser");
 				lnsJsonNode.put("httpUrl", sentbe + "/hanwha/checkUser");
 				lnsJsonNode.put("httpMethod", "POST");
 				lnsJsonNode = this.lnsSentbeClient.post(lnsJsonNode);
@@ -156,6 +157,7 @@ public class ApisRestController {
 				lnsJsonNode.put("httpMethod", "POST");
 				lnsJsonNode = this.lnsHttpClient.post(lnsJsonNode);
 			} else {
+				lnsJsonNode.put("name", "0700300-deleteUser");
 				lnsJsonNode.put("httpUrl", sentbe + "/hanwha/deleteUser");
 				lnsJsonNode.put("httpMethod", "POST");
 				lnsJsonNode = this.lnsSentbeClient.post(lnsJsonNode);
@@ -178,6 +180,7 @@ public class ApisRestController {
 				lnsJsonNode.put("httpMethod", "POST");
 				lnsJsonNode = this.lnsHttpClient.post(lnsJsonNode);
 			} else {
+				lnsJsonNode.put("name", "0700400-getWebviewId");
 				lnsJsonNode.put("httpUrl", sentbe + "/hanwha/getWebviewId");
 				lnsJsonNode.put("httpMethod", "POST");
 				lnsJsonNode = this.lnsSentbeClient.post(lnsJsonNode);
@@ -200,6 +203,7 @@ public class ApisRestController {
 				lnsJsonNode.put("httpMethod", "POST");
 				lnsJsonNode = this.lnsHttpClient.post(lnsJsonNode);
 			} else {
+				lnsJsonNode.put("name", "0700500-createUser");
 				lnsJsonNode.put("httpUrl", sentbe + "/hanwha/createUser");
 				lnsJsonNode.put("httpMethod", "POST");
 				lnsJsonNode = this.lnsSentbeClient.post(lnsJsonNode);
@@ -222,6 +226,7 @@ public class ApisRestController {
 				lnsJsonNode.put("httpMethod", "POST");
 				lnsJsonNode = this.lnsHttpClient.post(lnsJsonNode);
 			} else {
+				lnsJsonNode.put("name", "0700600-getResult");
 				lnsJsonNode.put("httpUrl", sentbe + "/hanwha/getResult");
 				lnsJsonNode.put("httpMethod", "POST");
 				lnsJsonNode = this.lnsSentbeClient.post(lnsJsonNode);
@@ -244,6 +249,7 @@ public class ApisRestController {
 				lnsJsonNode.put("httpMethod", "POST");
 				lnsJsonNode = this.lnsHttpClient.post(lnsJsonNode);
 			} else {
+				lnsJsonNode.put("name", "0700700-getVerification");
 				lnsJsonNode.put("httpUrl", sentbe + "/hanwha/getVerification");
 				lnsJsonNode.put("httpMethod", "POST");
 				lnsJsonNode = this.lnsSentbeClient.post(lnsJsonNode);
@@ -266,6 +272,7 @@ public class ApisRestController {
 				lnsJsonNode.put("httpMethod", "POST");
 				lnsJsonNode = this.lnsHttpClient.post(lnsJsonNode);
 			} else {
+				lnsJsonNode.put("name", "0700800-migrationUser");
 				lnsJsonNode.put("httpUrl", sentbe + "/hanwha/migrationUser");
 				lnsJsonNode.put("httpMethod", "POST");
 				lnsJsonNode = this.lnsSentbeClient.post(lnsJsonNode);

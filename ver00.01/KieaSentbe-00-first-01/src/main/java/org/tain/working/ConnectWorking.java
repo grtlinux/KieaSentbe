@@ -405,12 +405,44 @@ public class ConnectWorking {
 		String nonce = null;
 		String signature = null;
 		
+		String jsonData = null;
+		if (Flag.flag) {
+			User user = new User();
+			jsonData = "{\n" + 
+					"    \"version\" : 1,\n" + 
+					"    \"list\" : [ \"SSFCTS\", \"EFTS\", \"PRIVACY\", \"CAUTIONS\", \"CLAIMS\" ]\n" + 
+					"  },\n" + 
+					"  \"phone\" : {\n" + 
+					"    \"iso\" : \"KR\",\n" + 
+					"    \"number\" : \"1033889202\"\n" +               // key
+					"  },\n" + 
+					"  \"user_name\" : {\n" + 
+					"    \"first\" : \"Seok\",\n" + 
+					"    \"middle\" : \"\",\n" + 
+					"    \"last\" : \"Kang\"\n" + 
+					"  },\n" + 
+					"  \"gender\" : 1,\n" + 
+					"  \"account_number\" : \"01012345679202\",\n" +    // key
+					"  \"account_holder_name\" : \"Seok Kang\",\n" + 
+					"  \"birth_date\" : \"19701225\",\n" + 
+					"  \"nationality_iso\" : \"KR\",\n" + 
+					"  \"id_number\" : \"801225-1239202\",\n" +         // key
+					"  \"id_type\" : 1,\n" + 
+					"  \"email\" : \"email9202@sentbe.com\",\n" +       // key
+					"  \"often_send_country_iso\" : \"PH\",\n" + 
+					"  \"occupation\" : 3,\n" + 
+					"  \"funds_source\" : 3,\n" + 
+					"  \"transfer_purpose\" : 3\n" + 
+					"}";
+			
+			//jsonData = JsonPrint.getInstance().toPrettyJson(user);
+			
+			
+			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonData: " + jsonData);
+		}
+		
 		if (Flag.flag) {
 			log.info("KANG-20200721 >>>>> STEP-1");
-			
-			User user = new User();
-			String jsonData = JsonPrint.getInstance().toPrettyJson(user);
-			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonData: " + jsonData);
 			
 			String pass = this.lnsEnvJobProperties.getSentbeSecretKeyForData();  // secretKey for data
 			String encrypData = Aes256.encrypt(jsonData, pass);                  // Encryption
