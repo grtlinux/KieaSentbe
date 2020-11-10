@@ -133,6 +133,7 @@ public class ApisRestController {
 				lnsJsonNode.put("httpMethod", "POST");
 				lnsJsonNode = this.lnsHttpClient.post(lnsJsonNode);
 			} else {
+				lnsJsonNode.put("name", "0700200-getCalculation");
 				lnsJsonNode.put("httpUrl", sentbe + "/hanwha/getCalculation");
 				lnsJsonNode.put("httpMethod", "POST");
 				lnsJsonNode = this.lnsSentbeClient.post(lnsJsonNode);

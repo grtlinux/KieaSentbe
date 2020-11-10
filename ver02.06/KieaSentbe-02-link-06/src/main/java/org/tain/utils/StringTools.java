@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class StringTools {
 
@@ -121,5 +123,45 @@ public class StringTools {
 				if (pw != null) try { pw.close(); } catch (Exception e) {}
 			}
 		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	
+	public static String getExtension(String fileName) {
+		int pos = fileName.lastIndexOf('.');
+		if (pos < 0)
+			return "_NO_EXT_";
+		
+		return fileName.substring(pos + 1);
+	}
+	
+	public static boolean isExtension(String fileName, String ext) {
+		return getExtension(fileName).equals(ext);
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	
+	public static String getDateTime(String strFormat) throws Exception {
+		return new SimpleDateFormat(strFormat).format(new Date());
+	}
+	
+	public static String getYYMMDD() throws Exception {
+		return getDateTime("yyMMdd");
+	}
+	
+	public static String getYYYYMMDD() throws Exception {
+		return getDateTime("yyyyMMdd");
+	}
+	
+	public static String getYYMMDDHHMMSS() throws Exception {
+		return getDateTime("yyMMddHHmmss");
+	}
+	
+	public static String getHHMMSS() throws Exception {
+		return getDateTime("HHmmss");
 	}
 }

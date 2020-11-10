@@ -11,8 +11,8 @@ server:
 spring:
   profiles.active:
   - proj-default
-  - proj-air
-  #- proj-pro
+  #- proj-air
+  - proj-pro
   #- proj-aws
   #- proj-dfep
   #- proj-real
@@ -188,7 +188,8 @@ proj-env:
 
   url:
     name: URL (dfep)
-    sentbe: https://hanwha.dev.sentbe.com:10443
+    #sentbe: https://hanwha.dev.sentbe.com:10443
+    sentbe: https://10.200.50.4:10443
     online: http://172.30.222.3:17083/v0.6
     mapper: http://172.30.222.3:17087/v0.6
     sbs01:  http://172.30.222.3:17089/v0.6

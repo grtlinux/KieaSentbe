@@ -11,8 +11,8 @@ server:
 spring:
   profiles.active:
   - proj-default
-  - proj-air
-  #- proj-pro
+  #- proj-air
+  - proj-pro
   #- proj-aws
   #- proj-dfep
   #- proj-real
@@ -145,8 +145,8 @@ proj-env:
 
   url:
     name: URL (pro)
-    sentbe: http://localhost:17080/v0.6
-    #sentbe: https://hanwha.dev.sentbe.com:10443
+    #sentbe: http://localhost:17080/v0.6
+    sentbe: https://hanwha.dev.sentbe.com:10443
 
 ---
 # --------------------------------------------------------

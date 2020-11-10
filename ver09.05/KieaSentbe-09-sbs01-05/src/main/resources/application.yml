@@ -11,8 +11,8 @@ server:
 spring:
   profiles.active:
   - proj-default
-  - proj-air
-  #- proj-pro
+  #- proj-air
+  - proj-pro
   #- proj-aws
   #- proj-dfep
   #- proj-real
