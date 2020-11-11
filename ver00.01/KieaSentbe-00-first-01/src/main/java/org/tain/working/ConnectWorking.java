@@ -437,7 +437,6 @@ public class ConnectWorking {
 			
 			//jsonData = JsonPrint.getInstance().toPrettyJson(user);
 			
-			
 			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonData: " + jsonData);
 		}
 		
