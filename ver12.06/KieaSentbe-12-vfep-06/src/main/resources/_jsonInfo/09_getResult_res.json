@@ -21,6 +21,37 @@
         "name" : "getResult.RES.body"
     },
     "__body_data" : {
-        "status" : "L:10,T:string"
+        "RMTC_NTN_COD": "L:5,T:string",
+        "FRCR_RMTC_MTH_SCD": "L:5,T:string",
+        "RMTC_CRRY_COD": "L:5,T:string",
+        "RMTC_FRCR_AMT": "L:20,T:string",
+        "WON_WDRW_AMT": "L:20,T:string",
+        "USD_TR_AMT": "L:20,T:string",
+        "APLY_EXRT": "L:20,T:string",
+        "RMTC_FST_ENG_NM": "L:20,T:string",
+        "RMTC_LAST_ENG_NM": "L:20,T:string",
+        "RMTR_NTN_COD": "L:5,T:string",
+        "RMTC_DETL_ADDR_ENG_NM": "L:20,T:string",
+        "RMTC_ADDR_CTST_NM": "L:20,T:string",
+        "RMTC_ADDR_CTY_NM": "L:20,T:string",
+        "RMTC_ADDR_NTN_ENG_COD": "L:5,T:string",
+        "RMTC_ZPCD": "L:10,T:string",
+        "RMTR_TLNO": "L:20,T:string",
+        "RPNT_NTN_COD": "L:5,T:string",
+        "RCVN_CRRY_COD": "L:5,T:string",
+        "RCVN_FRCR_AMT": "L:20,T:string",
+        "RCVN_ADDR_NTN_ENG_COD": "L:5,T:string",
+        "RCVN_FST_ENG_NM": "L:20,T:string",
+        "RCVN_LAST_ENG_NM": "L:20,T:string",
+        "RCVN_DETL_ADDR_ENG_NM": "L:20,T:string",
+        "RCVN_ADDR_CTST_NM": "L:20,T:string",
+        "RCVN_ADDR_CTY_NM": "L:20,T:string",
+        "RCVN_ZPCD": "L:20,T:string",
+        "RPNT_TLNO": "L:20,T:string",
+        "PYMT_ISTT_SWFT_COD": "L:5,T:string",
+        "FRCR_RCVN_ACNO": "L:20,T:string",
+        "OVRS_RMTC_PRPS_SCD": "L:5,T:string",
+        "OVRS_RMTC_FNDS_ORN_SCD": "L:5,T:string",
+        "RMTC_STTS_NM": "L:20,T:string"
     }
 }

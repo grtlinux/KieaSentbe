@@ -409,12 +409,13 @@ public class ConnectWorking {
 		if (Flag.flag) {
 			User user = new User();
 			jsonData = "{\n" + 
+					"  \"agreements\" : {\n" + 
 					"    \"version\" : 1,\n" + 
 					"    \"list\" : [ \"SSFCTS\", \"EFTS\", \"PRIVACY\", \"CAUTIONS\", \"CLAIMS\" ]\n" + 
 					"  },\n" + 
 					"  \"phone\" : {\n" + 
 					"    \"iso\" : \"KR\",\n" + 
-					"    \"number\" : \"1033889203\"\n" +               // key
+					"    \"number\" : \"1033880011\"\n" +               // key
 					"  },\n" + 
 					"  \"user_name\" : {\n" + 
 					"    \"first\" : \"Seok\",\n" + 
@@ -422,13 +423,13 @@ public class ConnectWorking {
 					"    \"last\" : \"Kang\"\n" + 
 					"  },\n" + 
 					"  \"gender\" : 1,\n" + 
-					"  \"account_number\" : \"01012345679203\",\n" +    // key
+					"  \"account_number\" : \"01012345670011\",\n" +    // key
 					"  \"account_holder_name\" : \"Seok Kang\",\n" + 
 					"  \"birth_date\" : \"19701225\",\n" + 
 					"  \"nationality_iso\" : \"KR\",\n" + 
-					"  \"id_number\" : \"801225-1239203\",\n" +         // key
+					"  \"id_number\" : \"801225-1230011\",\n" +         // key
 					"  \"id_type\" : 1,\n" + 
-					"  \"email\" : \"email9203@sentbe.com\",\n" +       // key
+					"  \"email\" : \"email0011@sentbe.com\",\n" +       // key
 					"  \"often_send_country_iso\" : \"PH\",\n" + 
 					"  \"occupation\" : 3,\n" + 
 					"  \"funds_source\" : 3,\n" + 
@@ -463,7 +464,7 @@ public class ConnectWorking {
 			log.info("KANG-20200721 >>>>> STEP-2");
 			
 			String url = "hanwha.dev.sentbe.com:10443" + path;
-			//url = path;
+			url = path;
 			long epochTime = System.currentTimeMillis();
 			nonce = String.valueOf(epochTime);
 			String message = nonce + url + body;
