@@ -414,7 +414,7 @@ public class ConnectWorking {
 					"  },\n" + 
 					"  \"phone\" : {\n" + 
 					"    \"iso\" : \"KR\",\n" + 
-					"    \"number\" : \"1033889202\"\n" +               // key
+					"    \"number\" : \"1033889203\"\n" +               // key
 					"  },\n" + 
 					"  \"user_name\" : {\n" + 
 					"    \"first\" : \"Seok\",\n" + 
@@ -422,13 +422,13 @@ public class ConnectWorking {
 					"    \"last\" : \"Kang\"\n" + 
 					"  },\n" + 
 					"  \"gender\" : 1,\n" + 
-					"  \"account_number\" : \"01012345679202\",\n" +    // key
+					"  \"account_number\" : \"01012345679203\",\n" +    // key
 					"  \"account_holder_name\" : \"Seok Kang\",\n" + 
 					"  \"birth_date\" : \"19701225\",\n" + 
 					"  \"nationality_iso\" : \"KR\",\n" + 
-					"  \"id_number\" : \"801225-1239202\",\n" +         // key
+					"  \"id_number\" : \"801225-1239203\",\n" +         // key
 					"  \"id_type\" : 1,\n" + 
-					"  \"email\" : \"email9202@sentbe.com\",\n" +       // key
+					"  \"email\" : \"email9203@sentbe.com\",\n" +       // key
 					"  \"often_send_country_iso\" : \"PH\",\n" + 
 					"  \"occupation\" : 3,\n" + 
 					"  \"funds_source\" : 3,\n" + 
@@ -463,6 +463,7 @@ public class ConnectWorking {
 			log.info("KANG-20200721 >>>>> STEP-2");
 			
 			String url = "hanwha.dev.sentbe.com:10443" + path;
+			//url = path;
 			long epochTime = System.currentTimeMillis();
 			nonce = String.valueOf(epochTime);
 			String message = nonce + url + body;
