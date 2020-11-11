@@ -13,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.tain.object.user.User;
 import org.tain.properties.LnsEnvJobProperties;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
@@ -407,7 +406,7 @@ public class ConnectWorking {
 		
 		String jsonData = null;
 		if (Flag.flag) {
-			User user = new User();
+			//User user = new User();
 			jsonData = "{\n" + 
 					"  \"agreements\" : {\n" + 
 					"    \"version\" : 1,\n" + 
@@ -852,6 +851,141 @@ public class ConnectWorking {
 			//mapData.put("user_id", 1001114);
 			//mapData.put("user_id", 1001115);
 			mapData.put("user_id", 1001116);
+			String jsonData = JsonPrint.getInstance().toPrettyJson(mapData);
+			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonData: " + jsonData);
+			
+			String pass = this.lnsEnvJobProperties.getSentbeSecretKeyForData();  // secretKey for data
+			String encrypData = Aes256.encrypt(jsonData, pass);                  // Encryption
+			if (Flag.flag) System.out.println(">>>>> STEP-1 pass(secretKey): " + pass);
+			if (Flag.flag) System.out.println(">>>>> STEP-1 encrypData     : " + encrypData);
+			
+			Map<String,String> mapReq = new HashMap<>();
+			mapReq.put("data", encrypData);
+			String jsonPrettyBody = JsonPrint.getInstance().toPrettyJson(mapReq);
+			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonPrettyBody: " + jsonPrettyBody);
+			
+			String jsonBody = JsonPrint.getInstance().toJson(mapReq);
+			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonBody: " + jsonBody);
+			
+			body = jsonPrettyBody;
+		}
+		
+		if (Flag.flag) {
+			log.info("KANG-20200721 >>>>> STEP-2");
+			
+			String url = "hanwha.dev.sentbe.com:10443" + path;
+			long epochTime = System.currentTimeMillis();
+			nonce = String.valueOf(epochTime / 1000);
+			String message = nonce + url + body;
+			
+			Mac hasher = Mac.getInstance("HmacSHA256");
+			String key = this.lnsEnvJobProperties.getSentbeSecretKeyForHmac();   // secretKey for hmac
+			hasher.init(new SecretKeySpec(key.getBytes(), "HmacSHA256"));
+			byte[] hash = hasher.doFinal(message.getBytes());               // message
+			
+			String signatureHexit = DatatypeConverter.printHexBinary(hash);     // Hexit
+			String signatureBase64 = DatatypeConverter.printBase64Binary(hash);     // Base64
+			
+			if (Flag.flag) System.out.println(">>>>> STEP-2 client-key       [" + this.lnsEnvJobProperties.getSentbeClientKey() + "]");
+			if (Flag.flag) System.out.println(">>>>> STEP-2 secret-key       [" + key + "]");
+			if (Flag.flag) System.out.println(">>>>> STEP-2 epochTime(millisec)   [" + epochTime + "]");
+			if (Flag.flag) System.out.println(">>>>> STEP-2 nonce(epochTime/1000) [" + nonce + "]");
+			if (Flag.flag) System.out.println(">>>>> STEP-2 url              [" + url + "]");
+			if (Flag.flag) System.out.println(">>>>> STEP-2 body             [" + body + "]");
+			if (Flag.flag) System.out.println(">>>>> STEP-2 messge(1+2+3)    [" + message + "]");
+			if (Flag.flag) System.out.println(">>>>> STEP-2 key(secret-key)  [" + key + "]");
+			if (Flag.flag) System.out.println(">>>>> STEP-2 signature Hexit  [" + signatureHexit + "]");
+			if (Flag.flag) System.out.println(">>>>> STEP-2 signature Base64 [" + signatureBase64 + "]");
+			
+			signature = signatureBase64;
+		}
+		
+		if (Flag.flag) {
+			log.info("KANG-20200721 >>>>> STEP-3");
+			
+			String https = "https://hanwha.dev.sentbe.com:10443" + path;
+			
+			HttpHeaders reqHeaders = new HttpHeaders();
+			reqHeaders.set("Accept", "application/json");
+			reqHeaders.set("Content-Type", "application/json; charset=utf-8");
+			reqHeaders.set("x-api-key", this.lnsEnvJobProperties.getSentbeClientKey());
+			reqHeaders.set("x-api-nonce", nonce);
+			reqHeaders.set("x-api-signature", signature);
+			if (Flag.flag) JsonPrint.getInstance().printPrettyJson("ReqHeaders", reqHeaders);
+			if (Flag.flag) System.out.println(">>>>> body: " + body);
+			
+			HttpEntity<String> reqHttpEntity = new HttpEntity<>(body, reqHeaders);
+			
+			ResponseEntity<String> response = RestTemplateConfig.get(RestTemplateType.SETENV).exchange(
+					https
+					, HttpMethod.POST
+					, reqHttpEntity
+					, String.class);
+					
+			log.info("=====================================================");
+			log.info("KANG-20200623 >>>>> https = {}", https);
+			log.info("KANG-20200623 >>>>> response.getStatusCodeValue() = {}", response.getStatusCodeValue());
+			log.info("KANG-20200623 >>>>> response.getStatusCode()      = {}", response.getStatusCode());
+			log.info("KANG-20200623 >>>>> response.getBody()            = {}", response.getBody());
+			log.info("=====================================================");
+			if (response.getStatusCodeValue() == 200) {
+				JsonNode jsonResponseBody = JsonPrint.getInstance().getObjectMapper().readTree(response.getBody());
+				if (Flag.flag) System.out.println(">>>>> response.getBody(): " + jsonResponseBody.toPrettyString());
+				
+				if (jsonResponseBody.at("/code").asInt() == 200 && !"".equals(jsonResponseBody.at("/data").asText())) {
+					String pass = this.lnsEnvJobProperties.getSentbeSecretKeyForData();  // secretKey for data
+					String decryptData = Aes256.decrypt(jsonResponseBody.at("/data").asText(), pass);
+					
+					JsonNode jsonResponseData = JsonPrint.getInstance().getObjectMapper().readTree(decryptData);
+					if (Flag.flag) System.out.println(">>>>> jsonResponseData: " + jsonResponseData.toPrettyString());
+				}
+			}
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	
+	/*
+	 * name: getCalculation
+	 * 
+	 * REQ: {
+	 *   "input_amount": 1000000, // [필수]입력 금액
+	 *   "input_currency": "KRW", // [필수]입력 통화
+	 *   "from_currency": "KRW", // [필수]보내는 통화
+	 *   "to_currency": "PHP", // [필수]받는 통화
+	 *   "to_country": "PH", // [필수]받는 국가
+	 *   "exchange_rate_id": 20190605175000 // [옵션] 환율 ID
+	 * }
+	 * RES: {
+	 *   "exchange_rate_id": "20190605175000", //환율 ID
+	 *   "from_amount": 1000000, // 보내는 금액
+	 *   "from_currency": "KRW", // 보내는 통화
+	 *   "to_amount": 43258, // 받는 금액
+	 *   "to_currency": "PHP", // 받는 통화
+	 *   "transfer_fee": 5000 // 송금 수수료
+	 * }
+	 */
+	// TODO 2020-11-11: to repair for future
+	public void getResult() throws Exception {
+		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
+		
+		String path = "/hanwha/getCalculation";
+		String body = null;
+		String nonce = null;
+		String signature = null;
+		
+		if (Flag.flag) {
+			log.info("KANG-20200721 >>>>> STEP-1");
+			
+			Map<String,Object> mapData = new HashMap<>();
+			mapData.put("input_amount", 1000000);
+			mapData.put("input_currency", "KRW");
+			mapData.put("from_currency", "KRW");
+			mapData.put("to_currency", "PHP");
+			mapData.put("to_country", "PH");
+			mapData.put("exchange_rate_id", "20200828045000");  // yyyyMMddHHmmss
 			String jsonData = JsonPrint.getInstance().toPrettyJson(mapData);
 			if (Flag.flag) System.out.println(">>>>> STEP-1 jsonData: " + jsonData);
 			

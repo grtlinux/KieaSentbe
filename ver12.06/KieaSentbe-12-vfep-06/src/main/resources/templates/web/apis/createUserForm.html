@@ -461,25 +461,25 @@
 					},
 					phone: {
 						iso: $('#modal1_phone_iso').val(),
-						number: $('#modal1_phone_number').val()
+						number: Number($('#modal1_phone_number').val())
 					},
 					user_name: {
 						first: $('#modal1_user_name_first').val(),
 						middle: $('#modal1_user_name_middle').val(),
 						last: $('#modal1_user_name_last').val()
 					},
-					gender: $('#modal1_gender').val(),
+					gender: Number($('#modal1_gender').val()),
 					account_number: $('#modal1_account_number').val(),
 					account_holder_name: $('#modal1_account_holder_name').val(),
 					birth_date: $('#modal1_birth_date').val(),
 					nationality_iso: $('#modal1_nationality_iso').val(),
 					id_number: $('#modal1_id_number').val(),
-					id_type: $('#modal1_id_type').val(),
+					id_type: Number($('#modal1_id_type').val()),
 					email: $('#modal1_email').val(),
 					often_send_country_iso: $('#modal1_often_send_country_iso').val(),
-					occupation: $('#modal1_occupation').val(),
-					funds_source: $('#modal1_funds_source').val(),
-					transfer_purpose: $('#modal1_transfer_purpose').val()
+					occupation: Number($('#modal1_occupation').val()),
+					funds_source: Number($('#modal1_funds_source').val()),
+					transfer_purpose: Number($('#modal1_transfer_purpose').val())
 				}
 			}, null, 2);
 			$('#modal1_reqJson').val(reqJson);
