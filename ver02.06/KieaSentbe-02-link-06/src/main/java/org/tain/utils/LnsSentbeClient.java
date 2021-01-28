@@ -19,6 +19,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.tain.mapper.LnsJsonNode;
+import org.tain.mapper.LnsNodeTools;
 import org.tain.object.lns.LnsJson;
 import org.tain.properties.ProjEnvParamProperties;
 import org.tain.utils.enums.RestTemplateType;
@@ -126,8 +127,9 @@ public class LnsSentbeClient {
 		String jsonHeadNode = null;
 		String jsonBodyNode = null;
 		if (Flag.flag) {
-			log.trace("\n\n\n================== Sentbe START: {} ===================", lnsJsonNode.getValue("name"));
+			log.trace("\n\n\n================== Sentbe START: {} ===================", lnsJsonNode.getText("name"));
 			log.trace(">>>>> REQ.httpUrl(method): {} ({})", lnsJsonNode.getValue("httpUrl"), lnsJsonNode.getValue("httpMethod"));
+			
 			jsonNode = new ObjectMapper().readTree(lnsJsonNode.getValue("reqJson"));
 			headNode = jsonNode.at("/__head_data");
 			bodyNode = jsonNode.at("/__body_data");
@@ -139,6 +141,15 @@ public class LnsSentbeClient {
 			log.trace("KANG-20200721 >>>>> jsonBodyNode = {}", jsonBodyNode);
 		}
 		
+		//////////////////////////////////////////////////////////////////////////////////////////
+		LnsJsonNode reqJsonNode = new LnsJsonNode(lnsJsonNode.getJsonNode("request"));
+		log.info(">>>>> POST.REQ.reqJsonNode    = {}", reqJsonNode.toPrettyString());
+		LnsJsonNode reqHeadNode = new LnsJsonNode(reqJsonNode.getJsonNode("__head_data"));
+		log.info(">>>>> POST.REQ.reqHeadNode    = {}", reqHeadNode.toPrettyString());
+		LnsJsonNode reqBodyNode = new LnsJsonNode(reqJsonNode.getJsonNode("__body_data"));
+		log.info(">>>>> POST.REQ.reqBodyNode    = {}", reqBodyNode.toPrettyString());
+		
+		//////////////////////////////////////////////////////////////////////////////////////////
 		String body = null;
 		String nonce = null;
 		String signature = null;
@@ -214,8 +225,20 @@ public class LnsSentbeClient {
 			HttpEntity<String> reqHttpEntity = new HttpEntity<>(body, reqHeaders);
 			log.trace(">>>>> STEP-3 reqHttpEntity: {}", reqHttpEntity);
 			
+			//////////////////////////////////////////////////////////////////////////
+			// response json
+			LnsJsonNode resJsonNode = new LnsJsonNode("{}");
+			LnsJsonNode resHeadNode = new LnsJsonNode(reqHeadNode.get().toString());  // head
+			LnsJsonNode resDataNode = new LnsJsonNode("{}");                          // body
+			
 			ResponseEntity<String> response = null;
 			try {
+				if (Flag.flag) {
+					// head
+					resHeadNode.put("reqres", "0210");
+					resHeadNode.put("resTime", LnsNodeTools.getTime());
+				}
+				
 				response = RestTemplateConfig.get(RestTemplateType.SETENV).exchange(
 						httpUrl
 						, httpMethod

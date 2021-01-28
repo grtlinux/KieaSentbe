@@ -55,7 +55,10 @@ public class MapperReaderJob {
 				if (fileEntry.isFile()) {
 					if (Flag.flag) log.info(">>>>> [{}] [{}]", fileEntry.getParent(), fileEntry.getName());
 					
-					if (!StringTools.isExtension(fileEntry.getName(), "json"))
+					if (!StringTools.isExtension(fileEntry.getName(), "json")
+							|| "apis.json".equals(fileEntry.getName())
+							|| "error.json".equals(fileEntry.getName())
+							)
 						continue;
 					
 					LnsMstInfo lnsMstInfo = new LnsMstInfo(fileEntry.getParent(), fileEntry.getName());
@@ -99,7 +102,10 @@ public class MapperReaderJob {
 						// subdirectory
 					} else if (fileEntry.isFile()) {
 						// file
-						if (!StringTools.isExtension(fileEntry.getName(), "json"))
+						if (!StringTools.isExtension(fileEntry.getName(), "json")
+								|| "apis.json".equals(fileEntry.getName())
+								|| "error.json".equals(fileEntry.getName())
+								)
 							continue;
 						
 						LnsMstInfo lnsMstInfo = this.mapInfo.get(fileEntry.getName());
