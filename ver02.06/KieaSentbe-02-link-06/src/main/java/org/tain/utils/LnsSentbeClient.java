@@ -40,10 +40,12 @@ public class LnsSentbeClient {
 	
 	///////////////////////////////////////////////////////////////////////////
 	
+	@Deprecated
 	public LnsJson get(LnsJson lnsJson) throws Exception {
 		return get(lnsJson, false);
 	}
 	
+	@Deprecated
 	public LnsJson get(LnsJson lnsJson, boolean flagAccessToken) throws Exception {
 		log.info("KANG-20200721 >>>>> {} {}", CurrentInfo.get());
 		
@@ -124,7 +126,7 @@ public class LnsSentbeClient {
 		String jsonHeadNode = null;
 		String jsonBodyNode = null;
 		if (Flag.flag) {
-			log.trace("================== Sentbe START: {} ===================", lnsJsonNode.getValue("name"));
+			log.trace("\n\n\n================== Sentbe START: {} ===================", lnsJsonNode.getValue("name"));
 			log.trace(">>>>> REQ.httpUrl(method): {} ({})", lnsJsonNode.getValue("httpUrl"), lnsJsonNode.getValue("httpMethod"));
 			jsonNode = new ObjectMapper().readTree(lnsJsonNode.getValue("reqJson"));
 			headNode = jsonNode.at("/__head_data");
@@ -306,7 +308,7 @@ public class LnsSentbeClient {
 		}
 		
 		if (Flag.flag) {
-			log.trace("================== Sentbe FINISH: {} ===================", lnsJsonNode.getValue("name"));
+			log.trace("================== Sentbe FINISH: {} ===================\n\n\n", lnsJsonNode.getValue("name"));
 		}
 		
 		return lnsJsonNode;

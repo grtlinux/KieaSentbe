@@ -40,7 +40,7 @@ public class ApisRestController {
 	
 	@RequestMapping(value = {"/process"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public ResponseEntity<?> process(HttpEntity<String> reqHttpEntity) throws Exception {
-		if (Flag.flag) log.info("\n================== START: link ===================\n");
+		if (Flag.flag) log.info("\n\n\n\n\n\n\n\n\n\n================== START: link ===================\n");
 		if (Flag.flag) log.info("KANG-20200623 >>>>> {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
@@ -92,7 +92,7 @@ public class ApisRestController {
 			headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
 		}
 		
-		if (Flag.flag) log.info("\n================== END: link ===================\n");
+		if (Flag.flag) log.info("\n================== END: link ===================\n\n\n\n\n\n\n\n\n\n");
 		
 		return new ResponseEntity<>(lnsJsonNode.toPrettyString(), headers, HttpStatus.OK);
 	}

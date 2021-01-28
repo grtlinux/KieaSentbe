@@ -37,7 +37,7 @@ public class KieaSentbe03Online06Application implements CommandLineRunner {
 		
 		if (Flag.flag) job01();  // properties
 		if (Flag.flag) job02();  // server
-		if (!Flag.flag) job03();  // test
+		if (Flag.flag) job03();  // test
 		if (Flag.flag) job04();
 		if (Flag.flag) job05();
 		if (Flag.flag) job06();
@@ -46,7 +46,7 @@ public class KieaSentbe03Online06Application implements CommandLineRunner {
 		if (Flag.flag) job09();
 		if (Flag.flag) job10();
 		
-		//if (Flag.flag) System.exit(0);
+		if (Flag.flag) System.exit(0);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
@@ -110,7 +110,7 @@ public class KieaSentbe03Online06Application implements CommandLineRunner {
 	private void job03() throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
-		if (Flag.flag) {
+		if (!Flag.flag) {
 			if (Flag.flag) this.test01Working.test01();
 			if (Flag.flag) this._0700100_CheckUser_Working.test01();
 			if (Flag.flag) this._0700200_GetCalculation_Working.test01();
@@ -120,6 +120,10 @@ public class KieaSentbe03Online06Application implements CommandLineRunner {
 			if (Flag.flag) this._0700600_GetResult_Working.test01();
 			if (Flag.flag) this._0700700_GetVerification_Working.test01();
 			if (Flag.flag) this._0700800_MigrationUser_Working.test01();
+		}
+		
+		if (Flag.flag) {
+			if (Flag.flag) this._0700100_CheckUser_Working.test01();
 		}
 	}
 	

@@ -16,5 +16,10 @@ public class ProjEnvParamProperties {
 	private String sentbeSecretKeyForData;
 	private String sentbeSecretKeyForHmac;
 	
+	private String home;
+	private String base;
+	private String infoPath;
+	private String dataPath;
+	
 	private String dummy;  // null
 }

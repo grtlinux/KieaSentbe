@@ -6,7 +6,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.tain.utils.CurrentInfo;
 import org.tain.utils.Flag;
+import org.tain.utils.Sleep;
+import org.tain.working.errorTest.ErrorTest01Working;
 import org.tain.working.properties.PropertiesWorking;
+import org.tain.working.tasks.ErrorReaderTask;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,8 +28,8 @@ public class KieaSentbe02Link06Application implements CommandLineRunner {
 		
 		if (Flag.flag) job01();  // properties
 		if (Flag.flag) job02();
-		if (Flag.flag) job03();
-		if (Flag.flag) job04();
+		if (Flag.flag) job03();  // tasks > ErrorReaderJob¸
+		if (Flag.flag) job04();  // errrorTest
 		if (Flag.flag) job05();
 		if (Flag.flag) job06();
 		if (Flag.flag) job07();
@@ -34,7 +37,7 @@ public class KieaSentbe02Link06Application implements CommandLineRunner {
 		if (Flag.flag) job09();
 		if (Flag.flag) job10();
 		
-		//if (Flag.flag) System.exit(0);
+		if (Flag.flag) System.exit(0);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
@@ -61,19 +64,30 @@ public class KieaSentbe02Link06Application implements CommandLineRunner {
 	
 	///////////////////////////////////////////////////////////////////////////
 	
-	private void job03() {
+	@Autowired
+	private ErrorReaderTask errorReaderTask;
+	
+	private void job03() throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
+			if (Flag.flag) this.errorReaderTask.runErrorReaderJob();
 		}
+		
+		if (Flag.flag) Sleep.run(1 * 1000);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
 	
-	private void job04() {
+	@Autowired
+	private ErrorTest01Working errorTest01Working;
+	
+	private void job04() throws Exception {
 		log.info("KANG-20200923 >>>>> {} {}", CurrentInfo.get());
 		
 		if (Flag.flag) {
+			if (Flag.flag) this.errorTest01Working.test00();  // regex
+			if (Flag.flag) this.errorTest01Working.test01();
 		}
 	}
 	
