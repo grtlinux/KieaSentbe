@@ -18,10 +18,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.tain.data.LnsError;
 import org.tain.mapper.LnsJsonNode;
-import org.tain.mapper.LnsNodeTools;
 import org.tain.object.lns.LnsJson;
 import org.tain.properties.ProjEnvParamProperties;
+import org.tain.task.ErrorReaderJob;
 import org.tain.utils.enums.RestTemplateType;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -38,6 +39,9 @@ public class LnsSentbeClient {
 
 	@Autowired
 	private ProjEnvParamProperties projEnvParamProperties;
+	
+	@Autowired
+	private ErrorReaderJob errorReaderJob;
 	
 	///////////////////////////////////////////////////////////////////////////
 	
@@ -141,15 +145,6 @@ public class LnsSentbeClient {
 			log.trace("KANG-20200721 >>>>> jsonBodyNode = {}", jsonBodyNode);
 		}
 		
-		//////////////////////////////////////////////////////////////////////////////////////////
-		LnsJsonNode reqJsonNode = new LnsJsonNode(lnsJsonNode.getJsonNode("request"));
-		log.info(">>>>> POST.REQ.reqJsonNode    = {}", reqJsonNode.toPrettyString());
-		LnsJsonNode reqHeadNode = new LnsJsonNode(reqJsonNode.getJsonNode("__head_data"));
-		log.info(">>>>> POST.REQ.reqHeadNode    = {}", reqHeadNode.toPrettyString());
-		LnsJsonNode reqBodyNode = new LnsJsonNode(reqJsonNode.getJsonNode("__body_data"));
-		log.info(">>>>> POST.REQ.reqBodyNode    = {}", reqBodyNode.toPrettyString());
-		
-		//////////////////////////////////////////////////////////////////////////////////////////
 		String body = null;
 		String nonce = null;
 		String signature = null;
@@ -211,6 +206,7 @@ public class LnsSentbeClient {
 			log.trace("KANG-20200721 >>>>> STEP-3");
 			
 			String httpUrl = lnsJsonNode.getText("httpUrl");
+			//String httpUrl = "https://hanwha.dev1.sentbe.com:10443/hanwha/checkUser";
 			HttpMethod httpMethod = HttpMethod.POST;
 			
 			HttpHeaders reqHeaders = new HttpHeaders();
@@ -225,20 +221,22 @@ public class LnsSentbeClient {
 			HttpEntity<String> reqHttpEntity = new HttpEntity<>(body, reqHeaders);
 			log.trace(">>>>> STEP-3 reqHttpEntity: {}", reqHttpEntity);
 			
-			//////////////////////////////////////////////////////////////////////////
-			// response json
-			LnsJsonNode resJsonNode = new LnsJsonNode("{}");
-			LnsJsonNode resHeadNode = new LnsJsonNode(reqHeadNode.get().toString());  // head
-			LnsJsonNode resDataNode = new LnsJsonNode("{}");                          // body
-			
+			//String strResJson = "{}";
+			bodyNode = new ObjectMapper().readTree("{}");
 			ResponseEntity<String> response = null;
 			try {
 				if (Flag.flag) {
-					// head
-					resHeadNode.put("reqres", "0210");
-					resHeadNode.put("resTime", LnsNodeTools.getTime());
+					// res head
+					((ObjectNode)headNode).put("reqres", "0710");
+					((ObjectNode)headNode).put("resTime", StringTools.getHHMMSS());
+					
+					// change reqResType
+					String reqResType = lnsJsonNode.getText("reqResType");
+					reqResType = "0710" + reqResType.substring(4);
+					lnsJsonNode.put("reqResType", reqResType);
 				}
 				
+				// https connection
 				response = RestTemplateConfig.get(RestTemplateType.SETENV).exchange(
 						httpUrl
 						, httpMethod
@@ -250,7 +248,6 @@ public class LnsSentbeClient {
 				log.trace(">>>>> STEP-3 RES.getStatusCode()      = {}", response.getStatusCode());
 				log.trace(">>>>> STEP-3 RES.getBody()            = {}", response.getBody());
 				
-				String strResJson = null;
 				if (response.getStatusCodeValue() == 200) {
 					JsonNode jsonResponseBody = JsonPrint.getInstance().getObjectMapper().readTree(response.getBody());
 					log.trace(">>>>> STEP-3 RES.response.getBody(): {}", jsonResponseBody.toPrettyString());
@@ -267,66 +264,105 @@ public class LnsSentbeClient {
 					*/
 					
 					if (jsonResponseBody.at("/code").asInt() == 200) {
+						// success return
 						String strData = jsonResponseBody.at("/data").asText();
 						if (strData == null || "".equals(strData)) {
-							//lnsJson.setResJsonData("{}");
-							strResJson = "{}";
+							// body: no data
+							bodyNode = new ObjectMapper().readTree("{}");
+							
+							if (Flag.flag) {
+								// ret code
+								int code = jsonResponseBody.at("/code").asInt();
+								String message = jsonResponseBody.at("/message").asText();
+								String strSearch = String.format("%d %s", code, message);
+								// head
+								LnsError lnsError = this.errorReaderJob.search(strSearch);
+								((ObjectNode)headNode).put("resCode", lnsError.getError_code());
+								((ObjectNode)headNode).put("resMessage", lnsError.getError_msg());
+							}
 						} else {
+							// body
 							String pass = this.projEnvParamProperties.getSentbeSecretKeyForData();  // secretKey for data
 							String decryptData = Aes256.decrypt(jsonResponseBody.at("/data").asText(), pass);
 							
 							JsonNode jsonResponseData = JsonPrint.getInstance().getObjectMapper().readTree(decryptData);
-							//lnsJson.setResJsonData(jsonResponseData.toPrettyString());
-							strResJson = jsonResponseData.toPrettyString();
+							log.trace(">>>>> STEP-3 RES.jsonResponseData: " + jsonResponseData.toPrettyString());
+							bodyNode = new ObjectMapper().readTree(jsonResponseData.toPrettyString());
+							
+							if (Flag.flag) {
+								// head
+								LnsError lnsError = this.errorReaderJob.search("SUCCESS");
+								((ObjectNode)headNode).put("resCode", lnsError.getError_code());
+								((ObjectNode)headNode).put("resMessage", lnsError.getError_msg());
+							}
+						}
+						if (Flag.flag) {
+							// error return
+							lnsJsonNode.put("code", "00000");
+							lnsJsonNode.put("status", "SUCCESS");
+							lnsJsonNode.put("msgJson", "success to get return message");
 						}
 					} else {
-						//lnsJson.setResJsonData("{}");
-						strResJson = "{}";
+						if (Flag.flag) {
+							// res return code
+							int code = jsonResponseBody.at("/code").asInt();
+							String message = jsonResponseBody.at("/message").asText();
+							String strSearch = String.format("%d %s", code, message);
+							// head
+							LnsError lnsError = this.errorReaderJob.search(strSearch);
+							((ObjectNode)headNode).put("resCode", lnsError.getError_code());
+							((ObjectNode)headNode).put("resMessage", lnsError.getError_msg());
+						}
+						if (Flag.flag) {
+							// error return
+							lnsJsonNode.put("code", "99910");
+							lnsJsonNode.put("status", "ERROR");
+							lnsJsonNode.put("msgJson", "success to get error message");
+						}
 					}
-					log.trace(">>>>> STEP-3 RES.strResJson: " + strResJson);
-					
+				} else {
 					if (Flag.flag) {
-						// res head
-						((ObjectNode)headNode).put("reqres", "0710");
-						((ObjectNode)headNode).put("resTime", StringTools.getHHMMSS());
-						((ObjectNode)headNode).put("resCode", "00000");
-						((ObjectNode)headNode).put("resMessage", "SUCCESS");
-						
-						// res body
-						bodyNode = new ObjectMapper().readTree(strResJson);
-						
-						// res json
-						JsonNode resNode = (JsonNode) new ObjectMapper().createObjectNode();
-						((ObjectNode) resNode).set("__head_data", headNode);
-						((ObjectNode) resNode).set("__body_data", bodyNode);
-						log.trace(">>>>> resNode: " + resNode.toPrettyString());
-						
-						// lnsJsonNode set of res
-						lnsJsonNode.put("resJson", resNode.toPrettyString());
+						// head
+						LnsError lnsError = this.errorReaderJob.search("ERROR");
+						((ObjectNode)headNode).put("resCode", lnsError.getError_code());
+						((ObjectNode)headNode).put("resMessage", lnsError.getError_msg());
 					}
-					
 					if (Flag.flag) {
-						// change reqResType
-						String reqResType = lnsJsonNode.getText("reqResType");
-						reqResType = "0710" + reqResType.substring(4);
-						lnsJsonNode.put("reqResType", reqResType);
+						// status error
+						lnsJsonNode.put("code", "99920");
+						lnsJsonNode.put("status", "ERROR");
+						lnsJsonNode.put("msgJson", "System error StatusCode:" + response.getStatusCodeValue());
 					}
 				}
-				
-				lnsJsonNode.put("code", "00000");
-				lnsJsonNode.put("status", "SUCCESS");
-				lnsJsonNode.put("msgJson", "success");
-				
-				log.trace(">>>>> STEP-3 RES.lnsJsonNode          = {}", lnsJsonNode.toPrettyString());
 			} catch (Exception e) {
 				//e.printStackTrace();
 				String message = e.getMessage();
 				log.error("ERROR >>>>> {}", message);
-				int pos1 = message.indexOf('[');
-				int pos2 = message.lastIndexOf(']');
-				lnsJsonNode.put("code", "99999");
-				lnsJsonNode.put("status", "FAIL");
-				lnsJsonNode.put("msgJson", message.substring(pos1 + 1, pos2));
+				//int pos1 = message.indexOf('[');
+				//int pos2 = message.lastIndexOf(']');
+				if (Flag.flag) {
+					lnsJsonNode.put("code", "99999");
+					lnsJsonNode.put("status", "EXCEPTION");
+					//nsJsonNode.put("msgJson", message.substring(pos1 + 1, pos2));
+					lnsJsonNode.put("msgJson", message);
+				}
+				if (Flag.flag) {
+					// error
+					LnsError lnsError = this.errorReaderJob.search(message);
+					((ObjectNode)headNode).put("resCode", lnsError.getError_code());
+					((ObjectNode)headNode).put("resMessage", lnsError.getError_msg());
+				}
+			}
+			
+			//////////////////////////////////////////////////////////////////////////////////////
+			if (Flag.flag) {
+				// RESULT
+				JsonNode resNode = (JsonNode) new ObjectMapper().createObjectNode();
+				((ObjectNode) resNode).set("__head_data", headNode);
+				((ObjectNode) resNode).set("__body_data", bodyNode);
+				//log.trace(">>>>> resNode: " + resNode.toPrettyString());
+				lnsJsonNode.put("resJson", resNode.toPrettyString());
+				log.trace(">>>>> STEP-3 RES.lnsJsonNode          = {}", lnsJsonNode.toPrettyString());
 			}
 		}
 		

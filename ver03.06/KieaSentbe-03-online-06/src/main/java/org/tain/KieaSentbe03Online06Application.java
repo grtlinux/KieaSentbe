@@ -46,7 +46,7 @@ public class KieaSentbe03Online06Application implements CommandLineRunner {
 		if (Flag.flag) job09();
 		if (Flag.flag) job10();
 		
-		if (Flag.flag) System.exit(0);
+		//if (Flag.flag) System.exit(0);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
