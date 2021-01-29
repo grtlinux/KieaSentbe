@@ -61,7 +61,7 @@ public class CallbackRestController {
 		
 		String resJson = null;
 		if (Flag.flag) {
-			resJson = lnsJsonNode.getValue("resJson");
+			resJson = lnsJsonNode.getText("resJson");
 		}
 		
 		MultiValueMap<String,String> headers = null;

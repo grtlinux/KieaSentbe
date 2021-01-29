@@ -128,9 +128,9 @@ public class LnsSentbeClient {
 		String jsonBodyNode = null;
 		if (Flag.flag) {
 			log.trace("\n\n\n================== Sentbe START: {} ===================", lnsJsonNode.getText("name"));
-			log.trace(">>>>> REQ.httpUrl(method): {} ({})", lnsJsonNode.getValue("httpUrl"), lnsJsonNode.getValue("httpMethod"));
+			log.trace(">>>>> REQ.httpUrl(method): {} ({})", lnsJsonNode.getText("httpUrl"), lnsJsonNode.getText("httpMethod"));
 			
-			jsonNode = new ObjectMapper().readTree(lnsJsonNode.getValue("reqJson"));
+			jsonNode = new ObjectMapper().readTree(lnsJsonNode.getText("reqJson"));
 			headNode = jsonNode.at("/__head_data");
 			bodyNode = jsonNode.at("/__body_data");
 			
@@ -179,7 +179,7 @@ public class LnsSentbeClient {
 			log.trace("KANG-20200721 >>>>> STEP-2");
 			
 			//String url = lnsJsonNode.getValue("httpUrl").substring(8);
-			String url = "/" + StringTools.getHttpPath(lnsJsonNode.getValue("httpUrl"));
+			String url = "/" + StringTools.getHttpPath(lnsJsonNode.getText("httpUrl"));
 			
 			long epochTime = System.currentTimeMillis();
 			nonce = String.valueOf(epochTime / 1000);
@@ -210,7 +210,7 @@ public class LnsSentbeClient {
 		if (Flag.flag) {
 			log.trace("KANG-20200721 >>>>> STEP-3");
 			
-			String httpUrl = lnsJsonNode.getValue("httpUrl");
+			String httpUrl = lnsJsonNode.getText("httpUrl");
 			HttpMethod httpMethod = HttpMethod.POST;
 			
 			HttpHeaders reqHeaders = new HttpHeaders();
@@ -307,7 +307,7 @@ public class LnsSentbeClient {
 					
 					if (Flag.flag) {
 						// change reqResType
-						String reqResType = lnsJsonNode.getValue("reqResType");
+						String reqResType = lnsJsonNode.getText("reqResType");
 						reqResType = "0710" + reqResType.substring(4);
 						lnsJsonNode.put("reqResType", reqResType);
 					}
@@ -331,7 +331,7 @@ public class LnsSentbeClient {
 		}
 		
 		if (Flag.flag) {
-			log.trace("================== Sentbe FINISH: {} ===================\n\n\n", lnsJsonNode.getValue("name"));
+			log.trace("================== Sentbe FINISH: {} ===================\n\n\n", lnsJsonNode.getText("name"));
 		}
 		
 		return lnsJsonNode;

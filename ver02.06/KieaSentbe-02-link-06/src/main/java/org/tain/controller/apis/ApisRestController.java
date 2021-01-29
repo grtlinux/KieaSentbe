@@ -52,7 +52,7 @@ public class ApisRestController {
 		String reqResType = null;
 		if (Flag.flag) {
 			lnsJsonNode = new LnsJsonNode(reqHttpEntity.getBody());
-			reqResType = lnsJsonNode.getValue("reqResType");
+			reqResType = lnsJsonNode.getText("reqResType");
 			if (Flag.flag) log.info(">>>>> [{}] REQ.lnsJsonNode = {}", reqResType, lnsJsonNode.toPrettyString());
 		}
 		

@@ -28,11 +28,11 @@ public class LnsHttpClient2 {
 		String reqJson = null;
 		if (Flag.flag) {
 			log.info(">>>>> flag: {}, lnsJsonNode: {}", flag, lnsJsonNode.toPrettyString());
-			reqJson = lnsJsonNode.getValue("reqJson");
+			reqJson = lnsJsonNode.getText("reqJson");
 		}
 		
 		if (Flag.flag) {
-			String httpUrl = lnsJsonNode.getValue("httpUrl");
+			String httpUrl = lnsJsonNode.getText("httpUrl");
 			HttpMethod httpMethod = HttpMethod.POST;
 			
 			HttpHeaders reqHeaders = new HttpHeaders();

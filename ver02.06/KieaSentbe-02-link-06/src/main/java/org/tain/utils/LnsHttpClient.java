@@ -116,7 +116,7 @@ public class LnsHttpClient {
 		LnsJsonNode reqBodyNode = null;
 		String strReqJson = null;
 		if (Flag.flag) {
-			LnsJsonNode reqNode = new LnsJsonNode(reqLnsJsonNode.getValue("reqJson"));
+			LnsJsonNode reqNode = new LnsJsonNode(reqLnsJsonNode.getText("reqJson"));
 			if (Flag.flag) log.info(">>>>> reqNode = {}", reqNode.toPrettyString());
 			
 			reqHeadNode = new LnsJsonNode(reqNode.get().path("__head_data"));
@@ -127,7 +127,7 @@ public class LnsHttpClient {
 		
 		LnsJsonNode resLnsJsonNode = new LnsJsonNode();
 		if (Flag.flag) {
-			String httpUrl = reqLnsJsonNode.getValue("httpUrl");
+			String httpUrl = reqLnsJsonNode.getText("httpUrl");
 			HttpMethod httpMethod = HttpMethod.POST;
 			
 			HttpHeaders reqHeaders = new HttpHeaders();
@@ -165,10 +165,10 @@ public class LnsHttpClient {
 					resNode.put("__head_data", resHeadNode.get());
 					resNode.put("__body_data", resBodyNode.get());
 					
-					resLnsJsonNode.put("httpUrl", reqLnsJsonNode.getValue("httpUrl"));
-					resLnsJsonNode.put("httpMethod", reqLnsJsonNode.getValue("httpMethod"));
-					resLnsJsonNode.put("reqResType", resHeadNode.getValue("reqres") + reqHeadNode.getValue("type"));
-					resLnsJsonNode.put("reqJson", reqLnsJsonNode.getValue("reqJson"));
+					resLnsJsonNode.put("httpUrl", reqLnsJsonNode.getText("httpUrl"));
+					resLnsJsonNode.put("httpMethod", reqLnsJsonNode.getText("httpMethod"));
+					resLnsJsonNode.put("reqResType", resHeadNode.getText("reqres") + reqHeadNode.getText("type"));
+					resLnsJsonNode.put("reqJson", reqLnsJsonNode.getText("reqJson"));
 					resLnsJsonNode.put("resJson", resNode.get().toPrettyString());
 				}
 				log.info(">>>>> RES.resLnsJsonNode          = {}", resLnsJsonNode.toPrettyString());
