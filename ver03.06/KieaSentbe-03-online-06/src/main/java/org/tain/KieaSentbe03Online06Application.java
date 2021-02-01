@@ -37,7 +37,7 @@ public class KieaSentbe03Online06Application implements CommandLineRunner {
 		
 		if (Flag.flag) job01();  // properties
 		if (Flag.flag) job02();  // server
-		if (Flag.flag) job03();  // test
+		if (!Flag.flag) job03();  // test
 		if (Flag.flag) job04();
 		if (Flag.flag) job05();
 		if (Flag.flag) job06();
