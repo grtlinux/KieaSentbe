@@ -41,6 +41,7 @@
         "often_send_country_iso": "L:3,T:string",
         "occupation": "L:1,T:int",
         "funds_source": "L:1,T:int",
-        "transfer_purpose": "L:1,T:int"
+        "transfer_purpose": "L:1,T:int",
+        "id_number" : "L:20,T:string"
     }
 }

@@ -23,7 +23,7 @@
     },
     "__body_data" : {
         "agreements": {
-            "version": "L:1,T:string",
+            "version": "L:1,T:int",
             "list": [ "L:10,T:string" ]
         },
         "phone": {

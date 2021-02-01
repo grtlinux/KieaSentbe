@@ -22,11 +22,12 @@
     },
     "__body_data" : {
         "exchange_rate_id": "L:20,T:string",
-        "from_amount": "L:10,T:int",
+        "from_amount": "L:10,T:double",
         "from_currency": "L:3,T:string",
-        "to_amount": "L:10,T:int",
+        "to_amount": "L:10,T:double",
         "to_currency": "L:3,T:string",
         "transfer_fee": "L:10,T:double",
-        "base_rate": "L:10,T:double"
+        "base_rate": "L:10,T:double",
+        "original_fee": "L:10,T:string"
     }
 }

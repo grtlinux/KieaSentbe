@@ -23,7 +23,7 @@
     "__body_data" : {
         "tr_id" : "L:20,T:string",
         "user_id" : "L:10,T:string",
-        "withdrawal_amount" : "L:10,T:string",
+        "withdrawal_amount" : "L:10,T:int",
         "tr_no" : "L:20,T:string"
     }
 }

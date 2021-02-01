@@ -1,13 +1,13 @@
 {
     "__head_base" : {
-        "name" : "getCalculation.REQ.head",
-        "reqres" : "0700",
+        "name" : "getCalculation.RES.head",
+        "reqres" : "0710",
         "type" : "200"
     },
     "__head_data" : {
         "length" : "L:4,T:string,D:0000,C:길이",
         "reqres" : "L:4,T:string,D:0000,C:송수신",
-        "type" : "L:3,T:string,D:000,C:전문명4",
+        "type" : "L:3,T:string,D:000,C:전문명",
         "trNo" : "L:6,T:string,C:TR번호",
         "reqDate" : "L:8,T:string,C:요청일자",
         "reqTime" : "L:6,T:string,C:요청시간",
@@ -18,14 +18,16 @@
         "dummy" : "L:-100,T:string,C:안쓴다"
     },
     "__body_base" : {
-        "name" : "getCalculation.REQ.body"
+        "name" : "getCalculation.RES.body"
     },
     "__body_data" : {
-        "input_amount" : "L:10,T:int",
-        "input_currency" : "L:3,T:string",
-        "from_currency" : "L:3,T:string",
-        "to_currency" : "L:3,T:string",
-        "to_country" : "L:3,T:string",
-        "exchange_rate_id" : "L:20,T:string"
+        "exchange_rate_id": "L:20,T:string",
+        "from_amount": "L:10,T:int",
+        "from_currency": "L:3,T:string",
+        "to_amount": "L:10,T:int",
+        "to_currency": "L:3,T:string",
+        "transfer_fee": "L:10,T:double",
+        "base_rate": "L:10,T:double",
+        "original_fee": "L:10,T:string",
     }
 }

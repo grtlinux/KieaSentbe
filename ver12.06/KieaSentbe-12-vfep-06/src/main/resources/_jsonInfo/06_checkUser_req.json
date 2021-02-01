@@ -21,6 +21,11 @@
         "name" : "checkUser.REQ.body"
     },
     "__body_data" : {
-        "id_number" : "L:20,T:string"
+        "id_number" : "L:20,T:string",
+        "phone" : {
+            "iso" : "L:3,T:string",
+            "number" : "L:15,T:long"
+        },
+        "birth_date" : "L:8,T:string"
     }
 }

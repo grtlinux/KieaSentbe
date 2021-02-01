@@ -22,10 +22,9 @@
     },
     "__body_data" : {
         "id_number": "L:20,T:string",
-        "sign_status": "L:5,T:boolean",
         "sentbe_exist_status": "L:5,T:boolean",
         "remittable_status": "L:5,T:boolean",
-        "phone": "L:20,T:string",
+        "sign_status": "L:5,T:boolean",
         "user_id": "L:10,T:string",
         "account_number": "L:20,T:string"
     }
