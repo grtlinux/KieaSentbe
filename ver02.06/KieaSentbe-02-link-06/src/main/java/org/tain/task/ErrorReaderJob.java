@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -62,7 +63,9 @@ public class ErrorReaderJob {
 				LnsError lnsError = entry.getValue();
 				//if (Flag.flag) log.info(">>>>> " + lnsError.getError_regex());
 				
-				boolean isMatch = message.matches(lnsError.getError_regex());
+				boolean isMatch = false;
+				// isMatch = message.matches(lnsError.getError_regex());
+				isMatch = Pattern.compile(lnsError.getError_regex(), Pattern.CASE_INSENSITIVE | Pattern.MULTILINE).matcher(message).find();
 				if (isMatch) {
 					if (Flag.flag) log.info("# SEARCH_REGEX: '{}' -> '{}'", lnsError.getError_regex(), message);
 					return lnsError;

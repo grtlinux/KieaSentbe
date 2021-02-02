@@ -1,5 +1,8 @@
 package org.tain.working.errorTest;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.tain.data.LnsError;
@@ -105,6 +108,23 @@ public class ErrorTest01Working {
 			if (Flag.flag) log.info("* error_regex   : {}", lnsError.getError_regex());
 			if (Flag.flag) log.info("* comment       : {}", lnsError.getComment());
 			if (Flag.flag) log.info("* error_key     : {}", lnsError.getKey());
+		}
+		
+		if (Flag.flag) {
+			String string = null;
+			Pattern pattern = null;
+			
+			pattern = Pattern.compile("^CREATE\\b", Pattern.UNICODE_CASE | Pattern.DOTALL | Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
+			pattern = Pattern.compile("^CREATE\\b");
+			string = "CREATE UNIQUE INDEX index111 ON\nTABLE01\n(\n\tFLD01 ASC\n);\n";
+			Matcher matcher = pattern.matcher(string);
+			log.info(">>>>> matcher.matches() = {}", matcher.matches());  // match all
+			log.info(">>>>> matcher.find()    = {}", matcher.find());
+		}
+		
+		if (Flag.flag) {
+			log.info(">>>>> search-1 = {}", Pattern.compile("^CREATE\\b").matcher("CREATE UNIQUE INDEX index111 ON\nTABLE01\n(\n\tFLD01 ASC\n);\n").find());
+			log.info(">>>>> search-2 = {}", Pattern.compile("^create\\b", Pattern.CASE_INSENSITIVE).matcher("CREATE UNIQUE INDEX index111 ON\nTABLE01\n(\n\tFLD01 ASC\n);\n").find());
 		}
 	}
 }
